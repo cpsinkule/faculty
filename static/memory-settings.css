@@ -1,0 +1,38 @@
+/* The Memory page (memory-settings.js, #memory; ASSISTANT-MEMORY "ONE PAGE"). Ledger (DESIGN-LANGUAGE): sections are headings
+   over a 2px ink rule, a memory is a row on a hairline with its controls at the right, as a course's rubric memories are
+   (rubric-memories.css draws those inside this page). Tokens only; desktop only. */
+.memory-page { display: grid; gap: var(--space-8); max-width: 1120px; }
+.memory-parts { display: grid; gap: var(--space-8); min-width: 0; }
+.memory-section { display: grid; gap: var(--space-3); min-width: 0; }
+.memory-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); }
+.memory-head h3 { display: flex; align-items: center; gap: var(--space-2); margin: 0; font-size: var(--text-section); line-height: 1.15;
+  letter-spacing: var(--tracking-title); }
+.memory-count { color: var(--muted); font: 700 var(--text-small)/1 var(--font-num); font-variant-numeric: tabular-nums; }
+.memory-why { max-width: 78ch; margin: 0; color: var(--muted); font-size: var(--text-small); }
+/* The switches: one to a line under the section's rule, its hint beneath it. */
+.memory-switches { display: grid; border-top: 2px solid var(--ink); }
+.memory-switch { display: grid; gap: var(--space-1); padding: var(--space-3) 0; border-bottom: 1px solid var(--nested-line); }
+.memory-switch .checkbox-field, .memory-controls .checkbox-field { margin: 0; }
+.memory-switch .field-hint { max-width: 78ch; margin: 0; }
+/* The numbers: three fields in a row, the measured value under each. */
+.memory-limits { display: grid; gap: var(--space-3); padding-top: var(--space-3); border-top: 2px solid var(--ink); }
+.memory-numbers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4) var(--space-6); max-width: 960px; }
+.memory-numbers .field { margin: 0; }
+.memory-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+/* A memory: what it says on the left, its controls at the right of its first lines. */
+.memory-list { display: grid; margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--ink); }
+.memory-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-6); row-gap: var(--space-1);
+  padding: var(--space-3) 0; border-bottom: 1px solid var(--nested-line); }
+.memory-row > * { grid-column: 1; min-width: 0; }
+.memory-row > .memory-controls { grid-column: 2; grid-row: 1 / span 3; align-self: start; }
+.memory-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--space-2) var(--space-4); }
+.memory-controls select { max-width: 16rem; }
+.memory-words { max-width: 78ch; margin: 0; color: var(--ink); font-size: var(--text-body); font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.memory-facts { max-width: 78ch; margin: 0; color: var(--muted); font-size: var(--text-small); overflow-wrap: anywhere; }
+.memory-row[data-gone] .memory-words { color: var(--muted); font-weight: 500; }
+.memory-gone .memory-list { border-top-width: 1px; border-top-color: var(--line); }
+.memory-pictures { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.memory-pictures img { display: block; border: 1px solid var(--line); }
+.memory-edit { display: grid; gap: var(--space-2); max-width: 78ch; }
+.memory-edit textarea { width: 100%; box-sizing: border-box; }
+.memory-add .memory-controls { justify-content: flex-start; }

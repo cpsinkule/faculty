@@ -1,0 +1,1490 @@
+/* Screen-only grading styles in the Ledger edition (DESIGN-LANGUAGE, docs/decisions/design-language.md): flat white surfaces,
+   rules and square frames, Manrope throughout; small uppercase labels over a 2px ink rule; status in words and ink (chips are a
+   1px border in the tone, never a fill); orange only for what needs the instructor, never for hover, current or chosen. Grading
+   roles keep their distinct inks (--grading-role-*). Scanned paper keeps its white frame, like every scanned image. Desktop only
+   (html min-width 1180px): no phone or tablet layouts. */
+#grading-section { min-width: 0; }
+.grading-heading, .grading-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.grading-heading h2 { margin: 6px 0 12px; }
+.grading-actions { justify-content: flex-start; }
+/* The workflow navigation (grading-guide.js workflowMarkup) is the shared step graph (components.css); it only keeps its place. */
+.grading-tabs { display: block; margin-bottom: 20px; }
+.grading-tabs a { text-decoration: none; }
+.grading-content { margin-top: 24px; }
+/* A grading panel is a ruled block on the paper (outline-theme.css): a hairline above, no fill, no frame. */
+.grading-panel { padding: var(--space-5) 0; margin-bottom: var(--space-5); min-width: 0; background: transparent; border: 0; border-top: 1px solid var(--line); }
+.grading-panel h3, .grading-panel h4 { margin: 0 0 14px; }
+.grading-panel h3 { font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.grading-panel h4 { font-size: var(--text-item); line-height: 1.2; letter-spacing: var(--tracking-title); }
+.grading-panel > p + .button { margin-top: 6px; }
+.grading-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.grading-health { margin: 18px 0; }
+.grading-health div { display: flex; justify-content: space-between; gap: 20px; padding: 8px 0; border-bottom: 1px solid var(--nested-line); }
+.grading-health dt { color: var(--ink); }
+.grading-health dd { margin: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
+.grading-form { display: grid; gap: 18px; min-width: 0; }
+.grading-form textarea { min-height: 100px; resize: vertical; width: 100%; }
+.grading-form input, .grading-form select { max-width: 100%; }
+/* The batch chooser keeps its decisions and preview together, with actions always in reach. */
+#dialog:has(.grading-batch-form) { width: min(1040px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); }
+.grading-batch-form > .dialog-header, .grading-batch-form > .dialog-footer { padding: 18px 24px; }
+.grading-batch-form > .dialog-header p { font-size: var(--text-control); margin: 6px 0 0; }
+.grading-batch-form > .dialog-body { display: block; padding: 24px; }
+.grading-batch-setup { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.grading-batch-setup h3 { font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); margin: 0; }
+.grading-batch-choices { display: grid; gap: 16px; min-width: 0; }
+/* No gap of its own: a standard field's control carries its own top margin under the label (form-theme.css); a gap would add to it
+   and set each dropdown further from its label than every other field's. */
+.grading-batch-choices .field { margin: 0; }
+.grading-batch-fields { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 12px; }
+.grading-batch-setup .supporting-copy { font-size: var(--text-small); line-height: 1.6; margin: 0; }
+.grading-batch-choices #batch-sample-hint { margin-top: -8px; }
+.grading-batch-method { display: grid; gap: 8px; }
+.grading-batch-outlook { min-width: 0; border-left: 1px solid var(--line); padding-left: 28px; font-size: var(--text-control); }
+.grading-batch-outlook > header { display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 16px; }
+.grading-batch-outlook [data-grading-action="preview"] { font-size: var(--text-small); padding: 6px 10px; min-height: 32px; }
+.grading-batch-total { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.grading-batch-total strong { color: var(--heading); font: var(--head-weight) var(--text-count)/1 var(--font-serif); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.grading-batch-total span { color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-batch-kept { color: var(--muted); font-size: var(--text-small); margin: 8px 0 0; }
+.grading-batch-price { margin: 20px 0 12px; padding: 14px 0; border-block: 1px solid var(--line); }
+.grading-batch-price > div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.grading-batch-price > div + div { margin-top: 8px; font-size: var(--text-small); color: var(--muted); }
+.grading-batch-price dt { color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-batch-price dd { margin: 0; font-variant-numeric: tabular-nums; }
+.grading-batch-price > div:first-child dd { color: var(--heading); font: var(--head-weight) var(--text-title)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+.grading-batch-outlook .grading-warning { font-size: var(--text-small); margin: 12px 0; }
+.grading-batch-outlook .grading-batch-note { font-size: var(--text-small); line-height: 1.6; margin: 12px 0; }
+/* The outlook's folds are ruled rows: a hairline above, a small uppercase label, +/− at the right. */
+.grading-batch-disclosure { border-top: 1px solid var(--nested-line); padding: 12px 0; font-size: var(--text-small); overflow-wrap: anywhere; }
+.grading-batch-disclosure:not(.disclosure) > summary { position: relative; padding-right: 24px; list-style: none; cursor: pointer; color: var(--ink); font: 600 var(--text-small)/1.6 var(--font-body); letter-spacing: 0; text-transform: none; }
+.grading-batch-disclosure:not(.disclosure) > summary::-webkit-details-marker { display: none; }
+.grading-batch-disclosure:not(.disclosure) > summary::after { content: "+"; content: counter(decor, none) "+" / ""; position: absolute; right: 0; top: 0; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.grading-batch-disclosure:not(.disclosure) > summary:hover { color: var(--ink); }
+.grading-batch-disclosure:not(.disclosure)[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+.grading-batch-disclosure[open] > summary { margin-bottom: 12px; }
+.grading-batch-disclosure .field { margin-top: 12px; }
+.grading-batch-disclosure li + li { margin-top: 8px; }
+.grading-batch-sources { padding-left: 24px; max-height: 260px; overflow-y: auto; }
+.grading-batch-sources span { color: var(--muted); }
+.grading-check { display: flex; gap: 10px; align-items: flex-start; font-size: var(--text-body); }
+.grading-check input { width: auto; flex-shrink: 0; margin-top: 4px; }
+.grading-source { white-space: pre-wrap; overflow-wrap: anywhere; font-size: var(--text-control); line-height: 1.6; color: var(--text); background: transparent; padding: 16px; max-height: 420px; overflow: auto; }
+/* Status pills are chips (components.css .chip): 11px semibold uppercase in the tone's ink inside a 1px border of that ink
+   (outline-theme.css), never a tinted fill. The badge/chip classes stay as hooks; --chip-tone carries the state. Work under way is
+   slate (info, progress); rust is kept for what needs the instructor. */
+.grading-badge { display: inline-flex; align-items: center; gap: 6px; min-height: 22px; padding: 2px 7px; font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; font-variant-numeric: tabular-nums; }
+:root:root :is(.grading-badge, .grading-chip) { background: transparent; color: var(--chip-tone, var(--ink)); }
+/* The border takes the chip's own ink. outline-theme.css says so too, but its chip list (whose ':is()' includes
+   '.document-tabs button > span') out-ranks that rule and leaves a pale hairline: the doubled class out-ranks both. */
+:root:root .grading-chip.grading-chip, :root:root .grading-badge.grading-badge { border-color: currentColor; }
+.grading-approved, .grading-complete { --chip-tone: var(--tone-success); color: var(--tone-success); }
+.grading-failed { --chip-tone: var(--tone-danger); color: var(--tone-danger); }
+.grading-running, .grading-pending { --chip-tone: var(--tone-info); color: var(--tone-info); }
+.grading-cancelled, .grading-review_ready { --chip-tone: var(--tone-neutral); }
+/* An older inline notice: the shared callout's 2px tone rule above (components.css, outline-theme.css), the words in the tone. */
+.grading-warning { background: transparent; color: var(--warning); padding: var(--space-3) 0; line-height: 1.6; }
+.grading-rule-list { list-style: none; padding: 0; }
+.grading-rule-list li { padding: 12px 0; border-bottom: 1px solid var(--nested-line); }
+.grading-rule-list li > span, .grading-rule-list li > small { display: block; margin-top: 5px; }
+.grading-rule-list small { color: var(--muted); }
+/* Plain emphasis in a rule list is ink; a model's role label keeps its role colour. */
+.grading-rule-list strong:where(:not(.grading-model-label)) { color: var(--ink); font-weight: 600; }
+/* One rubric line per record, separated by hairlines rather than boxed inside the dialog. */
+.grading-item-editor fieldset { min-width: 0; border: 0; border-bottom: 1px solid var(--nested-line); margin: 0 0 16px; padding: 0 0 16px; }
+.grading-item-editor legend { margin-bottom: 10px; padding: 0; color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.grading-item-editor .field { margin-bottom: 12px; }
+.grading-task-list { list-style: none; padding: 0; }
+.grading-task-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--nested-line); }
+.grading-task-list p { width: 100%; }
+/* A task's retry count is metadata: the caption label (inside the 12 px batch details it fell to 10 px). */
+.grading-task-list small { color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-panel progress { width: 100%; height: 3px; accent-color: var(--ink); }
+/* Batch progress and decisions lead; diagnostics and earlier runs stay available on demand. */
+.grading-batch { padding: 22px 0 10px; }
+.grading-batch > .grading-heading { align-items: flex-start; margin-bottom: 22px; }
+.grading-batch h3 { margin: 5px 0 0; font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.grading-batch h3 > span { color: var(--muted); font-size: var(--text-small); font-weight: 500; letter-spacing: normal; }
+.grading-batch-caption { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-batch-progress { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: var(--text-control); font-variant-numeric: tabular-nums; }
+.grading-batch-progress p { margin: 0 0 8px; }
+.grading-batch-progress b { color: var(--heading); font-size: var(--text-title); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.grading-batch-progress > span { color: var(--muted); }
+/* Progress is a 3px ink bar on a hairline track (DESIGN-LANGUAGE §4). */
+.grading-batch progress { display: block; width: 100%; height: 3px; border: 0; overflow: hidden; background: var(--nested-line); }
+.grading-batch progress::-webkit-progress-bar { background: var(--nested-line); }
+.grading-batch progress::-webkit-progress-value { background: var(--ink); }
+.grading-batch progress::-moz-progress-bar { background: var(--ink); }
+.grading-batch-facts { display: flex; flex-wrap: wrap; gap: 6px 24px; margin-top: 14px; font-size: var(--text-small); color: var(--muted); }
+.grading-batch-facts b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.grading-batch-failed, .grading-batch-failed b { color: var(--error); }
+.grading-batch .grading-batch-stage { font-size: var(--text-small); margin: 8px 0 0; }
+.grading-batch-note { font-size: var(--text-small); color: var(--muted); margin: 10px 0 0; }
+.grading-batch-actions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+.grading-batch-cost { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+/* The shared disclosure summary brings its own 12 px padding; the fold adds none (it once framed a small muted summary). */
+.grading-batch-details { padding: 0; font-size: var(--text-small); }
+.grading-batch-details > summary { cursor: pointer; }
+.grading-batch-details[open] > summary { margin-bottom: 12px; }
+.grading-batch-details .grading-actions { margin-top: 14px; }
+.grading-batch-meta { margin: 12px 0; }
+.grading-batch-meta > div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 12px; margin: 0; padding: 8px 0; border-top: 1px solid var(--nested-line); }
+.grading-batch-meta dt { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-batch-meta dd { margin: 0; color: var(--text); overflow-wrap: anywhere; }
+/* Earlier batches: the shared disclosure row (details.disclosure) with its count in the label ink. */
+.grading-batch-history { border-top: 1px solid var(--line); margin-top: 24px; }
+.grading-batch-history > summary span { color: var(--label); font-variant-numeric: tabular-nums; }
+.grading-review-layout { margin-top: 16px; }
+.grading-review-queue { flex: 1 1 280px; min-width: 0; }
+.grading-review-queue .field { margin: 0; }
+.grading-evidence-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 24px; align-items: start; margin-top: 20px; }
+.grading-evidence, .grading-review-work { min-width: 0; }
+.grading-evidence figure { margin: 0 0 12px; }
+.grading-image { position: relative; background: white; line-height: 0; }
+.grading-image img, .grading-image-variants img { display: block; width: 100%; height: auto; }
+.grading-highlight { position: absolute; border: 3px solid var(--tone-warning); pointer-events: none; }
+/* GRADING FLAG REVIEW "THE SPOT TO LOOK AT": the marks a flag review left the instructor to read, outlined on the crop and in its
+   full-size view. An outline only, never a fill: the marks read as they were scanned. */
+.grading-flag-spot { position: absolute; border: 3px solid var(--tone-warning); pointer-events: none; }
+.grading-crop-frame { position: relative; display: block; width: max-content; margin: auto; line-height: 0; }
+/* A crop's caption is a bold (700) line of the body face under the figure, never italic and never an uppercase label. Two
+   elements out-rank typography.css's face for these captions. */
+.grading-evidence figure > figcaption { padding: 6px 0 0; color: var(--muted); font: 700 var(--text-lead)/1.3 var(--font-body); letter-spacing: 0; text-transform: none; }
+.grading-image-variants { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+/* Rubric lines are rows on hairlines: the square box, the line's number, its points in a serif column, then its words. Every line
+   starts 10px in, so a ticked line's 2px rule has clear space before the checkbox instead of running into its frame. */
+.grading-rubric-choice { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; align-items: start; padding-left: 10px; border-bottom: 1px solid var(--nested-line); }
+/* A ticked line: its filled square box (below) and an ink rule at its start, never a box around the line (requirement, 2026-09-27)
+   and never a tinted wash. The box says it is ticked, so a disputed line's highlight still tells ticked from unticked. */
+.grading-rubric-choice:has(input:checked) { box-shadow: inset 2px 0 0 var(--ink); }
+.grading-rubric-row { position: relative; display: grid; grid-template-columns: 1.4rem minmax(0, 1fr) auto; gap: 6px; align-items: start; padding: 10px 8px 10px 0; font-size: var(--text-body); line-height: 1.5; color: var(--ink); }
+.grading-rubric-number { padding-top: 2px; color: var(--label); font: 500 var(--text-small)/1.5 var(--font-body); font-variant-numeric: tabular-nums; min-width: 2ch; flex-shrink: 0; }
+/* The points sit in their own right-aligned serif column before the words, so a column of deductions reads at a glance: an
+   inline block pulled into the text's left padding, so it shares the first line's baseline and later lines start under the words. */
+.grading-rubric-item-text { display: block; min-width: 0; padding-left: 4.75rem; }
+.grading-rubric-item-text > .grading-rubric-points { display: inline-block; box-sizing: border-box; width: 4.75rem; margin: 0 0 0 -4.75rem; padding-right: .625rem; font: var(--head-weight) 14px/1 var(--font-serif); text-align: right; white-space: nowrap; }
+.grading-rubric-choice p { font-size: var(--text-small); line-height: 1.6; color: var(--muted); }
+.grading-score { color: var(--heading); font-size: var(--text-title); line-height: 1.15; letter-spacing: var(--tracking-title); font-variant-numeric: tabular-nums; padding: 14px 0; margin: 0; }
+.grading-review-form { align-content: start; }
+.grading-response-heading { margin-bottom: 12px; }
+.grading-response-heading h3 { margin: 0; }
+.grading-response-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.grading-response-title .supporting-copy { margin: 0; }
+/* A fold drawn as a grading panel (the independent checks and the audit details beside a response, a metrics group in its
+   dialog) reads as the shared disclosure wherever it sits: hairlines above and below, the title in Instrument Serif, +/− at the
+   right; never a framed box. The theme prefix outranks outline-theme.css's ruled block. */
+:root:root details.grading-panel:not(.disclosure) { padding: 0; margin: 0 0 12px; border-width: 1px 0; border-style: solid; border-color: var(--line); background: transparent; }
+:root:root details.grading-panel:not(.disclosure) + details.grading-panel:not(.disclosure) { margin-top: -13px; }
+details.grading-panel:not(.disclosure) > summary { position: relative; min-height: 44px; padding: 12px 28px 12px 0; list-style: none; color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); cursor: pointer; }
+details.grading-panel:not(.disclosure) > summary::-webkit-details-marker { display: none; }
+details.grading-panel:not(.disclosure) > summary::after { content: "+"; content: counter(decor, none) "+" / ""; position: absolute; right: 0; top: 14px;  display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); transition: color var(--snappy); }
+details.grading-panel:not(.disclosure) > summary:hover { color: var(--ink); }
+details.grading-panel:not(.disclosure) > summary:hover::after { color: var(--ink); }
+details.grading-panel:not(.disclosure)[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+details.grading-panel:not(.disclosure)[open] { padding-bottom: 12px; }
+details.grading-panel:not(.disclosure) > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+details.grading-panel:not(.disclosure) > summary .grading-chip { margin-inline: 4px; }
+/* The desk's headings (Student work, Transcription, Approved rubric) are section labels: 12px semibold uppercase over a 2px ink
+   rule (components.css .section-label). The theme prefix out-ranks typography.css's serif heading face. */
+:root:root :is(.grading-evidence > h4, .grading-transcript h4, .grading-rubric-heading h4) {
+  margin: 0; color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase;
+}
+:root:root :is(.grading-evidence > h4, .grading-transcript h4) { display: flex; gap: 10px; align-items: baseline; margin: 0 0 12px; padding-top: 8px; border-top: 2px solid var(--ink); }
+.grading-evidence h4 small { color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); letter-spacing: 0; text-transform: none; }
+.grading-evidence details { font-size: var(--text-small); }
+.grading-evidence summary, .grading-review-form summary { cursor: pointer; }
+.grading-review-form { gap: 12px; }
+.grading-rubric-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-top: 8px; border-top: 2px solid var(--ink); }
+.grading-rubric-heading .grading-score { font-size: var(--text-section); padding: 0; text-align: right; }
+.grading-rubric-items { border-top: 1px solid var(--nested-line); }
+.grading-rubric-choice > input { width: 18px; height: 18px; margin: 12px 0 0; cursor: pointer; }
+/* The rubric line's checkbox is a square box (requirement, 2026-09-27: a themed checkbox on a ticked rubric line): unticked an
+   empty square on a 1px --control-line frame, ticked filled with the ink and a check in the paper colour, drawn by ::before
+   (content "" names nothing). The native control stays: its name, keys, focus and form value are unchanged. Forced colours get
+   the system checkbox back. */
+.grading-rubric-choice > input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  border: 1px solid var(--control-line);
+  border-radius: 0;
+  background: transparent;
+  transition: background-color var(--snappy), border-color var(--snappy);
+}
+.grading-rubric-choice > input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 4px;
+  height: 9px;
+  border: solid var(--canvas);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  visibility: hidden;
+}
+.grading-rubric-choice > input[type="checkbox"]:checked { border-color: var(--ink); background: var(--ink); }
+.grading-rubric-choice > input[type="checkbox"]:checked::before { visibility: visible; }
+.grading-rubric-choice > input[type="checkbox"]:hover:not(:disabled) { border-color: var(--ink); }
+.grading-rubric-choice > input[type="checkbox"]:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.grading-rubric-choice > input[type="checkbox"]:disabled { opacity: var(--opacity-dim); cursor: not-allowed; }
+@media (forced-colors: active) {
+  .grading-rubric-choice > input[type="checkbox"], .grading-rubric-choice > input[type="checkbox"]:checked { -webkit-appearance: auto; appearance: auto; border: 0; background: none; }
+  .grading-rubric-choice > input[type="checkbox"]::before { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grading-rubric-choice > input[type="checkbox"] { transition: none; }
+}
+.grading-rubric-points { color: var(--rubric-points-ink); font-weight: 500; font-variant-numeric: tabular-nums; text-align: right; }
+.grading-item-reason { min-width: 0; margin: 0; font-size: var(--text-small); color: var(--muted); }
+.grading-item-reason > summary { list-style: none; cursor: pointer; }
+.grading-item-reason > summary::-webkit-details-marker { display: none; }
+.grading-item-reason > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.grading-rubric-toggle { padding-top: 2px; color: var(--label); font: 500 var(--text-lead)/1 var(--font-body); width: 1ch; text-align: center; transition: color var(--snappy); }
+.grading-item-reason[open] > summary .grading-rubric-toggle, .grading-item-reason > summary:hover .grading-rubric-toggle { color: var(--ink); }
+.grading-rubric-toggle::before { content: "+"; }
+.grading-item-reason[open] > summary .grading-rubric-toggle::before { content: "−"; }
+/* A line the graders disagree on is the highlighted row (DESIGN-LANGUAGE: --accent-soft); its explanation names the disagreement. */
+.grading-rubric-disputed { background: var(--accent-soft); }
+@media (forced-colors: active) {
+  .grading-rubric-disputed { outline: 1px solid Highlight; outline-offset: -1px; }
+}
+.grading-item-reason p { margin: 8px 0; }
+.grading-item-reason .text-button { display: block; font-size: var(--text-small); text-align: left; }
+/* An evidence link quotes the student's own writing: its case and spacing stay as written (never the text action's uppercase). */
+:root:root .grading-item-reason .text-button[data-evidence-item] { letter-spacing: 0; text-transform: none; font-weight: 500; }
+.grading-review-reasons, .grading-review-notes { font-size: var(--text-control); }
+.grading-review-notes > .field { margin-top: 10px; }
+/* The decision is the desk's foot: a hairline above, the grade to approve in serif, then the actions. Kept in reach while the page
+   scrolls (a short window, below), it is opaque paper there so the rubric never shows through. */
+.grading-review-decision { position: sticky; bottom: 8px; padding: var(--space-3) 0; border: 0; border-top: 1px solid var(--line); z-index: 1; }
+/* A failed save's message now opens the panel (the "I inspected…" tick above it was removed, 2026-09-27): no top margin
+   over the panel's own padding, and the buttons a row below it instead of flush under it. */
+.grading-review-decision > .form-error { margin: 0 0 var(--space-3); }
+.grading-review-audit { font-size: var(--text-control); }
+.grading-review-audit > h4 { margin: 8px 0; }
+.grading-review-scroll { display: grid; align-content: start; gap: 12px; min-width: 0; }
+/* The desk's folds are one list of disclosures: each row on its hairline, rows touching (no stacked margins and grid gaps). */
+.grading-review-scroll > details.disclosure { margin: 0; }
+.grading-review-scroll > details.disclosure + details.disclosure { margin-top: -12px; }
+.grading-evidence > details.disclosure { margin-block: 0; }
+.grading-transcript > details.disclosure { margin-block: 10px 0; }
+.grading-transcript:has(> details.disclosure:last-child) { padding-bottom: 0; }
+/* These folds carry no .disclosure-body (and so none of its bottom padding): an open one keeps room under its content, so
+   the next row's hairline never sits flush under a button or a line of text. */
+:is(.grading-review-scroll, .grading-evidence, .grading-transcript) > details.disclosure[open]:not(:has(> .disclosure-body)) { padding-bottom: var(--space-3); }
+/* Why a response waits: an open callout under the response heading (the shared .callout gives its tone rule). It is the
+   response's one needs-you notice: the rule and the title rust, the question it asks in serif. Its border is the callout's
+   rule alone (outline-theme.css frames .grading-review-reasons as a chip; the theme prefix and two classes out-rank it). */
+:root:root .callout.grading-review-reasons { --callout-tone: var(--accent); border: 0; border-top: 2px solid var(--callout-tone); border-radius: 0; }
+.grading-review-reasons { margin: 12px 0 0; }
+.grading-review-reasons > p { color: var(--ink); font: var(--head-weight) 15px/1.35 var(--font-serif); letter-spacing: 0; }
+.grading-review-reasons ul { padding-left: 20px; margin: 4px 0 0; }
+.grading-review-reasons li + li { margin-top: .5em; }
+/* One line per cause (requirement, 2026-10-11): the shared label-and-words list (.review-said, components.css), a cause's label
+   beside its first recorded sentence; "+N more" and who wrote under that cause in the muted ink of metadata. The fold below
+   lists every sentence verbatim under the same labels. */
+.grading-review-reasons .grading-reason-causes { margin-block: var(--space-2); }
+.grading-review-reasons .review-said dd { min-width: 0; overflow-wrap: anywhere; }
+.grading-reason-more { color: var(--muted); }
+/* Small label folds ("WHY +", "UPLOAD A BLANK TEMPLATE +"): the uppercase label with its +/− after it. */
+:is(.compute-why, .grading-template-upload) > summary { list-style: none; transition: color var(--snappy); }
+:is(.compute-why, .grading-template-upload) > summary::-webkit-details-marker { display: none; }
+:is(.compute-why, .grading-template-upload) > summary::after { content: "+"; content: counter(decor, none) "+" / ""; margin-inline-start: 8px; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+:is(.compute-why, .grading-template-upload)[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; }
+:is(.compute-why, .grading-template-upload) > summary:hover { color: var(--ink); }
+/* Plain folds ("Enhanced views and source", "LaTeX entry point", "Original uploaded file", "Waived checks", "Template
+   page 2", "Layout and uncertain readings"): the same small toggle, written as it reads, with +/− after it, never the
+   browser's triangle. */
+:is(#grading-section, #grading-dialog, .grading-form, .rubric-drafts, .rubric-upload-versions, [data-quality-workspace], dialog:has([data-review-signal-report])) :is(details:not([class]), details.grading-transcript-context, details.grading-location-page) > summary {
+  width: fit-content;
+  max-width: 100%;
+  padding: 6px 0;
+  list-style: none;
+  cursor: pointer;
+  color: var(--ink);
+  font: 600 var(--text-small)/1.6 var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  transition: color var(--snappy);
+}
+:is(#grading-section, #grading-dialog, .grading-form, .rubric-drafts, .rubric-upload-versions, [data-quality-workspace], dialog:has([data-review-signal-report])) :is(details:not([class]), details.grading-transcript-context, details.grading-location-page) > summary::-webkit-details-marker { display: none; }
+:is(#grading-section, #grading-dialog, .grading-form, .rubric-drafts, .rubric-upload-versions, [data-quality-workspace], dialog:has([data-review-signal-report])) :is(details:not([class]), details.grading-transcript-context, details.grading-location-page) > summary::after { content: "+"; content: counter(decor, none) "+" / ""; margin-inline-start: 8px; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+:is(#grading-section, #grading-dialog, .grading-form, .rubric-drafts, .rubric-upload-versions, [data-quality-workspace], dialog:has([data-review-signal-report])) :is(details:not([class]), details.grading-transcript-context, details.grading-location-page)[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; }
+:is(#grading-section, #grading-dialog, .grading-form, .rubric-drafts, .rubric-upload-versions, [data-quality-workspace], dialog:has([data-review-signal-report])) :is(details:not([class]), details.grading-transcript-context, details.grading-location-page) > summary:is(:hover, :focus-visible),
+:is(#grading-section, #grading-dialog, .grading-form, .rubric-drafts, .rubric-upload-versions, [data-quality-workspace], dialog:has([data-review-signal-report])) :is(details:not([class]), details.grading-transcript-context, details.grading-location-page)[open] > summary { color: var(--ink); }
+/* A fold inside a notice spans it (components.css .callout > details), so its hairline and +/− reach the right edge; it ends on the
+   notice's own padding. */
+:is(#grading-section, #grading-dialog) :is(.callout, .grading-warning) > details.disclosure { margin-bottom: 0; }
+/* Keyboard hints: shown beside a button's label, never part of its name (aria-keyshortcuts carries the key). */
+.grading-key-hint, .grading-review-keys kbd { display: inline-block; margin-left: 8px; padding: 0 4px; border: 1px solid var(--line); border-radius: var(--radius-control); color: var(--label); font: 400 var(--text-caption)/16px var(--font-code); letter-spacing: 0; text-transform: none; }
+/* On the ink primary (and a hovered button) the hint takes the button's own text colour, so it never falls below contrast (GR-2). */
+.button.primary .grading-key-hint, .button:is(:hover, :focus-visible):not(:disabled) .grading-key-hint { color: inherit; border-color: currentColor; }
+.grading-review-keys kbd { margin-left: 0; }
+.grading-review-keys { margin: 0; color: var(--label); font-size: var(--text-small); line-height: 1.8; }
+.grading-response-heading h3:focus { outline: none; }
+.grading-response-heading h3:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.grading-review-done { margin: 0 0 12px; color: var(--muted); font-size: var(--text-control); }
+.grading-spot-check { margin: 12px 0 0; }
+[data-grading-role="primary"] { --grading-role-ink: var(--grading-role-primary); }
+[data-grading-role="second"] { --grading-role-ink: var(--grading-role-second); }
+[data-grading-role="verifier"] { --grading-role-ink: var(--grading-role-verifier); }
+[data-grading-role="arbiter"] { --grading-role-ink: var(--grading-role-arbiter); }
+[data-grading-role="flag_reviewer"], [data-grading-role="flag_resolution"] { --grading-role-ink: var(--grading-role-flag-reviewer); }
+[data-grading-role="reader"], [data-grading-role="choice_reader"] { --grading-role-ink: var(--grading-role-reader); }
+[data-grading-role="jev"] { --grading-role-ink: var(--grading-role-jev); }
+/* A model's role name is a semibold sans label in its role's ink; its comment and math take the same ink. */
+.grading-model-label { font-family: var(--font-body); font-weight: 600; font-synthesis: none; }
+.grading-model-label, .grading-model-comment { color: var(--grading-role-ink, inherit); }
+.grading-application-label { font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-application-label[data-grading-applied="yes"] { color: var(--grading-apply-ink); }
+.grading-application-label[data-grading-applied="no"] { color: var(--grading-do-not-apply-ink); }
+.grading-rule-list li > .grading-model-comment { display: inline; margin: 0; }
+@media (forced-colors: active) {
+  .grading-model-label, .grading-model-comment, .grading-application-label[data-grading-applied] { color: CanvasText; }
+}
+.grading-review-desk { scroll-margin-top: 16px; }
+.grading-review-recovery { flex: 0 0 auto; max-height: 32dvh; overflow: auto; margin-bottom: var(--space-3); }
+.grading-review-recovery p { margin-block: var(--space-2); }
+.grading-review-desk > .grading-warning { margin: 0 0 12px; font-size: var(--text-small); }
+.grading-transcript { padding: 12px 0; }
+.grading-transcript-preview { white-space: pre-wrap; color: var(--ink); font-size: var(--text-lead); line-height: 1.8; overflow-wrap: anywhere; }
+.grading-transcript-line { margin-bottom: 5px; }
+/* A written row of entries (a tableau row, its labels): each entry set apart as written, since math mode drops the spaces (grading-math.js). */
+.grading-transcript-row { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0 1.1em; white-space: normal; }
+.grading-review-student { margin: 6px 0 0; }
+.grading-heading > .grading-review-student { margin: 0 auto 0 0; } /* beside the title on All responses, Previous / Next kept right */
+.grading-writing-crossed_out { text-decoration: line-through; }
+.grading-writing-unclear { text-decoration: underline dotted var(--warning); }
+.grading-writing-inserted { border-bottom: 1px dotted var(--muted); }
+.grading-transcript details { margin-top: 10px; }
+.grading-transcript .field { margin-top: 10px; }
+.grading-math { white-space: pre-wrap; overflow-wrap: anywhere; }
+.grading-math .katex { font-size: 1.08em; white-space: normal; }
+.grading-math .katex-html { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; padding: 3px 0; }
+/* A question's printed layout (latex-text.js; FRONTEND.md "grading-math.js"): an underlined space is an answer line, \hfill a gap,
+   \\[7mm] and \par a short pause, tabular the printed grid, minipages side-by-side columns. Widths come from the source through CSSOM. */
+.latex-blank { display: inline-block; width: 4em; max-width: 100%; height: 1.1em; margin: 0 2px; border-bottom: 1px solid var(--ink); vertical-align: baseline; }
+.latex-gap { display: inline-block; width: 1em; max-width: 100%; }
+.latex-gap.latex-fill { width: 1.5em; }
+.latex-par { display: block; height: var(--space-2); }
+.latex-layout .katex-display { margin: var(--space-2) 0; }
+.latex-block { display: block; margin: var(--space-2) 0; }
+.latex-block[data-align="c"] { text-align: center; }
+.latex-block[data-align="r"] { text-align: right; }
+.latex-column { display: inline-block; box-sizing: border-box; width: 48%; max-width: 100%; vertical-align: top; }
+.latex-phantom { visibility: hidden; }
+.latex-figure { color: var(--muted); }
+.latex-list { margin: var(--space-1) 0; padding-inline-start: 1.5em; white-space: normal; }
+.latex-table { border-collapse: collapse; margin: var(--space-2) 0; text-align: left; }
+.latex-block[data-align="c"] > .latex-table { margin-inline: auto; }
+.latex-table td { height: 1.8em; min-width: 2em; padding: 4px 8px; vertical-align: middle; white-space: normal; }
+.latex-table.latex-ruled td { border: 1px solid var(--ink); }
+.latex-table tr[data-rule] > td { border-top: 1px solid var(--ink); }
+.latex-table tr[data-rule="2"] > td { border-top: 3px double var(--ink); }
+.latex-table tr[data-below] > td { border-bottom: 1px solid var(--ink); }
+.latex-table tr[data-below="2"] > td { border-bottom: 3px double var(--ink); }
+.latex-table td[data-align="c"] { text-align: center; }
+.latex-table td[data-align="r"] { text-align: right; }
+/* A crop is a figure in a 1px ink frame on the scan's own white; the frame stays ink on hover. */
+.grading-crop-open { display: block; position: relative; width: 100%; border: 1px solid var(--ink); border-radius: 0; padding: 0; background: white; cursor: zoom-in; color: var(--ink); transition: border-color var(--snappy); }
+.grading-crop-open:hover { border-color: var(--ink); }
+.grading-crop-open img { display: block; width: 100%; height: auto; }
+.grading-crop-open:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.grading-inline-tools { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; padding-block: var(--space-2); position: sticky; top: 0; z-index: 2; background: var(--paper); }
+.grading-inline-tools output { min-width: 5em; text-align: center; font-variant-numeric: tabular-nums; }
+.grading-inline-viewport { max-height: 60dvh; overflow: auto; border: 1px solid var(--line); cursor: grab; }
+.grading-inline-viewport:active { cursor: grabbing; }
+.grading-inline-reader .grading-crop-open { cursor: inherit; border: 0; }
+.grading-inline-reader .grading-crop-hint { display: none; }
+.grading-inline-reader .grading-crop-open img { max-width: none; max-height: none; max-block-size: none; width: 100%; }
+.certification-drawer .grading-review-desk .grading-inline-reader .grading-crop-open img { inline-size: 100%; max-inline-size: none; max-block-size: none; }
+.grading-reasons-visible { margin-block: var(--space-2); padding-inline-start: 1.25rem; }
+.grading-preparation-checklist { border-bottom: 1px solid var(--line); padding-bottom: var(--space-3); margin-bottom: var(--space-4); }
+.grading-preparation-checklist ol { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); padding-left: 1.25rem; }
+.grading-crop-hint { position: absolute; bottom: 4px; right: 4px; background: var(--paper); border: 1px solid var(--ink); padding: 5px 7px; color: var(--ink); font: 700 var(--text-caption)/1 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-crop-dialog { width: min(1400px, calc(100vw - 32px)); padding: 16px; }
+.grading-crop-dialog > header, .grading-crop-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.grading-crop-dialog > header { justify-content: space-between; margin-bottom: 12px; }
+.grading-crop-dialog > header strong { color: var(--heading); font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); overflow-wrap: anywhere; }
+.grading-crop-toolbar { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; margin-bottom: 12px; }
+.grading-crop-toolbar output { color: var(--ink); }
+.grading-crop-toolbar label { display: flex; align-items: center; gap: 8px; }
+.grading-crop-toolbar input { width: 120px; accent-color: var(--ink); }
+.grading-crop-toolbar output { min-width: 3.5rem; font-variant-numeric: tabular-nums; }
+.grading-crop-viewport { height: min(70dvh, 1000px); overflow: auto; background: var(--paper); border: 1px solid var(--line); padding: 10px; }
+.grading-crop-viewport img { display: block; max-width: none; height: auto; margin: auto; background: white; }
+/* The desk fills a window that is tall enough: paper and rubric scroll side by side, the decision stays in view
+   (grading-review-desk.js asks the same height). */
+@media (min-height: 650px) {
+  .grading-review-desk { height: calc(100dvh - 32px); display: flex; flex-direction: column; }
+  .grading-review-desk > .grading-response-heading, .grading-review-desk > .grading-warning { flex: 0 0 auto; }
+  .grading-review-desk .grading-evidence-layout { flex: 1 1 auto; min-height: 0; margin-top: 0; gap: 20px; }
+  .grading-review-desk .grading-evidence { min-height: 0; height: 100%; overflow: auto; padding: 0 10px 8px 0; scrollbar-gutter: stable; }
+  .grading-review-desk .grading-review-form { height: 100%; min-height: 0; display: flex; flex-direction: column; gap: 0; border-left: 1px solid var(--line); padding-left: 18px; }
+  .grading-review-desk .grading-rubric-heading { flex: 0 0 auto; padding: 8px 10px 12px 0; }
+  .grading-review-desk .grading-review-scroll { flex: 1 1 auto; min-height: 0; overflow: auto; padding: 0 10px 12px 0; scrollbar-gutter: stable; }
+  .grading-review-desk .grading-review-decision { position: static; flex: 0 0 auto; margin-top: 10px; }
+}
+@media (max-height: 649px) {
+  .grading-review-desk .grading-evidence-layout { grid-template-columns: minmax(0, 1fr); }
+  /* The page's own paper, grain included, so the bar is not a flat patch; the theme prefix out-ranks outline-theme.css's transparent
+     ruled block. */
+  :root:root .grading-review-decision { background: var(--canvas); }
+}
+
+.grading-cloud-preview { display: block; box-sizing: border-box; max-width: 100%; height: auto; margin-block: var(--space-3); border: 1px solid var(--ink); }
+/* The answer-area check sits inside its question's panel: a hairline section, not a second frame. */
+.grading-location-card { border: 0; border-top: 1px solid var(--line); padding: 16px 0 0; margin-block: 16px; }
+.grading-location-card h4 { margin-top: 0; }
+.grading-location-page { margin-block: 12px; }
+.grading-location-page .grading-image { touch-action: none; user-select: none; cursor: crosshair; max-width: 650px; margin-inline: auto; }
+.grading-location-page .grading-highlight span { display: inline-block; background: var(--paper); color: var(--ink); padding: 4px; font-size: var(--text-small); line-height: 1.2; }
+
+/* Assessment workflow: a single route through grading, with revisitable stages. */
+.grading-context { display: flex; align-items: center; flex-wrap: wrap; margin: 8px 0 16px; }
+.grading-context .field { flex: 0 1 420px; min-width: 0; }
+/* Folds that are not the shared details.disclosure still read as one: a hairline above, the title in Instrument Serif, the +/−
+   at the right. */
+.grading-tools { margin: 14px 0; padding: 0; border-top: 1px solid var(--line); }
+:is(details.grading-tools:not(.disclosure), .grading-question-details) > summary { position: relative; min-height: 44px; padding: 12px 28px 12px 0; list-style: none; cursor: pointer; color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+:is(details.grading-tools:not(.disclosure), .grading-question-details) > summary::-webkit-details-marker { display: none; }
+:is(details.grading-tools:not(.disclosure), .grading-question-details) > summary::after { content: "+"; content: counter(decor, none) "+" / ""; position: absolute; right: 0; top: 14px;  display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); transition: color var(--snappy); }
+:is(details.grading-tools:not(.disclosure), .grading-question-details)[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+:is(details.grading-tools:not(.disclosure), .grading-question-details) > summary:hover { color: var(--ink); }
+:is(details.grading-tools:not(.disclosure), .grading-question-details) > summary:hover::after { color: var(--ink); }
+details.grading-tools:not(.disclosure)[open] { padding-bottom: 12px; }
+/* The shared +/− disclosure carries its own rule and spacing; the older fold spacing would double it (review fix GR-3). */
+details.disclosure.grading-tools:not(.grading-panel) { padding: 0; border-bottom: 0; }
+.grading-panel.grading-tools { padding: 0; }
+/* A panel drawn inside another panel (rubric preparation history in the Rubrics panel, and the like) becomes a hairline
+   section of its parent: no second frame or fill (an empty state inside a panel is the shared flat one). */
+.grading-panel .grading-panel { margin: 12px 0 0; padding: 0; border-width: 1px 0 0; background: transparent; }
+.grading-panel .grading-panel > details.disclosure:first-child { margin-top: 0; border-top: 0; }
+details.disclosure.grading-export-about { padding-top: 0; }
+.grading-tool-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 16px; }
+.grading-tool-options p { font-size: var(--text-small); line-height: 1.6; color: var(--muted); }
+/* The downloads and training files of Certification and Export (grading-certification-files.js): two panels side by side,
+   each file a button with one line saying what it is. grading-certification.css places the section on its page. Both
+   follow the section's own width, not the window's: a student's drawer docked beside the page halves it on a wide window,
+   and the window rules kept two panels whose descriptions were a word wide. Two panels only when each is at least 32rem wide,
+   so each keeps its button and its line side by side. */
+.grading-export-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 32rem), 1fr)); gap: 20px; margin-bottom: 20px; }
+.grading-export-columns > .grading-panel { margin-bottom: 0; }
+.grading-export-list { display: grid; gap: 12px; margin: 18px 0 0; padding: 0; list-style: none; }
+.grading-export-list li { display: grid; grid-template-columns: 13rem minmax(0, 1fr); align-items: center; gap: 8px 16px; min-width: 0; }
+.grading-export-list .button { width: 100%; }
+.grading-export-list span { color: var(--muted); font-size: var(--text-small); line-height: 1.6; overflow-wrap: anywhere; }
+.grading-export-about { margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--line); }
+.grading-export-about p { max-width: 72ch; color: var(--muted); font-size: var(--text-small); line-height: 1.7; }
+.grading-export-about code, .grading-export-list code { font-size: var(--text-small); }
+/* Small section headings in grading are section labels (components.css .section-label): 12px semibold uppercase over a 2px ink
+   rule. The theme prefix outranks typography.css's heading face. */
+:root:root :is(.grading-scan-records h4, .grading-key-summary h4, .grading-question-rail > h4, .quality-decision-rail > h4) {
+  padding-top: 8px;
+  border-top: 2px solid var(--ink);
+  color: var(--ink);
+  font: 700 12px/1.4 var(--font-body);
+  letter-spacing: var(--tracking-section);
+  text-transform: uppercase;
+}
+/* The review queue's final grades per question (grading-review-queue.js scoreTableMarkup). */
+.grading-score-table { overflow-x: auto; }
+/* Record tables (DESIGN-LANGUAGE §4): no fills or stripes, the heading row 11px uppercase sans over a 2px ink rule, rows on
+   hairlines, row names in ink, numbers tabular. */
+.grading-score-table table { width: 100%; border-collapse: collapse; font-size: var(--text-body); font-variant-numeric: tabular-nums; }
+.grading-score-table th, .grading-score-table td { padding: 10px 12px 10px 0; border-bottom: 1px solid var(--nested-line); text-align: left; vertical-align: top; }
+:is(.grading-score-table, .grading-metrics-table) thead th, .compute-team-summary thead th {
+  color: var(--ink);
+  font: 700 var(--text-caption)/1.3 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--ink);
+  white-space: nowrap;
+}
+:is(.grading-score-table, .grading-metrics-table) td, .compute-team-summary td { color: var(--text); }
+:is(.grading-score-table, .grading-metrics-table) tbody th { color: var(--ink); font: 500 var(--text-body)/1.3 var(--font-body); letter-spacing: 0; }
+:is(.grading-score-table, .grading-metrics-table) tbody tr { transition: background-color var(--snappy); }
+:is(.grading-score-table, .grading-metrics-table) tbody tr:hover { background: var(--surface-hover); }
+.grading-score-line { display: block; margin-top: 2px; color: var(--muted); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+.grading-review-filters { display: flex; align-items: end; gap: 16px; flex-wrap: wrap; margin-top: 22px; }
+.grading-review-filters .field { flex: 1 1 200px; min-width: 0; margin: 0; }
+/* The queue's count sits level with the selects beside it. */
+.grading-review-filters > .supporting-copy { margin: 0 0 10px; }
+/* A reset batch says what was withdrawn and offers the way forward and the way back. */
+[data-batch-reset] p { margin: 0 0 10px; }
+[data-batch-reset] .grading-actions { margin: 0; }
+/* Review navigation: exam version, question, then the rubric lines the AI proposed. The trail is 13px sentence-case text in
+   the label ink: links that turn ink on hover, faint slashes, the current place in ink. */
+.grading-breadcrumb ol { display: flex; flex-wrap: wrap; gap: 4px 10px; list-style: none; margin: 0 0 16px; padding: 0; color: var(--label); font: 500 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+.grading-breadcrumb li { display: inline-flex; gap: 10px; min-width: 0; }
+.grading-breadcrumb li + li::before { content: "/"; content: counter(decor, none) "/" / ""; color: var(--faint); }
+.grading-breadcrumb a { color: var(--label); text-decoration: none; transition: color var(--snappy); }
+.grading-breadcrumb a:hover { color: var(--ink); }
+.grading-breadcrumb [aria-current] { color: var(--ink); overflow-wrap: anywhere; }
+.grading-stage-heading { margin: 0 0 22px; align-items: center; }
+.grading-stage-heading h3 { margin: 0 0 6px; font-size: var(--text-title); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.grading-stage-heading .section-lead { margin: 0; color: var(--muted); }
+.grading-stage-heading .section-lead b { color: var(--ink); font-weight: 500; }
+.grading-review-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 22px 0; font-size: var(--text-small); }
+.grading-stage-heading [data-spot-check-link] { display: inline-block; margin-top: 6px; font-size: var(--text-small); }
+/* A question's answer groups (grading-review-queue.js): each a whole-row link on a hairline (outline-theme.css), the rubric lines it
+   proposes on the left, its count in a right-aligned serif column; hover turns the count rust (outline-theme.css). */
+.grading-review-groups { list-style: none; margin: 18px 0; padding: 0; display: grid; gap: 0; border-bottom: 1px solid var(--line); }
+.grading-review-group { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 16px 0; color: var(--ink); text-decoration: none; }
+.grading-review-group:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.grading-review-group > div:first-child { flex: 1 1 340px; min-width: 0; overflow-wrap: anywhere; }
+.grading-review-group-count { flex: 0 0 auto; min-width: 96px; text-align: right; }
+.grading-review-group-count strong { display: block; color: var(--heading); font: var(--head-weight) var(--text-count)/1 var(--font-serif); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.grading-review-group-count span, .grading-review-group-count small { display: block; margin-top: 4px; color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-review-lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.grading-review-lines li { display: flex; gap: 10px; align-items: baseline; line-height: 1.5; }
+.grading-review-lines li > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+.grading-review-lines .grading-rubric-points { white-space: nowrap; flex-shrink: 0; min-width: 4.5em; font: var(--head-weight) var(--text-lead)/1.3 var(--font-serif); }
+.grading-review-scope { margin-bottom: 0; padding: 16px 0; }
+.grading-review-scope .eyebrow { display: block; margin-bottom: 8px; }
+.grading-paper-steps { list-style: none; padding: 0; }
+.grading-paper-steps { margin: 0 0 8px; }
+.grading-paper-steps li { border-bottom: 1px solid var(--nested-line); }
+.grading-paper-steps .grading-paper-empty { padding: 12px 0; color: var(--muted); }
+
+/* Compact question rows: status first, heavy detail on request. */
+.grading-chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0 0; }
+.grading-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 22px; padding: 2px 7px; border: 1px solid currentColor; background: transparent; color: var(--ink); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; font-variant-numeric: tabular-nums; vertical-align: middle; }
+.grading-chip-done { --chip-tone: var(--tone-success); color: var(--tone-success); }
+.grading-chip-todo, .grading-chip-attention { --chip-tone: var(--tone-warning); color: var(--tone-warning); }
+.grading-question > .grading-heading { align-items: flex-start; }
+.grading-question h3 { margin-bottom: 0; }
+.grading-question-details { border-top: 1px solid var(--line); }
+.grading-question-details .grading-actions { margin-block: 16px; }
+
+/* Answer key and review by answer group. */
+/* One answer key per record: hairline dividers in the dialog, the question's title in Instrument Serif. */
+.grading-key { min-width: 0; border: 0; border-bottom: 1px solid var(--nested-line); padding: 0 0 16px; margin: 0 0 20px; }
+.grading-key legend { margin-bottom: 8px; padding: 0; color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.grading-key small { display: block; margin-top: 8px; color: var(--muted); line-height: 1.5; }
+.grading-key details { margin-top: 12px; }
+/* The answer-group dialog's key is the rubric lines to tick (grading-groups.js): its legend names those choices, so it is a field's
+   caption (11px uppercase, form-theme.css), not an answer key's serif title. */
+.grading-key:has(> .grading-check) > legend { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+/* Choose the assignment's sections (scan-grading.js, a fieldset without a class): a field's caption over the section checkboxes,
+   like the exam dialog's sections, never the browser's framed box with its legend set into the rule. */
+fieldset:has(> [data-scan-sections]) { min-width: 0; margin: 0 0 var(--space-4); padding: 0; border: 0; }
+fieldset:has(> [data-scan-sections]) > legend { padding: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+fieldset:has(> [data-scan-sections]) > [data-scan-sections] { margin-top: var(--space-2); }
+/* A question's response areas (grading-regions.js, in the question and location dialogs): each area is a flat section under a
+   hairline whose AREA N label titles its fields (the legend floated, so the rule is not broken), never the browser's framed box.
+   The privacy-mask note keeps a gap after Remove area. */
+fieldset[data-region] { min-width: 0; margin: 0 0 var(--space-4); padding: var(--space-4) 0 0; border: 0; border-top: 1px solid var(--line); }
+fieldset[data-region] > legend { float: left; inline-size: 100%; margin: 0 0 var(--space-3); padding: 0; color: var(--ink); font: 700 12px/1.5 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+fieldset[data-region] > legend + * { clear: both; }
+fieldset[data-region] > small { margin-inline-start: var(--space-3); color: var(--muted); }
+.grading-chip-waiting { --chip-tone: var(--tone-neutral); color: var(--tone-neutral); }
+.grading-group-list { list-style: none; margin: 0; padding: 0; }
+.grading-group-list li { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 14px 0; border-bottom: 1px solid var(--nested-line); }
+.grading-group-list li > div { flex: 1 1 320px; min-width: 0; overflow-wrap: anywhere; }
+.grading-group-list small { color: var(--muted); }
+/* A group's responses side by side: each a record on a hairline (no framed card inside the dialog), its handwriting in the
+   scan's white frame. A response the workflow flagged carries a 2px warning rule above (a callout's) and its reasons in the
+   warning ink; the others' notes stay in the muted ink. */
+.grading-contact-sheet { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px 24px; margin-block: 16px; }
+.grading-contact-sheet figure { margin: 0; padding: 10px 0 0; border: 0; border-top: 1px solid var(--line); background: transparent; min-width: 0; }
+.grading-contact-sheet figure.grading-contact-flagged { padding-top: 9px; border-top: 2px solid var(--warning); }
+.grading-key + .grading-contact-sheet { margin-top: 0; }
+.grading-contact-sheet img { display: block; width: 100%; height: auto; margin-top: 8px; background: white; }
+.grading-contact-sheet figcaption { margin-top: 8px; color: var(--muted); font-size: var(--text-small); line-height: 1.5; }
+.grading-contact-sheet .grading-contact-flagged figcaption { color: var(--warning); }
+@media (forced-colors: active) { .grading-contact-sheet figure.grading-contact-flagged { border-top-color: CanvasText; } }
+
+/* A scan is a genuinely separate object: a ruled block, a hairline above it, no fill or frame (outline-theme.css). */
+.scan-card { min-width: 0; display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-5) 0; border: 0; border-top: 1px solid var(--line); background: transparent; }
+.grading-card-summary { flex: 1 1 448px; min-width: 0; }
+.grading-card-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 16px; margin-bottom: 6px; }
+.scan-card h3 { margin: 0; font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); overflow-wrap: anywhere; }
+.scan-card h3 a { color: inherit; text-decoration: none; transition: color var(--snappy); }
+.scan-card h3 a:hover { color: var(--ink); }
+/* The card's one next thing is a small rust label: what needs the instructor. */
+.grading-card-status { margin: 0; color: var(--accent); font: 700 12px/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.scan-card > header, .scan-card > footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.grading-card-completion { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.grading-card-facts { display: flex; flex-wrap: wrap; gap: 6px 24px; color: var(--muted); font-size: var(--text-small); }
+.grading-card-facts a { color: var(--ink); font-weight: 500; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color var(--snappy); }
+.grading-card-facts a:hover { color: var(--ink); }
+.scan-card > footer { border-top: 1px solid var(--nested-line); padding-top: var(--space-4); gap: var(--space-2) var(--space-4); }
+.scan-card > footer > div { flex: 1 1 360px; min-width: 0; }
+.grading-card-detail { color: var(--text); font-size: var(--text-body); line-height: 1.5; margin: 4px 0 0; max-width: 90ch; overflow-wrap: anywhere; }
+.grading-inbox-notice { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; margin: 8px 0; padding: 8px 0; font-size: var(--text-small); color: var(--muted); }
+.grading-inbox-notice p { margin: 0; flex: 1 1 20rem; }
+.grading-inbox-notice strong { font-weight: 600; color: var(--ink); }
+/* The local worker's background work for this assignment: counts and a bar per queue, refreshed while it runs. */
+.grading-local-work { margin: 8px 0 12px; padding: 10px 0; border-bottom: 1px solid var(--nested-line); font-size: var(--text-small); color: var(--muted); }
+.grading-local-work > p { margin: 0 0 8px; }
+.grading-local-work strong { font-weight: 600; color: var(--ink); }
+.grading-local-work-row + .grading-local-work-row { margin-top: 10px; }
+.grading-local-work .grading-batch-progress { font-size: var(--text-small); }
+.grading-local-work .grading-batch-progress p { margin: 0 0 4px; color: var(--ink); }
+.grading-local-work .grading-batch-progress b { font-size: var(--text-item); }
+.grading-local-work .supporting-copy { margin: 4px 0 0; font-size: var(--text-small); }
+.grading-local-work progress { display: block; width: 100%; height: 3px; border: 0; overflow: hidden; background: var(--nested-line); accent-color: var(--ink); }
+.grading-local-work progress::-webkit-progress-bar { background: var(--nested-line); }
+.grading-local-work progress::-webkit-progress-value { background: var(--ink); }
+.grading-local-work progress::-moz-progress-bar { background: var(--ink); }
+
+/* Compute preferences: everyday defaults, focused setup, and optional tuning. */
+.grading-settings-dialog { width: min(1360px, calc(100vw - 48px)); height: min(960px, calc(100dvh - 48px)); max-height: calc(100dvh - 48px); padding: 0; overflow: hidden; }
+.grading-settings-dialog[open] { display: flex; flex-direction: column; }
+.grading-settings-dialog > .dialog-header { flex-shrink: 0; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+.grading-settings-dialog > .dialog-header > div { min-width: 0; }
+.grading-settings-dialog-body { display: flex; flex: 1; min-height: 0; overflow: hidden; }
+.grading-settings-dialog-body > .grading-settings { flex: 1; display: flex; flex-direction: column; min-height: 0; max-width: none; gap: 0; }
+.grading-settings-dialog-body > :is(.loading-state, [role="alert"]) { margin: 24px; }
+/* The dialog's body is its raised paper (outline-theme.css points --canvas at --paper inside a dialog); sections are ruled blocks. */
+.grading-settings-dialog .compute-layout { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; padding: 24px; background: var(--canvas); }
+.grading-settings-dialog .compute-savebar { flex: 0 0 auto; position: static; border-width: 1px 0 0; padding: 16px 24px; background: var(--paper); }
+.grading-settings { max-width: 1240px; }
+.compute-layout { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 28px; align-items: start; }
+.compute-nav { display: grid; gap: 0; position: sticky; top: 20px; }
+/* The section list is the shared vertical menu (button-theme.css): ruled rows, the chosen one in ink with a rust rule at its
+   start. */
+.compute-nav button { text-align: left; cursor: pointer; }
+.compute-nav strong, .compute-nav small, .compute-mode strong, .compute-mode small { display: block; }
+.compute-nav strong { font-size: var(--text-control); }
+.compute-nav small { font-size: var(--text-small); line-height: 1.5; margin-top: 3px; }
+.compute-content, .compute-card, .compute-connection-info { min-width: 0; }
+.compute-content { max-width: 1040px; }
+.compute-content [role="tabpanel"]:not([hidden]) { display: grid; gap: 20px; }
+.compute-content [role="tabpanel"] > .supporting-copy { margin: 0; }
+.compute-panel-heading h3 { margin: 0; font-size: var(--text-title); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.compute-panel-heading p { margin: 6px 0 0; color: var(--muted); font-size: var(--text-body); }
+/* A settings section is a ruled block (outline-theme.css): a hairline above, no fill or frame. */
+.compute-card { padding: var(--space-5) 0; background: transparent; border: 0; border-top: 1px solid var(--line); container-type: inline-size; }
+.compute-card h3 { margin: 0 0 12px; font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.compute-card .supporting-copy { margin: 8px 0 0; }
+.compute-default-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.compute-scheme { display: grid; gap: 20px; }
+.compute-scheme[hidden] { display: none; }
+.compute-team-heading { display: flex; align-items: start; gap: 14px; padding-bottom: 22px; }
+.compute-team-heading h3 { font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); margin: 0 0 6px; }
+.compute-team-heading p { margin: 0; max-width: 65ch; color: var(--muted); font-size: var(--text-small); line-height: 1.6; }
+.compute-modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 0; border: 0; margin: 0; min-width: 0; }
+.compute-modes .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* The scheme choice: choices side by side, two to a row, in hairline frames; hover draws the frame in ink, the chosen one keeps an ink
+   frame (outline-theme.css) and its ink radio, the highlighted row's paper behind it (the words never rest on colour: the radio
+   stays checked). */
+.compute-mode { display: flex; align-items: flex-start; gap: 10px; padding: 14px; border: 1px solid var(--line); cursor: pointer; transition: border-color var(--snappy), background-color var(--snappy); }
+.compute-mode:hover { border-color: var(--ink); }
+.compute-mode:hover strong { color: var(--ink); }
+:root:root .compute-modes > .compute-mode:has(input:checked) { background: var(--chosen-bg); border-color: var(--ink); }
+.compute-mode:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+.compute-mode input { width: auto; margin: 3px 0 0; accent-color: var(--ink); flex-shrink: 0; }
+.compute-mode strong { color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); transition: color var(--snappy); }
+.compute-mode small { font-size: var(--text-small); color: var(--muted); line-height: 1.5; margin-top: 5px; }
+.compute-toggle + .compute-toggle, .compute-toggles > .compute-toggle:not(:first-child), .compute-toggles > [data-direct-reading] > .compute-toggle { margin-top: 18px; }
+/* The switches under the mode picker (and Cloud requests' own) stand under one hairline, apart from the choice above them. */
+.compute-toggles { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--nested-line); }
+.compute-card > .compute-toggles:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.compute-toggle .grading-check { color: var(--ink); font-weight: 500; line-height: 1.5; }
+.compute-toggle p, .compute-role p { margin: 5px 0 0; font-size: var(--text-small); color: var(--muted); line-height: 1.6; }
+.compute-toggle p { padding-left: 24px; }
+/* Each connection's answer and reasoning caps: one row, under one heading row. */
+.compute-caps { margin-top: 18px; }
+.compute-cap-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 8px 16px; padding: 8px 0; border-top: 1px solid var(--nested-line); }
+.compute-cap-row > p { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.compute-cap-row strong { display: block; color: var(--ink); font-weight: 500; }
+.compute-cap-row small { display: block; color: var(--label); font-size: var(--text-small); }
+.compute-cap-row input { margin-top: 0; font-variant-numeric: tabular-nums; }
+.compute-cap-head { padding: 0 0 8px; border-top: 0; color: var(--label); font-size: var(--text-caption); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.compute-cap-label { display: none; }
+/* A role: its name (with the role's own colour, as on the review page), one sentence, and its controls beside them. */
+.compute-role { display: grid; grid-template-columns: minmax(170px, 230px) minmax(0, 1fr); gap: 14px 32px; border-top: 1px solid var(--nested-line); padding: 22px 0; scroll-margin-top: 12px; }
+.compute-role:last-child { padding-bottom: 0; }
+.compute-role-description, .compute-role-controls { min-width: 0; }
+.compute-role-controls { container-type: inline-size; }
+.compute-role-description h4 { display: flex; align-items: baseline; gap: 10px; font-size: var(--text-item); margin: 0 0 6px; line-height: 1.2; letter-spacing: var(--tracking-title); }
+.compute-role-description h4::before, .compute-role-jump::before { content: ""; flex: 0 0 auto; width: 8px; height: 8px; background: var(--compute-role-ink, var(--label)); transform: translateY(-1px); }
+.compute-role-description p { font-size: var(--text-small); }
+[data-compute-role="reader"], .compute-team-summary [data-team-role="reader"] { --compute-role-ink: var(--grading-role-reader); }
+[data-compute-role="primary"], .compute-team-summary [data-team-role="primary"] { --compute-role-ink: var(--grading-role-primary); }
+[data-compute-role="second"], .compute-team-summary [data-team-role="second"] { --compute-role-ink: var(--grading-role-second); }
+[data-compute-role="verifier"], .compute-team-summary [data-team-role="verifier"] { --compute-role-ink: var(--grading-role-verifier); }
+[data-compute-role="flag_reviewer"], .compute-team-summary [data-team-role="flag_reviewer"] { --compute-role-ink: var(--grading-role-flag-reviewer); }
+.compute-role .field, .compute-card .field, .compute-fold .field { margin-bottom: 0; }
+/* Provider and model on one row, every option of the chosen model (reasoning, host, responses per call) on the next, and their
+   notes under that row. Each role's controls are the container, so a narrow column stacks them. */
+.compute-model-selector { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(0, 2.6fr); align-items: end; gap: 12px 14px; }
+.compute-model-selector .field { min-width: 0; }
+.compute-model-selector select { display: block; width: 100%; min-width: 0; text-overflow: ellipsis; }
+/* Browse goes under the model only when the model would be narrower than 240 px beside it. */
+.compute-model-choice { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; min-width: 0; }
+.compute-model-choice > .field { flex: 1 1 240px; }
+.compute-model-choice > .button { flex: 0 0 auto; }
+.compute-model-choice > .button { padding: 10px 12px; min-height: var(--control-height); }
+.compute-provider { min-width: 0; }
+.compute-card-heading .compute-provider { flex: 1 1 180px; }
+.compute-provider .field { margin: 0; }
+/* An unused field stays readable but steps back to the disabled gray. */
+.compute-field-unused { opacity: var(--opacity-dim); }
+/* How much a role's model is asked to think: a choice where the model offers one, a plain statement where it does not. */
+.compute-reasoning { min-width: 0; }
+.compute-model-options { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); align-items: end; gap: 8px 14px; min-width: 0; }
+.compute-host { display: contents; }
+.compute-host .field { margin: 0; min-width: 0; }
+.compute-host > p { grid-column: 1 / -1; }
+.compute-host > .grading-check { grid-column: 1 / -1; }
+.compute-card .compute-host > p.compute-host-note { margin: 0; }
+.compute-card .compute-host > p.compute-host-note:first-of-type { margin-top: 2px; }
+.compute-host-note { margin: 0; font-size: var(--text-small); line-height: 1.5; color: var(--muted); }
+.compute-host > .grading-model-warning:not(:empty) { margin: 0; }
+.compute-reasoning:empty { display: none; }
+.compute-reasoning .field { margin: 0; }
+/* One reasoning configuration is said, under the same caption a choice would have. */
+.compute-reasoning-fixed { display: grid; grid-template-rows: auto var(--control-height); row-gap: 7px; align-items: center; margin: 0 !important; font-size: var(--text-body); color: var(--ink); }
+.compute-reasoning-fixed::before { content: counter(decor, none) "[ Reasoning ]" / ""; color: var(--label); font-size: var(--text-caption); letter-spacing: var(--tracking-label); text-transform: uppercase; white-space: pre; }
+/* Adapt to the actual control area, including nested fallbacks, not just the viewport. */
+@container (max-width: 560px) {
+  .compute-model-selector { grid-template-columns: minmax(0, 1fr); }
+}
+@container (max-width: 420px) {
+  .compute-model-choice > .button { flex-basis: 100%; }
+}
+.compute-model-price { margin: 6px 0 0; font-size: var(--text-small); line-height: 1.5; color: var(--muted); font-variant-numeric: tabular-nums; }
+.grading-model-warning:empty { display: none; }
+.grading-model-warning:not(:empty) { color: var(--error); font-size: var(--text-small); font-weight: 500; line-height: 1.5; margin: 6px 0 0; }
+.rubric-upload-versions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
+/* One upload slot per version, divided by hairlines in the dialog rather than boxed. */
+.rubric-upload-version { border: 0; border-top: 1px solid var(--line); padding: 16px 0 0; min-width: 0; }
+.rubric-upload-version h3 { font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.rubric-upload-version input { max-width: 100%; }
+/* The first upload slot is a version slot like the others (its words say it comes first); the rubric doubts take a callout's 2px
+   warning rule (the theme prefix out-ranks outline-theme.css's ruled block). Never a rule down the side. */
+:root:root .grading-rubric-doubts { border-top: 2px solid var(--warning); }
+.grading-rubric-doubt-list { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 10px; }
+.grading-rubric-doubt-list p { margin: 4px 0 0; color: var(--muted); }
+.grading-rubric-doubt-list p.grading-rubric-doubt-settled { color: var(--success); }
+.grading-rubric-doubt-list strong { color: var(--ink); font-weight: 600; }
+.grading-rubric-doubt-list > li + li { padding-top: 10px; border-top: 1px solid var(--nested-line); }
+.quality-item { border-bottom: 1px solid var(--nested-line); padding: 10px 0; }
+.quality-item > summary { display: grid; grid-template-columns: minmax(100px, auto) 1fr; gap: 4px 12px; cursor: pointer; color: var(--ink); }
+.quality-item > summary small { grid-column: 1 / -1; color: var(--muted); }
+.quality-exclusions { padding: 10px 12px; display: grid; gap: 10px; }
+.quality-exclusions .grading-check { align-items: start; }
+/* Rules and comments beside a line are quotations: set in on a 2px hairline rule, no frame or fill. */
+.quality-builtin { margin: 0 0 6px; padding: 8px 12px 8px 14px; background: transparent; box-shadow: inset 2px 0 0 var(--line); }
+.quality-exclusions textarea { width: 100%; height: 4.6em; }
+.quality-status h3 .grading-chip { margin-left: 8px; }
+#dialog:has(.quality-question, .rubric-upload-versions) { width: min(980px, calc(100vw - 24px)); max-height: calc(100dvh - 32px); }
+.compute-card-heading { display: flex; align-items: start; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
+.compute-card-heading h3 { margin-bottom: 4px; }
+/* The provider field carries its label above the tray: its buttons sit on the tray's baseline, not centred on field and label. */
+.compute-card-heading .grading-actions { align-items: flex-end; }
+.compute-connection { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 16px 0; border-top: 1px solid var(--nested-line); }
+.compute-connection-info { overflow-wrap: anywhere; }
+.compute-connection-info strong { color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.compute-connection-info p { margin: 4px 0; color: var(--muted); font-size: var(--text-small); }
+.compute-connection-info small { color: var(--label); font-size: var(--text-small); }
+.compute-connection-controls { display: grid; gap: 9px; flex-shrink: 0; justify-items: end; }
+.compute-connection-controls .button { padding: 7px 14px; }
+.compute-connection-footer { border-top: 1px solid var(--line); padding-top: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.compute-connection-footer .supporting-copy { flex: 1 1 220px; margin: 0; }
+.compute-empty { color: var(--muted); line-height: 1.6; padding: 16px 0; }
+/* Folds inside a section read as the shared disclosure: a hairline above, the title in Instrument Serif, +/− at the right. */
+.compute-fold { background: transparent; border: 0; border-top: 1px solid var(--line); min-width: 0; }
+.compute-fold > summary { position: relative; padding: 15px 28px 15px 0; list-style: none; cursor: pointer; color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.compute-fold > summary .supporting-copy { font: 500 var(--text-small)/1.5 var(--font-body); letter-spacing: normal; }
+.compute-fold > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.compute-fold > summary::-webkit-details-marker { display: none; }
+.compute-fold > summary::after { content: "+"; content: counter(decor, none) "+" / ""; position: absolute; right: 0; top: 17px;  display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); transition: color var(--snappy); }
+.compute-fold[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+.compute-fold > summary:hover, .compute-fold > summary:hover::after { color: var(--ink); }
+.compute-fold > summary > span { display: inline-block; vertical-align: middle; max-width: calc(100% - 24px); }
+.compute-fold summary strong, .compute-fold summary small { display: block; }
+.compute-fold summary strong { color: inherit; font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.compute-fold summary small { color: var(--muted); font-size: var(--text-small); font-weight: 500; line-height: 1.5; letter-spacing: normal; margin-top: 3px; }
+.compute-fold-body { display: grid; gap: 14px; padding: 4px 0 18px; }
+.compute-fold-body .grading-columns, .compute-endpoint-editor .grading-columns { gap: 14px; }
+.compute-fold-body > p { margin: 0; }
+.compute-fallback { border: 0; border-top: 1px solid var(--line); margin-top: 14px; }
+.compute-fallback > summary { padding: 12px 28px 0 0; font-size: var(--text-small); }
+.compute-fallback > summary::after { top: 13px; }
+.compute-fallback > summary strong { font-size: var(--text-lead); }
+.compute-fallback > summary strong, .compute-fallback > summary small { display: inline; }
+.compute-fallback > summary small::before { content: " · "; }
+.compute-fallback .compute-fold-body { padding: 14px 0 0; }
+.compute-endpoint-editor { display: grid; gap: 14px; }
+.compute-remove { margin-top: 12px; }
+/* The save bar stays in reach under the settings: opaque paper under a hairline, never a framed box. */
+.compute-savebar { position: sticky; bottom: 8px; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; border: 0; border-top: 1px solid var(--line); background: var(--canvas); }
+.compute-savebar > div { min-width: 0; }
+.compute-savebar p { margin: 0; font-size: var(--text-small); }
+.compute-savebar [data-settings-status] { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.compute-savebar .form-error:not([hidden]) { margin-top: 6px; max-width: 650px; }
+.compute-savebar .grading-actions { flex-shrink: 0; }
+/* The catalogue is loaded only inside this picker, never on grading navigation. */
+#dialog:has(.model-picker) { width: min(960px, calc(100vw - 24px)); max-height: calc(100dvh - 32px); }
+.model-picker { min-width: 0; }
+.model-picker-tools { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 14px; }
+.model-picker-filters { display: flex; align-items: end; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.model-picker-filters .field { flex: 1 1 170px; margin: 0; }
+.model-picker-filters .grading-check { margin-bottom: 8px; }
+/* The catalogue scrolls inside its own box: a rule above and below (outline-theme.css draws the one above), rows on hairlines, the
+   chosen row highlighted (--accent-soft) with outline-theme.css's ink outline. */
+.model-picker-results { max-height: min(38dvh, 400px); overflow-y: auto; border-bottom: 1px solid var(--line); }
+.model-picker-row { display: flex; align-items: center; gap: 12px; padding: 12px; cursor: pointer; border-bottom: 1px solid var(--nested-line); transition: background-color var(--snappy); }
+.model-picker-row:last-child { border-bottom: 0; }
+.model-picker-row:hover:not(:has(:disabled)) { background: var(--surface-hover); }
+.model-picker-row:has(:checked) { background: var(--chosen-bg); }
+.model-picker-row:has(:disabled) { cursor: default; color: var(--muted); }
+.model-picker-row input { flex: 0 0 auto; width: auto; margin: 0; accent-color: var(--ink); }
+.model-picker-row > span { min-width: 0; overflow-wrap: anywhere; }
+.model-picker-row > span:first-of-type { flex: 1; }
+.model-picker-row strong, .model-picker-row small { display: block; }
+.model-picker-row strong { color: var(--ink); font: var(--head-weight) var(--text-lead)/1.25 var(--font-serif); letter-spacing: var(--tracking-title); }
+.model-picker-row:has(:disabled) strong { color: var(--muted); }
+.model-picker-row small { color: var(--muted); font-size: var(--text-small); line-height: 1.5; margin-top: 3px; }
+.model-picker-price { color: var(--text); font-size: var(--text-small); text-align: right; max-width: 160px; font-variant-numeric: tabular-nums; }
+/* The chosen model: a ruled block under the list (outline-theme.css), no frame, side rule or fill. */
+.model-picker-selection { margin-top: 14px; padding: 14px 0; background: transparent; overflow-wrap: anywhere; }
+.model-picker-selection p { font-size: var(--text-small); line-height: 1.5; margin: 6px 0; }
+dialog:has([data-review-signal-report]) { width: 900px; }
+dialog:has([data-review-signal-report]) .dialog-body { grid-template-columns: minmax(0, 1fr); row-gap: 0; min-width: 0; overflow-wrap: anywhere; }
+:root:root [data-review-signal-report] > details.grading-panel:not(.disclosure):last-child { margin-bottom: 0; }
+[data-review-signal-report] + details.disclosure { margin-top: var(--space-3); }
+[data-review-signal-report]:has(> details.grading-panel:last-child) + details.disclosure { margin-top: 0; border-top: 0; }
+.grading-metrics-table { overflow-x: auto; max-width: 100%; margin: 16px 0; }
+.grading-metrics-table table { width: 100%; min-width: 420px; overflow-wrap: normal; border-collapse: collapse; font-size: var(--text-body); }
+.grading-metrics-table th, .grading-metrics-table td { padding: 10px 12px 10px 0; text-align: left; border-bottom: 1px solid var(--nested-line); }
+.grading-metrics-table td { font-variant-numeric: tabular-nums; }
+
+.grading-template-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; margin: 20px 0; }
+/* A version's template slot sits inside the templates panel: a hairline section, never a second frame. */
+.grading-template-slot { min-width: 0; border: 0; border-top: 1px solid var(--line); padding: 16px 0 0; }
+.grading-template-slot header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.grading-template-slot h4 { margin: 0; }
+.grading-template-slot form { border-top: 1px solid var(--nested-line); margin-top: 18px; padding-top: 14px; }
+/* The file picker is its button and the chosen file's name on the paper, never a framed box (style.css frames every input). */
+.grading-template-slot input[type=file] { max-width: 100%; padding: 0; border: 0; background: transparent; }
+.grading-template-slot details { margin: 8px 0 14px; }
+
+/* Setup is a short task summary and one question at a time. Navigation is
+   browser state; every existing editor and server-side confirmation is reused. */
+/* The page's own links are go-links (DESIGN-LANGUAGE §1.12, small capitals are labels only; they were 11px uppercase until the
+   2026-10-04 Assignments review): 13px semibold sentence case in ink, ink when hovered too; all six stay on one line beside
+   Refresh and Compute settings at 1280px. */
+.grading-context { justify-content: flex-start; gap: 8px 18px; font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+/* The page's own bar under the shell header: where to go (all assignments, scan records, bubble sheets, gradebook) on the left,
+   Refresh and Compute settings on the right. The assignment's title lives in the shell header, never repeated here. */
+.grading-page-bar { align-items: center; margin: 0 0 8px; }
+.grading-page-bar > .grading-context { margin: 0; flex: 1 1 24rem; min-width: 0; }
+/* The actions shrink to the bar's width only when they alone would overflow it (a narrow window with the failed-check notice), then wrap. */
+.grading-page-bar > .grading-actions { flex: 0 1 auto; max-width: 100%; justify-content: flex-start; gap: 8px; align-items: stretch; }
+.grading-page-bar .icon-button { width: auto; height: auto; min-width: 36px; min-height: 36px; aspect-ratio: 1; }
+.grading-context a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.grading-settings-trigger { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.grading-settings-trigger > svg { flex: 0 0 auto; width: 16px; height: 16px; }
+.grading-content[aria-busy="true"] { min-height: 240px; }
+.grading-batch-outcome { margin: 0 0 10px; color: var(--heading); font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); font-variant-numeric: tabular-nums; }
+.grading-models-link { margin-top: 6px; font-size: var(--text-small); }
+.grading-collection-notice { margin: 0 0 20px; }
+.grading-collection-notice .grading-actions { margin-top: 4px; }
+.grading-batch-models-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 10px 0 0; font-size: var(--text-small); color: var(--muted); overflow-wrap: anywhere; }
+.grading-context a { color: var(--ink); text-decoration: none; text-underline-offset: 4px; transition: color var(--snappy); }
+.grading-context a:hover { color: var(--ink); }
+.grading-context a:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.grading-setup-columns { display: grid; grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr); gap: 20px; align-items: start; }
+.grading-setup-columns .grading-panel { padding: 20px 0; }
+.grading-setup-columns .eyebrow { display: block; margin-bottom: 12px; }
+.grading-setup-columns p { font-size: var(--text-small); line-height: 1.6; }
+.grading-setup-columns .quality-status h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.grading-setup-columns .quality-status h3 .grading-chip { margin: 0; }
+.grading-setup-columns .grading-template-slots { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-block: 16px; }
+.grading-setup-columns .grading-template-slot { padding: 16px 0 0; }
+.grading-template-choice { display: flex; align-items: end; flex-wrap: wrap; gap: 12px; }
+.grading-template-choice .field { flex: 1 1 230px; margin: 0; }
+.grading-template-choice a { color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; padding-block: 10px; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.grading-template-choice a:hover { color: var(--ink); }
+.grading-setup-columns .grading-template-slot header { margin-bottom: 8px; }
+.grading-setup-columns .grading-tools { margin-block: 12px 0; }
+.grading-setup-columns [data-exam-versions] .grading-rule-list { grid-template-columns: minmax(0, 1fr); }
+.grading-template-upload > summary { cursor: pointer; color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; padding: 8px 0; }
+.grading-template-upload form { margin-top: 0; padding-top: 4px; border-top: 0; }
+.grading-question-workspace { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 24px; align-items: start; margin-block: 24px; min-width: 0; }
+/* The question navigator is a column on the paper: the QUESTIONS label over a 2px ink rule, rows on hairlines, the chosen row's
+   title in ink at weight 800 (its state also in aria-pressed). No box. */
+.grading-question-rail { min-width: 0; position: sticky; top: 16px; padding: 0; border: 0; background: transparent; }
+.grading-question-rail h4 { margin: 0 0 14px; }
+/* Inside a dialog (the finalization) the navigator is a column of the dialog, divided by a hairline, not a box in its box. */
+:root:root dialog .grading-question-rail { padding: 0 16px 0 0; border: 0; border-inline-end: 1px solid var(--line); background: transparent; }
+.grading-question-rail .field { margin-bottom: 12px; }
+.grading-question-rail input, .grading-question-rail select { min-width: 0; width: 100%; font-size: var(--text-small); }
+.grading-question-rail nav { display: grid; gap: 0; max-height: min(55vh, 580px); overflow-y: auto; scrollbar-width: thin; margin: 12px 0 0; padding: 0 0 2px; border-bottom: 1px solid var(--nested-line); }
+.grading-question-link { display: grid; gap: 2px; width: 100%; min-width: 0; padding: 10px 2px; text-align: left; color: var(--ink); background: transparent; border: 0; border-top: 1px solid var(--nested-line); font: inherit; cursor: pointer; transition: color var(--snappy); }
+.grading-question-link strong { font: 500 var(--text-body)/1.35 var(--font-body); letter-spacing: 0; text-transform: none; overflow-wrap: anywhere; }
+.grading-question-link small { line-height: 1.5; color: var(--muted); }
+.grading-question-link.needs-attention small { color: var(--warning); }
+.grading-question-link:hover strong { color: var(--ink); }
+.grading-question-link[aria-pressed="true"] strong { color: var(--ink); font-weight: 800; }
+.grading-question-link:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.grading-question-work { min-width: 0; }
+.grading-question-work > [hidden], .grading-question-link[hidden] { display: none !important; }
+/* A finalization question not shown keeps its layout, so showing it again lays out nothing (requirement, 2026-10-06): skipped, not removed, and no taller than nothing. */
+[data-quality-workspace] > .grading-question-work > [data-question-panel][hidden] { display: block !important; content-visibility: hidden; height: 0; margin: 0; padding: 0; border: 0; }
+.grading-question-pager { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.grading-question-pager > div { display: flex; gap: 8px; flex-wrap: wrap; }
+.grading-question-work > .grading-panel { padding: 20px 0; margin-bottom: 0; }
+.grading-question-work .grading-heading { margin-bottom: 16px; }
+.grading-question-work .grading-chips { margin-bottom: 0; }
+.grading-rubric-line-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.grading-key-summary { padding-block: 12px 20px; border-bottom: 1px solid var(--nested-line); }
+.grading-key-summary p { line-height: 1.6; }
+.grading-key-summary h4 { margin: 0 0 12px; }
+.grading-area-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(190px, .55fr); gap: 20px; align-items: start; }
+.grading-question-work .grading-location-card { margin-block: 0 18px; padding: 0; border: 0; }
+.grading-area-previews { display: grid; gap: 16px; min-width: 0; }
+.grading-area-previews figure { margin: 0; }
+.grading-area-previews figcaption { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; margin-bottom: 10px; }
+.grading-area-previews .grading-highlight span { display: inline-block; background: var(--paper); color: var(--ink); padding: 5px; line-height: 1.2; }
+.grading-area-decision { position: sticky; top: 16px; }
+.grading-area-decision p { font-size: var(--text-small); line-height: 1.65; }
+.grading-area-decision .grading-actions { align-items: stretch; flex-direction: column; }
+.grading-area-facts { font-size: var(--text-small); }
+.grading-area-facts > div { padding: 10px 0; border-bottom: 1px solid var(--nested-line); }
+.grading-area-facts dt { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; margin-bottom: 5px; }
+.grading-area-facts dd { margin: 0; color: var(--ink); }
+[data-exam-versions] .section-lead { font-size: var(--text-small); }
+[data-exam-versions] .grading-rule-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; }
+#dialog:has(.quality-question) { width: min(1320px, calc(100vw - 32px)); }
+[data-quality-workspace] .quality-question { margin: 0; }
+[data-quality-workspace] .quality-question > summary { font-size: var(--text-item); }
+[data-quality-workspace] .quality-question > .compute-fold-body { padding: 4px 0 14px; }
+[data-quality-workspace] .quality-item > summary { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+/* A narrow desktop window (the work column beside the rail is then about 600px) puts the decision above the previews. */
+@media (max-width: 1200px) {
+  .grading-area-layout { grid-template-columns: minmax(0, 1fr); }
+  .grading-area-decision { position: static; grid-row: 1; }
+  .grading-area-facts { display: flex; gap: 20px; flex-wrap: wrap; }
+  .grading-area-decision .grading-actions { flex-direction: row; }
+}
+/* Rubrics drafted from a blank exam: the slot's draft block and the review dialog. */
+.grading-rubric-draft { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 12px; }
+.grading-rubric-draft h5 { margin: 0 0 6px; font-size: var(--text-item); line-height: 1.2; letter-spacing: var(--tracking-title); }
+#dialog:has(.rubric-drafts) { width: min(980px, calc(100vw - 24px)); max-height: calc(100dvh - 32px); overflow: hidden; }
+#grading-dialog:has(.rubric-drafts) { display: flex; flex-direction: column; max-height: calc(100dvh - 32px); }
+#grading-dialog:has(.rubric-drafts) > .dialog-header, #grading-dialog:has(.rubric-drafts) > .dialog-footer { flex-shrink: 0; }
+#grading-dialog:has(.rubric-drafts) > .dialog-body { min-height: 0; overflow-y: auto; }
+/* Each drafted problem is a record on a hairline, its title in Instrument Serif; its versions sit side by side under hairlines. */
+.rubric-draft { border: 0; border-bottom: 1px solid var(--line); margin: 0 0 20px; padding: 0 0 16px; min-width: 0; }
+.rubric-drafts > .grading-check { margin: 12px 0 20px; }
+/* A problem's (or a version's) "Create" tick keeps room above the fields it governs. */
+:is(.rubric-draft, .rubric-family-version) > .grading-check { margin-bottom: var(--space-3); }
+.rubric-draft legend { margin-bottom: 10px; padding: 0; color: var(--heading); font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+.rubric-draft-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+.rubric-draft-lines { padding-left: 0; list-style: none; margin: 12px 0; display: grid; gap: 12px; }
+.rubric-draft-line { display: grid; grid-template-columns: minmax(0, 1fr) 7.5rem; gap: 4px 12px; align-items: start; }
+.rubric-draft-line .field { margin: 0; }
+.rubric-draft-line textarea { width: 100%; height: 4.6em; }
+.rubric-draft-preview { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: var(--text-small); overflow-wrap: anywhere; }
+/* A quotation of the source rubric: set in on a 2px hairline rule. */
+.rubric-draft-reference { grid-column: 1 / -1; margin: 0; padding: 4px 12px; border-left: 2px solid var(--line); color: var(--muted); font-size: var(--text-small); overflow-wrap: anywhere; }
+/* Every version drafted at once: a problem's versions side by side, and each line with one point value and a wording per version. */
+.grading-rubric-draft-all { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 16px; }
+.grading-draft-fold > .grading-rubric-draft-all { border-top: 0; margin-top: 0; padding-top: 0; }
+#dialog:has(.rubric-family-drafts) { width: min(1440px, calc(100vw - 24px)); }
+.grading-rubric-draft-all h4 { margin: 0 0 6px; }
+.rubric-family-versions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; margin: 12px 0; }
+.rubric-family-version { border: 0; border-top: 1px solid var(--line); padding: 10px 0 0; min-width: 0; }
+:root:root .rubric-family-version h5 { margin: 0 0 6px; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.rubric-family-lines { padding-left: 0; list-style: none; margin: 12px 0; display: grid; gap: 14px; }
+.rubric-family-line { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 4px 12px; align-items: start; border-top: 1px solid var(--nested-line); padding-top: 10px; }
+.rubric-family-line > .field { margin: 0; }
+.rubric-family-wordings { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 8px 12px; min-width: 0; }
+.rubric-family-wordings .field { margin: 0; min-width: 0; }
+.rubric-family-wordings textarea { width: 100%; height: 4.6em; }
+.rubric-family-wordings .rubric-draft-preview { display: block; }
+.rubric-family-line > .rubric-draft-link { margin: 0; grid-column: 2; max-width: 22rem; }
+.rubric-family-line > .rubric-draft-clarifications { grid-column: 1 / -1; min-width: 0; }
+/* Failed responses stay visible in one quiet row; expand for batch reasons and retry controls. */
+.grading-review-failed { border-block: 1px solid var(--line); margin: 0 0 18px; min-width: 0; }
+.grading-review-failed > summary { display: flex; align-items: center; gap: 12px; padding: 12px 0; font-size: var(--text-small); list-style: none; cursor: pointer; }
+.grading-review-failed > summary::-webkit-details-marker { display: none; }
+.grading-review-failed > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.grading-review-failed > summary > strong { color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); transition: color var(--snappy); }
+.grading-review-failed > summary:hover > strong { color: var(--ink); }
+.grading-review-failed-toggle { margin-left: auto; color: var(--label); font: 500 20px/1 var(--font-body); }
+.grading-review-failed[open] > summary .grading-review-failed-toggle { color: var(--ink); }
+.grading-review-failed > summary:hover .grading-review-failed-toggle { color: var(--ink); }
+.grading-review-failed-toggle::before { content: "+"; }
+.grading-review-failed[open] > summary .grading-review-failed-toggle::before { content: "−"; }
+.grading-review-failed-details { padding-bottom: 12px; }
+.grading-review-failed-details > .supporting-copy { margin-top: 0; }
+.grading-chip-failed { --chip-tone: var(--tone-danger); color: var(--tone-danger); }
+.grading-review-failed-batch { border-top: 1px solid var(--nested-line); padding-top: 12px; margin-top: 12px; min-width: 0; }
+.grading-review-failed-batch header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+.grading-review-failed-batch header strong { color: var(--ink); font: var(--head-weight) var(--text-lead)/1.3 var(--font-serif); }
+.grading-review-failed-reasons { margin: 8px 0; padding-left: 0; list-style: none; display: grid; gap: 6px; font-size: var(--text-small); overflow-wrap: anywhere; }
+.grading-review-failed-count { font-weight: 600; color: var(--error); font-variant-numeric: tabular-nums; }
+
+/* Rubric lines prepared before the rubric reviewer reads them (2026-09-24): wording, points and a comment per line. */
+.grading-rubric-edit-lines > li > small { display: block; }
+.grading-rubric-line-preview:empty { display: none; }
+/* A rule or comment beside a line is a quotation on its 2px hairline rule, never a framed box inside the dialog's box. */
+.quality-comment { margin: 0 0 6px; padding: 8px 12px 8px 14px; border: 1px solid transparent; background: transparent; box-shadow: inset 2px 0 0 var(--line); }
+:root:root .quality-builtin.quality-builtin { border-color: transparent; }
+/* The instructor's answer to the concerns a rubric check listed (2026-09-25): a hairline section in the dialog, not a filled box. */
+.quality-respond { margin: 12px 0; padding: 12px 0; border: 0; border-block: 1px solid var(--line); background: transparent; }
+.quality-respond h4 { margin: 0 0 4px; font-size: var(--text-item); letter-spacing: var(--tracking-title); }
+/* Where a concern points, and its rubric in a pop-up over the review window (2026-09-25). */
+.quality-finding-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-top: 4px; }
+/* A pop-up is raised paper in a 1px ink frame, no shadow; its lines divided by hairlines. */
+.quality-rubric-popover { width: min(760px, calc(100vw - 32px)); max-height: calc(100dvh - 64px); overflow: auto; padding: 16px 20px 20px; border: 1px solid var(--ink); border-radius: var(--radius-control); background: var(--paper); color: var(--ink); box-shadow: none; }
+.quality-rubric-popover::backdrop { background: var(--backdrop); }
+.quality-rubric-popover-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; position: sticky; top: -16px; padding: 4px 0 8px; background: var(--paper); border-bottom: 1px solid var(--line); }
+.quality-rubric-popover-head h4 { margin: 0; font-size: var(--text-section); letter-spacing: var(--tracking-title); }
+.quality-rubric-popover h5 { margin: 12px 0 6px; font-size: var(--text-item); letter-spacing: var(--tracking-title); }
+.quality-rubric-lines { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 0; }
+.quality-rubric-lines li { padding: 8px 0; border-top: 1px solid var(--nested-line); }
+.quality-rubric-lines li strong { color: var(--ink); font-weight: 600; }
+/* The line a concern names is the highlighted row. */
+.quality-rubric-lines li.is-named { padding-inline: 12px; background: var(--chosen-bg); }
+.quality-rubric-lines small { display: block; margin-top: 4px; }
+/* A grading dialog's refusal sits in its footer, on a row of its own above the buttons (grading-ui.js dialog), so a long dialog
+   still shows why its action did nothing; a confirmation tick moved there sits beside the buttons. */
+#grading-dialog .dialog-footer { flex-wrap: wrap; }
+#grading-dialog .dialog-footer > .form-error:not([hidden]) { flex: 1 1 100%; margin: 0; }
+/* The finalization's confirmation tick and refusals beside its Confirm button (2026-09-25). */
+#dialog .dialog-footer:has(.quality-confirm-tick) { flex-wrap: wrap; }
+.dialog-footer .quality-confirm-tick { flex: 1 1 320px; margin: 0; }
+.dialog-footer:has(.quality-confirm-tick) .form-error { flex: 1 1 100%; margin: 0; }
+
+/* GRADING / FRONTEND: decisions and their exact rubric context, one at a time; inputs stay mounted across navigation. */
+.quality-review-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+.quality-check-summary { margin: 0; }
+.quality-decision-layout { display: grid; grid-template-columns: minmax(170px, 215px) minmax(0, 1fr); gap: 22px; }
+.quality-decision-rail, .quality-decision-work, .quality-decision-policy, .quality-decision-reference { min-width: 0; }
+.quality-decision-rail h4 { margin: 0 0 10px; }
+#dialog .quality-decision-rail > .field { display: none; }
+/* The decisions rail: rows on hairlines like the question navigator, the chosen one's title in ink at weight 800. */
+.quality-decision-rail nav { display: grid; gap: 0; border-bottom: 1px solid var(--nested-line); }
+.quality-decision-link { width: 100%; text-align: left; padding: 10px 2px; border: 0; border-top: 1px solid var(--nested-line); background: transparent; color: var(--ink); cursor: pointer; }
+.quality-decision-link:hover strong { color: var(--ink); }
+.quality-decision-link[aria-pressed="true"] strong { color: var(--ink); font-weight: 800; }
+.quality-decision-link:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.quality-decision-link strong { display: block; font: 500 var(--text-body)/1.35 var(--font-body); }
+.quality-decision-link small { display: block; margin-top: 4px; color: var(--muted); font-size: var(--text-small); }
+.quality-decision-pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 0 0 12px; border-bottom: 1px solid var(--nested-line); margin-bottom: 16px; }
+.quality-decision-pager > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.quality-decision h3 { margin: 0 0 16px; font-size: var(--text-section); }
+.quality-decision-focus { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, .85fr); gap: 24px; }
+.quality-decision-prompt { max-width: 64ch; margin: 0 0 16px; overflow-wrap: anywhere; }
+.quality-policy-choices { display: grid; gap: 8px; border: 0; padding: 0; margin: 0 0 16px; }
+.quality-policy-choices { gap: 0; }
+.quality-policy-choices legend { padding: 0; margin-bottom: 8px; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+/* Each policy is a row on a hairline; the chosen one is the highlighted row, its radio ticked. */
+.quality-policy-choice { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, auto); align-items: start; gap: 8px; padding: 10px 8px; border: 0; border-top: 1px solid var(--nested-line); cursor: pointer; }
+.quality-policy-choice:hover { background: var(--surface-hover); }
+.quality-policy-choice:has(input:checked) { background: var(--chosen-bg); }
+.quality-policy-choice input { margin-top: 4px; accent-color: var(--ink); }
+.quality-policy-choice small { max-width: 16ch; color: var(--muted); font-size: var(--text-small); }
+.quality-decision-policy textarea, .quality-decision-reference textarea { width: 100%; min-height: 5em; }
+/* RUBRIC CHOICES (2026-10-24): the quick answers before drafting, two questions to a row, each row a policy choice as above. */
+.rubric-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; }
+.rubric-choice { margin: 0; }
+.rubric-choice > .supporting-copy { margin: 0 0 6px; }
+.rubric-choice .quality-policy-choice { padding: 6px 8px; }
+/* BOOKKEEPING IS FIXED, NOT ASKED (2026-10-24): what Faculty fixed instead of asking, one quiet row each with its Undo. */
+.quality-fixed { margin: 16px 0 0; }
+.quality-fixed-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.quality-fixed-list li { display: grid; gap: 2px; padding-top: 12px; border-top: 1px solid var(--nested-line); }
+.quality-fixed-list li > p { margin: 4px 0 0; max-width: 72ch; }
+.quality-fixed-list li > .text-button { justify-self: start; }
+.quality-decision-reference { padding-left: 20px; border-left: 1px solid var(--line); }
+.quality-reference-guidance { margin-top: 10px; }
+.quality-reference-guidance > summary { cursor: pointer; color: var(--ink); }
+.quality-reference-guidance .field { margin-top: 8px; }
+.quality-decision-policy > .compute-why { margin: 12px 0; }
+[data-quality-decisions] > .quality-respond { margin-top: 20px; }
+/* LINKED VERSIONS (2026-10-02): a problem's versions in one panel, corresponding lines together. Shared tokens only. */
+#dialog:has(.quality-problem) { width: min(1320px, calc(100vw - 32px)); }
+.quality-problem-head h4 { margin: 0 0 6px; font-size: var(--text-item); }
+.quality-problem > .quality-question { margin: 0; }
+.quality-linked, .quality-unlinked { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+/* Only the rubric lines on screen are styled and laid out (requirement, 2026-10-06). The clip margin keeps focus rings
+   whole at a block's edge. */
+[data-quality-workspace] :is(.quality-linked, .quality-unlinked > .quality-item, .quality-question > .compute-fold-body > .quality-item) {
+  content-visibility: auto; contain-intrinsic-size: auto 260px; overflow-clip-margin: 8px;
+}
+.quality-unlinked h5 { margin: 0 0 4px; font-size: var(--text-item); }
+.quality-link-actions, .quality-link-to { display: flex; flex-wrap: wrap; align-items: end; gap: 8px; margin: 6px 0 4px; }
+/* A FINALIZATION THAT READS AT A GLANCE (requirement, 2026-10-06). What waits on
+   the instructor leads the window (an orange mark per line, READABLE REVIEW's .review-checks); each version is one quiet row, not a
+   heading; a rubric line shows its clarification while closed and opens with the framed + every fold wears. Shared tokens only. */
+.quality-lead { display: grid; gap: 8px; margin: 0 0 12px; }
+.quality-lead > p { margin: 0; }
+.quality-lead .review-checks li .button { margin-inline-start: 8px; padding: 3px 10px; font-size: var(--text-small); }
+.quality-lead-clear { color: var(--ink); font-weight: 700; }
+.quality-versions { margin: 4px 0 0; border-bottom: 1px solid var(--nested-line); }
+:root:root .quality-versions > .quality-version { border-top: 1px solid var(--nested-line); }
+:root:root [data-quality-workspace] .quality-version > summary { padding: 9px 28px 9px 0; font: 500 var(--text-body)/1.4 var(--font-body); letter-spacing: normal; }
+:root:root [data-quality-workspace] .quality-version > summary::after { top: 10px; }
+:root:root .quality-version > summary > .quality-version-letter { display: inline-block; min-width: 96px; font: 800 var(--text-body)/1.4 var(--font-body); letter-spacing: normal; }
+.quality-version > summary .supporting-copy { font-size: var(--text-small); }
+.quality-version > .compute-fold-body { padding: 0 0 12px 96px; }
+.quality-lines-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; margin: 22px 0 0; }
+.quality-lines-head h5 { margin: 0; color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.quality-lines-head .compute-why { margin: 0; }
+.quality-lines-head .compute-why[open] { flex-basis: 100%; }
+.quality-lines-head .compute-why .grading-check { margin-top: 8px; }
+.quality-problem [data-mirror-status]:empty { display: none; }
+.quality-linked-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; color: var(--ink); }
+.quality-linked-head strong { font-weight: 800; }
+.quality-linked-head .supporting-copy { font-size: var(--text-small); }
+.quality-linked-kinds { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.quality-linked-kinds .text-button { font-size: var(--text-small); }
+.quality-linked-kinds .button { padding: 4px 10px; font-size: var(--text-small); }
+.quality-linked-wording { margin: 2px 0 4px; }
+/* One rubric line: closed, it reads as the line, its clarification and its exclusions; the framed + says it opens. */
+.quality-item > summary { position: relative; padding-inline-end: 32px; list-style: none; }
+.quality-item > summary::-webkit-details-marker { display: none; }
+.quality-item > summary::after { content: "+"; content: counter(decor, none) "+" / ""; position: absolute; right: 0; top: 0; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.quality-item[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; }
+.quality-item-head .supporting-copy { font-size: var(--text-small); }
+.quality-item-guidance { color: var(--ink); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.quality-item-guidance > b { margin-inline-end: 6px; color: var(--label); font: 700 var(--text-caption)/1 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.quality-item-guidance.is-empty { color: var(--muted); font-size: var(--text-small); }
+.quality-item[open] > summary .quality-item-guidance { display: none; }
+[data-quality-workspace] .quality-linked .quality-item > summary { grid-template-columns: 96px minmax(0, 1fr); gap: 2px 0; }
+.quality-linked .quality-item > summary > * { grid-column: 2; }
+.quality-linked .quality-item > summary > .quality-item-head { grid-column: 1; grid-row: 1 / span 3; }
+.quality-linked .quality-item > .quality-exclusions { padding-inline-start: 96px; }
+/* The Decisions view read the same way (2026-10-06): a decision's rail row says only what changed ("Answered", "Still open"); the
+   answer's words show once an answer is picked; the Resolve block sits under them, saying what it sends; the affected lines are
+   named once with one row per version, its clarification shown closed, as in Rubric items. */
+.quality-decision-link small[data-decision-status]:empty { display: none; }
+.quality-decision-link small[data-decision-status] { color: var(--success); font-weight: 700; }
+.quality-feedback-box { display: grid; gap: 6px; margin: 0 0 12px; }
+.quality-feedback-box > p:empty { display: none; }
+.quality-feedback-box > p { margin: 0; }
+.quality-decision .quality-respond { display: grid; gap: 6px; margin: 4px 0 8px; padding: 12px 0 0; border: 0; border-top: 1px solid var(--nested-line); }
+.quality-decision .quality-respond > p { margin: 0; max-width: 64ch; }
+.quality-decision .quality-respond .compute-why { margin: 0; }
+.quality-reference-label { margin: 0 0 6px; color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.quality-reference-line { padding: 12px 0 4px; border-top: 1px solid var(--line); }
+.quality-reference-head { margin: 0; }
+.quality-reference-head strong { font-weight: 800; }
+.quality-reference-head .supporting-copy { font-size: var(--text-small); }
+.quality-reference-wording { margin: 2px 0 6px; }
+.quality-reference-guidance.quality-reference-guidance { margin: 0; padding: 8px 0; border-top: 1px solid var(--nested-line); }
+.quality-reference-guidance > summary { position: relative; display: grid; grid-template-columns: 82px minmax(0, 1fr); gap: 2px 0; padding-inline-end: 30px; list-style: none; }
+.quality-reference-guidance > summary::-webkit-details-marker { display: none; }
+.quality-reference-guidance > summary > * { grid-column: 2; }
+.quality-reference-guidance > summary > .quality-reference-row-label { grid-column: 1; grid-row: 1 / span 3; }
+.quality-reference-guidance > summary::after { content: "+"; content: counter(decor, none) "+" / ""; position: absolute; right: 0; top: 0; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.quality-reference-guidance[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; }
+.quality-reference-guidance[open] > summary [data-reference-guidance] { display: none; }
+.quality-reference-guidance > summary small { font-size: var(--text-small); }
+.quality-reference-edit { display: grid; gap: 8px; padding: 8px 0 4px 82px; }
+.quality-reference-edit .field { margin: 0; }
+[data-reference-whole] { margin: 12px 0 0; }
+.quality-decision-reference > .grading-actions { margin-top: 12px; gap: 8px 18px; }
+/* The pager sticks to the very top of the window's scrolling body, over its padding, so no line shows above it. */
+#dialog [data-quality-workspace] .grading-question-pager { top: -24px; }
+.quality-pairs, .quality-pair-choices { display: grid; gap: 8px; }
+.quality-pairs > p { margin: 0; }
+.quality-pairs-label { color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.quality-link-to .field { min-width: 0; flex: 1 1 220px; }
+.quality-link-to select { max-width: 100%; }
+.quality-version-notes { margin: 6px 0 0; padding-left: 18px; }
+.grading-rubric-also-list, .grading-correct-linked { margin: 6px 0 0; padding: 0; border: 0; min-width: 0; }
+.grading-rubric-also-list legend, .grading-correct-linked legend { padding: 0; font-size: var(--text-small); color: var(--muted); }
+.grading-rubric-also-list .grading-check { margin: 2px 0; }
+.grading-correct-linked-line { margin-top: 10px; }
+/* An answer key read from the rubric, shown before it is saved (2026-09-25): its chip says so, and a callout's 2px warning rule
+   above sets it apart (no dashed box, no side rule). */
+.grading-key-proposed { padding: 8px 0 6px; border: 0; border-top: 2px solid var(--tone-warning); }
+.grading-key-proposed p { margin: 4px 0; }
+/* The answer key typeset under its box in the editor, as it is typed (2026-09-25). */
+.grading-key-preview { margin: 4px 0 10px; min-height: 1em; }
+.grading-key-preview p { margin: 2px 0; }
+/* Compute settings: the "Next Cloud batch uses" summary and the one-sentence help's "Why" (grun:P13). A record table: the heading
+   row 11px uppercase over a 2px ink rule (above), roles as row names in ink, each model's settings a small definition list. */
+.compute-team-summary { width: 100%; border-collapse: collapse; font-size: var(--text-body); }
+.compute-team-summary caption { margin-bottom: 10px; text-align: left; font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); color: var(--heading); }
+.compute-team-summary th, .compute-team-summary td { padding: 10px 12px 10px 0; border-bottom: 1px solid var(--nested-line); text-align: left; vertical-align: top; }
+.compute-team-summary tbody th { color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); white-space: nowrap; }
+.compute-team-summary td strong { display: block; color: var(--ink); font-weight: 500; overflow-wrap: anywhere; }
+.compute-team-summary td small { display: block; color: var(--label); font-size: var(--text-small); overflow-wrap: anywhere; }
+/* Each role's settings as one wrapping line: label and value side by side. */
+.compute-team-settings { display: flex; flex-wrap: wrap; gap: 2px 18px; margin: 0; font-size: var(--text-small); line-height: 1.6; }
+.compute-team-summary tbody th { width: 180px; }
+.compute-team-summary td:first-of-type { width: 24%; }
+.compute-team-settings div { min-width: 0; }
+.compute-team-settings dt, .compute-team-settings dd { display: inline; }
+.compute-team-settings dt { color: var(--label); }
+.compute-team-settings dd { margin: 0 0 0 4px; color: var(--ink); overflow-wrap: anywhere; }
+.compute-role-jump { display: inline-flex; align-items: baseline; gap: 10px; padding: 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; text-align: left; cursor: pointer; }
+.compute-role-jump:hover { text-decoration: underline; text-underline-offset: 3px; }
+.compute-role-jump:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.compute-team-summary .grading-chip + .compute-team-settings { margin-top: 8px; }
+.compute-why { margin-top: 6px; font-size: var(--text-small); }
+.compute-why > summary { cursor: pointer; color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; width: max-content; }
+.compute-why > p { margin: 6px 0 0; color: var(--muted); line-height: 1.6; max-width: 78ch; }
+/* Scan records: whole rows linking to each scan in the Inbox, readiness as chips; the scan's name is the row's serif title. */
+.grading-scan-records h4 { margin: 20px 0 8px; }
+.grading-paper-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; padding: 12px 0; color: inherit; text-decoration: none; }
+.grading-paper-row > span:first-child { display: grid; gap: 2px; }
+.grading-paper-row strong { color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); transition: color var(--snappy); }
+.grading-paper-row small { color: var(--muted); font-size: var(--text-small); }
+.grading-paper-row:is(:hover, :focus-visible) strong { color: var(--ink); }
+.grading-paper-counts { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+
+/* A Gradescope regrade request's words and replies (grading-regrades.js): each a quotation on a 2px hairline rule. */
+.grading-regrade-text { margin: 0; padding: var(--space-2) var(--space-3); border-left: 2px solid var(--line); white-space: pre-wrap; overflow-wrap: anywhere; }
+.grading-regrade-replies { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.grading-regrade-replies li { display: grid; gap: var(--space-1); justify-items: start; }
+
+/* Return › Regrade requests (grading-regrades.js; REGRADES 2026-10-07): the requests as rows on hairlines, the chosen one in ink,
+   and the one open request below them: its words, where its grade is, the work and the grade, the reply and Apply's steps. */
+.regrade-page { display: grid; gap: var(--space-5); min-width: 0; }
+.regrade-list { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.regrade-row { display: grid; grid-template-columns: minmax(180px, 1.4fr) minmax(160px, 1fr) auto auto 4.5em; align-items: center; gap: var(--space-3);
+  width: 100%; min-height: var(--button-height); padding: var(--space-2) 0; border: 0; border-bottom: 1px solid var(--nested-line); background: none;
+  color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.regrade-row:hover { background: var(--surface-hover); }
+.regrade-row[aria-current] { box-shadow: inset 3px 0 var(--ink); padding-inline-start: var(--space-2); }
+.regrade-row-who { font-weight: 700; }
+.regrade-row-when, .regrade-row-score { color: var(--muted); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+.regrade-row-score { text-align: right; }
+.regrade-panel { display: grid; gap: var(--space-4); padding-top: var(--space-4); border-top: 2px solid var(--ink); min-width: 0; }
+.regrade-panel-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--space-2) var(--space-4); }
+.regrade-panel-head h3 { margin: 0 0 var(--space-1); }
+.regrade-panel-head p { margin: 0; }
+.regrade-where { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-5); margin: 0; padding: var(--space-2) 0;
+  border-block: 1px solid var(--nested-line); font-variant-numeric: tabular-nums; }
+.regrade-where small { color: var(--muted); font-size: var(--text-small); }
+.regrade-where [data-differs] strong { text-decoration: underline 2px; text-underline-offset: 3px; }
+.regrade-where-note { margin-inline-start: auto; color: var(--muted); font-size: var(--text-small); }
+.regrade-reply { display: grid; gap: var(--space-1); }
+.regrade-reply textarea { width: 100%; }
+.regrade-draft-note { margin: 0; }
+.regrade-steps { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; counter-reset: regrade-step; }
+.regrade-steps > li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-2); }
+.regrade-apply-preview .regrade-steps > li::before { counter-increment: regrade-step; content: counter(regrade-step) "."; color: var(--muted); font-variant-numeric: tabular-nums; }
+.regrade-steps > li[data-problem] > span { color: var(--muted); }
+.regrade-step-detail { flex-basis: 100%; color: var(--muted); font-size: var(--text-small); }
+.regrade-apply-preview, .regrade-run { display: grid; gap: var(--space-2); }
+.regrade-apply-preview h4, .regrade-run h4 { margin: 0; }
+.regrade-notes { margin: 0; padding-inline-start: var(--space-4); }
+/* Follow-up's suggestion for the open request (REGRADES "FOLLOW-UP"): a ruled note above the reply, its one action the primary. */
+.regrade-suggestion { display: grid; gap: var(--space-1); margin: 0; padding: var(--space-3) var(--space-4); border-left: 3px solid var(--ink); background: var(--surface); }
+.regrade-suggestion h4, .regrade-suggestion p { margin: 0; }
+.regrade-suggestion-lines { color: var(--muted); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+/* A bubble-sheet question (REGRADES "BUBBLE SHEETS"): the question's row of the scan above what Faculty read and the key. */
+.regrade-sheet { display: grid; gap: var(--space-2); }
+.regrade-sheet-row { display: block; max-width: 100%; height: auto; border: 1px solid var(--nested-line); background: var(--surface); }
+.regrade-sheet-facts { margin: 0; font-variant-numeric: tabular-nums; }
+
+/* GRADING/FRONTEND: compact queues over the existing term-owned response view. */
+.grading-review-shared { margin: 0 0 var(--space-5); }
+.grading-review-shared > h3 { margin: 0 0 var(--space-2); font-size: var(--text-item); }
+.grading-review-shared > .supporting-copy { margin-bottom: var(--space-2); }
+[data-review-completed], [data-review-grade-summary] { margin-top: var(--space-5); }
+/* The review workspace's assignment-wide lines (grading-review-workspace.js): each one row, folded until opened. */
+.grading-review-band { display: grid; gap: var(--space-2); margin-bottom: var(--space-4); min-width: 0; }
+.grading-review-band > p { margin: 0; }
+.grading-review-band .grading-review-failed { margin: 0; }
+.grading-review-band .grading-flag-review-slot:empty { display: none; }
+.grading-flag-review > .disclosure { margin: 0; }
+.grading-flag-review-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2) var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); font-size: var(--text-small); }
+.grading-flag-review-row > span { flex: 1 1 320px; min-width: 0; }
+/* The queue's progress: a 3px ink bar on a hairline track (DESIGN-LANGUAGE §4). */
+.grading-review-progress { margin-bottom: var(--space-3); }
+.grading-review-progress-bar { display: block; width: 100%; height: 3px; margin: 0 0 var(--space-1); border: 0; background: var(--nested-line); appearance: none; }
+.grading-review-progress-bar::-webkit-progress-bar { background: var(--nested-line); }
+.grading-review-progress-bar::-webkit-progress-value { background: var(--ink); }
+.grading-review-progress-bar::-moz-progress-bar { background: var(--ink); }
+.grading-review-concern-mark { color: var(--warning); }
+.grading-review-concern-actions { margin-top: var(--space-3); }
+.grading-review-concern-editor { display: grid; gap: var(--space-3); margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--nested-line); }
+.grading-review-concern-line { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: var(--space-2); }
+.grading-review-concern-line legend { padding: 0; margin-bottom: var(--space-2); overflow-wrap: anywhere; }
+.grading-review-concern-line textarea { width: 100%; }
+.grading-review-concern-siblings { display: grid; gap: var(--space-1); padding-left: var(--space-3); border-left: 2px solid var(--line); }
+.grading-review-concern-siblings > p { margin: 0; }
+.grading-clarify-version { margin: 0 0 var(--space-4); padding: 0; border: 0; min-width: 0; display: grid; gap: var(--space-2); }
+.grading-clarify-version legend { padding: 0; }
+.grading-clarify-version textarea { width: 100%; }
+.grading-review-concern-pairs { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+/* Every response of one proposed-line group (grading-review-gallery.js): figures on hairlines, a flagged one under a 2px warning
+   rule (a callout's) with its reasons in the warning ink. */
+.grading-gallery { display: grid; gap: var(--space-4); min-width: 0; }
+.grading-gallery-head { display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: var(--space-3); }
+.grading-gallery-head h4 { margin: 0 0 var(--space-1); }
+.grading-gallery-head .supporting-copy { margin: 0; max-width: 70ch; }
+.grading-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-4) var(--space-5); }
+/* Possibly blank answers: one original crop a tile, so more tiles a row (requirement, 2026-10-17). */
+.grading-gallery-grid[data-gallery-blank] { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-3) var(--space-4); }
+.grading-gallery-tile { margin: 0; padding-top: var(--space-2); border-top: 1px solid var(--line); min-width: 0; display: grid; gap: var(--space-2); align-content: start; }
+.grading-gallery-tile.grading-contact-flagged { padding-top: calc(var(--space-2) - 1px); border-top: 2px solid var(--warning); }
+.grading-gallery-tile img { display: block; width: 100%; height: auto; background: white; }
+.grading-gallery-alone, .grading-gallery-aside { opacity: var(--opacity-dim); }
+.grading-gallery-alone:focus-within, .grading-gallery-aside:focus-within { opacity: 1; }
+.grading-gallery-reasons { margin: 0; color: var(--warning); font-size: var(--text-small); }
+.grading-gallery-approve { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3) var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+@media (forced-colors: active) { .grading-gallery-tile.grading-contact-flagged { border-top-color: CanvasText; } }
+.grading-review-completed { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+.grading-review-completed a { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); align-items: baseline; padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); color: var(--ink); text-decoration: none; }
+.grading-review-completed a:hover { color: var(--ink); }
+.grading-review-completed small { color: var(--label); }
+.grading-review-footer-links { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3); width: 100%; margin: var(--space-3) 0 0; }
+[data-workspace-footer] { display: block; }
+/* The workspace: the review queue's column beside the response (at 1300px and wider, below), else folded above it. */
+.grading-review-workspace { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); align-items: start; }
+.grading-review-main { min-width: 0; }
+.grading-review-navigation { min-width: 0; margin: 0; }
+.grading-review-navigation .disclosure-body { min-width: 0; }
+/* The queue's fold opens on a section label over a 2px ink rule; how many are left sits at its right in serif. */
+details.disclosure.grading-review-navigation { border-top: 2px solid var(--ink); }
+details.disclosure.grading-review-navigation > summary { align-items: baseline; gap: var(--space-2); min-height: 40px; padding: 8px 0; color: var(--ink); font: 600 var(--text-small)/1.4 var(--font-body); letter-spacing: 0; text-transform: none; }
+details.disclosure.grading-review-navigation > summary > :first-child { white-space: nowrap; }
+details.disclosure.grading-review-navigation > summary > [data-workspace-total] { margin-inline-start: auto; color: var(--muted); font: var(--head-weight) var(--text-lead)/1 var(--font-serif); letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; white-space: nowrap; }
+details.disclosure.grading-review-navigation > summary:hover { color: var(--ink); }
+/* Its lists (Questions or a version's, then a group's responses): a small label over a 2px ink rule, rows on hairlines with the
+   question in ink and how many wait in a tabular figure; the current one in ink at weight 800 (aria-current says so too). */
+:root:root .grading-review-navigation h4 { margin: var(--space-4) 0 0; padding-top: 8px; border-top: 2px solid var(--ink); color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.grading-review-navigation ul, .grading-review-navigation ol { list-style: none; padding: 0; margin: 0; }
+.grading-review-navigation li { min-width: 0; border-bottom: 1px solid var(--nested-line); }
+.grading-review-navigation li a, .grading-review-member-list button { display: flex; flex-direction: column; gap: 2px; align-items: start; width: 100%; padding: var(--space-2) 0; text-align: left; color: var(--ink); text-decoration: none; overflow-wrap: anywhere; }
+/* Rows, not prose links: the theme prefix out-ranks typography.css's underlined links in a disclosure body. */
+:root:root .grading-review-navigation li > a { color: var(--ink); font-weight: 500; text-decoration: none; }
+.grading-review-navigation li a > span { font: 500 var(--text-body)/1.35 var(--font-body); transition: color var(--snappy); }
+.grading-review-navigation li a > small { color: var(--muted); font: var(--head-weight) var(--text-lead)/1.25 var(--font-serif); font-variant-numeric: tabular-nums; }
+.grading-review-navigation li a:hover > span { color: var(--ink); }
+.grading-review-navigation li a[aria-current="true"] > span { color: var(--ink); font-weight: 800; }
+.grading-review-navigation li a:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+/* A group's responses are records, not text actions: plain rows (the theme prefix out-ranks button-theme.css's underlined
+   uppercase .text-button), the current one in ink at weight 800. */
+:root:root .grading-review-navigation .grading-review-member-list .text-button { min-height: 0; padding: var(--space-2) 0; border: 0; color: var(--ink); font: 500 var(--text-body)/1.35 var(--font-body); letter-spacing: 0; text-transform: none; text-decoration: none; justify-content: start; }
+:root:root .grading-review-navigation .grading-review-member-list .text-button:hover { color: var(--ink); }
+:root:root .grading-review-navigation .grading-review-member-list .text-button[aria-current="true"] { color: var(--ink); font-weight: 800; }
+.grading-review-navigation small { color: var(--label); font-size: var(--text-small); font-weight: 500; }
+.grading-review-navigation .field { margin: var(--space-4) 0 var(--space-2); }
+.grading-review-navigation select { width: 100%; min-width: 0; }
+.grading-review-navigation .supporting-copy { margin: var(--space-2) 0; }
+.grading-review-group-picker { display: flex; align-items: end; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-3); }
+.grading-review-group-picker .field { flex: 1 1 260px; min-width: 0; margin: 0; }
+.grading-review-group-picker .field select { width: 100%; }
+.grading-review-main .grading-review-scope { margin: 0 0 var(--space-3); padding: 0; }
+.grading-review-main .grading-review-scope > .disclosure-body { padding-block: var(--space-3); }
+.grading-review-reasons .grading-actions { margin-top: var(--space-2); }
+.grading-review-reasons > .disclosure { margin-top: var(--space-2); }
+.grading-review-reasons > p { margin: var(--space-2) 0; }
+.grading-flag-readings { margin: var(--space-2) 0; padding-bottom: var(--space-2); border-bottom: 1px solid var(--nested-line); }
+.grading-flag-readings > p { margin: var(--space-1) 0; overflow-wrap: anywhere; }
+/* GRADING FLAG REVIEW "THE SPOT TO LOOK AT": each outlined spot enlarged beside the reading choices. The desk sizes a view from its
+   picture; until then it holds its place and shows nothing half-placed. */
+/* The views keep to the left half at most (they stack there when two do not fit side by side), so the choices are always beside
+   them, never pushed underneath. */
+.grading-flag-choose { display: grid; grid-template-columns: fit-content(50%) minmax(0, 1fr); gap: var(--space-3); align-items: start; }
+.grading-flag-views { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: flex-start; min-width: 0; }
+.grading-flag-choices { min-width: 0; }
+.grading-flag-choices > p { margin: 0 0 var(--space-1); }
+.grading-flag-view { margin: 0; width: 12rem; max-width: 100%; min-width: 0; }
+.grading-flag-view figcaption { margin-top: var(--space-1); font-size: var(--text-small); overflow-wrap: anywhere; }
+.grading-flag-view-open { display: block; position: relative; overflow: hidden; width: 100%; aspect-ratio: 4 / 3; padding: 0; border: 1px solid var(--ink); border-radius: 0; background: white; cursor: pointer; }
+.grading-flag-view-open:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.grading-flag-view-open img { position: absolute; max-width: none; max-height: none; }
+.grading-flag-view-open:not([data-placed]) :is(img, .grading-flag-view-mark) { visibility: hidden; }
+.grading-flag-view-mark { position: absolute; border: 2px solid var(--tone-warning); pointer-events: none; }
+.grading-flag-readings .button { display: inline-flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); align-items: baseline; text-align: left; white-space: normal; }
+/* The grade the decision approves: a small label, then the score in the body face, 27px at weight 800 in ink (what the instructor
+   is asked to accept). */
+.grading-decision-score { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-bottom: var(--space-3); color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-decision-score output { color: var(--ink); font: 800 27px/1 var(--font-body); letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
+@media (min-width: 1300px) and (min-height: 650px) {
+  .grading-review-workspace { grid-template-columns: 190px minmax(0, 1fr); gap: var(--space-5); }
+  .grading-review-navigation { position: sticky; top: 16px; max-height: calc(100dvh - 32px); overflow: auto; scrollbar-gutter: stable; }
+  /* Paper and rubric share the column evenly, the rubric a little wider for its points column and the words beside it. */
+  .grading-review-main .grading-evidence-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+}
+@media (min-height: 650px) {
+  .grading-review-desk > .grading-review-reasons { flex: 0 0 auto; max-height: 30dvh; overflow: auto; margin-bottom: var(--space-3); }
+  /* GRADING FLAG REVIEW "EVERY CHOICE SHOWS" (requirement, 2026-11-14): a note with reading choices is never cut off. Two marks in
+     doubt give four choices; the cap scrolled the last two out of sight, so the two left both read "(x-3)". */
+  .grading-review-desk > .grading-review-reasons:has([data-flag-reading]) { max-height: none; overflow: visible; }
+  /* THE REST OF THE DESK KEEPS ITS SIZE (requirement, 2026-11-14). A note shown whole
+     took its height from the paper and the rubric, which were left a sliver. The desk now grows by what the note needs, and the
+     paper and the rubric keep the box they have under a note at its usual 30dvh; the page scrolls down to them. */
+  .grading-review-desk:has(> .grading-review-reasons [data-flag-reading]) { height: auto; min-height: calc(100dvh - 32px); }
+  .grading-review-desk:has(> .grading-review-reasons [data-flag-reading]) .grading-evidence-layout { flex: 1 0 auto; height: calc(70dvh - 7rem); }
+}
+/* FOCUS LAYOUT (requirement, 2026-10-17). The student's work began three
+   quarters down the window under ten rows of controls. Each of those rows is now a line: the heading with its count, where you are
+   beside the batch line, one row of group tools whose folds take a row of their own only when opened, the response's title with
+   Previous / Next, and a shorter Decision needed. The rail gives a question one line, how many wait at its right. Layout only:
+   every control, count and reason is still there. */
+.grading-review-heading { margin-bottom: var(--space-2); }
+.grading-review-heading > div { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
+.grading-review-heading h3 { margin: 0; }
+.grading-review-heading .section-lead { margin: 0; }
+.grading-review-band { gap: var(--space-1); margin-bottom: var(--space-3); }
+.grading-review-where { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-1) var(--space-4); min-width: 0; font-size: var(--text-small); }
+.grading-review-where > p { margin: 0; color: var(--label); }
+.grading-review-where .grading-breadcrumb ol { margin: 0; }
+.grading-review-where > [data-workspace-breadcrumb]:empty { display: none; }
+/* The group tools: one wrapping row on a hairline. */
+.grading-review-group-picker { align-items: center; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--nested-line); }
+:root:root .grading-review-group-picker > .field { display: flex; align-items: center; gap: var(--space-2); flex: 1 1 300px; max-width: 440px; color: var(--label); font: 600 var(--text-small)/1.3 var(--font-body); letter-spacing: 0; white-space: nowrap; }
+:root:root .grading-review-group-picker > .field select { flex: 1 1 auto; min-width: 0; min-height: 34px; color: var(--ink); font-weight: 500; }
+:root:root .grading-review-group-picker > .button { min-height: 34px; padding: 4px 12px; font-size: var(--text-small); }
+:root:root .grading-review-group-picker > details.disclosure { flex: 0 0 auto; margin: 0; border-top: 0; }
+:root:root .grading-review-group-picker > details.disclosure > summary { min-height: 34px; padding: 0; gap: var(--space-2); font: 600 var(--text-small)/1.3 var(--font-body); }
+:root:root .grading-review-group-picker > details.disclosure > summary::after { flex-basis: 18px; width: 18px; height: 18px; margin-inline-start: var(--space-1); }
+:root:root .grading-review-group-picker > details.disclosure > summary .disclosure-hint { color: var(--label); font: 500 var(--text-small)/1.3 var(--font-body); letter-spacing: 0; }
+/* A shared concern is a warning: its summary in the warning ink, as the rail's mark. */
+:root:root .grading-review-group-picker > .grading-review-shared > summary { color: var(--warning); }
+/* Opened, a fold takes the whole row under the tools. */
+.grading-review-group-picker > details.disclosure[open] { order: 1; flex-basis: 100%; }
+:root:root .grading-review-group-picker > details.disclosure[open] > .disclosure-body { padding-block: var(--space-2) 0; }
+.grading-review-group-picker > a.text-button { margin-inline-start: auto; font-size: var(--text-small); }
+.grading-review-main .grading-review-scope { margin: 0; }
+/* The rail: one line a question, its title at the left and how many wait at its right; a rubric concern is a small warning dot. */
+.grading-review-navigation li a { flex-direction: row; align-items: baseline; justify-content: space-between; gap: var(--space-2); padding: 6px 0; }
+.grading-review-navigation li a > span { min-width: 0; }
+.grading-review-navigation li a > small { flex: 0 0 auto; font-size: var(--text-body); white-space: nowrap; }
+:root:root .grading-review-navigation h4 { margin-top: var(--space-3); }
+.grading-review-navigation .grading-review-concern-mark { display: inline-block; width: 7px; height: 7px; margin-inline-start: 6px; vertical-align: middle; border-radius: 50%; background: var(--warning); }
+@media (forced-colors: active) { .grading-review-navigation .grading-review-concern-mark { background: CanvasText; } }
+/* The response's title, its place in the group, Show student and Previous / Next on one line. */
+.grading-review-main .grading-response-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-2); }
+.grading-review-main .grading-response-title { flex: 1 1 auto; min-width: 0; align-items: center; gap: var(--space-1) var(--space-3); }
+.grading-review-main .grading-response-title .supporting-copy { font-size: var(--text-small); }
+.grading-review-main .grading-review-student { margin: 0; }
+:root:root .grading-review-main .grading-review-student .button, :root:root .grading-review-main .grading-response-heading > .grading-actions .button { min-height: 32px; padding: 4px 12px; font-size: var(--text-small); }
+.grading-review-main .grading-response-heading > .grading-actions { flex: 0 0 auto; flex-wrap: nowrap; gap: var(--space-2); margin: 0; }
+/* Decision needed: its title beside the question, the causes and their actions close under it. */
+.grading-review-main .grading-review-reasons { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-3); margin-top: 0; padding-block: var(--space-2); }
+.grading-review-main .grading-review-reasons > * { flex: 1 1 100%; min-width: 0; }
+.grading-review-main .grading-review-reasons > .callout-title { flex: 0 0 auto; margin: 0; }
+.grading-review-main .grading-review-reasons > .callout-title + p { flex: 1 1 0; margin: 0; }
+.grading-review-main .grading-review-reasons .grading-reason-causes { margin-block: var(--space-1); font-size: var(--text-small); }
+.grading-review-main .grading-review-reasons > .grading-actions { flex: 0 1 auto; margin: 0; gap: var(--space-3); }
+.grading-review-main .grading-review-reasons > .grading-actions + details.disclosure { flex: 1 1 auto; margin: 0; border-top: 0; }
+:root:root .grading-review-main .grading-review-reasons > details.disclosure > summary { min-height: 30px; padding: 0; font: 600 var(--text-small)/1.3 var(--font-body); justify-content: end; }
+.grading-review-main .grading-review-reasons > details.disclosure > summary > :first-child { flex: 0 0 auto; }
+.grading-review-main .grading-review-reasons > details.disclosure[open] { flex-basis: 100%; }
+
+/* A FINISHED TAB NEVER PUSHES THE NEXT ONE (ASSIGNMENT-WORKSPACE, 2026-10-18 pipeline review item 11): inside an assignment a finished
+   step's "Continue to …" is a quiet go-link, as the "Next step" line is; the next tab carries the mark. Outside the shell it stays a
+   button. `[hidden]` still hides it (style.css, !important). */
+#assignment-workspace[data-area] #grading-section :is([data-step-continue], [data-finalization-next], [data-areas-next], [data-review-onward="certify"]),
+#assignment-workspace[data-area] #grading-section :is([data-step-continue], [data-finalization-next], [data-areas-next], [data-review-onward="certify"]):is(:hover, :active, :focus-visible) { min-height: 0; padding: 0; border: 0; background: none; box-shadow: none; transform: none; color: var(--ink); font: 700 var(--text-control)/1.3 var(--font-body); }
+#assignment-workspace[data-area] #grading-section :is([data-step-continue], [data-finalization-next], [data-areas-next], [data-review-onward="certify"]):hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+#assignment-workspace[data-area] #grading-section :is([data-step-continue], [data-finalization-next], [data-areas-next], [data-review-onward="certify"])::before { content: none; }
+
+/* What recorded meetings said of an assessment's grading, in the finalization window (grading-recorded-rulings.js; GRADING "RULINGS
+   SAID IN A RECORDING"): one statement a row, its quote beneath, the line it is added to chosen at the right. Nothing in orange:
+   the fold's count says how many wait. */
+.quality-ruling-list { display: grid; margin: 0; padding: 0; list-style: none; }
+.quality-ruling { display: grid; gap: var(--space-1); padding: var(--space-3) 0; border-bottom: 1px solid var(--nested-line); }
+.quality-ruling > p { max-width: 78ch; margin: 0; overflow-wrap: anywhere; }
+.quality-ruling-actions { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-2) var(--space-4); }
+.quality-ruling-actions .field { flex: 1 1 24rem; max-width: 40rem; margin: 0; }

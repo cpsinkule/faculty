@@ -1,0 +1,183 @@
+/* Calendar screen only; existing dates remain projections of their owners. DESIGN-LANGUAGE (Ledger): titles in Manrope at the
+   heading weight, weekday labels and kinds as small uppercase sans, the month a grid of hairlines (no frame, no tinted cells),
+   today's date an ink block. Each kind is an ink and a rule style (the legend explains them): exams violet, exam rooms
+   (seating) blue, deadlines --warning and dotted, DR bookings dashed ink, your own events plain ink, Google events muted; an
+   event is a ruled row or a one-line chip led by a 2 px rule in its kind. */
+#calendar-section { min-width: 0; }
+
+/* The compact bar: month title and its time note, month navigation, view switch, then the filters and the color key. */
+.calendar-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4); margin-bottom: var(--space-5); padding-bottom: var(--space-5); border-bottom: 1px solid var(--line); }
+/* The title and its note take the room the controls leave (the note wraps), so the controls keep one row from 1280 px. */
+.calendar-period { display: grid; gap: var(--space-1); flex: 1 1 200px; min-width: 0; margin-right: auto; }
+.calendar-period h2 { margin: 0; color: var(--heading); font: var(--head-weight) var(--text-title)/1.1 var(--font-serif); letter-spacing: var(--tracking-title); }
+.calendar-time-note { margin: 0; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.calendar-navigation { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); }
+/* Square arrows as tall as the Today button beside them (button-theme.css draws them). */
+.calendar-navigation > .icon-button { width: var(--control-height); height: var(--control-height); }
+.calendar-month-picker { position: relative; }
+/* The month field reads like every field (form-theme.css): a line of type on an ink underline, the slate ring (--focus) on focus. */
+.calendar-month-picker input {
+  box-sizing: border-box;
+  height: var(--control-height);
+  max-width: 180px;
+  padding: 7px 2px;
+  border: 0;
+  border-bottom: 1px solid var(--control-line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 500 var(--text-body)/1.5 var(--font-body);
+  transition: border-color var(--snappy), box-shadow var(--snappy);
+}
+.calendar-month-picker input:hover:not(:focus) { border-bottom-color: var(--ink); }
+.calendar-month-picker input:focus-visible { border-bottom-color: var(--focus); box-shadow: inset 0 -1px 0 var(--focus); outline: 2px solid var(--focus); outline-offset: 2px; }
+/* Month | Agenda and Day | Week | Month are tabs (ledger.css draws them as framed words, the chosen one an ink block). */
+.calendar-view-switch { display: inline-flex; flex-wrap: wrap; align-items: center; }
+/* The agenda's Day | Week | Month follows Month | Agenda behind a short hairline, so the two switches read as two groups (a
+   pseudo element: button-theme.css owns the switches' own borders and padding). */
+.calendar-view-switch + .calendar-view-switch::before { content: ""; align-self: center; width: 1px; height: 20px; background: var(--line); }
+.calendar-filter-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-2) var(--space-4); flex-basis: 100%; }
+.calendar-filter-row .field { margin: 0; min-width: 150px; }
+.calendar-legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-5); padding-bottom: 12px; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.calendar-legend > span { display: inline-flex; align-items: center; gap: var(--space-2); }
+/* Google Calendar sync: the toolbar's button names the sync's state; the dialog lists what goes to Google and what shows here. */
+.calendar-google-button { margin-inline-start: auto; padding-bottom: 12px; display: inline-flex; align-items: center; gap: var(--space-2); }
+.calendar-google-button small { color: var(--muted); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.calendar-google-button[data-tone="danger"] small { color: var(--error); }
+.calendar-google .choice-group { display: grid; gap: var(--space-2); margin-block: var(--space-4); }
+.calendar-google > .checkbox-field { margin-block: var(--space-3); }
+.calendar-google-about ul { display: grid; gap: var(--space-2); margin: 0; padding-inline-start: var(--space-5); }
+
+/* The error line and its one Refresh; the calendar polls on its own otherwise. A danger callout's look: a 2 px rule, no fill. */
+.calendar-error { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin: 0 0 var(--space-4); padding: var(--space-3) 0; color: var(--error); background: transparent; border: 0; border-top: 2px solid var(--tone-danger); font: 500 var(--text-body)/1.5 var(--font-body); }
+.calendar-error[hidden] { display: none; }
+.calendar-error .text-button { color: var(--ink); }
+.calendar-unavailable { color: var(--muted); font-size: var(--text-body); padding: var(--space-5) 0; }
+
+.calendar-month-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-8); align-items: start; }
+.calendar-grid-wrap { min-width: 0; }
+/* The month: weekday labels over a 2 px ink rule, days divided by row hairlines, the paper showing through every cell. */
+.calendar-grid { width: 100%; table-layout: fixed; border-spacing: 0; border-collapse: separate; border: 0; border-bottom: 1px solid var(--line); background: transparent; }
+.calendar-grid th { height: 36px; padding: 0 var(--space-2); color: var(--ink); background: transparent; border-bottom: 2px solid var(--ink); font: 700 var(--text-caption)/1 var(--font-body); letter-spacing: var(--tracking-label); text-align: start; text-transform: uppercase; vertical-align: middle; }
+.calendar-grid th abbr { text-decoration: none; }
+.calendar-day { position: relative; vertical-align: top; height: 108px; padding: var(--space-2); background: transparent; border-bottom: 1px solid var(--nested-line); border-right: 1px solid var(--nested-line); }
+.calendar-day:last-child { border-right: 0; }
+.calendar-grid tr:last-child .calendar-day { border-bottom: 0; }
+.calendar-day.calendar-outside .calendar-day-number { color: var(--label); }
+/* The chosen day: a 2 px ink rule along its top (the day panel beside the grid lists it). */
+.calendar-day.calendar-selected { box-shadow: inset 0 2px 0 var(--ink); }
+/* The date is a Geist Mono (--font-num) numeral; today's is the ink block below. */
+.calendar-day-number { display: block; min-width: 24px; height: 28px; margin: 0 0 var(--space-1); padding: 0 2px; color: var(--ink); background: transparent; border: 0; border-bottom: 2px solid transparent; border-radius: 0; font: 700 15px/24px var(--font-num); text-align: start; font-variant-numeric: tabular-nums; cursor: pointer; transition: color var(--snappy), border-color var(--snappy); }
+/* Today is an ink block, as every "where you are" is in Ledger (never the needs-you orange). */
+.calendar-day-number[aria-current="date"] { width: fit-content; padding: 0 6px; background: var(--ink); color: var(--button-ink); font-weight: 800; }
+.calendar-day-number:hover { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.calendar-day-number[aria-current="date"]:hover { color: var(--button-ink); }
+.calendar-day-number:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.calendar-day-events { display: grid; gap: 3px; }
+
+/* Kinds: one ink and rule style each (the legend explains them). Only the calendar's own markup takes them. */
+:where(#calendar-section) [data-kind="exam"] { --calendar-color: var(--violet); --calendar-rule: solid; }
+:where(#calendar-section) [data-kind="seating"] { --calendar-color: var(--blue); --calendar-rule: solid; }
+:where(#calendar-section) [data-kind="dr"] { --calendar-color: var(--ink); --calendar-rule: dashed; }
+:where(#calendar-section) [data-kind="custom"] { --calendar-color: var(--ink); --calendar-rule: solid; }
+:where(#calendar-section) [data-kind="deadline"] { --calendar-color: var(--warning); --calendar-rule: dotted; }
+:where(#calendar-section) [data-kind="google"] { --calendar-color: var(--muted); --calendar-rule: solid; }
+/* A chip is one line of the day, not a box in the cell: its kind is the 2 px rule at its left (the .calendar-dot). */
+.calendar-chip { display: flex; align-items: center; gap: 6px; max-width: 100%; min-width: 0; padding: 2px 4px 2px 0; border: 0; text-align: left; color: var(--calendar-color, var(--ink)); background: transparent; font: 500 12px/1.4 var(--font-body); cursor: pointer; transition: background-color var(--snappy); }
+.calendar-chip:hover { background: var(--surface-hover); }
+.calendar-chip:hover > span:last-child, .calendar-chip:hover .calendar-chip-copy > span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.calendar-chip:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.calendar-chip .calendar-dot { align-self: stretch; height: auto; }
+/* A single event's title may take two lines; a group chip is its title, then what it adds up to ("3 rooms · 7:05 PM"). */
+.calendar-chip > span:last-child { overflow: hidden; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+/* In a month cell, three: two deadlines whose titles share their first two lines ("Chapter 4 / Section 1: …") still differ. */
+.calendar-grid .calendar-chip > span:last-child { -webkit-line-clamp: 3; line-clamp: 3; }
+.calendar-chip-group { align-items: flex-start; }
+.calendar-chip > span.calendar-chip-copy { display: grid; min-width: 0; }
+.calendar-chip-copy > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The facts wrap between facts, never inside one ("3 rooms ·" / "7:05 PM" in a narrow cell). */
+.calendar-chip-copy > small { font: 500 var(--text-caption)/1.4 var(--font-body); color: var(--muted); white-space: normal; }
+.calendar-chip-copy > small > span { white-space: nowrap; }
+/* The kind mark: a short 2 px rule in the kind's ink and style (solid, dashed or dotted), in the legend and in chips. */
+.calendar-dot { display: inline-block; flex: 0 0 auto; width: 0; height: 12px; border-inline-start: 2px var(--calendar-rule, solid) var(--calendar-color, var(--ink)); }
+.calendar-more { justify-self: start; padding: 0 var(--space-1) 0 0; border: 0; background: transparent; color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-align: left; text-transform: none; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.calendar-more:hover { color: var(--ink); }
+
+/* The day panel beside the month: the selected day's events (grouped), then Next up on campus today. A ruled column: the
+   2 px ink rule of a section over its date. */
+.calendar-day-agenda { min-width: 0; padding: var(--space-3) 0 0; background: transparent; border-top: 2px solid var(--ink); }
+.calendar-day-heading { padding-bottom: var(--space-3); border-bottom: 1px solid var(--line); }
+.calendar-day-heading h3 { margin: var(--space-1) 0 2px; color: var(--heading); font: var(--head-weight) var(--text-title)/1.1 var(--font-serif); letter-spacing: var(--tracking-title); }
+.calendar-day-heading > span:last-child { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+/* An event is a ruled row: its time, then kind, title and facts; the title turns ink on hover (outline-theme.css). */
+.calendar-event { width: 100%; display: flex; text-align: left; align-items: flex-start; gap: var(--space-4); padding: var(--space-3) var(--space-1); border: 0; border-bottom: 1px solid var(--nested-line); color: var(--ink); background: transparent; cursor: pointer; transition: background-color var(--snappy); }
+.calendar-event:hover { background: var(--surface-hover); }
+.calendar-event:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.calendar-event-time { flex: 0 0 120px; color: var(--ink); font: var(--head-weight) var(--text-lead)/1.35 var(--font-serif); font-variant-numeric: tabular-nums; }
+.calendar-event-time small { display: block; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.calendar-event-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.calendar-event-copy strong { color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); overflow-wrap: anywhere; transition: color var(--snappy); }
+.calendar-event-copy small { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); overflow-wrap: anywhere; }
+.calendar-kind { color: var(--calendar-color, var(--ink)); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.calendar-kind::before { content: ""; display: inline-block; width: 0; height: 10px; border-inline-start: 2px var(--calendar-rule, solid) currentColor; margin-right: var(--space-2); vertical-align: -1px; }
+.calendar-event-arrow { margin-left: auto; color: var(--label); font: 500 var(--text-section)/1 var(--font-body); transition: color var(--snappy), transform var(--snappy); }
+.calendar-event:hover .calendar-event-arrow { color: var(--ink); transform: translateX(2px); }
+.calendar-day-agenda .calendar-event { flex-wrap: wrap; gap: var(--space-1) var(--space-2); }
+.calendar-day-agenda .calendar-event-time { flex-basis: 100%; }
+.calendar-day-agenda .calendar-event-time small { display: inline; margin-left: 6px; }
+/* A group: one heading (kind, title, what it adds up to), then each of its events as a quieter sub-row. */
+.calendar-group { border-bottom: 1px solid var(--nested-line); padding-top: var(--space-3); }
+.calendar-group-head { display: grid; gap: 2px; padding: 0 var(--space-1) var(--space-2); }
+.calendar-group-head strong { color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); overflow-wrap: anywhere; }
+.calendar-group-head small { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); overflow-wrap: anywhere; }
+.calendar-subevent { padding: var(--space-2) var(--space-1) var(--space-2) var(--space-5); border-bottom: 1px solid var(--nested-line); }
+.calendar-subevent .calendar-event-time { font-size: var(--text-body); }
+.calendar-group .calendar-subevent:last-child { border-bottom: 0; }
+.calendar-empty { padding: var(--space-4) 0; font-size: var(--text-body); color: var(--muted); margin: 0; }
+.calendar-next-up { margin-top: var(--space-6); }
+/* An <h4> by structure, the section label by look: 12 px uppercase over a 2 px ink rule (two classes beat typography.css). */
+.calendar-next-up .calendar-next-title { margin: 0; padding-top: var(--space-2); border-top: 2px solid var(--ink); color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.calendar-next-up ul { list-style: none; margin: 0; padding: 0; }
+.calendar-next { width: 100%; display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: var(--space-3); padding: var(--space-3) var(--space-1); text-align: left; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--nested-line); cursor: pointer; transition: background-color var(--snappy); }
+.calendar-next:hover { background: var(--surface-hover); }
+.calendar-next:hover strong { color: var(--ink); }
+.calendar-next:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.calendar-next-date { color: var(--ink); font: var(--head-weight) var(--text-lead)/1.25 var(--font-serif); font-variant-numeric: tabular-nums; }
+.calendar-next-date small, .calendar-next-copy small { display: block; color: var(--label); font: 500 var(--text-small)/1.45 var(--font-body); overflow-wrap: anywhere; }
+.calendar-next-date small { margin-top: 2px; font: 700 var(--text-caption)/1.45 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.calendar-next-copy strong { display: block; color: var(--heading); font: var(--head-weight) 15px/1.2 var(--font-serif); letter-spacing: var(--tracking-title); overflow-wrap: anywhere; transition: color var(--snappy); }
+.calendar-day-add { margin-top: var(--space-4); }
+
+/* The agenda: days on the page, divided by hairlines; each opens on its date (weekday label, heading-weight numeral, month). */
+.calendar-agenda { padding: 0; border: 0; background: transparent; }
+/* No box when a month has no events (components.css draws the empty state as a ruled block under the toolbar's rule). */
+.calendar-agenda > .empty-state { border-width: 0; }
+.calendar-agenda-day { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: var(--space-6); padding: var(--space-2) 0 var(--space-4); }
+.calendar-agenda-day + .calendar-agenda-day { padding-top: var(--space-4); border-top: 1px solid var(--line); }
+.calendar-agenda-day h3 { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; margin: 0; padding: var(--space-2) 0; }
+.calendar-agenda-day h3 span, .calendar-agenda-day h3 small { color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.calendar-agenda-day h3 strong { color: var(--heading); font: var(--head-weight) var(--text-count)/1 var(--font-serif); letter-spacing: var(--tracking-title); font-variant-numeric: tabular-nums; }
+.calendar-agenda-day .calendar-event:last-child, .calendar-agenda-day .calendar-group:last-child { border-bottom: 0; }
+
+.calendar-form-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+#calendar-event-form .field { margin-bottom: var(--space-4); min-width: 0; }
+#calendar-event-form .checkbox-field { margin-bottom: var(--space-4); }
+.calendar-event-detail .calendar-detail-date { margin-bottom: var(--space-3); color: var(--heading); font: var(--head-weight) var(--text-title)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.calendar-detail-zone { color: var(--label); font: 500 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; }
+.calendar-event-detail .course-facts:empty { display: none; }
+.calendar-event-detail .course-facts { margin: var(--space-6) 0; }
+/* Each value sits under its label (not the browser's 40 px dd indent); the facts are spaced apart as groups. */
+.calendar-event-detail .course-facts dd { margin: 0; }
+.calendar-event-detail .course-facts > div + div { margin-top: var(--space-3); }
+.calendar-notes { white-space: pre-wrap; overflow-wrap: anywhere; border-top: 1px solid var(--line); padding-top: var(--space-4); margin-top: var(--space-5); color: var(--text); font-size: var(--text-body); line-height: 1.6; }
+@media (forced-colors: active) {
+  .calendar-chip, .calendar-dot, .calendar-day-number[aria-current="date"] { border-color: CanvasText; }
+  .calendar-day.calendar-selected { outline: 2px solid Highlight; outline-offset: -2px; }
+}
+/* A laptop window leaves the month too little room beside the day panel: the panel moves under the month. */
+@media (max-width: 1250px) {
+  .calendar-month-layout { grid-template-columns: minmax(0, 1fr); }
+  .calendar-day-agenda .calendar-event { flex-wrap: nowrap; gap: var(--space-4); }
+  .calendar-day-agenda .calendar-event-time { flex-basis: 120px; }
+  .calendar-day-agenda .calendar-event-time small { display: block; margin-left: 0; }
+}

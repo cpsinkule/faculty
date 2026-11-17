@@ -1,0 +1,24 @@
+# The memory sandbox's own venv (CPU only), under /mnt/nvme/Teaching/runtime/memory-sandbox. Never Faculty's venv.
+# `fetch --download` installs these and freezes the result to requirements.lock.
+torch
+sentence-transformers
+transformers
+huggingface_hub
+numpy
+psutil
+# EmbeddingGemma 2's processor imports these even for a text-only load.
+pillow
+torchvision
+# Jev-Mem at its pinned commit (its requirements.txt; upstream bounds are lower-only).
+networkx>=3.0
+scipy>=1.10.0
+scikit-learn>=1.3.0
+faiss-cpu>=1.7.4
+openai>=1.0.0
+tiktoken>=0.5.0
+typesafe-sdk>=0.7,<1
+python-dotenv>=1.0.0
+tqdm>=4.65.0
+python-dateutil>=2.8.0
+httpx>=0.27,<1
+pytest>=7,<10

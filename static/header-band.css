@@ -1,0 +1,265 @@
+/* The header band (DESIGN-LANGUAGE §5, Ledger): white under a 2px ink rule, from the rail's edge to the window's. First line:
+   the trail, the clock and the Assistant; second line: the page title, the needs-you chip and the label. ledger.css states
+   the band's components (the Assistant's frame, the chip). The Magazine edition's photograph plates, grain, printed title and
+   sidebar arc are removed (2026-10-04); the class names stay because the shell and its checks name them. */
+.page-plate {
+  position: relative;
+  background: var(--header-background);
+  color: var(--ink);
+  border-bottom: var(--frame);
+}
+.plate-type {
+  /* The title's line: the title, then the needs-you chip (#page-status), then the label on the same baseline (row-reverse
+     keeps the markup's reading order for assistive technology: label, status, title). A long title shrinks from 28 to 22 px,
+     then wraps (two lines at most; page-title-fit.js). */
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 20px;
+  padding: 2px 28px 14px;
+  pointer-events: none;
+}
+.plate-type > .plate-label {
+  flex: 0 10 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.plate-type > #page-title {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.plate-label {
+  margin: 0;
+  color: var(--muted);
+  font: 700 11.5px/1.2 var(--font-body);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.plate-label:not(:has(> :not([hidden]))) {
+  visibility: hidden;
+}
+#page-title {
+  margin: 0;
+  max-width: 100%;
+  color: var(--ink);
+  font-family: var(--font-head);
+  font-size: var(--page-title-size, 28px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  outline: none;
+}
+.page-plate[data-title-wrap="true"] #page-title {
+  white-space: normal;
+  text-wrap: balance;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  padding-block: .06em;
+}
+/* The title takes focus after every navigation (app.js) so screen readers start there; it is not a control, so it draws
+   no ring. */
+#page-title:focus,
+#page-title:focus-visible {
+  outline: none;
+}
+
+/* The band's first line: the trail, the clock and the Assistant. */
+.page-plate > .topbar {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px 28px;
+  padding: 10px 28px 0;
+  color: var(--muted);
+  font: 500 13px/1.4 var(--font-body);
+}
+.page-plate > .topbar .breadcrumb {
+  min-width: 0;
+  color: var(--muted);
+  font: 500 13px/1.4 var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.page-plate > .topbar .breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.page-plate > .topbar .breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.page-plate > .topbar .breadcrumb li + li::before {
+  content: "/"; content: counter(decor, none) "/" / "";
+  color: var(--faint);
+  font-weight: 500;
+}
+.page-plate > .topbar .breadcrumb li > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  color: var(--muted);
+  text-decoration: none;
+}
+.page-plate > .topbar .breadcrumb li > a:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.page-plate > .topbar .breadcrumb [aria-current="page"] {
+  color: var(--ink);
+}
+.page-plate > .topbar .breadcrumb .icon {
+  display: none;
+}
+.page-plate > .topbar :focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.page-plate > .topbar .workspace-clock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  color: var(--muted);
+  font: 500 13px/1.4 var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+}
+.page-plate > .topbar .workspace-clock time {
+  white-space: nowrap;
+}
+.page-plate > .topbar .workspace-clock time + time::before {
+  content: "·"; content: counter(decor, none) "·" / "";
+  margin-right: 10px;
+  color: var(--faint);
+}
+.page-plate > .topbar #workspace-time {
+  color: var(--muted);
+}
+.page-plate > .topbar .assistant-launch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--ink);
+  font: 500 13px/1 var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  box-shadow: none;
+}
+.page-plate > .topbar .assistant-launch:hover,
+.page-plate > .topbar .assistant-launch[aria-expanded="true"] {
+  border-color: var(--ink);
+  background: transparent;
+  color: var(--ink);
+}
+.page-plate > .topbar .assistant-launch .icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* The row under the band: a lead that only describes the page on the left (a needs-you count is the chip on the title's
+   line, #page-status), the page's actions on the right. */
+.page-heading {
+  align-items: flex-end;
+}
+.page-heading-copy {
+  flex: 1 1 420px;
+  min-width: 0;
+  max-width: 720px;
+}
+.page-heading .page-subtitle {
+  max-width: 64ch;
+  color: var(--text);
+  font: var(--head-weight) 18px/1.35 var(--font-serif);
+  letter-spacing: 0;
+  text-wrap: pretty;
+}
+.page-subtitle-lead {
+  color: var(--accent);
+}
+.page-heading:has(> .page-heading-copy > .page-subtitle[hidden]):has(.page-heading-actions > .page-updated[hidden]) .page-heading-copy {
+  flex-basis: 0;
+}
+.page-heading[data-variant="hero"] {
+  padding-bottom: 20px;
+}
+.page-heading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 22px;
+}
+.page-heading-secondary {
+  display: contents;
+}
+.page-updated {
+  color: var(--muted);
+  font: 500 13px/1.4 var(--font-body);
+}
+/* A page with nothing under its plate (no subtitle, no actions) draws no empty row. */
+.page-heading:not(:has(.page-subtitle:not([hidden]), #primary-action:not([hidden]), .page-heading-secondary:not([hidden]), .page-updated:not([hidden]))) {
+  display: none;
+}
+
+
+/* Forced colours and print: the title is plain ink on paper. */
+@media (forced-colors: active) {
+  .page-plate {
+    height: auto;
+    background: Canvas;
+    color: CanvasText;
+  }
+  #page-title,
+  .plate-label {
+    color: CanvasText;
+  }
+  .page-plate > .topbar {
+    background: Canvas;
+    backdrop-filter: none;
+    border-bottom: 1px solid CanvasText;
+  }
+}
+@media print {
+  .page-plate {
+    height: auto;
+    background: none;
+    color: #000;
+  }
+  .page-plate > .topbar {
+    display: none;
+  }
+  .plate-type {
+    padding: 0 0 12px;
+  }
+  #page-title,
+  .plate-label {
+    color: #000;
+  }
+  #page-title {
+    font-size: 28px;
+    white-space: normal;
+  }
+}

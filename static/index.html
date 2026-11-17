@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1280" />
+    <meta name="theme-color" content="#f2ece1" />
+    <meta
+      name="description"
+      content="Your personal command center for teaching."
+    />
+    <title>Faculty · Teaching workspace</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/static/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/static/fonts/geist-mono-wght.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/static/fonts/fonts.css" media="screen" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/static/layout.css" />
+    <link rel="stylesheet" href="/static/course-pages.css" />
+    <link rel="stylesheet" href="/static/inbox.css" />
+    <link rel="stylesheet" href="/static/documents.css" />
+    <link rel="stylesheet" href="/static/scan-pages.css" />
+    <link rel="stylesheet" href="/static/accommodations.css" />
+    <link rel="stylesheet" href="/static/rooms.css" />
+    <link rel="stylesheet" href="/static/seating.css" />
+    <link rel="stylesheet" href="/static/response-cards.css" />
+    <link rel="stylesheet" href="/static/exams.css" />
+    <link rel="stylesheet" href="/static/design-tokens.css" media="screen" />
+    <link rel="stylesheet" href="/static/workspace-theme.css" media="screen" />
+    <link rel="stylesheet" href="/static/home.css" media="screen" />
+    <link rel="stylesheet" href="/static/seating-theme.css" media="screen" />
+    <link rel="stylesheet" href="/static/bubble-sheets.css" media="screen" />
+    <link rel="stylesheet" href="/static/calendar.css" media="screen" />
+    <link rel="stylesheet" href="/static/mail.css" media="screen" />
+    <link rel="stylesheet" href="/static/assistant.css" media="screen" />
+    <link rel="stylesheet" href="/static/assistant-area.css" media="screen" />
+    <link rel="stylesheet" href="/static/file-viewer.css" media="screen" />
+    <link rel="stylesheet" href="/static/assignment-templates.css" media="screen" />
+    <link rel="stylesheet" href="/static/document-batch.css" media="screen" />
+    <link rel="stylesheet" href="/static/vendor/katex/katex.min.css" />
+    <link rel="stylesheet" href="/static/grading.css" media="screen" />
+    <link rel="stylesheet" href="/static/grading-setup.css" media="screen" />
+    <link rel="stylesheet" href="/static/grading-bubble-key.css" media="screen" />
+    <link rel="stylesheet" href="/static/grading-gradescope.css" media="screen" />
+    <link rel="stylesheet" href="/static/grading-certification.css" media="screen" />
+    <link rel="stylesheet" href="/static/gradebook.css" media="screen" />
+    <link rel="stylesheet" href="/static/gradebook-setup.css" media="screen" />
+    <link rel="stylesheet" href="/static/canvas-content.css" media="screen" />
+    <link rel="stylesheet" href="/static/course-notes.css" media="screen" />
+    <link rel="stylesheet" href="/static/term-schedule.css" media="screen" />
+    <link rel="stylesheet" href="/static/class-schedule.css" media="screen" />
+    <link rel="stylesheet" href="/static/question-bank.css" media="screen" />
+    <link rel="stylesheet" href="/static/rubric-memories.css" media="screen" />
+    <link rel="stylesheet" href="/static/memory-settings.css" media="screen" />
+    <link rel="stylesheet" href="/static/recordings.css" media="screen" />
+    <link rel="stylesheet" href="/static/exam-day.css" media="screen" />
+    <link rel="stylesheet" href="/static/communications.css" media="screen" />
+    <link rel="stylesheet" href="/static/absences.css" media="screen" />
+    <link rel="stylesheet" href="/static/student-notes.css" media="screen" />
+    <link rel="stylesheet" href="/static/student-support.css" media="screen" />
+    <link rel="stylesheet" href="/static/quiz-drafts.css" media="screen" />
+    <link rel="stylesheet" href="/static/assignment-workspace.css" media="screen" />
+    <link rel="stylesheet" href="/static/workspace-navigation.css" />
+    <link rel="stylesheet" href="/static/header-band.css" />
+    <link rel="stylesheet" href="/static/components.css" media="screen" />
+    <link rel="stylesheet" href="/static/typography.css" media="screen" />
+    <link rel="stylesheet" href="/static/outline-theme.css" media="screen" />
+    <link rel="stylesheet" href="/static/button-theme.css" media="screen" />
+    <link rel="stylesheet" href="/static/icon-theme.css" media="screen" />
+    <link rel="stylesheet" href="/static/accent-theme.css" media="screen" />
+    <link rel="stylesheet" href="/static/form-theme.css" media="screen" />
+    <link rel="stylesheet" href="/static/scan-review.css" media="screen" />
+    <link rel="stylesheet" href="/static/ledger.css" media="screen" />
+    <script type="module" src="/static/header-clock.js"></script>
+    <script type="module" src="/static/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to workspace</a>
+    <aside class="sidebar" aria-label="Workspace navigation">
+      <a class="brand" href="#overview"
+        ><span>faculty<span class="brand-dot">.</span></span></a
+      >
+      <div class="sidebar-tools">
+        <button class="palette-trigger" type="button" data-action="palette" aria-keyshortcuts="Control+K Meta+K" aria-label="Search and go to"
+          ><span class="palette-trigger-label">Search and go to</span><kbd>Ctrl K</kbd></button
+        >
+      </div>
+      <p class="nav-label">TODAY</p>
+      <nav id="workspace-nav" aria-label="Pages">
+        <a class="nav-item active" href="#overview" data-view="overview" aria-label="Home"
+          >Home<span class="nav-health" id="nav-health" hidden
+            ><span class="sr-only">Workspace health needs a look</span></span
+        ></a>
+        <a class="nav-item" href="#calendar" data-view="calendar" aria-label="Calendar">Calendar</a>
+        <a class="nav-item" href="#mail" data-view="mail" aria-label="Mail">Mail</a>
+        <a class="nav-item" href="#follow-ups" data-view="follow-ups" aria-label="Student follow-up">Follow-up<span class="nav-badge" id="nav-badge-follow-ups" hidden></span></a>
+        <a class="nav-item" href="#recordings" data-view="recordings" aria-label="Recordings">Recordings<span class="nav-badge" id="nav-badge-recordings" hidden></span></a>
+        <span class="nav-section-label">Courses</span>
+        <a class="nav-item" href="#current-courses" data-view="current-courses" aria-label="Courses"
+          >Courses<span class="nav-count" data-nav-count="current-courses">0</span></a
+        >
+        <a class="nav-item" href="#canvas" data-view="canvas" aria-label="Canvas">Canvas</a>
+        <a class="nav-item" href="#accommodations" data-view="accommodations" aria-label="Accommodations">Accommodations</a>
+        <a class="nav-item" href="#absences" data-view="absences" aria-label="Absences"
+          >Absences<span class="nav-badge" id="nav-badge-absences" hidden></span></a>
+        <span class="nav-section-label">Assessments</span>
+        <a class="nav-item" href="#assignments" data-view="assignments" aria-label="Assignments"
+          >Assignments<span class="nav-badge" id="nav-badge-assignments" hidden></span></a>
+        <a class="nav-item" href="#seating" data-view="seating" aria-label="Seating charts"
+          >Seating charts<span class="nav-badge" id="nav-badge-seating" hidden></span><span
+            id="seating-count"
+            class="nav-count"
+            >0</span
+          ></a
+        >
+        <a class="nav-item" href="#response-cards" data-view="response-cards" aria-label="Response Cards"
+          >Response Cards<span class="nav-badge" id="nav-badge-response-cards" hidden></span></a>
+        <a class="nav-item" href="#inbox" data-view="inbox" aria-label="Teaching Inbox"
+          >Teaching Inbox<span class="nav-badge" id="nav-badge-inbox" hidden></span></a>        <span class="nav-section-label">Library</span>
+        <a class="nav-item" href="#rooms" data-view="rooms" aria-label="Rooms"
+          >Rooms<span
+            id="rooms-count"
+            class="nav-count"
+            >0</span
+          ></a
+        >
+      </nav>
+      <div class="sidebar-bottom">
+        <button class="nav-item" type="button" data-action="settings" aria-label="Workspace settings">
+          <span class="nav-text">Workspace settings</span>
+        </button>
+        <button class="server-status" type="button" popovertarget="status-pop" aria-haspopup="dialog" aria-expanded="false"
+          ><span class="connection-dot" aria-hidden="true"></span><span class="sr-only">System status: </span
+          ><span id="connection-label">Connecting to server…</span></button
+        >
+        <div id="status-pop" class="status-popover" popover role="dialog" aria-labelledby="status-pop-title">
+          <header class="status-head"><h2 id="status-pop-title">Workspace status</h2></header>
+          <div data-status-body><p class="loading-state">Reading the workspace…</p></div>
+        </div>
+      </div>
+    </aside>
+    <div class="page">
+      <div class="page-plate">
+        <header class="topbar">
+          <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb"
+            ><ol><li aria-current="page"><span data-icon="home"></span><span>Home</span></li></ol></nav
+          >
+          <div class="workspace-clock" role="group" aria-label="Current date and local time">
+            <time id="workspace-date"></time>
+            <time id="workspace-time" aria-live="off"></time>
+          </div>
+          <div class="assistant-launchers"><button class="icon-button" type="button" data-assistant-capture aria-label="Ask about an area" title="Ask about an area (hold Command, draw, release Command)"><span data-icon="area"></span></button>
+          <button class="assistant-launch" type="button" data-assistant-open aria-expanded="false" aria-controls="assistant-panel" aria-label="Assistant" title="Assistant (Ctrl/⌘ I)"
+            ><span data-icon="spark"></span><span class="assistant-launch-label">Assistant</span><span class="chip" data-tone="warning" data-assistant-badge hidden></span></button></div>
+        </header>
+        <div class="plate-type">
+          <p class="plate-label"><span id="today">YOUR TEACHING WORKSPACE</span><span class="page-context" id="page-context" hidden></span></p>
+          <p class="plate-status" id="page-status" hidden></p>
+          <h1 id="page-title" tabindex="-1">Your teaching day.</h1>
+        </div>
+      </div>
+      <main id="main" tabindex="-1">
+        <div id="connection-error" class="callout connection-error" data-tone="danger" role="alert" hidden>
+          Can’t reach your server. Your last loaded workspace is shown.
+          <button data-action="refresh">Try again</button>
+        </div>
+        <header class="page-heading" data-variant="hero">
+          <div class="page-heading-copy">
+            <p class="page-subtitle" id="page-subtitle">
+              Your courses, upcoming exams, and work that needs attention.
+            </p>
+          </div>
+          <div class="page-heading-actions">
+            <span class="page-updated" hidden></span>
+            <button id="primary-action" class="button primary" type="button" data-action="inbox-upload-scans">
+              <span data-icon="plus"></span>Upload scanned assignment
+            </button>
+            <div class="page-heading-secondary" hidden></div>
+          </div>
+        </header>
+        <div id="overview-content" class="home-dashboard"></div>
+        <section class="tools-section" aria-labelledby="tools-title" hidden>
+          <section class="stats" aria-label="Workspace summary">
+            <button class="stat" data-status="all">
+              <span class="stat-icon sage" data-icon="grid"></span
+              ><span
+                ><span class="stat-label">In your workspace</span
+                ><strong id="stat-total">—</strong></span
+              ><span class="stat-caption">tools & ideas</span></button
+            ><button class="stat" data-status="ready">
+              <span class="stat-icon blue" data-icon="arrow-up-right"></span
+              ><span
+                ><span class="stat-label">Ready to launch</span
+                ><strong id="stat-ready">—</strong></span
+              ><span class="stat-caption">connected tools</span></button
+            ><button class="stat" data-status="building">
+              <span class="stat-icon clay" data-icon="wrench"></span
+              ><span
+                ><span class="stat-label">Taking shape</span
+                ><strong id="stat-building">—</strong></span
+              ><span class="stat-caption">in development</span>
+            </button>
+          </section>
+          <div class="section-heading">
+            <div>
+              <h2 id="tools-title">
+                Your tools <span id="tool-count" class="count-badge">0</span>
+              </h2>
+              <p id="tools-description">A home for everything you build.</p>
+            </div>
+            <div class="search-box">
+              <span data-icon="search"></span
+              ><input
+                type="search"
+                id="search"
+                placeholder="Find a tool…"
+                aria-label="Find a tool"
+                autocomplete="off"
+              /><kbd>/</kbd>
+            </div>
+          </div>
+          <div class="tool-controls">
+            <div class="filter-tabs" aria-label="Filter tools by status">
+              <button
+                class="filter active"
+                data-status="all"
+                aria-pressed="true"
+              >
+                All tools</button
+              ><button class="filter" data-status="ready" aria-pressed="false">
+                <span class="status-dot ready"></span>Ready</button
+              ><button
+                class="filter"
+                data-status="building"
+                aria-pressed="false"
+              >
+                <span class="status-dot building"></span>Building</button
+              ><button
+                class="filter"
+                data-status="planned"
+                aria-pressed="false"
+              >
+                <span class="status-dot planned"></span>Planned
+              </button>
+            </div>
+            <label class="sort-control"
+              ><span class="sr-only">Sort tools</span
+              ><select id="sort">
+                <option value="pinned">Pinned first</option>
+                <option value="name">Name A–Z</option>
+                <option value="newest">Newest first</option></select
+              ><span data-icon="sort"></span
+            ></label>
+          </div>
+          <div id="tools-grid" class="tools-grid" aria-live="polite">
+            <p class="loading-state">Opening your workspace…</p>
+          </div>
+        </section>
+        <section id="courses-section" aria-labelledby="courses-title" hidden></section>
+        <section
+          id="course-detail"
+          aria-label="Course workspace"
+          hidden
+        ></section>
+        <section id="assignment-workspace" aria-label="Assignment workspace" hidden></section>
+        <section id="documents-section" aria-label="Assignments and printing" hidden></section>
+        <section id="accommodations-section" aria-label="Accommodations and DR exam bookings" hidden></section>
+        <section id="absences-section" aria-label="Excused absences" hidden></section>
+        <section id="memory-section" aria-label="Memory" hidden></section>
+        <section id="recordings-section" aria-label="Recordings" hidden></section>
+        <section id="teaching-review-section" aria-label="Teaching review and grade delivery" hidden></section>
+        <section id="student-support-section" aria-label="Student follow-up and office hours" hidden></section>
+        <section id="rooms-section" aria-label="Rooms and seating charts" hidden></section>
+        <section id="seating-section" aria-label="Exam seating charts" hidden></section>
+        <section id="response-cards-section" aria-label="Response Cards" hidden></section>
+        <section id="exams-section" aria-label="Exam workflow" hidden></section>
+        <section id="exam-day-section" aria-label="Exam-day packet" hidden></section>
+        <section id="grading-section" aria-label="Free-response grading" hidden></section>
+        <section id="gradebook-section" aria-label="Gradebook" hidden></section>
+        <section id="calendar-section" aria-label="Teaching calendar" hidden></section>
+        <section id="mail-section" aria-label="Mail" hidden></section>
+        <section id="canvas-section" aria-label="Canvas" hidden></section>
+        <section
+          id="inbox-section"
+          aria-label="Teaching Inbox workspace"
+          hidden
+        ></section>
+        <section class="workspace-tip">
+          <div class="tip-icon" data-icon="network"></div>
+          <div>
+            <h3>Your home base. Wherever you teach.</h3>
+            <p>
+              Run it at home, reach it through Tailscale, and keep your
+              workspace close.
+            </p>
+          </div>
+          <button class="text-button" data-action="guide">
+            Connection guide<span data-icon="arrow-up-right"></span>
+          </button>
+        </section>
+      </main>
+    </div>
+    <dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+    <div class="toast toast-stack" id="toast" role="status" aria-live="polite" hidden></div>
+    <noscript
+      ><div class="noscript">
+        Enable JavaScript to use your teaching workspace.
+      </div></noscript
+    >
+  </body>
+</html>

@@ -1,0 +1,74 @@
+/* The print-job dialog (UX overhaul W2-DOCS, 2026-09-26; DESIGN-LANGUAGE, 2026-10-03): theme tokens, flat sections on
+   hairlines, small uppercase sans labels, heading-face headlines. PDF geometry and printed identities are unchanged; this sheet
+   only lays out the dialog. Screen only. */
+#document-batch-detail { display: grid; gap: var(--space-5); min-width: 0; }
+#document-batch-detail p { margin: 0; }
+#document-batch-detail :is(a, button, span, strong, p) { overflow-wrap: anywhere; }
+.document-batch-context { display: flex; align-items: start; justify-content: space-between; gap: var(--space-3); }
+.document-batch-context > div { min-width: 0; }
+#document-batch-detail .document-batch-context p { margin-top: var(--space-2); font-size: var(--text-small); color: var(--text); }
+#document-batch-detail .document-batch-context p + p { margin-top: var(--space-1); }
+.document-batch-context > button { flex-shrink: 0; margin-top: 3px; font-size: var(--text-small); }
+/* The header's state is the shared chip (components.css .chip); it only keeps its line position here. */
+#document-batch-detail .document-batch-status { display: inline-flex; vertical-align: middle; }
+
+/* Print this batch: settings, the one primary file, exports and the manifest. One flat section below a hairline: the
+   dialog is the frame, so no tinted box inside it. The folded records after it bring their own rule, so it draws none
+   below (two rules 14 px apart read as a double line). */
+:root:root #document-batch-detail .document-batch-print {
+  padding: var(--space-5) 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.document-batch-print h3 { margin: 0 0 var(--space-3); font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); color: var(--heading); }
+.document-batch-registration h3 { margin-bottom: var(--space-2); }
+#document-batch-detail .document-batch-registration > p { color: var(--text); font-size: var(--text-small); line-height: 1.6; }
+/* Paper, sides and count: small uppercase labels in ink. */
+.document-batch-print-settings { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-5); color: var(--ink); font: 700 12px/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+#document-batch-detail .document-batch-print .supporting-copy { margin-top: var(--space-2); color: var(--text); font-size: var(--text-small); line-height: 1.6; }
+#document-batch-detail .print-files { margin-top: var(--space-4); }
+#document-batch-detail .print-files-primary { flex: 1 1 100%; justify-content: center; }
+.document-batch-exports { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+.document-batch-exports > .button { flex: 1 1 150px; justify-content: center; }
+/* A text button (button-theme.css) on its own line under the exports. */
+.document-batch-manifest { display: inline-flex; margin-top: var(--space-3); font-size: var(--text-small); }
+#document-batch-detail .document-layout-description { margin: var(--space-4) 0 0; padding-top: var(--space-3); border-top: 1px solid var(--line); color: var(--text); font-size: var(--text-small); line-height: 1.6; }
+
+/* Came back in scans: how many copies a scan has shown, and who is not seen yet. */
+.document-batch-scanned { display: grid; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--line); color: var(--text); font-size: var(--text-control); }
+.document-batch-scanned > p a { margin-inline-start: 2px; }
+
+.document-batch-seating { font-size: var(--text-small); color: var(--text); }
+.document-batch-seating > a { margin-inline-start: var(--space-2); }
+.document-batch-seat-note { color: var(--text); font-size: var(--text-small); }
+
+/* Copy assignments, audit history and whole-room files: folded records, in the shared details.disclosure (+/−). */
+#document-batch-detail > .document-batch-disclosure, #document-room-export { margin-block: -6px 0; }
+#document-room-export > .document-batch-disclosure { margin: 0; }
+#document-batch-detail .document-batch-disclosure-body .supporting-copy { font-size: var(--text-small); line-height: 1.6; }
+#document-batch-detail .document-batch-disclosure-body > * + * { margin-top: var(--space-3); }
+/* The records' hairlines run the list's full width like the disclosure's own; the scrollbar gap is each row's inset. */
+.document-batch-records { list-style: none; padding: 0; margin: 0; max-height: 300px; overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid var(--line); }
+.document-batch-records > li { padding: 11px var(--space-2) 11px 0; border-bottom: 1px solid var(--nested-line); color: var(--text); font-size: var(--text-small); }
+.document-batch-records > li:last-child { border-bottom: 0; }
+.document-batch-records :is(span, strong) { display: block; }
+.document-batch-records strong { color: var(--ink); }
+.document-batch-records span { color: var(--muted); margin-top: 3px; }
+.document-batch-copies > li { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.document-batch-copies > li > div { min-width: 0; }
+.document-batch-copies button { flex-shrink: 0; font-size: var(--text-small); }
+.document-batch-student { color: var(--ink); }
+/* Events read the same in the summary and in All N events: the event name in regular ink (names of people stay semibold). */
+:is(.document-batch-events, .document-batch-all-events) strong { color: var(--ink); font-weight: 500; }
+.document-batch-all-events { margin-top: var(--space-3); }
+
+/* The job's actions: Print more copies, and the ⋯ menu (Cancel, seat numbers, Supersede). */
+#document-batch-detail .document-batch-controls { align-items: center; margin: 0; padding-top: var(--space-4); border-top: 1px solid var(--line); gap: var(--space-3) var(--space-4); }
+.document-batch-controls .action-menu { margin-inline-start: auto; }
+#document-reprint .document-reprint-choices { display: grid; gap: var(--space-2); margin: var(--space-4) 0 0; padding: 0; border: 0; }
+/* The legend reads like a field's label (form-theme.css). */
+#document-reprint .document-reprint-choices legend { margin-bottom: var(--space-1); }
+#document-reprint .document-reprint-quantity { margin: var(--space-1) 0 0 var(--space-6); max-width: 220px; }
+#document-reprint .form-error:empty, #document-supersede .form-error:empty { display: none; }
+#document-supersede .dialog-body > * + * { margin-top: var(--space-3); }
+

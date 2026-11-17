@@ -1,0 +1,19 @@
+/* Student notes (student-notes.js): the Notes part of a student's card (the roster's student window, the gradebook's record) and the
+   palette's "Write a note about a student" dialog. DESIGN-LANGUAGE (Ledger): each note is a row on a hairline,
+   its date beside it, its actions as text actions at the right; never a box or a rule at its side. */
+.student-notes { display: grid; gap: var(--space-2); justify-items: start; }
+.student-notes > * { max-width: 100%; }
+.student-notes .student-note-list { display: grid; gap: 0; width: 100%; margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--nested-line); }  /* beats .student-quick-view ul */
+.student-note { display: grid; gap: var(--space-1); padding: var(--space-2) 0 var(--space-3); border-top: 1px solid var(--nested-line); }
+.student-note-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); }
+.student-note-date { color: var(--heading); font: var(--head-weight) var(--text-lead)/1.3 var(--font-serif); font-variant-numeric: tabular-nums; }
+.student-note-edited { color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.student-note-actions { display: inline-flex; gap: var(--space-4); margin-left: auto; }
+.student-note-text { margin: 0; color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+.student-note-undo { margin: 0; color: var(--muted); }
+.student-note-editor { display: grid; gap: var(--space-2); width: 100%; }
+.student-note-editor .field { margin: 0; }
+.student-note-editor .field input[type="date"] { max-width: 12rem; }
+.student-note-editor-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: var(--space-2) var(--space-4); }
+.student-note-form .dialog-body { display: grid; gap: var(--space-3); }
+.student-note-form .field { margin: 0; }

@@ -1,0 +1,103 @@
+/* The Recordings page (recordings.js, #recordings; RECORDINGS, step 1). Ledger (DESIGN-LANGUAGE): a group is a heading over a 2px
+   ink rule, a recording is a row on a hairline with its controls at the right (one framed step where it waits for Keep, the rest
+   words). Orange only where a recording waits for Keep or Don't keep or the sign-in needs the instructor. Tokens only; desktop only. */
+.recordings-page { display: grid; gap: var(--space-6); max-width: 1120px; }
+.recording-status { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-6); }
+.recording-capture { max-width: 78ch; margin: 0; color: var(--muted); font-size: var(--text-small); }
+.recording-capture[data-tone="warning"] { padding: var(--space-1) var(--space-2); background: var(--needs-fill); color: var(--needs-ink); font-weight: 600; }
+.recording-groups { display: grid; gap: var(--space-8); min-width: 0; }
+.recording-group { display: grid; gap: var(--space-3); min-width: 0; }
+.recording-head { display: flex; align-items: center; gap: var(--space-2); margin: 0; font-size: var(--text-section); line-height: 1.15;
+  letter-spacing: var(--tracking-title); }
+.recording-count { color: var(--muted); font: 700 var(--text-small)/1 var(--font-num); font-variant-numeric: tabular-nums; }
+.recording-list { display: grid; margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--ink); }
+.recording-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-6); row-gap: var(--space-1);
+  padding: var(--space-3) 0; border-bottom: 1px solid var(--nested-line); }
+.recording-row > * { grid-column: 1; min-width: 0; }
+.recording-row > .recording-controls { grid-column: 2; grid-row: 1 / span 3; align-self: start; display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: flex-end; gap: var(--space-2) var(--space-4); }
+.recording-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-4); margin: 0; color: var(--ink);
+  font-size: var(--text-body); font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.recording-when { color: var(--muted); font-size: var(--text-small); font-weight: 500; font-variant-numeric: tabular-nums; }
+.recording-facts { max-width: 78ch; margin: 0; color: var(--muted); font-size: var(--text-small); overflow-wrap: anywhere; }
+/* How many recordings are not kept (their number is all Faculty holds of them), with the way to be asked about them again. */
+.recording-not-kept { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); }
+.recording-file-form .field { margin-bottom: var(--space-3); }
+/* Step 2. A kept recording's name opens its page; a search of what was said lists lines above the groups. */
+.recording-open { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+.recording-search { max-width: 34rem; margin: 0; }
+.recording-hit { display: grid; gap: var(--space-1); padding: var(--space-3) 0; border-bottom: 1px solid var(--nested-line); }
+.recording-hit > .recording-open { justify-self: start; font-weight: 600; }
+.recording-hit-text { max-width: 78ch; margin: 0; overflow-wrap: anywhere; }
+.recording-hit-text .recording-line-speaker { margin-right: var(--space-2); }
+.recordings-page mark, .recording-page mark { padding: 0 0.1em; background: var(--line); color: var(--ink); }
+/* One recording (recording-page.js): the player and its tools stay put, the transcript scrolls in its own region beneath them. */
+.recording-page { display: grid; gap: var(--space-4); max-width: 1120px; min-width: 0; }
+.recording-player audio { display: block; width: 100%; }
+.recording-tools { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-2) var(--space-6); margin-top: var(--space-3); }
+.recording-speakers { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-4); min-width: 0; }
+.recording-speakers-label { color: var(--muted); font-size: var(--text-small); }
+.recording-find { flex: 0 1 22rem; margin: 0; }
+.recording-tools > .recording-facts { flex-basis: 100%; min-height: 1.4em; }
+.recording-transcript { max-height: calc(100vh - 400px); overflow: auto; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); }
+.recording-transcript > .recording-facts { padding: var(--space-3) 0; }
+.recording-lines, .recording-outline { display: grid; margin: 0; padding: 0; list-style: none; }
+.recording-line { display: grid; grid-template-columns: 4.5rem 9rem minmax(0, 1fr); column-gap: var(--space-3); align-items: baseline;
+  padding: var(--space-1) var(--space-2) var(--space-1) 0; border-left: 3px solid transparent; }
+.recording-line[aria-current="true"] { border-left-color: var(--ink); background: var(--line); }
+.recording-line-time { padding: 0 var(--space-2); border: 0; background: none; color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-num);
+  font-variant-numeric: tabular-nums; text-align: left; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; cursor: pointer; }
+.recording-line-time:hover, .recording-line-time:focus-visible { color: var(--ink); }
+.recording-line-speaker { color: var(--ink); font-size: var(--text-small); font-weight: 600; overflow-wrap: anywhere; }
+.recording-line-text { max-width: 78ch; margin: 0; overflow-wrap: anywhere; }
+.recording-outline li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); column-gap: var(--space-3); align-items: baseline; padding: var(--space-1) 0; }
+.recording-note-tab { margin: var(--space-4) 0 var(--space-1); font-size: var(--text-body); }
+.recording-note { max-width: 78ch; white-space: pre-wrap; overflow-wrap: anywhere; font-size: var(--text-small); }
+/* Step 3. What came out of a recording (recording-items.js): the same ledger. An item is a row: one sentence, its quote with the
+   control that plays it, what Faculty found, its controls at the right. Orange only on the count of what needs the instructor. */
+.recording-outcome { display: grid; gap: var(--space-6); min-width: 0; }
+.recording-outcome:empty { display: none; }
+.recording-reading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-6); }
+.recording-reading .recording-controls, .recording-item .recording-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--space-2) var(--space-4); }
+.recording-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-6); row-gap: var(--space-1);
+  padding: var(--space-3) 0; border-bottom: 1px solid var(--nested-line); }
+.recording-item > * { grid-column: 1; min-width: 0; }
+.recording-item > .recording-controls { grid-column: 2; grid-row: 1 / span 3; align-self: start; }
+.recording-item-sentence { max-width: 78ch; margin: 0; color: var(--ink); font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.recording-item-tags { display: flex; flex-wrap: wrap; gap: 0 var(--space-3); margin: 0; color: var(--muted); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+.recording-item-tags span + span::before { content: "·"; margin-right: var(--space-3); }
+.recording-item-quote { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-2); max-width: 78ch; margin: 0; color: var(--muted); font-size: var(--text-small); overflow-wrap: anywhere; }
+.recording-item-quote .recording-line-time { padding-left: 0; }
+.recording-item-quote q { quotes: "“" "”"; }
+.recording-item-found { max-width: 78ch; margin: 0; font-size: var(--text-small); overflow-wrap: anywhere; }
+.recording-item-found[data-state="done"], .recording-item-found[data-state="info"], .recording-item-found[data-state="agrees"] { color: var(--muted); }
+.recording-item-card { max-width: 78ch; margin-top: var(--space-2); }
+.recording-item[data-group="done"] .recording-item-sentence { color: var(--muted); font-weight: 500; }
+.recording-fold .recording-list { margin-top: var(--space-2); border-top-width: 1px; border-top-color: var(--line); }
+.recording-transcript-fold > summary { margin-bottom: var(--space-2); }
+
+/* A STUDENT'S MEETING (step 4): who it was with, their two cards, and the students-and-parts editor. Orange only on an
+   appointment recorded as one that did not happen (.recording-capture[data-tone="warning"], as elsewhere on the page). */
+.recording-students { display: grid; gap: var(--space-4); max-width: 78ch; }
+.recording-student { display: grid; gap: var(--space-2); }
+.recording-student > .recording-controls { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+.recording-card-lines { display: grid; gap: var(--space-1); margin: var(--space-2) 0 0; padding: 0; list-style: none; }
+.recording-card-lines .recording-count:first-child { display: inline-block; min-width: 4.5rem; }
+.recording-card-text { max-height: 16rem; margin: var(--space-2) 0 0; overflow: auto; white-space: pre-wrap; }
+.recording-parts { display: grid; gap: var(--space-2); margin: var(--space-2) 0; padding: 0; list-style: none; }
+.recording-part { display: grid; grid-template-columns: minmax(12rem, 1fr) 6rem 6rem auto auto; align-items: end; gap: var(--space-2); }
+
+/* A CLASS (step 5): what the class reached beside what was planned for that section's day. Orange only on a planned section
+   that was not reached (.recording-capture[data-tone="warning"], as elsewhere on the page) and on its waiting card. */
+.recording-class { display: grid; gap: var(--space-2); max-width: 78ch; }
+.recording-class-rows { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: var(--space-1) var(--space-3); margin: 0; }
+.recording-class-rows dt { color: var(--label); font: 700 var(--text-caption)/1.6 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.recording-class-rows dd { margin: 0; overflow-wrap: anywhere; }
+.recording-class > .recording-controls { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+.recording-class .recording-card-lines .recording-count:first-child { min-width: 6.5rem; }
+/* Step 6. A memo's request: how the Assistant's run of it stands, its answer as plain text, and its cards (the Assistant's
+   own). The course Home's Training recordings line sits as its Lecture notes line does. */
+.recording-ask { display: grid; gap: var(--space-2); max-width: 78ch; }
+.recording-ask-answer { max-height: 16rem; overflow: auto; font-size: var(--text-small); white-space: pre-wrap; overflow-wrap: anywhere; }
+.course-trainings-link { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); margin-top: var(--space-2); }
+.course-trainings-status { color: var(--muted); font-size: var(--text-small); }

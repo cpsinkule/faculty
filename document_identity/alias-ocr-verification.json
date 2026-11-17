@@ -1,0 +1,430 @@
+{
+  "verified_at": "2026-09-14T01:55:12.843338+00:00",
+  "model_id": "zai-org/GLM-OCR",
+  "revision": "2e85a62840ccac27daa451df36c736c4636b8628",
+  "source_message_id": "33bd2e30-51f6-446d-9eae-c890186482e6",
+  "source_sha256": "7fbb4b5bfdafaad80d7b5e4c219d54d1d2c6afcfe2a5d9d7e6166e1ff8abad5c",
+  "initial_label_reads": [
+    {
+      "sheet": 4,
+      "corner": "top-right",
+      "text": "A1-V2YVHW36HG",
+      "expected": "A1-V2YVHW36HG",
+      "exact_match": true,
+      "valid_alias": true,
+      "truncated": false,
+      "seconds": 2.244
+    },
+    {
+      "sheet": 4,
+      "corner": "bottom-left",
+      "text": "A1-V2YVHW36HG",
+      "expected": "A1-V2YVHW36HG",
+      "exact_match": true,
+      "valid_alias": true,
+      "truncated": false,
+      "seconds": 2.211
+    },
+    {
+      "sheet": 5,
+      "corner": "top-right",
+      "text": "A1-MNY6T02XDA",
+      "expected": "A1-MNY6T02XDA",
+      "exact_match": true,
+      "valid_alias": true,
+      "truncated": false,
+      "seconds": 2.199
+    },
+    {
+      "sheet": 5,
+      "corner": "bottom-left",
+      "text": "A1-MNY6T02XDA",
+      "expected": "A1-MNY6T02XDA",
+      "exact_match": true,
+      "valid_alias": true,
+      "truncated": false,
+      "seconds": 2.138
+    },
+    {
+      "sheet": 17,
+      "corner": "top-right",
+      "text": "A1-NJNFSGKR1N",
+      "expected": "A1-NJNFSGKR1N",
+      "exact_match": true,
+      "valid_alias": true,
+      "truncated": false,
+      "seconds": 2.088
+    },
+    {
+      "sheet": 17,
+      "corner": "bottom-left",
+      "text": "A1-NJNFSGKR1N",
+      "expected": "A1-NJNFSGKR1N",
+      "exact_match": true,
+      "valid_alias": true,
+      "truncated": false,
+      "seconds": 2.163
+    }
+  ],
+  "retained_page_checks": [
+    {
+      "sheet": 4,
+      "exact_match": true,
+      "source_sha256": "abef0fb2229df2591b75b6ac0e945a3f90f21aba54f1fac6a4c2757554a62f54",
+      "crop_profile": "faculty-corner-alias-v1",
+      "reads": [
+        {
+          "corner": "top-right",
+          "rotation": 0,
+          "text": "A1-V2YVHW36HG",
+          "truncated": false,
+          "image_sha256": "40aeb1cf5f7b89cae98c88d781eb054f59aed569da8d397259d3c38e74ae4fdc"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 0,
+          "text": "A1-V2YVHW36HG",
+          "truncated": false,
+          "image_sha256": "1a4a40d726fe570c93eddb5e023eb0c6e27f742fcb76cc5680cb3a3f873dd8fd"
+        },
+        {
+          "corner": "top-right",
+          "rotation": 90,
+          "text": "```markdown\n\n```",
+          "truncated": false,
+          "image_sha256": "6fd58e42a1de5bb0331058e688547e21152f4ee046e85e38ceb0fe1ee7e30c5a"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 90,
+          "text": "---",
+          "truncated": false,
+          "image_sha256": "cf41f59cac1f92123c62ee5397ce81a9cb59b3b30a6f4324a5b56b025329c399"
+        },
+        {
+          "corner": "top-right",
+          "rotation": 180,
+          "text": "---",
+          "truncated": false,
+          "image_sha256": "e4fc9dcdd794c5567928ed2925b05e0af56e8e4950857848a29d41ad1f37a46a"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 180,
+          "text": "---",
+          "truncated": false,
+          "image_sha256": "04ec18ae08a74804a1d5d8f0a5540b250245bd6efedc729bd6e39989f0c6d6ed"
+        },
+        {
+          "corner": "top-right",
+          "rotation": 270,
+          "text": "7.",
+          "truncated": false,
+          "image_sha256": "9a52a505dd7988c21d4fb542d3c42563a4aa47f87c209f476a92e36d40673fcf"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 270,
+          "text": "```markdown\n\n```",
+          "truncated": false,
+          "image_sha256": "480ca9a425fcb2220ace539b6f0030a175b1fc5737ab7f216e052d4500d52cd3"
+        }
+      ],
+      "seconds": 2.727,
+      "peak_gpu_allocated_bytes": 2303600128
+    },
+    {
+      "sheet": 5,
+      "exact_match": true,
+      "source_sha256": "36aefe44f9860abb21a3025354b3f7ab6cf8fd9b8eb480aa428236fbbf935da7",
+      "crop_profile": "faculty-corner-alias-v1",
+      "reads": [
+        {
+          "corner": "top-right",
+          "rotation": 0,
+          "text": "A1-MNY6T02XDA",
+          "truncated": false,
+          "image_sha256": "4d8ccc54fc435cd9b9f3e6ed9940306d90fe4f1281ee9077235160e40f60692a"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 0,
+          "text": "A1-MNY6T02XDA",
+          "truncated": false,
+          "image_sha256": "2b6cccbf3358cc410a9bca97f8bc74b33248838f88fd80ebf588a42aaac07212"
+        },
+        {
+          "corner": "top-right",
+          "rotation": 90,
+          "text": "```markdown\n\n```",
+          "truncated": false,
+          "image_sha256": "6fd58e42a1de5bb0331058e688547e21152f4ee046e85e38ceb0fe1ee7e30c5a"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 90,
+          "text": "---",
+          "truncated": false,
+          "image_sha256": "cf41f59cac1f92123c62ee5397ce81a9cb59b3b30a6f4324a5b56b025329c399"
+        },
+        {
+          "corner": "top-right",
+          "rotation": 180,
+          "text": "```markdown\n\n```",
+          "truncated": false,
+          "image_sha256": "684649008d4199c78fbd1998b5dda53c5738e36dce7fa8d12bba1b82b03ccb02"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 180,
+          "text": "---",
+          "truncated": false,
+          "image_sha256": "298e82e7988033880babde0fcc5fff3dc02148e217e22ae839a37c0109ee5350"
+        },
+        {
+          "corner": "top-right",
+          "rotation": 270,
+          "text": "2",
+          "truncated": false,
+          "image_sha256": "8bd942c512d56804a3de8288045b35ef0eb1d706daadd971ec3c29730fdab754"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 270,
+          "text": "```markdown\n\n```",
+          "truncated": false,
+          "image_sha256": "480ca9a425fcb2220ace539b6f0030a175b1fc5737ab7f216e052d4500d52cd3"
+        }
+      ],
+      "seconds": 2.838,
+      "peak_gpu_allocated_bytes": 2303600128
+    },
+    {
+      "sheet": 17,
+      "exact_match": true,
+      "source_sha256": "0332dec39656311e21bd575e5a0b3060e2b1d41d9e281865779828d9680f8313",
+      "crop_profile": "faculty-corner-alias-v1",
+      "reads": [
+        {
+          "corner": "top-right",
+          "rotation": 0,
+          "text": "A1-NJNFSGKR1N",
+          "truncated": false,
+          "image_sha256": "d17052b1112e7c396bd749c0514942c96a666dd3d04295180ef421d4d72652cb"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 0,
+          "text": "A1-NJNFSGKR1N",
+          "truncated": false,
+          "image_sha256": "1de17a3d6b570c8010bcf8b6df58ee8af9c41c8fde30c0a71f8473a0c02708c4"
+        },
+        {
+          "corner": "top-right",
+          "rotation": 90,
+          "text": "```markdown\n\n```",
+          "truncated": false,
+          "image_sha256": "6fd58e42a1de5bb0331058e688547e21152f4ee046e85e38ceb0fe1ee7e30c5a"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 90,
+          "text": "```markdown\n\n```",
+          "truncated": false,
+          "image_sha256": "480ca9a425fcb2220ace539b6f0030a175b1fc5737ab7f216e052d4500d52cd3"
+        },
+        {
+          "corner": "top-right",
+          "rotation": 180,
+          "text": "---",
+          "truncated": false,
+          "image_sha256": "ae446376842bc6041c73274697dd6616b9449b3a478c69321f11ce128f4e5b67"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 180,
+          "text": "#",
+          "truncated": false,
+          "image_sha256": "c32d4001dcd501d7829106e6669dc92f5fad697512cb86de4fa16a2858418a87"
+        },
+        {
+          "corner": "top-right",
+          "rotation": 270,
+          "text": "2.",
+          "truncated": false,
+          "image_sha256": "6970edb49b9846acec39172924721500bcea99dbbd89ef61e1affe5fa3529168"
+        },
+        {
+          "corner": "bottom-left",
+          "rotation": 270,
+          "text": "```markdown\n\n```",
+          "truncated": false,
+          "image_sha256": "480ca9a425fcb2220ace539b6f0030a175b1fc5737ab7f216e052d4500d52cd3"
+        }
+      ],
+      "seconds": 2.825,
+      "peak_gpu_allocated_bytes": 2303600128
+    }
+  ],
+  "simulated_both_codes_masked": [
+    {
+      "sheet": 4,
+      "rotation": 0,
+      "barcodes_detected": 0,
+      "exact_match": true,
+      "source_sha256": "abef0fb2229df2591b75b6ac0e945a3f90f21aba54f1fac6a4c2757554a62f54",
+      "masked_pdf_sha256": "822a4a2d002629b3eda0157cedb675fc2a6aa68c83d68031b7c19245f21d0d12",
+      "seconds": 2.913,
+      "recognized_aliases": [
+        "A1-V2YVHW36HG"
+      ]
+    },
+    {
+      "sheet": 4,
+      "rotation": 90,
+      "barcodes_detected": 0,
+      "exact_match": true,
+      "source_sha256": "abef0fb2229df2591b75b6ac0e945a3f90f21aba54f1fac6a4c2757554a62f54",
+      "masked_pdf_sha256": "3968fc580ff97ed2a4e30c5262f772b21c1445fb5be179304fc19f9f209d0353",
+      "seconds": 2.996,
+      "recognized_aliases": [
+        "A1-V2YVHW36HG"
+      ]
+    },
+    {
+      "sheet": 4,
+      "rotation": 180,
+      "barcodes_detected": 0,
+      "exact_match": true,
+      "source_sha256": "abef0fb2229df2591b75b6ac0e945a3f90f21aba54f1fac6a4c2757554a62f54",
+      "masked_pdf_sha256": "5f6c882a6b1e3f7df3e6fbda13bfd3681489fc45013b5abc37708a612dc9d914",
+      "seconds": 2.857,
+      "recognized_aliases": [
+        "A1-V2YVHW36HG"
+      ]
+    },
+    {
+      "sheet": 4,
+      "rotation": 270,
+      "barcodes_detected": 0,
+      "exact_match": true,
+      "source_sha256": "abef0fb2229df2591b75b6ac0e945a3f90f21aba54f1fac6a4c2757554a62f54",
+      "masked_pdf_sha256": "0710e69a5786fe0868bcfa649fc7f743373356f674e25855096d034a6e89bf43",
+      "seconds": 2.871,
+      "recognized_aliases": [
+        "A1-V2YVHW36HG"
+      ]
+    },
+    {
+      "sheet": 5,
+      "rotation": 0,
+      "barcodes_detected": 0,
+      "exact_match": true,
+      "source_sha256": "36aefe44f9860abb21a3025354b3f7ab6cf8fd9b8eb480aa428236fbbf935da7",
+      "masked_pdf_sha256": "01b029ed2ceca8d0f9e5dc15bbc73f4a0caa4569961c7ed11c1274504e28f658",
+      "seconds": 2.851,
+      "recognized_aliases": [
+        "A1-MNY6T02XDA"
+      ]
+    },
+    {
+      "sheet": 17,
+      "rotation": 0,
+      "barcodes_detected": 0,
+      "exact_match": true,
+      "source_sha256": "0332dec39656311e21bd575e5a0b3060e2b1d41d9e281865779828d9680f8313",
+      "masked_pdf_sha256": "71a897689853e6fcf971aec0cb9a404cc1e107e4d112004bfcea8189ae2077d0",
+      "seconds": 2.986,
+      "recognized_aliases": [
+        "A1-NJNFSGKR1N"
+      ]
+    }
+  ],
+  "limitations": [
+    "All original classroom pages already resolved by at least one barcode; original observations remain unchanged.",
+    "Masked-code tests are simulations on copies, not a new physical qualification.",
+    "Only the compact corner layout is covered; unambiguous exact aliases may now identify pages automatically under the instructor\u2019s updated policy."
+  ],
+  "software_checks": {
+    "python_tests": 178,
+    "ocr_workflow_tests": 6,
+    "browser_ocr_review": "passed",
+    "browser_print_export_scan": "passed"
+  },
+  "live_activation": {
+    "at": "2026-09-14T01:56:28.035686+00:00",
+    "status": "active",
+    "pre_migration_catalog_snapshot": "20260914T015628119876Z",
+    "backup_after_migration": {
+      "status": "complete",
+      "started_at": "2026-09-14T01:56:28.701904+00:00",
+      "finished_at": "2026-09-14T01:56:30.401780+00:00",
+      "backed_up": 4,
+      "errors": [],
+      "catalog_snapshot": "20260914T015630042888Z"
+    },
+    "classroom_evidence_unchanged": true,
+    "resolved_pages": 30,
+    "verified_original_and_page_artifacts": 61,
+    "boundaries": {
+      "anonymous_private": 403,
+      "public_listener": 404
+    },
+    "flag_active": {
+      "faculty.service": true,
+      "faculty-inbox.service": true
+    },
+    "services_active": {
+      "faculty.service": true,
+      "faculty-inbox.service": true,
+      "faculty-email-gateway.service": true
+    },
+    "backup_timer_active": true
+  },
+  "automatic_identification_update": {
+    "policy": "An unambiguous exact alias matching issued, nonsuperseded paper identifies the page without instructor confirmation. Conflicting or unmatched OCR remains unresolved.",
+    "python_tests_passed": 190,
+    "focused_automatic_recovery_tests_passed": 10,
+    "browser_check": "passed: automatic identity without confirmation, optional correction, explicit retry, report download, escaping, review gate, responsive layout",
+    "ocr_model_and_crops_unchanged": true,
+    "activation": {
+      "at": "2026-09-14T02:06:24.415821+00:00",
+      "previous_active": {
+        "faculty.service": true,
+        "faculty-inbox.service": true,
+        "faculty-email-gateway.service": true,
+        "faculty-backup.timer": true
+      },
+      "status": "active",
+      "pre_migration_catalog_snapshot": "20260914T020624494520Z",
+      "ocr_queue_counts": [],
+      "backup_after_migration": {
+        "status": "complete",
+        "started_at": "2026-09-14T02:06:25.086841+00:00",
+        "finished_at": "2026-09-14T02:06:26.804429+00:00",
+        "backed_up": 4,
+        "errors": [],
+        "catalog_snapshot": "20260914T020626513881Z"
+      },
+      "classroom_evidence_unchanged": true,
+      "resolved_pages": 30,
+      "verified_original_and_page_artifacts": 61,
+      "boundaries": {
+        "anonymous_private": 403,
+        "public_listener": 404
+      },
+      "flag_active": {
+        "faculty.service": true,
+        "faculty-inbox.service": true
+      },
+      "services_active": {
+        "faculty.service": true,
+        "faculty-inbox.service": true,
+        "faculty-email-gateway.service": true
+      },
+      "identity_policy": "automatic_exact_alias",
+      "schema_change": false,
+      "backup_timer_active": true
+    }
+  }
+}

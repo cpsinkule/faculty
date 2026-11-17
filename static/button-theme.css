@@ -1,0 +1,256 @@
+/* Button tiers (DESIGN-LANGUAGE §4; FRONTEND.md "Button tiers"). One region has at most one primary action. This sheet lays the
+   shared base and the press feedback; ledger.css, linked last, states each component's Ledger look (a 2px ink frame, the hard
+   shadow, Manrope 700 sentence case; the primary the ink block; text actions underlined 2px, never orange) and wins over it.
+   - .button.primary: one per page header, panel or dialog.
+   - .button (secondary) and small controls; .text-button: the tertiary action and the header's secondary links (.link-arrow
+     lives in components.css).
+   - .button.danger / .danger-button: red type on the control, filled only in a dialog's footer, where it is the confirmation.
+   Sidebar links, clickable records, paper previews and seat/version colours keep their own presentation contracts.
+   This sheet is screen-only. */
+/* Bare <button>s of two older groups (the year stepper, the connection notice's Try again) take the secondary look. */
+:root:root :is(.button, .text-button, .danger-button, .icon-button):not([data-exam-version], .seating-card-button),
+:root:root :is(.year-buttons, .connection-error) button:not([data-exam-version], .seating-card-button, .text-button) {
+  background: transparent;
+  color: var(--button-label, var(--ink));
+  border: 1px solid var(--button-line);
+  border-radius: var(--radius-control);
+  box-shadow: var(--button-marker, 0 0 0 transparent);
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--snappy), color var(--snappy), border-color var(--snappy), box-shadow var(--snappy),
+    transform 120ms var(--ease-out);
+}
+/* Press feedback (requirement, 2026-10-04): a control gives 3%
+   under the pointer, so a click is felt before the page answers. Never on a disabled control or a seat; none with reduced
+   motion. */
+@media (prefers-reduced-motion: no-preference) {
+  :root:root :is(.button, .text-button, .danger-button, .icon-button, .link-arrow):active:not(:disabled, [aria-disabled="true"], [data-exam-version], .seating-card-button) {
+    transform: scale(.97);
+  }
+}
+:root:root :is(.button, .icon-button):not([data-exam-version], .seating-card-button):is(:hover, :focus-visible):not(:disabled, [aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current], .active, .selected, .is-pinned),
+:root:root :is(.year-buttons, .connection-error) button:not([data-exam-version], .seating-card-button, .text-button):is(:hover, :focus-visible):not(:disabled) {
+  background: var(--highlight-bg);
+  color: var(--button-label-hover, var(--highlight-ink));
+  border-color: var(--ink);
+  box-shadow: var(--button-marker, 0 0 0 transparent);
+  text-decoration: none;
+}
+:root:root .button:not([data-exam-version], .seating-card-button) {
+  min-height: var(--control-height);
+  padding: 8px 16px;
+}
+:root:root .icon-button:not([data-exam-version], .seating-card-button) { border-color: transparent; }
+
+/* Primary: exactly one per page header, panel or dialog. */
+:root:root .button.primary:not([data-exam-version], .seating-card-button) {
+  min-height: var(--button-height);
+  padding: 10px 20px;
+  background: var(--button-fill);
+  color: var(--button-label, var(--button-ink));
+  border-color: var(--button-fill);
+  box-shadow: var(--button-marker, 0 0 0 transparent);
+}
+:root:root .button.primary:not([data-exam-version], .seating-card-button):is(:hover, :focus-visible):not(:disabled) {
+  background: var(--button-hover);
+  color: var(--button-label, var(--button-ink));
+  border-color: var(--button-hover);
+  box-shadow: var(--button-marker, 0 0 0 transparent);
+}
+:root:root .button.primary:not([data-exam-version], .seating-card-button):disabled { box-shadow: none; }
+
+/* Text actions: no box, the label underlined in a hairline. Nothing moves the layout on hover. */
+:root:root :is(.text-button):not(.seating-card-button) {
+  border-color: transparent;
+  box-shadow: none;
+  background: transparent;
+  gap: 6px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+:root:root :is(.text-button):not(.seating-card-button):hover:not(:disabled) {
+  background: transparent;
+  color: var(--button-label, var(--ink));
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* The header's secondary actions (Create New Assignment, Draft a quiz, Import scores · Setup) are text actions beside the
+   one primary, on paper under the plate (page-header.js paints them as .button). */
+:root:root .page-heading-secondary > :is(.button, .icon-button):not(.primary, [data-exam-version]) {
+  min-height: var(--button-height);
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+:root:root .page-heading-secondary > :is(.button, .icon-button):not(.primary, [data-exam-version]):is(:hover, :focus-visible):not(:disabled) {
+  background: transparent;
+  color: var(--ink);
+  border-color: transparent;
+}
+:root:root .page-heading-secondary > .button > .icon { display: none; }
+
+/* Bubble-sheet click targets (.bubble-choice) are not buttons in this sense: they sit over the scanned bubbles and must
+   never cover the pencil marks, so scan-pages.css draws them as outlines only. No rule here fills them. */
+
+:root:root :is(.button, .text-button, .danger-button):not([data-exam-version], .seating-card-button) {
+  font-size: var(--text-control);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+/* SENTENCE-CASE ACTIONS (DESIGN-LANGUAGE §4; requirement, 2026-10-04): small capitals are labels only. A text action
+   (danger ones too) and a header secondary link are written as they read, underlined; only a framed button keeps the
+   capitals. The :is() scores (0,3,0), so this outranks the rule above and page rules up to (0,5,0). */
+:root:root :is(.text-button, .page-heading-secondary > :is(.button, .icon-button):not(.primary)):not([data-exam-version], .seating-card-button) {
+  text-transform: none;
+  letter-spacing: 0;
+}
+:root:root :is(.text-button, .danger-button):not(.seating-card-button),
+:root:root .connection-error button:not(.text-button) {
+  padding: 6px 2px;
+  min-height: 32px;
+  justify-content: center;
+}
+/* A framed danger button stands in a row of secondaries (a chart's Seats group beside Update seating, a dialog footer's
+   Remove beside Cancel and Save, the Inbox's Delete confirmation beside Keep it): it takes the secondary's height and
+   padding, so the row lines up. In the error colour a .text-button stays tertiary. */
+:root:root .danger-button:not(.text-button, .seating-card-button) {
+  padding: 8px 16px;
+  min-height: var(--control-height);
+}
+
+/* Pressed/selected state: the ink block (an applied choice, a pinned tool). Hover and focus keep it. */
+:root:root :is(.button, .icon-button):not([data-exam-version], .primary, .seating-card-button):is(
+  [aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current], .active, .selected, .is-pinned) {
+  background: var(--button-fill);
+  color: var(--button-label, var(--button-ink));
+  border-color: var(--button-fill);
+  box-shadow: none;
+}
+
+/* Destructive: the brick ink on a transparent control; a dialog footer's own danger button is the filled confirmation. */
+:root:root :is(.button.danger, .danger-button.danger-button):not([data-exam-version], .seating-card-button) {
+  --button-label: var(--error);
+  border-color: var(--error);
+}
+:root:root .text-button.danger-button.danger-button:not(.seating-card-button) { border-color: transparent; }
+:root:root :is(.button.danger, .danger-button.danger-button):not(.text-button, [data-exam-version], .seating-card-button):is(:hover, :focus-visible):not(:disabled) {
+  background: var(--error);
+  color: var(--canvas);
+  border-color: var(--error);
+  box-shadow: none;
+}
+:root:root dialog .dialog-footer .button.danger.danger:not(:disabled),
+:root:root dialog .dialog-footer .button.danger.danger:not(:disabled):is(:hover, :focus-visible) {
+  --button-label: var(--canvas);
+  background: var(--error);
+  color: var(--canvas);
+  border-color: var(--error);
+  box-shadow: none;
+}
+
+/* Grouped navigation (the Follow-up | Office hours switch), written as it reads (SENTENCE-CASE ACTIONS): this block is the
+   base. It resets the frame and padding and sets the --tab-* hooks; on its own it draws words in a row, the chosen one in ink
+   over a 2px ink underline, the others muted. The framed-word look (the chosen one an ink block, DESIGN-LANGUAGE §4 Tabs)
+   comes from ledger.css's matching list, which loads last at the same specificity (0,5,1) and wins, so a new tab or filter
+   bar goes in BOTH lists; a bar listed only here would show the underline look. .compute-nav is the one member only this
+   block governs. Adjacent Save/Cancel or destructive actions are still actions, not navigation. The
+   certification page's Questions | Students is a two-tab switch drawn with filterChipsMarkup, listed by its group; other
+   .filter-chips stay filters. No entry may score above (0,2,0) (.grading-tabs:not(...) sets the list's specificity). */
+:root:root :is(.course-tabs, .course-scope-toggle, .inbox-filters, .exams-tabs, .document-tabs,
+  .accommodation-tabs, .filter-tabs, .compute-nav, .comm-filters, .quality-review-tabs,
+  .calendar-view-switch, .grading-tabs:not(.grading-workflow), .bubble-version-tabs, .bubble-scoring,
+  .filter-chips[data-filter-group="cert-panel"], .assignment-nav) {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  gap: 0 24px;
+  width: fit-content;
+  max-width: 100%;
+
+  & > :is(button, a):not([data-exam-version], .seating-card-button) {
+    position: relative;
+    background: transparent;
+    color: var(--muted);
+    border: 0;
+    border-bottom: var(--tab-rule, 2px solid transparent);
+    border-radius: 0;
+    box-shadow: var(--menu-marker, none);
+    margin: 0;
+    padding: var(--tab-padding, 0);
+    min-height: var(--button-height);
+    text-align: var(--tab-align, center);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    text-decoration: none;
+    transition: color var(--snappy), border-color var(--snappy);
+
+    &:hover:not(:disabled, [aria-selected="true"], [aria-pressed="true"], [aria-checked="true"], [aria-current], .active, .selected) {
+      background: transparent;
+      color: var(--ink);
+      border-bottom-color: var(--tab-rule-hover, var(--line));
+      box-shadow: var(--menu-marker, none);
+      text-decoration: none;
+    }
+    &:is([aria-selected="true"], [aria-pressed="true"], [aria-checked="true"], [aria-current], .active, .selected) {
+      z-index: 1;
+      background: transparent;
+      color: var(--ink);
+      border-bottom-color: var(--tab-rule-selected, var(--ink));
+      font-weight: 600;
+      --menu-marker: var(--menu-selected-marker, none);
+    }
+    &:is([aria-selected="true"], [aria-pressed="true"], [aria-checked="true"], [aria-current], .active, .selected) :is(small, span, strong) { color: inherit; }
+    &:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+      z-index: 2;
+    }
+  }
+}
+/* Compute settings' section menu is a vertical list: ruled rows, the chosen one in ink with a 3px ink rule at its start (--menu-selected-marker). */
+:root:root .compute-nav {
+  --menu-selected-marker: inset 3px 0 var(--ink);
+  --tab-padding: 10px 12px;
+  --tab-align: start;
+  --tab-rule: 1px solid var(--nested-line);
+  --tab-rule-hover: var(--nested-line);
+  --tab-rule-selected: var(--nested-line);
+  gap: 0;
+  width: auto;
+}
+:root:root .compute-nav strong { font-weight: inherit; }
+:root:root .compute-nav small {
+  color: var(--muted);
+  text-transform: none;
+  letter-spacing: normal;
+}
+:root:root :is(.inbox-filters, .document-tabs) button > span {
+  background: transparent;
+  color: inherit;
+  opacity: .85;
+  border-color: transparent;
+}
+
+@media (forced-colors: active) {
+  :root:root :is(button, .button, .text-button, .danger-button,
+    .course-tabs [role="tab"], .accommodation-tabs a):not(.nav-item, [data-exam-version], .seating-card-button) {
+    border-color: ButtonText;
+    forced-color-adjust: auto;
+  }
+  :root:root :is(button, .button, .course-tabs [role="tab"], .accommodation-tabs a):is(
+    [aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current], .active, .selected, .is-pinned) {
+    outline: 2px solid Highlight;
+    outline-offset: -3px;
+  }
+}

@@ -1,0 +1,13 @@
+/* Icons are plain ink line drawings (icons.js): the RGB edge layer of the Lambda icons is never drawn. Semantic colours
+   still inherit. */
+/* Ledger (2026-10-04): the stroke matches the 2px frames around it (3 units of the 32-unit drawing is about 1.9px at 20px);
+   no faded detail and no dotted trace. */
+.icon { overflow: visible; pointer-events: none; stroke-width: 3; }
+.icon-detail { opacity: 1; }
+.icon-trace { display: none; }
+.icon-spectrum { display: none; }
+
+:is(.tool-icon, .room-card-icon, .seating-card-icon, .stat-icon, .tip-icon) .icon { width: 30px; height: 30px; color: var(--ink); }
+@media (forced-colors: active) {
+  .icon-detail, .icon-trace { opacity: 1; }
+}

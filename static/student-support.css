@@ -1,0 +1,474 @@
+/* Student follow-up and Office hours (student-support.js, followup-suggestions.js): the approved
+   Student follow-up page (DESIGN-LANGUAGE; the instructor's design canvas, 2026-10-03). The article layout is the Office
+   hours list (.support-list > .support-card): each is an article on a hairline with a small uppercase status label (the accent for a
+   wellbeing concern or a time-sensitive message), the purpose as a headline (36px for the first, 27px for the rest), a
+   muted metadata line (student · course · section · date), outlined chips, one primary action and text actions, and Suggested
+   actions under a dashed hairline with a bold status. The layout is drawn on the existing markup with a
+   grid (the head's two parts are placed through display: contents); every hook class and behaviour stays. Follow-up is a
+   conversation queue (office hours under it) beside one review, whose email and suggested actions sit side by side; its
+   Follow-up | Tasks | Office hours switch is .support-desk-views (student-support.js tabsMarkup) and Show is the framed
+   .support-filter-tabs. .support-tabs is Return's view tabs (teaching-review.js), kept here as the base layer under
+   ledger.css. No painting (requirement, 2026-10-04; DESIGN-LANGUAGE §9). Desktop only. */
+.support-page { display: grid; gap: var(--space-5); }
+.support-toolbar, .support-tabs, .support-actions, .support-card-head, .support-times { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+
+/* The base style of Return's .support-tabs view tabs (teaching-review.js; ledger.css restyles them inside an assignment): words
+   as they read, the chosen one in ink over a 2px ink underline (button-theme.css's section tabs, restated here because the
+   links carry .button). */
+.support-tabs { gap: 0 var(--space-6); border-bottom: 1px solid var(--line); }
+:root:root .support-page > .support-tabs > a.button:not([data-exam-version]) {
+  min-height: var(--button-height);
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  margin-bottom: -1px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--muted);
+  font: 500 var(--text-body)/1 var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
+}
+:root:root .support-page > .support-tabs > a.button:not([data-exam-version]):hover:not([aria-current]) { color: var(--ink); border-bottom-color: var(--line); background: transparent; }
+:root:root .support-page > .support-tabs > a.button:not([data-exam-version])[aria-current] { color: var(--ink); border-bottom-color: var(--ink); background: transparent; font-weight: 600; }
+
+/* Toolbar: the Show tabs, Find as a label-above underline field (form-theme.css) and the Status select, on one baseline. */
+.support-toolbar { align-items: end; gap: var(--space-3) var(--space-6); }
+.support-toolbar .field { margin: 0; }
+.support-toolbar .field > input { min-width: 18rem; }
+.support-toolbar > .button { align-self: end; }
+.support-automatic { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); color: var(--muted); }
+/* "Based on captured communications": a quiet fold, its +/− after its words. */
+.support-capture { color: var(--muted); }
+.support-capture > summary { display: flex; align-items: baseline; gap: var(--space-2); width: fit-content; cursor: pointer; list-style: none; color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+.support-capture > summary::-webkit-details-marker { display: none; }
+.support-capture > summary::after { content: "+"; content: counter(decor, none) "+" / ""; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.support-capture[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; }
+.support-capture > summary:hover { color: var(--ink); }
+.support-capture ul { margin: var(--space-2) 0; padding-left: var(--space-5); }
+
+/* Follow-up's office hours: a short list under the conversation queue (requirement, 2026-10-04). */
+.support-hours { display: grid; gap: 10px; min-width: 0; padding-top: var(--space-3); }
+.support-hours .support-hours-title { margin: 0; padding-top: 8px; border-top: 2px solid var(--ink); color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.support-hours-list { list-style: none; margin: 0; padding: 0; }
+.support-hours-list > li { display: grid; gap: 2px; padding: 0 0 8px; border-bottom: 1px solid var(--nested-line); }
+.support-hours-list > li + li { padding-top: 8px; }
+.support-hours-list strong { color: var(--heading); font: var(--head-weight) var(--text-lead)/1.2 var(--font-serif); }
+.support-hours-list span { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); font-variant-numeric: tabular-nums; }
+.support-hours > .field-hint { margin: 0; }
+.support-hours > .link-arrow { justify-self: start; }
+
+/* The list: articles divided by hairlines. */
+.support-list { display: grid; gap: 0; border-bottom: 1px solid var(--line); }
+.support-list > .empty-state { border-top: 1px solid var(--line); }
+.support-card {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  grid-template-areas: "status status status" "title title title" "student meta when";
+  align-items: baseline;
+  padding: var(--space-5) 0 var(--space-6);
+  border-top: 1px solid var(--line);
+}
+.support-card > * { grid-column: 1 / -1; min-width: 0; }
+.support-card > .support-card-head { display: contents; }
+/* The status: a small uppercase label (the state's words), ink when it needs you, rust for a wellbeing concern or a
+   time-sensitive message (the words beside it say why). */
+:root:root .support-card-head > .chip { grid-area: status; justify-self: start; min-height: 0; margin: 0 0 var(--space-2); padding: 0; border: 0; color: var(--label); font-size: var(--text-caption); letter-spacing: var(--tracking-section); }
+:root:root .support-card-head > .chip[data-tone="warning"] { color: var(--ink); }
+:root:root .support-card:is(:has(> .callout[data-tone="warning"]), :has(> p > .chip[data-tone="warning"])) > .support-card-head > .chip { color: var(--accent); }
+/* The purpose: the article's serif headline, the first one larger. */
+.support-card > h3 { grid-area: title; margin: 0 0 var(--space-2); color: var(--heading); font-size: 27px; line-height: 1.12; letter-spacing: var(--tracking-title); overflow-wrap: anywhere; }
+.support-list > .support-card:first-child > h3 { font-size: 36px; line-height: 1.05; }
+/* The metadata line: the student (who opens their record), course · term · section, then the date. */
+:root:root .support-card-head > .text-button[data-support-record] {
+  grid-area: student;
+  justify-self: start;
+  min-height: 0;
+  padding: 0;
+  color: var(--ink);
+  font: 500 14px/1.5 var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration-color: var(--line);
+}
+.support-card > .support-card-head + .field-hint { grid-area: meta; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.support-card > h3 + p:not([class]) { grid-area: when; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+.support-card > .support-card-head + .field-hint:not(:empty)::before,
+.support-card > h3 + p:not([class])::before { content: "·"; content: counter(decor, none) "·" / ""; margin: 0 var(--space-2); color: var(--faint); }
+.support-card > .field-hint { margin: var(--space-2) 0 0; font-size: var(--text-small); }
+.support-card > p:not([class]) { margin: var(--space-2) 0 0; }
+/* Chips (the request kinds, the urgency) are outlined; a time-sensitive one is rust. */
+.support-card > p > .chip[data-tone="warning"] { --chip-tone: var(--accent); }
+/* A wellbeing concern is a callout in the accent. */
+.support-card > .callout[data-tone="warning"] { --callout-tone: var(--accent); margin: var(--space-4) 0 0; }
+.support-card > .callout strong { color: var(--accent); font-weight: 600; }
+.support-card > details:not([class]) { margin-top: var(--space-2); }
+.support-card > details:not([class]) > summary { width: fit-content; cursor: pointer; color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+.support-card > details:not([class]) > summary:hover { color: var(--ink); }
+.support-words { margin: var(--space-2) 0 0; color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+/* Actions: the article's one primary (Update / Track follow-up), then text actions. When its suggestions already hold
+   the primary (Approve all), Update stays a secondary: one primary per article. */
+.support-actions { gap: var(--space-2) var(--space-5); margin-top: var(--space-3); }
+.support-card > .support-actions:last-child { margin-top: var(--space-5); }
+:root:root .support-card:not(:has(.support-suggestions .button.primary)) > .support-actions > .button[data-support-edit]:not([data-exam-version]) {
+  background: var(--button-fill);
+  border-color: var(--button-fill);
+  color: var(--button-ink);
+}
+:root:root .support-card:not(:has(.support-suggestions .button.primary)) > .support-actions > .button[data-support-edit]:not([data-exam-version]):is(:hover, :focus-visible):not(:disabled) {
+  background: var(--button-hover);
+  border-color: var(--button-hover);
+  color: var(--button-ink);
+}
+
+/* Office hours: each appointment's date and time stand in a serif column at the left of its article. */
+.support-card:has([data-support-note]) {
+  grid-template-columns: 11rem auto auto minmax(0, 1fr);
+  grid-template-areas: "when status status status" "when title title title" "when student meta .";
+  column-gap: 0;
+}
+.support-card:has([data-support-note]) > * { grid-column: 2 / -1; }
+.support-list > .support-card:has([data-support-note]) > h3 { font-size: 27px; line-height: 1.12; }
+.support-card:has([data-support-note]) > h3 + p:not([class]) { grid-area: when; align-self: start; max-width: 7.5em; padding: 2px var(--space-5) 0 0; color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); text-wrap: balance; }
+.support-card:has([data-support-note]) > h3 + p:not([class])::before { content: none; }
+
+/* Suggested actions: a sub-block under a dashed hairline: its label, a bold status (slate when cards wait for
+   you, muted while the Assistant prepares), an open question, the numbered plan, then each card as a row. */
+.support-suggestions { display: grid; gap: var(--space-2); margin: var(--space-5) 0 0; padding-top: var(--space-4); border-top: 1px dashed var(--faint); min-width: 0; }
+.support-suggestions h4, .support-suggestions > p { margin: 0; }
+:root .support-suggestions > h4 { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.support-suggestions > p.field-hint[role="status"] { color: var(--muted); font: 700 var(--text-section)/1.15 var(--font-body); letter-spacing: 0; }
+.support-suggestions:has(> .support-plan) > p.field-hint[role="status"] { color: var(--blue); }
+.support-suggestions .assistant-card { min-width: 0; overflow-wrap: anywhere; border: 0; border-top: 1px solid var(--nested-line); background: transparent; box-shadow: none; }
+.support-suggestions .assistant-card-head strong { color: var(--heading); }
+.support-suggestions pre { max-width: 100%; overflow: auto; }
+.support-revise summary { cursor: pointer; }
+.support-note summary { cursor: pointer; }
+/* FOLLOW-UP CLARITY (TEACHING-WORKFLOWS): the plan lists the steps in order; each step's card carries the same number (sans:
+   Instrument Serif's "1" reads as an "l" at these sizes) and a serif headline,
+   what it sets (a revision's old value struck through), what follows and who is told, then its exact request folded. */
+.support-plan { display: grid; gap: var(--space-1); }
+/* REDO FROM CHAT: the steps an Assistant chat prepared for this conversation, under their own lead, as rows like the follow-up's. */
+.support-chat-steps { display: grid; gap: var(--space-2); }
+.support-plan-lead, .support-ask-lead { margin: 0; color: var(--text); font: 500 var(--text-body)/1.5 var(--font-body); }
+.support-plan-lead > strong { color: var(--heading); font-weight: 600; }
+.support-plan-steps { margin: 0; padding-left: 1.4em; font: 500 var(--text-body)/1.5 var(--font-body); }
+.support-plan-steps li::marker { color: var(--ink); font-weight: 800; font-variant-numeric: tabular-nums; }
+.support-plan-steps strong { font-weight: 600; }
+.support-plan-steps span { color: var(--muted); font-size: var(--text-small); }
+/* A step's number is a small ink block (Ledger): the same number as in the plan. */
+.support-step { flex: none; display: inline-grid; place-items: center; min-width: 1.6em; height: 1.6em; padding: 0 4px; background: var(--ink); color: var(--button-ink);
+  font: 800 var(--text-small)/1 var(--font-num); font-variant-numeric: tabular-nums; }
+.support-suggestions .assistant-card-head:has(> .support-step) { display: flex; align-items: center; gap: var(--space-2); }
+:root .support-suggestions .assistant-card-head:has(> .support-step) strong { color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); }
+.support-proposal { display: grid; gap: var(--space-2); }
+.support-proposal > p, .support-proposal > ul { margin: 0; }
+.support-proposal-meta { color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); }
+/* A long field name wraps within 14rem rather than squeezing its value (RUBRIC NOTE CARDS, 2026-10-21). */
+.support-suggestions .assistant-fields.support-changes { grid-template-columns: fit-content(14rem) minmax(0, 1fr); gap: var(--space-1) var(--space-3); align-items: baseline; font-size: var(--text-body); line-height: 1.45; }
+/* READABLE REVIEW: a field's name is quiet metadata; its value is what is read. */
+.support-suggestions .assistant-fields dt { min-width: 6.5rem; color: var(--muted); font: 500 var(--text-small)/1.45 var(--font-body); }
+.support-suggestions .assistant-fields dd { color: var(--heading); }
+.support-changes dd { white-space: pre-line; }
+.support-changes del { color: var(--muted); }
+.support-changes ins { text-decoration: none; }
+/* DECISION ON THE CARD: the one field of a step chosen on the card is a dropdown on the field's own line: the shared select,
+   at the line's own size instead of a form control's height. */
+:root:root .support-changes .support-field-choice { min-height: 0; padding-block: 1px; color: var(--heading); font-size: inherit; line-height: inherit; }
+.support-follows { margin: 0;  padding-left: 1.1em; color: var(--text); font: 500 var(--text-small)/1.5 var(--font-body); }
+.support-whole > .disclosure-body { display: grid; gap: var(--space-2); }
+/* EDIT IN PLACE: a waiting mail card open for editing keeps its place in the plan. */
+.support-mail-edit { display: grid; gap: var(--space-2); }
+.support-mail-edit .field { margin: 0; }
+.support-mail-edit input, .support-mail-edit textarea { width: 100%; }
+.support-mail-edit textarea { min-height: 16rem; resize: vertical; font: 500 var(--text-body)/1.5 var(--font-body); }
+/* EDIT THE GRADE: a regrade decision's rubric lines, ticked as the card proposes, each with its points before its words. */
+.support-decide-edit textarea { min-height: 10rem; }
+.support-decide-lines { display: grid; gap: var(--space-1); min-width: 0; margin: 0; padding: 0; border: 0; }
+.support-decide-lines > legend { padding: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.support-decide-now { margin-left: var(--space-2); color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+.support-decide-lines > p { margin: 0; }
+.support-decide-list { display: grid; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+.support-decide-list .checkbox-field { display: grid; grid-template-columns: auto 3.5ch minmax(0, 1fr); align-items: baseline; gap: var(--space-2); margin: 0; color: var(--heading); }
+.support-mail-edit .support-decide-list input[type="checkbox"] { width: auto; }
+/* A bubble-sheet question's letters (REGRADES "BUBBLE SHEETS"): A to E in one row. */
+.support-decide-letters { grid-auto-flow: column; justify-content: start; gap: var(--space-4); }
+.support-decide-letters .checkbox-field { grid-template-columns: auto auto; }
+.support-decide-points { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+.support-decide-adjust-fields { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: var(--space-2); }
+.support-decide-adjust .disclosure-body > p { margin: 0; }
+.support-whole > .disclosure-body > p { margin: 0; }
+.support-why > span { color: var(--label); font-weight: 600; }
+.support-scope { color: var(--warning); }
+/* DONE FOR YOU: what the Assistant recorded by itself, a short ruled list under the steps that wait (at the top when nothing
+   waits): news, not a decision, so it reads quieter than the steps. */
+.support-done { display: grid; gap: var(--space-1); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.support-suggestion-head + .support-done { padding-top: 0; border-top: 0; }
+:root .support-done-title { margin: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.support-done-list { display: grid; gap: var(--space-1); margin: 0; padding: 0; list-style: none; font: 500 var(--text-small)/1.5 var(--font-body); }
+.support-done-list > li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-1) var(--space-3); }
+.support-done-list > li > span { min-width: 0; color: var(--text); }
+.support-done-list > li[data-undone="true"] > span { color: var(--muted); text-decoration: line-through; }
+/* ASSUME, DON'T ASK / READABLE REVIEW: the Assistant's guess is the one thing on a card to check before approving: a note under a
+   2px warning rule (a callout's rule, DESIGN-LANGUAGE §4) right above the card's buttons, its alternatives framed choices that
+   read as clickable at a glance (each prepares again with that choice; nothing is approved). */
+/* The guess to check is a dashed orange box (Ledger): it may need you before you approve. */
+.support-assumption { display: grid; gap: var(--space-2); padding: var(--space-3); border: 2px dashed var(--accent); background: var(--needs-tint); }
+.support-assumption > p { margin: 0; }
+.support-assumption-label { color: var(--accent); font: 800 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.support-assumption-text { color: var(--heading); font: 500 var(--text-body)/1.5 var(--font-body); }
+.support-assumption-lead { color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); }
+.support-choices { display: grid; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+.support-choice { display: flex; width: 100%; min-height: 40px; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) var(--space-3);
+  border: var(--frame); border-radius: var(--radius-control); background: var(--surface); color: var(--ink); font: 600 var(--text-small)/1.4 var(--font-body);
+  text-align: left; cursor: pointer; }
+.support-choice::after { content: "→"; content: counter(decor, none) "→" / ""; flex: none; }
+.support-choice { box-shadow: 0 0 0 var(--ink); transition: transform var(--lift), box-shadow var(--lift), background-color var(--snappy), color var(--snappy); }
+.support-choice:hover:not(:disabled) { background: var(--surface-hover); color: var(--ink); border-color: var(--ink); transform: translate(-1px, -1px); box-shadow: var(--hard-shadow-hover); }
+.support-choice:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
+.support-choice:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.support-choice:disabled { color: var(--faint); border-color: var(--line); cursor: default; }
+.support-ask { display: grid; gap: var(--space-2); }
+.support-all-hint { margin: calc(-1 * var(--space-1)) 0 0; }
+/* An open question reads at body size: its questions are what the instructor answers, not small-caps labels. */
+:root .support-suggestions .assistant-question legend { margin-bottom: var(--space-2); color: var(--heading); font: 500 var(--text-body)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+/* A proposed meeting that overlaps the calendar says so in the warning ink. */
+.support-calendar[data-tone="warning"] { color: var(--warning); }
+
+/* TEACHING-WORKFLOWS / DESIGN-LANGUAGE: one queue and one reading surface. Review text stays at reading width;
+   supporting context is folded, and the complete message/draft scrolls within a keyboard-accessible region. */
+.support-workspace { display: grid; grid-template-columns: minmax(220px, 21%) minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+.support-side { position: sticky; top: var(--space-4); display: grid; min-width: 0; max-height: calc(100vh - var(--space-6)); overflow-y: auto; }
+/* FOLLOW-UP QUEUE GROUPS (Ledger): the queue in groups, each under a 2px ink rule with its count; what waits on you reads strong,
+   what waits on others muted; the open conversation is a white record in the frame with the hard shadow. */
+.support-queue { display: grid; gap: var(--space-1); min-width: 0; padding-bottom: var(--space-4); }
+:root .support-queue > h3.support-queue-group { display: flex; justify-content: space-between; margin: var(--space-4) 0 0; padding: var(--space-2) 0 var(--space-1);
+  border-top: 2px solid var(--ink); color: var(--ink); font: 800 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+:root .support-queue > h3.support-queue-group:first-child { margin-top: 0; }
+.support-queue > h3 > span { font: 700 var(--text-small)/1.5 var(--font-num); font-variant-numeric: tabular-nums; }
+.support-queue > h3[data-waits="you"] > span { padding: 0 6px; background: var(--needs-fill); color: var(--needs-ink); }
+.support-queue-row { display: grid; gap: 2px; width: 100%; padding: var(--space-2) var(--space-3); border: 2px solid transparent; background: transparent; color: var(--text); text-align: left; cursor: pointer; overflow-wrap: anywhere;
+  transition: background-color var(--snappy); }
+.support-queue-row:hover { background: var(--surface-hover); }
+.support-queue-row[aria-pressed="true"] { border-color: var(--ink); background: var(--surface); box-shadow: var(--hard-shadow); }
+.support-queue-row:not([data-waits="you"]) :is(.support-queue-person, .support-queue-title) { color: var(--muted); }
+.support-queue-row:not([data-waits="you"]) .support-queue-next { color: var(--muted); }
+.support-queue-row[data-waits="you"] .support-queue-next { color: var(--ink); font-weight: 700; }
+.support-queue-row:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.support-queue-person { color: var(--heading); font: 600 var(--text-body)/1.4 var(--font-body); }
+.support-queue-title { font: var(--head-weight) 17px/1.15 var(--font-serif); }
+.support-queue-meta, .support-queue-status, .support-queue-acted, .support-queue-flag { color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); }
+.support-queue-flag { color: var(--accent); font-weight: 700; }
+/* WAITING ON: whom the follow-up waits on and for what, under its title in the list (two lines at most). */
+.support-queue-next { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; color: var(--text); font: 500 var(--text-small)/1.4 var(--font-body); }
+.support-queue-next > strong { font-weight: 600; }
+/* THE DECISION FIRST (DESIGN-LANGUAGE §1.4, Ledger): under the title, what the conversation waits on. Waiting on you: the orange
+   box in the frame with the hard shadow, and the action that settles it. Waiting on others: a quiet line. */
+.support-decision { display: grid; gap: var(--space-3); }
+.support-decision[data-waits="you"] { padding: var(--space-4) var(--space-5); border: var(--frame); background: var(--needs-fill); box-shadow: var(--hard-shadow); }
+.support-decision[data-waits="other"] { padding: var(--space-2) 0; border-top: 1px solid var(--line); }
+/* TO DO THANKS: the student only thanked you and Jev could not tell whether anything is still owed. */
+:root .support-decision[data-waits="you"] .support-finished-ask { margin: 0; color: var(--needs-ink); font: 600 var(--text-body)/1.4 var(--font-body); }
+/* SAME MATTER: Jev's question, the conversations joined to this follow-up (each with Keep separate) and the join window's choices. */
+.support-match { display: grid; gap: var(--space-2); }
+.support-match p { margin: 0; }
+.support-match-preview .disclosure-body { max-height: 32rem; overflow-y: auto; }
+.support-joined { display: grid; gap: var(--space-1); margin: 0; padding: 0; list-style: none; font: 500 var(--text-small)/1.5 var(--font-body); }
+.support-joined > li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-1) var(--space-3); color: var(--muted); }
+.support-join-choices { display: grid; gap: var(--space-2); margin: 0; padding: 0; border: 0; }
+.support-join-choices label { display: flex; gap: var(--space-2); align-items: baseline; }
+.support-detail { min-width: 0; }
+/* TEACHING-WORKFLOWS ACTION DESK: one compact decision, independent tasks, then evidence and the existing cards. */
+.support-desk-views { margin: var(--space-4) 0 var(--space-3); }
+.support-navigation { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-3); }
+.support-navigation .support-desk-views { margin: 0 auto 0 0; }
+.support-page:has(.support-workspace) .support-toolbar { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(180px, 1fr) minmax(130px, .6fr); gap: var(--space-3); align-items: end; margin: 0 0 var(--space-5); }
+.support-page:has(.support-workspace) .support-toolbar > * { min-width: 0; margin: 0; }
+.support-page:has(.support-workspace) .support-filter-tabs { gap: var(--space-2); flex-wrap: wrap; }
+/* REGRADES "APPROVE ALL": the Regrades tab's Approve all, a line of its own above the queue. */
+.support-regrade-all { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin: 0 0 var(--space-5); }
+.support-regrade-all > p { margin: 0; }
+.support-workspace[data-desk-view] { grid-template-columns: minmax(205px, 21%) minmax(0, 1fr); }
+.support-workspace[data-desk-view] .support-queue-title { font-size: 16px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.support-workspace[data-desk-view] .support-queue-row { padding: var(--space-3); }
+.support-workspace[data-desk-view] .support-review-head h3 { font-size: 23px; line-height: 1.25; max-width: 46ch; }
+.support-workspace[data-desk-view] .support-decision { box-shadow: none; border: 0; padding: var(--space-3) var(--space-4); }
+.support-workspace[data-desk-view] .support-decision .field-hint { color: inherit; margin: var(--space-1) 0 0; }
+.support-desk-next { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+.support-desk-next > div { min-width: 0; }
+.support-desk-next strong { font: 800 var(--text-body)/1.4 var(--font-head); }
+.support-desk-next .button { flex-shrink: 0; }
+/* ONE CLICK ON A TO DO: Done and Now waits on the student, side by side in the decision box. */
+.support-desk-settle { display: flex; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-2); }
+/* CHECK BACK: what came in for the student since the follow-up was set waiting, under Resolved and Wait a week. */
+.support-check-back-since { margin-top: var(--space-2); }
+.support-check-back-since ul { margin: var(--space-1) 0 0; padding-left: var(--space-4); }
+.support-check-back-since li { overflow-wrap: anywhere; }
+.support-task-plan { border-top: 2px solid var(--ink); margin: var(--space-3) 0; padding-top: var(--space-3); min-width: 0; }
+.support-task-heading { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-2); }
+.support-task-heading h3, .support-task-heading h4 { margin: 0; font: 800 17px/1.4 var(--font-head); }
+.support-task-list { margin: 0; padding: 0; list-style: none; counter-reset: desk-step; }
+.support-task-list > li { counter-increment: desk-step; display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: var(--space-3); padding: var(--space-3) 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.support-task-list > li::before { content: counter(desk-step); font: 800 var(--text-body)/1.5 var(--font-body); }
+.support-task-list > li > div { min-width: 0; }
+.support-task-list strong { font-size: var(--text-body); overflow-wrap: anywhere; }
+.support-task-list .field-hint { margin: var(--space-1) 0 0; }
+.support-task-controls { display: flex; align-items: start; gap: var(--space-3); flex-wrap: wrap; justify-content: flex-end; }
+.support-task-list > li[data-task-state="completed"] { color: var(--muted); }
+.support-task-list > li[data-task-state="failed"] strong { color: var(--error); }
+.support-original-subject { margin-top: 0; }
+.support-history-message { padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
+.support-history-text { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 24rem; overflow-y: auto; }
+.support-workspace[data-desk-view="tasks"] { display: none; }
+.support-task-fields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.support-task-dependencies { display: grid; gap: var(--space-2); border: 0; padding: 0; margin: var(--space-3) 0; }
+.support-task-dependencies legend { font-weight: 700; margin-bottom: var(--space-2); }
+.support-commitments { margin-bottom: var(--space-6); border-top: 2px solid var(--ink); padding-top: var(--space-4); }
+.support-commitments table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.support-commitments th { text-align: left; font-size: var(--text-small); padding: var(--space-3); border-bottom: 2px solid var(--ink); }
+.support-commitments td { vertical-align: top; padding: var(--space-3); border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.support-commitments th:first-child { width: 36%; }
+.support-commitments td .text-button { text-align: left; }
+.support-commitments .field-hint { margin: 0; }
+/* The review: the student's email (with the follow-up's own actions) on the left, held in view while the suggested actions beside
+   it scroll; one column when nothing is suggested. */
+.support-review-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: var(--space-6); align-items: start; }
+.support-review-body:not(:has(> .support-suggestions)) { grid-template-columns: minmax(0, 1fr); max-width: 760px; }
+/* TEACHING-WORKFLOWS READABLE REVIEW: keep the conversation together on a white card, apart from the page and action plan. */
+.support-review-source { position: sticky; top: var(--space-4); display: grid; gap: var(--space-3); min-width: 0; max-height: calc(100vh - var(--space-6)); overflow-y: auto;
+  padding: var(--space-4); border: var(--frame); background: var(--surface); }
+.support-review-source .support-message-text { max-height: min(28rem, 55vh); }
+/* A narrow email column (1280 px windows): the heading and View conversation keep one line each; the link wraps under. */
+.support-review-source .support-message-head { flex-wrap: wrap; row-gap: var(--space-1); }
+.support-review-source .support-message-head > * { white-space: nowrap; }
+.support-card.support-review { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: none; gap: var(--space-3); padding: var(--space-3) 0 0; border: 0; }
+.support-review-head { display: flex; align-items: start; justify-content: space-between; gap: var(--space-3); }
+.support-review-head > div { min-width: 0; }
+.support-review-head h3 { margin: var(--space-1) 0 var(--space-2); font: var(--head-weight) 24px/1.12 var(--font-serif); overflow-wrap: anywhere; }
+.support-review-head .field-hint { margin: 0; }
+/* A COORDINATOR'S FOLLOW-UP: the coordinator's name stands where a student's name opens their record (no record to open). */
+.support-review-person { margin-right: var(--space-2); font-weight: 600; }
+:root:root .support-review-head .text-button[data-support-record]:not(.seating-card-button) { min-height: 0; padding: 0; margin-right: var(--space-2); font: 500 var(--text-body)/1.5 var(--font-body); }
+.support-review-nav { display: flex; flex: none; align-items: center; gap: var(--space-1); }
+.support-review-nav > span { margin-right: var(--space-1); color: var(--muted); white-space: nowrap; font: 500 var(--text-small)/1.4 var(--font-body); font-variant-numeric: tabular-nums; }
+:root:root .support-review-nav > .button { min-width: 32px; min-height: 32px; padding: 0 var(--space-2); }
+.support-review-source > .callout { margin: 0; padding-block: var(--space-2); gap: var(--space-1); }
+.support-review-source > .callout p { margin: 0; }
+.support-review-source > p.field-hint { margin: 0; }
+.support-message { display: grid; gap: var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.support-message-head, .support-suggestion-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
+:root .support-message-head h4, :root .support-suggestion-head h4 { margin: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.support-message .field-hint, .support-message-files { margin: 0; }
+.support-review-source .support-message-own .support-message-text { max-height: min(16rem, 35vh); }
+.support-message-text { max-height: 12rem; overflow-y: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: 500 var(--text-body)/1.5 var(--font-body); }
+.support-message-text:focus-visible, .support-suggestions [data-mail-draft] > .assistant-request:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.support-review-body > .support-suggestions { margin: 0; padding-top: var(--space-3); border-top: 1px solid var(--line); gap: var(--space-2); }
+/* Compact beside the email: smaller step headlines and plan, tighter cards. */
+.support-review-body > .support-suggestions .support-plan-lead, .support-review-body > .support-suggestions .support-plan-steps { font-size: var(--text-small); }
+:root .support-review-body > .support-suggestions .assistant-card-head:has(> .support-step) strong { font-size: 19px; }
+.support-review-body > .support-suggestions .support-step { font-size: var(--text-body); }
+.support-review-body > .support-suggestions .assistant-fields.support-changes { font-size: var(--text-small); }
+.support-review-body > .support-suggestions .assistant-card { padding: var(--space-2) 0; }
+.support-suggestion-head > .field-hint { margin: 0; color: var(--blue); font: 500 var(--text-small)/1.5 var(--font-body); }
+.support-suggestions .assistant-card-head strong { font: 500 var(--text-body)/1.4 var(--font-body); }
+.support-suggestions [data-mail-draft] > .assistant-request { max-height: min(30rem, 60vh); overflow-y: auto; font: 500 var(--text-body)/1.5 var(--font-body); letter-spacing: 0; }
+/* A message or draft taller than its region shows an ink rule under it until it is read to the end (a scroll-driven rule:
+   nothing is drawn when everything fits, or in a browser without scroll timelines). */
+.support-message-text, .support-suggestions [data-mail-draft] > .assistant-request { border-bottom: 2px solid transparent; animation: support-more linear both; animation-timeline: scroll(self); }
+@keyframes support-more { from, 96% { border-bottom-color: var(--ink); } to { border-bottom-color: transparent; } }
+.support-suggestions .assistant-card { padding: var(--space-2) 0; }
+.support-suggestions .assistant-fields { grid-template-columns: 4rem minmax(0, 1fr); }
+.support-suggestions:not(:has([data-followup-approve-all], .assistant-question)) .button[data-assistant-approve] {
+  --button-line: var(--button-fill); --button-label: var(--button-ink); --button-label-hover: var(--button-ink); --button-marker: inset 0 0 0 100vmax var(--button-fill);
+}
+.support-suggestions:not(:has([data-followup-approve-all], .assistant-question)) .button[data-assistant-approve]:is(:hover, :focus-visible):not(:disabled) { --button-marker: inset 0 0 0 100vmax var(--button-hover); }
+.support-suggestions .disclosure { margin: 0; }
+/* READABLE REVIEW: a fold's +/− sits right after its words, so "Show the whole proposal +" reads as a control, not as a line of text
+   with a mark at the far edge of the column. */
+:is(.support-review, .support-suggestions) details.disclosure > summary { justify-content: flex-start; }
+:is(.support-review, .support-suggestions) details.disclosure > summary > :first-child:not(.disclosure-hint) { flex: 0 1 auto; }
+:is(.support-review, .support-suggestions) details.disclosure > summary::after { margin-inline-start: var(--space-2); }
+.support-suggestions .disclosure > summary, :root details.support-related > summary { --disclosure-summary-padding: var(--space-2) 0; min-height: 36px; font: 500 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; }
+.support-suggestions > .callout.support-evidence-warning { margin: 0; padding-block: var(--space-2) var(--space-1); }
+.support-evidence-warning > .callout-title { font-size: var(--text-lead); }
+.support-evidence-warning > p { color: var(--text); font-size: var(--text-small); line-height: 1.45; }
+.support-review-source > .support-review-actions { margin: 0; padding-top: var(--space-3); border-top: 1px solid var(--line); }
+/* READABLE REVIEW (TEACHING-WORKFLOWS; requirement, 2026-10-04): the review's text actions and arrow links are
+   at reading size beside its framed buttons (sentence case is the app's rule, SENTENCE-CASE ACTIONS in button-theme.css).
+   (0,5,0) outranks button-theme.css's text-action type (0,4,0), which once defeated this sheet's rules for Don't, Undo and the
+   alternatives. */
+:root:root :is(.support-review, .support-suggestions) .text-button:not(.seating-card-button) {
+  min-height: 0; padding: var(--space-1) 0; justify-content: flex-start; color: var(--button-label, var(--ink)); font: 500 var(--text-body)/1.4 var(--font-body);
+  text-align: left; text-underline-offset: 3px;
+}
+:root:root :is(.support-review, .support-suggestions) :is(.support-message-head, .support-done-list, .support-joined, .callout) .text-button:not(.seating-card-button) {
+  padding: 0; font: 600 var(--text-small)/1.5 var(--font-body);
+}
+:is(.support-review, .support-suggestions) .link-arrow { font: 500 var(--text-body)/1.4 var(--font-body); }
+.support-done-list .link-arrow { font-size: var(--text-small); }
+/* An offered answer to the Assistant's question is a choice, framed and in the words it is written in. */
+:root:root .support-suggestions .button[data-question-option]:not([data-exam-version], .seating-card-button) {
+  min-height: 40px; padding: var(--space-2) var(--space-3); font: 500 var(--text-small)/1.4 var(--font-body); letter-spacing: 0; text-transform: none; text-align: left;
+}
+/* Each step that waits is a record to act on: a white box in the frame (Ledger); the decided and folded ones stay hairline rows. */
+.support-suggestions > .assistant-card:is(.support-proposal, [data-mail-draft], .support-mail-edit) { gap: var(--space-3); padding: var(--space-4); border: var(--frame); background: var(--surface); }
+.support-suggestions > .assistant-card:is(.support-proposal, [data-mail-draft], .support-mail-edit) + .assistant-card:is(.support-proposal, [data-mail-draft], .support-mail-edit) { margin-top: var(--space-2); }
+.support-review-body > .support-suggestions > .assistant-card > .assistant-card-actions { padding-top: var(--space-1); }
+/* A draft reads as the letter it is: set off by rules from its address lines and the notes under it. */
+.support-suggestions [data-mail-draft] > .assistant-request { padding: var(--space-3) 0; border-top: 1px solid var(--nested-line); }
+.support-suggestions [data-mail-draft] > :is(.assistant-card-note, .send-checks) { margin-top: calc(-1 * var(--space-2)); }
+.support-page-details { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3) var(--space-6); border-top: 1px solid var(--line); }
+.support-page-details > details { min-width: 16rem; margin: 0; }
+details.disclosure.support-automation > summary { --disclosure-summary-padding: var(--space-2) 0; font: 500 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; }
+.support-capture > summary { min-height: 40px; }
+
+.blueprint-fields { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: end; }
+.blueprint-fields .field { flex: 1 1 10rem; min-width: 0; }
+.blueprint-slots > li { padding-block: var(--space-3); }
+.blueprint-fields select { max-width: 100%; }
+/* TERM POLICIES: term-owned drafts; one area at a time, with the area list and Save always available. */
+#dialog:has(> #support-policies) { width: min(1040px, calc(100vw - 48px)); height: min(860px, calc(100dvh - 48px)); }
+#dialog > #support-policies { flex: 1 1 auto; }
+#dialog > #support-policies > .dialog-body { display: flex; flex-direction: column; overflow: hidden; }
+.policy-term { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding-bottom: var(--space-3); flex: 0 0 auto; }
+.policy-term .field { margin: 0; min-width: 240px; }
+.policy-term p { margin: 0; }
+.policy-workspace { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: var(--space-6); flex: 1; min-height: 0; border-top: 1px solid var(--line); }
+.policy-areas { overflow-y: auto; padding: var(--space-3) var(--space-3) var(--space-3) 0; border-right: 1px solid var(--line); }
+.policy-areas .section-label { margin: var(--space-4) 0 var(--space-2); padding-top: 0; border: 0; font-size: var(--text-caption); }
+.policy-areas .section-label:first-child { margin-top: 0; }
+.policy-areas button { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: var(--space-2); border: 0; border-radius: 0; background: transparent; color: var(--ink); padding: var(--space-2); text-align: left; font: 500 var(--text-small)/1.3 var(--font-body); cursor: pointer; }
+.policy-areas button:hover { background: var(--surface-hover); }
+.policy-areas button[aria-current="true"] { background: var(--surface-hover); color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.policy-areas small { flex-shrink: 0; font: 500 var(--text-caption)/1.3 var(--font-body); color: var(--muted); }
+.policy-editor { min-width: 0; overflow-y: auto; padding: var(--space-5) var(--space-2) var(--space-3) 0; }
+.policy-editor h3 { margin: 0 0 var(--space-3); font: var(--head-weight) var(--text-title)/1.15 var(--font-serif); }
+.policy-prompt { margin: 0 0 var(--space-5); color: var(--text); line-height: 1.5; }
+.policy-editor textarea { resize: vertical; min-height: 180px; }
+#support-policies .dialog-footer > p { margin: 0 auto 0 0; }
+/* MEETING HOURS: one weekly time per row (day, from, until, room, remove), then Add a time. */
+.meeting-hours { display: grid; gap: var(--space-3); justify-items: start; }
+.meeting-hours-row { display: grid; grid-template-columns: 10rem 8rem 8rem minmax(8rem, 14rem) auto; gap: var(--space-3); align-items: end; }
+.meeting-hours-row .field { margin: 0; }
+.meeting-hours-row > .text-button { margin-bottom: var(--space-2); }
+.meeting-rooms { display: grid; gap: var(--space-2); justify-items: start; margin: var(--space-5) 0 0; padding: var(--space-4) 0 0; border: 0; border-top: 1px solid var(--line); }
+.meeting-rooms > legend { padding: 0; font: 600 var(--text-body)/1.3 var(--font-body); }
+.meeting-rooms > label { display: flex; gap: var(--space-2); align-items: center; }
+
+/* The Show tabs' counts are mono; what needs you is counted in the orange block. */
+:root:root .support-filter-tabs > button > b { font: 700 12px/1 var(--font-num); }
+:root:root .support-filter-tabs > button[data-support-tab="attention"] > b:not([data-zero]) { padding: 2px 5px; background: var(--needs-fill); color: var(--needs-ink); }
+/* The toolbar reads like the comp: the Show tabs, Find, the rarer Status filter, then Add follow-up and Term policies. */
+.support-toolbar > .support-filter-tabs { align-self: end; }
+.support-toolbar select[data-support-filter] { width: auto; }
+.meeting-hours-summary { margin: 0 0 var(--space-3); padding: 0; list-style: none; border-top: 1px solid var(--nested-line); }
+.meeting-hours-summary li { padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); }
+[data-appointment-check]:empty { display: none; }
+.support-before-send { margin-block: var(--space-2); }
+/* SEE THEIR WORK (REGRADES "FOLLOW-UP", 2026-10-21): a regrade request's links side by side; its popup is wide enough for the crop. */
+.support-message-links { display: inline-flex; flex-wrap: wrap; gap: var(--space-3); }
+#dialog:has(> .support-work-dialog) { width: min(960px, calc(100vw - 32px)); max-width: calc(100vw - 32px); max-height: calc(100dvh - 32px); }
+#dialog > .support-work-dialog { display: flex; flex-direction: column; min-height: 0; }
+#dialog > .support-work-dialog > .dialog-body { overflow-y: auto; }

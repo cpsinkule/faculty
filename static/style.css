@@ -1,0 +1,1013 @@
+/* The base sheet (README "Components and forms"). It is linked WITHOUT a media attribute, so it also dresses printed
+   pages, and its :root is the PRINT token source: design-tokens.css is screen-only, so a printed page only has the
+   variables defined here (FRONTEND.md "Legacy sheets"). Three rules keep screen and print apart:
+   - A var(--token, value) with a fallback: the token is the screen value (design-tokens.css), the fallback is what
+     print has always used.
+   - Screen rules carry no colour literal: the print palette's own colours are kept in the @media print block below.
+   - The screen look of these legacy components (DESIGN-LANGUAGE, Ledger) lives in the @media screen
+     block at the end. Desktop only: there is no phone tier (requirement, 2026-10-03). */
+:root {
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: #2c352e;
+  background: #fafbf8;
+  font-synthesis: none;
+  --green: #42634d;
+  --ink: #2c352e;
+  --muted: #737c73;
+  --line: #e4e7df;
+  --paper: #fff;
+  --radius: 13px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-size: var(--text-body, 14px);
+  line-height: 1.5;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+a {
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+}
+/* A disabled button waits on the instructor (a missing choice, nothing to send) unless Faculty is working: the wait
+   cursor only for a busy button or one inside a form that is saving (runFormAction, ui.js setBusy). */
+button:disabled {
+  cursor: not-allowed;
+  opacity: var(--opacity-dim, 0.55);
+}
+button[aria-busy="true"],
+:is([aria-busy="true"], [data-saving="true"], [data-busy="true"]) button:disabled {
+  cursor: wait;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  color: inherit;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--focus, var(--ink));
+  outline-offset: 2px;
+}
+button svg,
+a svg {
+  flex-shrink: 0;
+}
+button {
+  border: 0;
+  background: none;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+svg {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.icon {
+  width: 20px;
+  height: 20px;
+}
+input,
+textarea,
+select {
+  min-width: 0;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--label, var(--muted));
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+[hidden] {
+  display: none !important;
+}
+.skip-link {
+  position: fixed;
+  top: -70px;
+  left: 20px;
+  padding: 12px;
+  z-index: 99;
+}
+.skip-link:focus {
+  top: 20px;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2, 8px);
+  padding: 11px 17px;
+  font-size: var(--text-control, 13px);
+  font-weight: 550;
+  border: 1px solid var(--line);
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+.button.primary {
+  background: var(--green);
+  border-color: var(--green);
+  box-shadow: none;
+}
+.button .icon {
+  width: 17px;
+  height: 17px;
+}
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  color: var(--green);
+  font-weight: 600;
+  font-size: var(--text-control, 13px);
+}
+.text-button .icon {
+  width: 17px;
+  height: 17px;
+}
+.icon-button {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-button .icon {
+  width: 17px;
+  height: 17px;
+}
+/* .icon-button.is-pinned and the saved tool colours (.blue, .clay, .lavender, .sand) take their screen colours from
+   workspace-theme.css and accent-theme.css; their print colours are in the @media print block. */
+.eyebrow {
+  font-size: var(--text-caption, 10px);
+  letter-spacing: var(--tracking-label, 1.7px);
+  font-weight: 600;
+}
+.count-badge {
+  font-size: var(--text-caption, 11px);
+  padding: 3px 7px;
+  margin-left: 7px;
+  vertical-align: middle;
+  font-weight: 500;
+}
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: var(--text-caption, 10px);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.category {
+  font-size: var(--text-caption, 9px);
+  letter-spacing: var(--tracking-label, 1.2px);
+  text-transform: uppercase;
+}
+.tool-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-6, 23px) var(--space-6, 24px) var(--space-4, 17px);
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  transition: border-color 0.15s;
+  min-width: 0;
+}
+.tool-card-top {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+.tool-icon {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto;
+}
+.tool-icon .icon {
+  width: 23px;
+  height: 23px;
+}
+.tool-card h3 {
+  font-size: var(--text-section, 17px);
+  font-weight: 600;
+  letter-spacing: var(--tracking-title, -0.35px);
+  overflow-wrap: anywhere;
+  margin: 6px 0 8px;
+}
+.tool-description {
+  color: var(--muted);
+  font-size: var(--text-small, 12px);
+  line-height: 1.75;
+  margin-bottom: 22px;
+  overflow-wrap: anywhere;
+  flex: 1;
+}
+.tool-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  gap: 10px;
+}
+.tool-card-bottom .text-button {
+  font-size: var(--text-small, 11px);
+}
+.tool-card-bottom .text-button .icon {
+  width: 14px;
+  height: 14px;
+}
+.courses-grid {
+  margin-top: var(--space-6, 24px);
+}
+.course-card {
+  min-height: 225px;
+}
+.course-details {
+  margin: -9px 0 18px;
+  font-size: var(--text-small, 11px);
+  color: var(--label, var(--muted));
+  overflow-wrap: anywhere;
+}
+.course-card .category {
+  overflow-wrap: anywhere;
+}
+.empty-state {
+  grid-column: 1/-1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 45px 20px;
+  border: 1px dashed var(--line);
+  text-align: center;
+}
+.empty-state > .icon {
+  width: 29px;
+  height: 29px;
+  color: var(--muted);
+  margin-bottom: 13px;
+}
+.empty-state h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.empty-state p {
+  font-size: var(--text-control, 13px);
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.roadmap {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  grid-column: 1/-1;
+}
+.roadmap-column {
+  padding: 14px;
+  min-height: 240px;
+}
+.roadmap-column > h3 {
+  font-size: var(--text-lead, 12px);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 2px 15px;
+  font-weight: 500;
+}
+.roadmap-column > h3 .count-badge {
+  margin-left: auto;
+}
+.roadmap-column .tool-card {
+  margin-bottom: 12px;
+  padding: 18px;
+  min-height: 240px;
+}
+.roadmap-column .tool-card:last-child {
+  margin-bottom: 0;
+}
+.roadmap-empty {
+  padding: 30px 12px;
+  text-align: center;
+  font-size: var(--text-small, 12px);
+  color: var(--muted);
+}
+.loading-state {
+  padding: 40px;
+  color: var(--muted);
+  text-align: center;
+  grid-column: 1/-1;
+}
+/* The connection banner's Refresh button is a button tier (button-theme.css); the banner is hidden in print. */
+/* Toasts: components.css (toast v2). */
+.noscript {
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+}
+
+/* Dialogs are screen furniture: never printed, so their rules use the screen tokens directly. The theme sheets give the
+   panel its colours, the ivory frame and the backdrop. */
+dialog {
+  padding: 0;
+  border: 1px solid var(--line);
+  box-shadow: none;
+  width: 540px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 48px);
+  color: var(--ink);
+}
+.dialog-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  justify-content: space-between;
+  padding: 26px 28px 0;
+}
+.dialog-header p {
+  color: var(--muted);
+  font-size: var(--text-small);
+  margin-top: 5px;
+}
+.dialog-body {
+  padding: 24px 28px;
+}
+.dialog-footer {
+  padding: 18px 28px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-2);
+}
+/* Dialog layout: the header and footer always stay in view and only the body scrolls, whatever the dialog holds (a
+   form of header/body/footer, or those three directly). Wide or full-height dialogs only set their size. */
+#dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+#dialog > form {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+#dialog > .dialog-header,
+#dialog > .dialog-footer,
+#dialog > form > .dialog-header,
+#dialog > form > .dialog-footer {
+  flex-shrink: 0;
+}
+#dialog > .dialog-body,
+#dialog > form > .dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+/* A student's card from the roster (courses.js studentDialog): wide enough for the photo beside the facts and the notes, absences
+   and messages under them without a long scroll. */
+#dialog:has(> .student-quick-view) {
+  width: min(880px, calc(100vw - 32px));
+}
+/* The gradebook record's Actions cell (gradebook-dialogs.js openStudent): Change and Paper side by side with room between them. */
+.gbd-record-actions {
+  display: inline-flex;
+  gap: var(--space-3);
+}
+.field {
+  display: block;
+  margin-bottom: 17px;
+  font-size: var(--text-caption, 12px);
+  font-weight: 550;
+}
+.field > input,
+.field > textarea,
+.field > select {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  color: var(--ink);
+  font-size: var(--text-body, 13px);
+  font-weight: 500;
+}
+.field textarea {
+  min-height: 83px;
+  resize: vertical;
+}
+.field-hint {
+  display: block;
+  font-weight: 500;
+  font-size: var(--text-small, 11px);
+  margin-top: 7px;
+  line-height: 1.6;
+}
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* The course dialog (app.js editCourse). Its groups are hairline sections of the one dialog panel, never boxes inside
+   it: a rule above, a small label (the legend, floated so the rule is not broken), then the fields. */
+.previous-course-panel {
+  margin-bottom: var(--space-5);
+  padding: 0 0 var(--space-5);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+}
+.previous-course-panel .field {
+  margin-bottom: 0;
+}
+.course-term-fields {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+}
+.year-picker {
+  display: flex;
+  margin-top: 7px;
+  border: 1px solid var(--control-line);
+  overflow: hidden;
+}
+.year-picker:focus-within {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.year-picker input {
+  appearance: textfield;
+  -moz-appearance: textfield;
+  border: 0;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  font-size: var(--text-body);
+  color: var(--ink);
+  outline: none;
+}
+.year-picker input::-webkit-inner-spin-button,
+.year-picker input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.year-buttons {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 29px;
+  border-left: 1px solid var(--line);
+}
+.year-buttons button {
+  flex: 1;
+  padding: 0;
+  line-height: 1;
+  font-size: var(--text-small);
+  color: var(--ink);
+}
+.year-buttons button + button {
+  border-top: 1px solid var(--line);
+}
+.course-section-block,
+.course-coordinator-block {
+  margin: 4px 0 24px;
+}
+.course-sections,
+.course-coordinator,
+.course-code-fields {
+  min-width: 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: var(--space-4) 0 0;
+}
+.course-sections,
+.course-coordinator {
+  margin: var(--space-5) 0 0;
+}
+/* COORDINATOR: the name and email are greyed out until Coordinated course is ticked (above the form and ledger themes' own
+   field rules, which load later). */
+:root:root .course-coordinator:disabled > legend,
+:root:root .course-coordinator:disabled .field {
+  color: var(--faint);
+}
+:root:root:root .course-coordinator:disabled .field > input {
+  border-color: var(--line);
+  background-color: var(--canvas);
+  color: var(--faint);
+  cursor: not-allowed;
+}
+:root:root .course-coordinator:disabled .field > input::placeholder {
+  color: transparent;
+}
+.course-code-fields {
+  margin: var(--space-2) 0 var(--space-5);
+}
+.course-sections > legend,
+.course-coordinator > legend,
+.course-code-fields > legend,
+.choice-group > legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 var(--space-3);
+  color: var(--label);
+  font: 700 var(--text-caption) / 1.5 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.course-sections > legend + *,
+.course-coordinator > legend + *,
+.course-code-fields > legend + * {
+  clear: both;
+}
+.section-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 12px;
+}
+.section-inputs.single-section {
+  grid-template-columns: minmax(0, 1fr);
+}
+.section-entry {
+  min-width: 0;
+  position: relative;
+}
+.section-entry .field {
+  font-size: var(--text-caption);
+}
+.section-entry .remove-section {
+  position: absolute;
+  top: -7px;
+  right: -3px;
+  width: 26px;
+  height: 26px;
+}
+.course-sections > .button {
+  padding: 8px 12px;
+  font-size: var(--text-small);
+}
+.field-optional {
+  font-weight: 500;
+  color: var(--muted);
+  margin-left: 5px;
+}
+
+/* The tool dialog (app.js, #tools): icon and colour choices. */
+.choice-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 18px;
+  border: 0;
+  padding: 0;
+}
+.choice-group > legend {
+  margin-bottom: var(--space-2);
+}
+.icon-choice {
+  position: relative;
+  cursor: pointer;
+}
+.icon-choice > span {
+  display: flex;
+  width: 37px;
+  height: 37px;
+  border: 1px solid var(--control-line);
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+.icon-choice input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.icon-choice input:checked + span {
+  background: var(--button-fill);
+  border-color: var(--button-fill);
+  color: var(--button-ink);
+}
+.icon-choice input:focus-visible + span {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+/* A colour swatch shows its saved colour (accent-theme.css --swatch); the chosen one gets a focus-coloured ring. */
+.color-choice > span {
+  width: 28px;
+  height: 28px;
+  border: 2px solid transparent;
+}
+.color-choice input:checked + span {
+  border-color: var(--ink);
+}
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: var(--text-small, 12px);
+  font-weight: 500;
+}
+.checkbox-field input {
+  accent-color: var(--ink);
+  width: 15px;
+  height: 15px;
+  margin: 0;
+}
+.form-error {
+  font-size: var(--text-small, 12px);
+  padding: 10px 12px;
+  margin-top: 17px;
+}
+.danger-button {
+  font-size: var(--text-small, 12px);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-right: auto;
+}
+.danger-button .icon {
+  width: 15px;
+  height: 15px;
+}
+/* .button.danger: button-theme.css on screen; the print fill is in the @media print block. */
+
+/* Workspace settings (app.js showSettings): the export row, the Connection guide and the storage summary. */
+.export-section {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+}
+.export-section h3 {
+  font-size: var(--text-section);
+  line-height: 1.25;
+  letter-spacing: var(--tracking-title);
+}
+.export-section p {
+  font-size: var(--text-small);
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: var(--space-1);
+  max-width: 46ch;
+}
+.guide-body {
+  padding-top: 10px;
+}
+.guide-body .guide-intro {
+  color: var(--muted);
+  font-size: var(--text-control);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+/* Steps are numbered like the step graphs: a serif numeral in the label ink, no box. */
+.guide-step {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  position: relative;
+  padding-left: 44px;
+}
+.step-number {
+  position: absolute;
+  left: 0;
+  top: var(--space-4);
+  display: flex;
+  align-items: baseline;
+  color: var(--label);
+  font: var(--head-weight) var(--text-title)/1 var(--font-serif);
+  font-variant-numeric: tabular-nums;
+}
+.guide-step h3 {
+  font-size: var(--text-lead);
+  line-height: 1.25;
+  letter-spacing: var(--tracking-title);
+  margin-bottom: var(--space-2);
+}
+.guide-step p {
+  font-size: var(--text-small);
+  color: var(--muted);
+  line-height: 1.6;
+}
+.guide-step code {
+  font-size: var(--text-small);
+}
+.code-block {
+  display: block;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 12px 14px;
+  margin: 10px 0;
+}
+.guide-note {
+  padding: 14px 16px;
+  border-left: 2px solid var(--line);
+  font-size: var(--text-small);
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 25px;
+}
+.guide-link {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  font-size: var(--text-small);
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 20px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--snappy);
+}
+.guide-link:hover {
+  color: var(--ink);
+}
+/* The storage summary is a statement inside the settings panel: a 2 px rule at its left (the error colour when
+   storage needs attention), never a box of its own. */
+.storage-summary {
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+  margin-top: var(--space-3, 12px);
+  margin-bottom: var(--space-6);
+  border: 0;
+  box-shadow: inset 2px 0 0 var(--control-line);
+  background: transparent;
+  font-size: var(--text-small);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.storage-summary > strong {
+  display: block;
+  color: var(--heading);
+  font-size: var(--text-lead);
+  line-height: 1.25;
+  letter-spacing: var(--tracking-title);
+}
+.course-code-fields .field {
+  margin-bottom: 12px;
+}
+#course-code-hint {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+}
+#course-code-preview {
+  color: var(--ink);
+}
+.storage-summary p {
+  margin: 5px 0 0;
+}
+.course-storage {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: var(--text-small, 12px);
+  line-height: 1.5;
+  margin: 0 0 18px;
+  overflow-wrap: anywhere;
+}
+.course-storage small {
+  font-size: var(--text-caption, 11px);
+}
+/* .storage-warning takes the error colour from accent-theme.css; its print colour is in the @media print block. */
+.storage-summary.storage-warning {
+  background: transparent;
+  box-shadow: inset 2px 0 0 var(--error);
+}
+
+/* Print keeps the palette it has always had: these are the colours the screen themes replace. */
+@media print {
+  .icon-button.is-pinned {
+    color: #5c7951;
+  }
+  .blue {
+    color: #57768b;
+  }
+  .clay {
+    color: #ab7858;
+  }
+  .lavender {
+    color: #847199;
+  }
+  .sand {
+    color: #9c884c;
+  }
+  .button.primary {
+    box-shadow: 0 2px 3px #213b2512;
+  }
+  .status-dot.building {
+    background: #ba8b48;
+  }
+  .badge.building {
+    color: #a77b36;
+  }
+  .badge.planned {
+    color: #7c8771;
+  }
+  .tool-description {
+    color: #7a8276;
+  }
+  .course-details {
+    color: #737e68;
+  }
+  .empty-state > .icon {
+    color: #829677;
+  }
+  .form-error {
+    color: #995536;
+  }
+  .button.danger {
+    background: #9b5643;
+    border-color: #9b5643;
+  }
+  .course-storage {
+    color: #657957;
+  }
+  .storage-warning {
+    color: #8a452f;
+  }
+}
+
+/* Ledger on screen (DESIGN-LANGUAGE §1–§4): 40 px controls, small uppercase labels. The theme sheets linked after this
+   one still dress colours and states. */
+@media screen {
+  .count-badge, .checkbox-field { font-weight: 500; }
+  /* A choice whose words wrap keeps its box at full size beside the first line: the box never shrinks, and it is centred
+     on that line whatever the label's size (1lh is the label's line height, which the input inherits with font). */
+  .checkbox-field {
+    align-items: flex-start;
+  }
+  .checkbox-field input {
+    flex-shrink: 0;
+    margin-top: max(0px, calc((1lh - 15px) / 2));
+  }
+  /* Status badges read like .chip (components.css): 11px semibold uppercase in a hairline frame, no fill. */
+  .badge {
+    min-height: 22px;
+    padding: 2px 7px;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  /* A count sits inside a serif heading: without its own tracking it would inherit the heading's and squeeze its digits. */
+  .count-badge {
+    padding: 1px 6px;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .course-details {
+    margin: -4px 0 var(--space-3);
+  }
+  .empty-state > .icon {
+    margin-bottom: var(--space-3);
+  }
+
+  /* Roadmap columns are ruled columns on the page, not panels holding panels: the top hairline is their only border. */
+  :root:root .roadmap > section.roadmap-column {
+    padding: var(--space-3) 0 0;
+    border-top: 1px solid var(--line);
+  }
+  .roadmap-column > h3 {
+    padding: 0 0 var(--space-3);
+    line-height: 1.25;
+    letter-spacing: var(--tracking-title);
+  }
+  .roadmap-column .tool-card {
+    padding: var(--space-5) 0;
+  }
+
+  /* The storage statement reads like a callout (components.css): a 2px rule above in the statement's ink (brick when
+     storage needs attention, always with the words), a serif title, then body copy. */
+  .storage-summary {
+    padding: var(--space-3) 0 0;
+    box-shadow: none;
+    border-top: 2px solid var(--ink);
+  }
+  .storage-summary.storage-warning {
+    box-shadow: none;
+    border-top-color: var(--error);
+  }
+  :root:root #dialog .storage-summary {
+    color: var(--text);
+  }
+  :root:root #dialog .storage-summary > strong {
+    margin-bottom: var(--space-1);
+    color: var(--heading);
+    font: var(--head-weight) 16px / 1.2 var(--font-serif);
+    letter-spacing: 0;
+  }
+  :root:root #dialog .storage-summary.storage-warning > strong {
+    color: var(--error);
+  }
+
+  /* The course code the dialog will save: a record title in the serif. */
+  #course-code-preview {
+    font: var(--head-weight) var(--text-item) / 1.2 var(--font-serif);
+    letter-spacing: var(--tracking-title);
+  }
+
+  /* The year stepper is one underlined field (form-theme.css): its arrows sit at the end of the line, unframed. */
+  .year-picker input {
+    padding: 7px 2px;
+  }
+  :root:root .year-picker > .year-buttons {
+    border-left: 0;
+  }
+  :root:root .year-picker > .year-buttons > button:not([data-exam-version]) {
+    border: 0;
+    color: var(--muted);
+  }
+  :root:root .year-picker > .year-buttons > button:not([data-exam-version]):hover {
+    color: var(--ink);
+  }
+
+  /* Connection guide: commands are code between hairlines, not boxes inside the dialog (or inside the note), and never a
+     rule at their side. */
+  :root:root .guide-body code.code-block {
+    margin: var(--space-3) 0;
+    padding: var(--space-2) 0;
+    border: 0;
+    border-block: 1px solid var(--nested-line);
+    color: var(--ink);
+    font-size: var(--text-small);
+    line-height: 1.6;
+  }
+  /* A note's lead-in is its small label in the note's tone. */
+  .guide-note > strong:first-child {
+    color: var(--callout-tone, var(--ink));
+    font-size: var(--text-caption);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+  /* A form's error is a statement under a 2px brick rule, in the error ink (accent-theme.css), never a filled box. */
+  :root:root .form-error:not([hidden]) {
+    padding: var(--space-2) 0 0;
+    border: 0;
+    border-top: 2px solid var(--error);
+  }
+}

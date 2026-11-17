@@ -1,0 +1,9 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch
+torchvision
+sentence-transformers==6.1.0
+transformers==5.19.0
+huggingface-hub
+safetensors
+Pillow
+numpy

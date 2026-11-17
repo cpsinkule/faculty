@@ -1,0 +1,73 @@
+{
+  "seed": 20260913,
+  "libraries": {
+    "Pillow": "12.3.0",
+    "numpy": "2.5.3",
+    "pypdf": "6.18.1",
+    "pypdfium2": "5.13.0",
+    "zxing-cpp": "3.1.1",
+    "reportlab": "5.0.1"
+  },
+  "physical_qualification": "pending; simulation cannot qualify classroom hardware",
+  "required_passed": true,
+  "incorrect_accepted": 0,
+  "summary": {
+    "300dpi": {
+      "passed": 12,
+      "total": 12
+    },
+    "200dpi": {
+      "passed": 12,
+      "total": 12
+    },
+    "150dpi": {
+      "passed": 12,
+      "total": 12
+    },
+    "rotate90": {
+      "passed": 12,
+      "total": 12
+    },
+    "rotate180": {
+      "passed": 12,
+      "total": 12
+    },
+    "rotate270": {
+      "passed": 12,
+      "total": 12
+    },
+    "skew+3": {
+      "passed": 12,
+      "total": 12
+    },
+    "skew-3": {
+      "passed": 12,
+      "total": 12
+    },
+    "blur0.6": {
+      "passed": 12,
+      "total": 12
+    },
+    "jpeg70": {
+      "passed": 12,
+      "total": 12
+    },
+    "contrast64-192": {
+      "passed": 12,
+      "total": 12
+    },
+    "combined200-90-jpeg70": {
+      "passed": 12,
+      "total": 12
+    },
+    "characterization-blur2": {
+      "passed": 10,
+      "total": 12
+    },
+    "characterization-jpeg20": {
+      "passed": 12,
+      "total": 12
+    }
+  },
+  "required_exact_db_lookups": 144
+}

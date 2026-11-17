@@ -1,0 +1,104 @@
+/* Sending grades to Gradescope (Grading → an assignment → Export). The panel reuses the batch cards' progress, facts and
+   disclosures from grading.css; the preview lists and tables are styled here. DESIGN-LANGUAGE (Ledger): small
+   uppercase labels, rows on hairlines, notices read as callouts. */
+.grading-gradescope code { overflow-wrap: anywhere; font-size: var(--text-small); }
+.grading-gradescope .grading-actions { margin: 16px 0 4px; }
+.grading-gradescope-links { margin: 0; padding: 0; list-style: none; }
+.grading-gradescope-links li { padding: 10px 0; border-bottom: 1px solid var(--nested-line); overflow-wrap: anywhere; }
+.grading-gradescope-links span { color: var(--muted); }
+.grading-gradescope-links strong { color: var(--ink); font-weight: 500; }
+
+.grading-gradescope-send { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 18px; }
+.grading-gradescope-send > header { margin-bottom: 12px; }
+.grading-gradescope-send h4 { margin: 4px 0 0; font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.grading-gradescope-send .supporting-copy { font-size: var(--text-small); overflow-wrap: anywhere; }
+.grading-gradescope-settled { margin-top: 0; }
+.grading-gradescope-kind + .grading-gradescope-kind { margin-top: 18px; }
+.grading-gradescope-kind .grading-batch-facts { margin-top: 10px; }
+.grading-gradescope-earlier > .grading-gradescope-send:first-of-type { margin-top: 0; border-top: 0; padding-top: 0; }
+/* Making the assignment on Gradescope (grading-gradescope-create.js) reuses the send card: a course where it stopped says so in
+   the failed tone, like a send's "did not go through", and the reason under it is a quiet notice (its tone rule, small text)
+   rather than a second headline. */
+:is([data-gradescope-creation], [data-gradescope-publication]) [data-gradescope-state="failed"] { color: var(--error); }
+:is([data-gradescope-creation], [data-gradescope-publication]) .grading-gradescope-links .grading-warning { margin: var(--space-2) 0 0; font-size: var(--text-small); }
+/* The send dialog's offer to make it: the button a step below the sentence, as a callout's one action. */
+[data-gradescope-create-offer] > .grading-actions { margin-top: var(--space-1); }
+
+/* Small headings in the panel are section labels ("WHERE EACH SECTION GOES"); the prefix outranks typography.css's serif
+   heading face. */
+:root:root :is(.grading-gradescope-heading, .grading-gradescope-summary h4) { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.grading-gradescope-heading { margin: 0 0 12px; }
+/* Publishing grades there (grading-gradescope-publish.js, 2026-10-02): its own panel after the send panels, on their rhythm; a unit
+   that did not go is in the failed tone like a creation's course (above), and the preview's notices read like the create dialog's. */
+.grading-gradescope-publish .grading-actions { margin: 16px 0 4px; }
+[data-gradescope-publish-warnings] > p { margin: 0 0 4px; }
+[data-gradescope-publish-warnings] > ul { margin: 0; padding-left: 1.2em; }
+[data-gradescope-publish-key] small { color: var(--muted); }
+/* A row's notice is a block under its tone rule, also where it stands in place of the state chip (a <span>: inline, its rule was
+   drawn through the text of its second line). */
+[data-gradescope-publish-key] .grading-warning { display: block; margin: var(--space-2) 0 0; font-size: var(--text-small); }
+/* A section or two per row, never many: the preview's table shows every row (the dialog scrolls). */
+[data-gradescope-publish-outlook] .data-table { max-height: none; }
+/* "Not set up" leads with the callout's own title: the serif in the tone. So do the create dialog's notices ("Before Faculty
+   can make it:" over its list, and its own "not set up"), whose paragraph and list sit on the callout's rhythm instead of a
+   paragraph's and a list's default margins. */
+:is(.grading-gradescope [data-gradescope-setup], [data-gradescope-create-problems], [data-gradescope-publish-problems], [data-gradescope-publish-warnings], [data-gradescope-create-outlook] > .grading-warning) > p > strong:first-child { display: block; margin-bottom: 4px; color: var(--callout-tone); font: var(--head-weight) 16px/1.2 var(--font-serif); letter-spacing: 0; text-transform: none; }
+:is([data-gradescope-create-problems], [data-gradescope-publish-problems], [data-gradescope-create-outlook] > .grading-warning) > p { margin: 0; }
+:is([data-gradescope-create-problems], [data-gradescope-publish-problems]) > ul { margin: 0; padding-left: 1.2em; color: var(--text); }
+[data-gradescope-create-problems] > ul > li + li { margin-top: 4px; }
+/* What a send carries (papers with their grades, or papers only): the compute settings' choice cells, two to a row. */
+.grading-gradescope-mode { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 0 20px; }
+.grading-gradescope-mode > legend { padding: 0; }
+.grading-gradescope-choices .supporting-copy { font-size: var(--text-small); margin: 12px 0 0; }
+.grading-gradescope-sections { display: grid; gap: 14px; }
+.grading-gradescope-section { min-width: 0; margin: 0; padding: 0 0 14px; border: 0; border-bottom: 1px solid var(--line); }
+.grading-gradescope-section legend { padding: 0; margin-bottom: 10px; color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.grading-gradescope-section .field { min-width: 0; margin: 0; }
+.grading-gradescope-section select { width: 100%; min-width: 0; }
+.grading-gradescope-section .supporting-copy, .grading-gradescope-section .grading-warning { font-size: var(--text-small); margin: 10px 0 0; }
+
+/* The preview's two totals: serif counts over their sentences, between hairlines. */
+.grading-gradescope-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px; margin: 20px 0 16px; padding: 16px 0; border-block: 1px solid var(--line); }
+.grading-gradescope-summary h4 { margin: 0 0 4px; }
+.grading-gradescope-summary p { margin: 0; color: var(--muted); font-size: var(--text-control); }
+.grading-gradescope-summary strong { color: var(--heading); font: var(--head-weight) var(--text-count)/1 var(--font-serif); letter-spacing: 0; font-variant-numeric: tabular-nums; margin-inline-end: 6px; }
+.grading-gradescope-summary ul { margin: 8px 0 0; padding: 0; list-style: none; font-size: var(--text-small); color: var(--muted); }
+.grading-gradescope-summary li + li { margin-top: 4px; }
+.grading-gradescope-summary li b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.grading-gradescope-reasons { margin: 0; padding-left: 16px; }
+.grading-gradescope-reasons li + li { margin-top: 4px; }
+.grading-gradescope-notes { margin: 0 0 12px; padding-left: 18px; font-size: var(--text-small); overflow-wrap: anywhere; }
+.grading-gradescope-notes li + li { margin-top: 4px; }
+.grading-gradescope-confirm { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.grading-gradescope-fixed { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); margin-top: var(--space-1); color: var(--ink); font-size: var(--text-control); font-weight: 500; }
+.grading-gradescope-leave { margin-top: 10px; font-size: var(--text-control); }
+/* A section left out of this send steps back (its fields dimmed); its legend and the ticked box keep saying so. */
+.grading-gradescope-section[data-left-out="true"] .grading-batch-fields { opacity: var(--opacity-dim); }
+.grading-gradescope-section[data-left-out="true"] legend { color: var(--muted); }
+/* What is on Gradescope now, across every send (the server's `coverage`). */
+.grading-gradescope-coverage { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; margin: 8px 0 12px; color: var(--muted); font-size: var(--text-body); }
+.grading-gradescope-coverage strong { color: var(--heading); font: var(--head-weight) var(--text-title)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); font-variant-numeric: tabular-nums; }
+.grading-gradescope-rules { margin: 8px 0 0; }
+.grading-gradescope-rules .supporting-copy { margin: 0; font-size: var(--text-small); }
+/* The preview's lists and empty sentences (grading-owned; they no longer borrow the seating merge classes). The lists are
+   the shared accordion (details.disclosure). */
+.grading-gradescope-list > summary { cursor: pointer; }
+.grading-gradescope-empty { padding: 12px 0; color: var(--muted); line-height: 1.7; }
+
+/* The popup over the send dialog when grades are already published on Gradescope (requirement, 2026-09-26). */
+.grading-gradescope-published-dialog { width: min(600px, calc(100vw - 32px)); }
+.grading-gradescope-published-dialog .dialog-body p { margin: 0 0 12px; }
+.grading-gradescope-published { margin: 0 0 14px; padding: 0; list-style: none; font-size: var(--text-control); border-top: 1px solid var(--line); }
+.grading-gradescope-published li { padding: 8px 0; border-bottom: 1px solid var(--nested-line); overflow-wrap: anywhere; }
+.grading-gradescope-published li span { color: var(--muted); }
+.grading-gradescope-published li strong { color: var(--ink); font-weight: 500; }
+.grading-gradescope-confirm :is([data-gradescope-published-note], [data-gradescope-replacing-note]) { margin: 0 0 12px; font-size: var(--text-small); }
+/* Replacing grades someone else made on Gradescope (requirement, 2026-10-01): the choice under What to send, its sentence quiet. */
+.grading-gradescope-replace { margin: 0 0 20px; }
+.grading-gradescope-replace .supporting-copy { margin: 4px 0 0; font-size: var(--text-small); }
+
+/* THE MC CHECK (grading-gradescope.js mcMarkup): the questions that differ sit under each student. */
+.grading-gradescope-mc { margin-top: 18px; }
+.grading-gradescope-mc h4 { margin: 0; }
+.grading-gradescope-mc .grading-gradescope-links ul { margin: 6px 0 0; padding-left: 18px; color: var(--muted); font-size: var(--text-small); }
+.grading-gradescope-mc .grading-gradescope-links p { margin: 6px 0 0; color: var(--muted); font-size: var(--text-small); }

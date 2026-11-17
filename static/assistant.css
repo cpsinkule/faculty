@@ -1,0 +1,296 @@
+/* The Faculty assistant's drawer (static/assistant.js). Screen only; tokens from design-tokens.css, no colours or radii of its own.
+   DESIGN-LANGUAGE "Assistant glass": ledger.css applies the shared material; this sheet owns the docked layout, conversation,
+   and approval cards. Each card keeps one primary action. */
+/* The launcher outside the header band (header-band.css and ledger.css draw it on the band's first line). */
+.assistant-launch { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 32px; padding: 0 var(--space-3); margin-left: var(--space-4); border: 1px solid var(--control-line); border-radius: var(--radius-control); background: transparent; color: var(--ink); font: 500 var(--text-small)/1 var(--font-body); cursor: pointer; }
+.assistant-launch:hover { background: var(--surface-hover); }
+.assistant-launch[aria-expanded="true"] { border-color: var(--ink); }
+.assistant-launch .icon { width: 16px; height: 16px; }
+.assistant-launch .chip { min-height: 18px; padding: 0 6px; }
+
+/* RESIZE (DESIGN-LANGUAGE "Assistant glass"): the drawer is 480 px wide unless the instructor dragged its left edge
+   (--assistant-width, set by assistant.js and remembered); never under 480 px, so its five tabs stay in view, and it always
+   leaves 420 px of the page. */
+:root { --assistant-drawn: clamp(480px, var(--assistant-width, 480px), max(480px, calc(100vw - 420px))); }
+/* Raised paper: inside the drawer the page tokens point at that paper, as in a dialog (outline-theme.css), so hovers and sticky
+   heads keep the drawer's own surface. */
+.assistant-panel {
+  --canvas: var(--paper);
+  --surface: var(--paper);
+  --surface-alt: var(--paper);
+  --surface-hover: color-mix(in srgb, var(--ink) 5%, var(--paper));
+  --highlight-bg: var(--surface-hover);
+  position: fixed; z-index: 60; top: 0; right: 0; bottom: 0; width: var(--assistant-drawn);
+  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr) auto;
+  background: var(--paper); color: var(--ink); border-left: 1px solid var(--ink);
+}
+.assistant-panel[hidden] { display: none; }
+/* Only a wide window makes room beside the drawer; narrower ones are overlaid, since pushing reflowed Home's hero mid-word. */
+@media (min-width: 1680px) { body.assistant-open .page { margin-right: min(var(--assistant-drawn), calc(100vw - 1200px)); } }
+/* Toasts move left of the open drawer, so its outcomes and errors (and a persistent error's Dismiss) stay visible. */
+body.assistant-open .toast-stack { right: calc(var(--assistant-drawn) + 24px); }
+/* The drawer's left edge is its resize handle: drag it, or focus it and use the arrow keys. */
+.assistant-resize { position: absolute; z-index: 2; top: 0; bottom: 0; left: 0; width: 8px; cursor: ew-resize; touch-action: none; }
+.assistant-resize:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.assistant-panel[data-resizing] { user-select: none; }
+.assistant-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); padding: var(--space-4) var(--space-5) var(--space-3); border-bottom: 1px solid var(--line); }
+/* The head's second line: the open chat's name (its first message) and the model's chip. Always there, so the tabs never move. */
+.assistant-head-chat { flex: 0 0 100%; display: flex; align-items: center; gap: var(--space-3); min-width: 0; min-height: 24px; margin: 0; }
+.assistant-head-chat [data-chat-title] { flex: 1; min-width: 0; overflow: hidden; color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); text-overflow: ellipsis; white-space: nowrap; }
+.assistant-head-chat .chip { flex: none; }
+.assistant-head h2 { margin: 0; margin-right: auto; color: var(--heading); font: var(--head-weight) var(--text-section)/1.1 var(--font-serif); letter-spacing: var(--tracking-title); }
+/* The model's chip shrinks with an ellipsis (a flex chip cannot: its text is an anonymous flex item), and New conversation keeps
+   one line in the 480 px drawer. */
+.assistant-head [data-assistant-model] { display: inline-block; min-width: 0; max-width: 12rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.assistant-head .text-button { flex: none; white-space: nowrap; }
+/* Chat | Changes | Code | Saved | Automation: section tabs, the chosen one in ink over a 2 px ink underline. */
+.assistant-tabs { display: flex; gap: var(--space-5); padding: 0 var(--space-5); overflow-x: auto; border-bottom: 1px solid var(--line); }
+.assistant-tabs button { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 42px; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: none; color: var(--muted); font: 500 var(--text-body)/1 var(--font-body); letter-spacing: 0; text-transform: none; white-space: nowrap; cursor: pointer; transition: color var(--snappy), border-color var(--snappy); }
+.assistant-tabs button:hover { color: var(--ink); }
+.assistant-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+.assistant-tabs button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.assistant-body { overflow-y: auto; padding: var(--space-4) var(--space-5); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); align-content: start; overflow-wrap: anywhere; }
+.assistant-body[hidden] { display: none; }
+/* An empty tab's notice sits right under the tabs' rule: no second hairline above it. */
+.assistant-panel .assistant-body > .empty-state { border-top-width: 0; }
+/* An empty chat: its one sentence flush left, right above the starters (no centred block, no rule). */
+:root:root :is(.assistant-panel, .assistant-area-bubble) [data-chat-events] > .empty-state { align-items: flex-start; padding: 0; border: 0; text-align: start; }
+:is(.assistant-panel, .assistant-area-bubble) [data-chat-events] > .empty-state > p { margin-bottom: 0; }
+/* The fold sits right above what can be done with the answer. */
+:is([data-assistant-chat], .assistant-area-chat) { background: var(--assistant-reading-surface); }
+.assistant-steps.disclosure { max-width: 70ch; margin: var(--space-3) 0 var(--space-2); }
+.assistant-steps.disclosure > summary { --disclosure-summary-padding: var(--space-2) 0; flex-wrap: wrap; gap: var(--space-1) var(--space-2); min-height: 36px; color: var(--muted); font-size: var(--text-small); }
+.assistant-steps.disclosure > summary > :first-child { flex: none; min-width: 0; }
+.assistant-steps.disclosure > summary > .disclosure-hint { margin-inline-start: 0; font: inherit; }
+.assistant-steps.disclosure > summary::after { margin-inline-start: auto; }
+
+.assistant-msg { max-width: 100%; overflow-wrap: anywhere; color: var(--text); font-size: var(--assistant-text-size); line-height: 1.65; }
+.assistant-msg > :first-child { margin-top: 0; }
+.assistant-msg > :last-child { margin-bottom: 0; }
+/* ASSISTANT "Readable conversation": speaker, position and tint identify your words without relying on colour alone. */
+.assistant-msg[data-from="you"] { width: fit-content; max-width: min(62ch, calc(100% - var(--space-6))); margin: var(--space-6) 0 var(--space-6) auto; padding: var(--space-3) var(--space-4); background: var(--assistant-message-own); color: var(--ink); font-weight: 500; }
+[data-chat-events] > .assistant-msg[data-from="you"]:first-child { margin-top: 0; }
+.assistant-msg[data-from="you"] > p { margin: var(--space-2) 0 0; }
+.assistant-msg[data-from="assistant"] { max-width: 70ch; margin-bottom: var(--space-3); }
+.assistant-msg[data-from="assistant"] p, .assistant-msg[data-from="assistant"] ul, .assistant-msg[data-from="assistant"] ol { margin: 0 0 var(--space-3); }
+.assistant-speaker { color: var(--muted); font: 700 var(--text-small)/1.4 var(--font-body); letter-spacing: 0; }
+.assistant-msg[data-from="assistant"] > .assistant-speaker { margin-bottom: var(--space-2); }
+.assistant-msg[data-from="assistant"] + .assistant-msg[data-from="assistant"] > .assistant-speaker { display: none; }
+.assistant-msg[data-from="assistant"] ul, .assistant-msg[data-from="assistant"] ol { padding-left: 1.3em; }
+.assistant-msg strong { color: var(--ink); font-weight: 700; }
+/* Emphasis is upright and heavier: no italics (DESIGN-LANGUAGE). */
+.assistant-msg em { color: var(--ink); font-style: normal; font-weight: 600; }
+.assistant-msg li > ul, .assistant-msg li > ol { margin: var(--space-1) 0 0; }
+.assistant-quote { margin: 0 0 var(--space-2); padding: 0 0 0 var(--space-3); border: 0; border-left: 2px solid var(--line); }
+.assistant-rule { height: 0; margin: var(--space-3) 0; border: 0; border-top: 1px solid var(--line); }
+/* Math keeps its source as text until KaTeX has drawn it (assistant-chat.js); a display formula scrolls inside its own line. */
+.assistant-math[data-math-display] { display: block; margin: 0 0 var(--space-2); overflow-x: auto; overflow-y: hidden; }
+.assistant-math .katex-display { margin: 0; }
+.assistant-msg a:not([class]) { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.assistant-msg a:not([class]):hover { color: var(--ink); }
+.assistant-msg code { font: 400 0.92em/1.4 var(--font-code); }
+/* A code block sits between two hairlines, never in a tinted box. */
+.assistant-msg pre { margin: 0 0 var(--space-2); padding: var(--space-2) 0; overflow-x: auto; border: 0; border-block: 1px solid var(--line); background: transparent; }
+.assistant-msg .assistant-heading { margin: var(--space-3) 0 var(--space-1); color: var(--heading); font-size: 19px; line-height: 1.25; letter-spacing: var(--tracking-title); }
+.assistant-table { overflow-x: auto; margin: 0 0 var(--space-2); }
+.assistant-table table { border-collapse: collapse; font-size: var(--text-small); }
+.assistant-table th, .assistant-table td { padding: 6px 12px 6px 0; border: 0; border-bottom: 1px solid var(--nested-line); text-align: left; vertical-align: top; }
+.assistant-table th { color: var(--ink); border-bottom: 2px solid var(--ink); font: 700 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+/* A column of numbers: right-aligned, tabular figures. */
+.assistant-table [data-num] { padding-left: 12px; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* What the assistant read or did: quiet lines between the messages. */
+.assistant-tool { margin: 0; color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); }
+.assistant-tool::before { content: "→ "; content: counter(decor, none) "→ " / ""; color: var(--label); }
+.assistant-tool[data-ok="false"] { color: var(--error); }
+/* CHANGES BESIDE THE CHAT: where a card was made, the floating chat keeps one line: the card's state and its name, a button that
+   brings the card into view in the panel beside the conversation. */
+.assistant-card-line { display: flex; align-items: baseline; gap: var(--space-2) var(--space-3); margin: 0; font-size: var(--text-small); }
+.assistant-card-line > .chip { flex: none; }
+.assistant-card-line > .text-button { min-width: 0; text-align: start; overflow-wrap: anywhere; }
+/* ASSISTANT MEMORY: what a typed message left to remember, said where it happened; the kept one in the text colour, with Undo. */
+.assistant-memory { margin: 0; padding-left: var(--space-2); border-left: 2px solid var(--nested-line); color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); }
+.assistant-memory[data-tone="kept"] { border-left-color: var(--ink); color: var(--text); }
+.assistant-memory-pictures { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
+.assistant-memory-pictures img { display: block; width: 72px; height: auto; max-height: 96px; object-fit: contain; border: 1px solid var(--line); background: #fff; }
+.assistant-memory-pictures a:hover img, .assistant-memory-pictures a:focus-visible img { border-color: var(--ink); }
+/* MEMORIES GIVEN: inside an answer's "How it got this", the memories its request was told. */
+.assistant-given { margin-top: var(--space-2); }
+.assistant-given-head { margin: 0; color: var(--label); font: 700 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.assistant-given-list { display: grid; gap: var(--space-2); margin: var(--space-1) 0 0; padding: 0; list-style: none; }
+.assistant-given-list li { display: grid; gap: 2px; padding-left: var(--space-2); border-left: 2px solid var(--nested-line); }
+.assistant-given-list li[data-gone="true"] .assistant-given-words { color: var(--muted); text-decoration: line-through; }
+.assistant-given-words { font: 500 var(--text-small)/1.4 var(--font-body); }
+.assistant-given-list .assistant-card-note { margin: 0; }
+.assistant-given-actions { display: flex; gap: var(--space-3); align-items: baseline; }
+.assistant-given-actions .text-button { font: 600 var(--text-small)/1.4 var(--font-body); }
+.assistant-memory .text-button + .text-button { margin-left: var(--space-2); }
+.assistant-memory-group { margin: var(--space-2) 0 0; color: var(--label); font: 700 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.assistant-working { animation: assistant-pulse 1.4s var(--ease) infinite; }
+/* While a turn runs: the steps finished so far, each ticked, above the line it is on now. */
+.assistant-live { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); }
+.assistant-live li::before { content: "✓ "; content: counter(decor, none) "✓ " / ""; color: var(--label); }
+.assistant-live li.assistant-live-earlier::before { content: none; }
+/* Above the instructor's words: speaker, time and Edit on the latest message. */
+.assistant-msg-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); margin: 0; color: var(--muted); font: 500 var(--text-caption)/1.4 var(--font-body); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.assistant-msg-meta > .assistant-speaker { margin-inline-end: auto; }
+.assistant-msg-meta .text-button, .assistant-turn-actions .text-button, .assistant-queued .text-button, .assistant-chip .text-button { font: 600 var(--text-small)/1.4 var(--font-body); }
+/* Under an answer: Copy, Copy table, Ask again. */
+.assistant-turn-actions { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-4); margin: 0 0 var(--space-2); }
+:root:root :is(.assistant-msg-meta, .assistant-turn-actions) .text-button { color: var(--muted); font-size: var(--text-small); text-decoration-thickness: 1px; }
+/* Jump to latest: stays at the pane's lower edge while the instructor reads further up. */
+.assistant-latest { position: sticky; bottom: 0; z-index: 1; justify-self: center; }
+.assistant-latest[hidden] { display: none; }
+/* An empty chat's starters: framed (they can be clicked), full sentences, left-aligned. */
+.assistant-starters { display: grid; gap: var(--space-2); justify-items: start; }
+.assistant-starters .button { max-width: 100%; height: auto; min-height: 36px; padding-block: 6px; white-space: normal; text-align: start; }
+@keyframes assistant-pulse { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .assistant-working { animation: none; } }
+
+/* An Approve card: the waiting tone's 2 px rule above, no fill or frame; once done, a hairline. */
+.assistant-card { display: grid; gap: var(--space-2); padding: var(--space-3) 0; border: 0; border-top: 2px solid var(--tone-warning); background: transparent; }
+.assistant-card[data-done="true"] { border-top: 1px solid var(--line); }
+/* Inside a batch or a follow-up, which carry the waiting rule themselves, each card is a row under a hairline. */
+:is(.assistant-batch, .assistant-followup) .assistant-card { border-top: 1px solid var(--nested-line); }
+.assistant-card-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); }
+.assistant-card-head strong { color: var(--heading); font: var(--head-weight) 15px/1.3 var(--font-serif); letter-spacing: var(--tracking-title); overflow-wrap: anywhere; }
+.assistant-card[data-done="true"] .assistant-card-head strong { font: 500 var(--text-body)/1.4 var(--font-body); letter-spacing: 0; }
+.assistant-card-route { margin: 0; color: var(--muted); font: 400 var(--text-caption)/1.4 var(--font-code); overflow-wrap: anywhere; }
+.assistant-card-note { margin: 0; color: var(--muted); font-size: var(--text-small); }
+.assistant-card details.disclosure { margin: 0; }
+.assistant-card-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+/* One primary per card: its Approve (or Send, Save file, Start the coding agent) is the ink block. A card inside a batch or a
+   follow-up (in the drawer or on the Follow-up page) keeps a secondary Approve: the batch's or the follow-up's own button is
+   the primary there. The fill comes through button-theme.css's hooks (--button-marker and --button-label), so hover, focus and
+   disabled keep its rules. */
+.assistant-card:not(.assistant-batch *, .assistant-followup *, .support-suggestions *) > .assistant-card-actions > .button[data-assistant-approve],
+.assistant-batch-card > .assistant-card-actions > .button[data-batch-approve],
+.assistant-batch > .button[data-approve-batch] {
+  --button-line: var(--button-fill);
+  --button-label: var(--button-ink);
+  --button-label-hover: var(--button-ink);
+  --button-marker: inset 0 0 0 100vmax var(--button-fill);
+}
+.assistant-card:not(.assistant-batch *, .assistant-followup *, .support-suggestions *) > .assistant-card-actions > .button[data-assistant-approve]:is(:hover, :focus-visible):not(:disabled),
+.assistant-batch-card > .assistant-card-actions > .button[data-batch-approve]:is(:hover, :focus-visible):not(:disabled),
+.assistant-batch > .button[data-approve-batch]:is(:hover, :focus-visible):not(:disabled) {
+  --button-marker: inset 0 0 0 100vmax var(--button-hover);
+}
+.assistant-card:not(.assistant-batch *, .assistant-followup *, .support-suggestions *) > .assistant-card-actions > .button[data-assistant-approve]:disabled,
+.assistant-batch-card > .assistant-card-actions > .button[data-batch-approve]:disabled,
+.assistant-batch > .button[data-approve-batch]:disabled { opacity: var(--opacity-dim); }
+/* An <h3> by structure, the section label by look: 12 px uppercase over a 2 px ink rule (two classes beat typography.css). */
+:root .assistant-subhead { margin: var(--space-3) 0 0; padding-top: var(--space-2); border-top: 2px solid var(--ink); color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.assistant-fields { display: grid; grid-template-columns: minmax(6rem, auto) 1fr; gap: 2px var(--space-3); margin: 0; font-size: var(--text-small); }
+.assistant-fields dt { color: var(--label); font-weight: 600; }
+.assistant-fields dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.assistant-values { margin: 0; padding-left: 1.2em; }
+.assistant-value { white-space: pre-wrap; }
+.assistant-value-empty { color: var(--muted); }
+
+.assistant-compose { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); padding: var(--space-3) var(--space-5) var(--space-4); border-top: 1px solid var(--line); }
+.assistant-compose[hidden] { display: none; }
+/* The box grows with what is typed (assistant-chat.js), up to 40% of the window, then scrolls. */
+.assistant-compose textarea { width: 100%; resize: none; min-height: 3.4em; max-height: 40vh; overflow-y: auto; }
+/* CHIPS: what goes with the next message, as quiet words (not framed: only × can be clicked). */
+.assistant-chips { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--space-2); color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); }
+.assistant-chips[hidden], [data-chat-queued][hidden] { display: none; }
+.assistant-chip { display: inline-flex; align-items: baseline; gap: var(--space-1); min-width: 0; max-width: 100%; color: var(--ink); }
+.assistant-chip > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.assistant-chip + .assistant-chip::before { content: "· "; content: counter(decor, none) "· " / ""; color: var(--label); }
+/* PICKERS (assistant-pickers.js): the "/" and "@" choices open over the conversation's lower edge, above the composer. The
+   chosen row is the neutral chosen tint (never orange). Its frame's corners are set with the glass in ledger.css. */
+:is(.assistant-compose, .assistant-area-compose) { position: relative; }
+.assistant-picker { position: absolute; z-index: 3; right: var(--space-5); bottom: 100%; left: var(--space-5); max-height: 17rem; margin: 0 0 var(--space-1); padding: var(--space-1) 0; overflow-y: auto; border: 1px solid var(--ink); background: var(--paper); list-style: none; }
+.assistant-picker[hidden] { display: none; }
+.assistant-picker [role="option"] { display: grid; gap: 1px; padding: 6px var(--space-3); color: var(--ink); font: 600 var(--text-small)/1.4 var(--font-body); cursor: pointer; }
+.assistant-picker [role="option"] small { color: var(--muted); font: 500 var(--text-caption)/1.4 var(--font-body); }
+.assistant-picker [role="option"][aria-selected="true"], .assistant-picker [role="option"]:hover { background: var(--chosen-bg); }
+.assistant-picker-group { padding: var(--space-2) var(--space-3) 2px; color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+/* QUEUE ONE: the message that waits for the running answer. */
+.assistant-queued { display: flex; align-items: baseline; gap: var(--space-3); margin: 0; font: 500 var(--text-small)/1.4 var(--font-body); }
+.assistant-queued > span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.assistant-queued strong { font-weight: 700; }
+/* Files dragged over the drawer or the window: the composer shows where they land. */
+[data-dropping] > .assistant-compose, [data-dropping] .assistant-area-compose { outline: 2px dashed var(--focus); outline-offset: -4px; }
+/* ANSWER READY: a small slate square on the launcher (never orange: nothing waits on it). */
+.assistant-ready { display: inline-block; flex: none; width: 8px; height: 8px; background: var(--tone-info); }
+.assistant-ready[hidden] { display: none; }
+/* A click opens the drawer with a 160 ms fade (FRONTEND "Press and open motion"); the keyboard opens it at once, and it closes at once. */
+.assistant-panel[data-entered="click"] { transition: opacity 160ms var(--ease-out); }
+@starting-style { .assistant-panel[data-entered="click"] { opacity: 0; } }
+.assistant-compose-row { display: flex; align-items: center; gap: var(--space-3); }
+/* ATTACH IN CHAT (assistant-attach.js): the paperclip, and the files that go with the next message, each with Remove. Shared by
+   the drawer and the floating chat. */
+.assistant-attach { flex: none; cursor: pointer; }
+.assistant-attach:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.assistant-attached { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.assistant-attached li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: var(--space-1) var(--space-3);
+  min-width: 0; padding: var(--space-1) 0; border-bottom: 1px solid var(--nested-line); }
+.assistant-attached-name { min-width: 0; overflow-wrap: anywhere; }
+.assistant-attached small { color: var(--muted); }
+.assistant-state { margin-right: auto; color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); font-variant-numeric: tabular-nums; }
+
+@media print { .assistant-panel, .assistant-launch { display: none; } }
+
+/* The Code tab (static/assistant-code.js). */
+/* The request the coding agent was given, quoted in bold body type. */
+.assistant-request { margin: 0; padding: 0; border: 0; color: var(--ink); font: 700 var(--text-lead)/1.45 var(--font-body); overflow-wrap: anywhere; }
+.assistant-code-list { display: grid; gap: 0; }
+.assistant-code-item { display: flex; align-items: center; gap: var(--space-2); min-height: 36px; padding: 4px var(--space-2); border: 0; border-bottom: 1px solid var(--nested-line); border-radius: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: background-color var(--snappy); }
+.assistant-code-item:hover { background: var(--surface-hover); }
+.assistant-code-item span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.assistant-code-item[aria-current="true"] { background: var(--chosen-bg); }
+.assistant-code-task { display: grid; gap: var(--space-3); padding: var(--space-3) 0; border-top: 1px solid var(--line); }
+.assistant-round { display: grid; gap: var(--space-2); }
+.assistant-files { margin: 0; padding-left: 1.2em; font-size: var(--text-small); }
+.assistant-files code { font: 400 var(--text-caption)/1.4 var(--font-code); overflow-wrap: anywhere; }
+.assistant-diffstat { font: 400 var(--text-caption)/1.4 var(--font-code); }
+.assistant-diffstat[data-kind="add"], .assistant-diff-line[data-kind="add"] { color: var(--success); }
+.assistant-diffstat[data-kind="del"], .assistant-diff-line[data-kind="del"] { color: var(--error); }
+.assistant-diff { margin: 0; max-height: 60vh; overflow: auto; padding: var(--space-2) 0; border: 0; border-block: 1px solid var(--line); background: transparent; font: 400 var(--text-caption)/1.45 var(--font-code); }
+.assistant-diff-line { display: block; white-space: pre; }
+.assistant-diff-line[data-kind="file"] { margin-top: var(--space-2); color: var(--heading); font-weight: 600; }
+.assistant-diff-line[data-kind="hunk"] { color: var(--blue); }
+.assistant-code-follow { display: grid; gap: var(--space-2); }
+.assistant-code-follow textarea { width: 100%; resize: vertical; }
+
+/* What fetch_files showed (assistant/files.py): pictures inline, each opening full size; other files as links. */
+.assistant-shown { display: grid; gap: var(--space-2); }
+.assistant-shown-caption { margin: 0; color: var(--muted); font-size: var(--text-small); }
+.assistant-shown-pictures { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: var(--space-2); }
+.assistant-shown-pictures:has(> :only-child) { grid-template-columns: 1fr; }
+.assistant-shown-picture { display: grid; gap: 2px; margin: 0; min-width: 0; }
+.assistant-shown-picture a { display: block; border: 1px solid var(--line); background: transparent; transition: border-color var(--snappy); }
+.assistant-shown-picture a:hover { border-color: var(--ink); }
+.assistant-shown-picture img { display: block; width: 100%; height: auto; }
+.assistant-shown-picture figcaption { overflow: hidden; color: var(--muted); font: 500 var(--text-caption)/1.3 var(--font-body); text-overflow: ellipsis; white-space: nowrap; }
+.assistant-shown-files { margin: 0; padding-left: 1.2em; font-size: var(--text-small); }
+.assistant-shown-size { color: var(--muted); font: 500 var(--text-caption)/1.4 var(--font-body); }
+
+[data-chat-events], .assistant-workspace-form, .assistant-question, .assistant-batch { display: grid; gap: var(--space-3); min-width: 0; }
+.assistant-workspace-form label { display: grid; gap: var(--space-1); }
+.assistant-workspace-form input, .assistant-workspace-form textarea, .assistant-workspace-form select, .assistant-question textarea { width: 100%; }
+/* A question's choices: a row of options under the question's label, no frame. */
+.assistant-question fieldset { display: flex; flex-wrap: wrap; gap: var(--space-2); min-width: 0; margin: 0; padding: 0; border: 0; }
+.assistant-question legend { margin-bottom: var(--space-1); padding: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.assistant-evidence, .assistant-evidence pre { overflow-wrap: anywhere; font-size: var(--text-small); }
+.assistant-evidence code { word-break: break-all; }
+.assistant-evidence article + article { margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--nested-line); }
+.assistant-evidence pre { white-space: pre-wrap; }
+.assistant-file-preview { white-space: pre-wrap; overflow: auto; max-height: 45vh; font: 400 var(--text-small)/1.5 var(--font-code); }
+/* Changes approved together: a ruled block whose own button is the primary. */
+.assistant-batch { padding: var(--space-3) 0; border: 0; border-top: 2px solid var(--tone-warning); }
+.assistant-batch-select { font-size: var(--text-small); }
+/* ONE CARD FOR ONE CHANGE: a one-route group's changes, one line each under a hairline, with Leave out at the end; long lists scroll. */
+.assistant-batch-list { display: grid; max-height: 40vh; margin: 0; padding: 0; overflow-y: auto; list-style: none; font-size: var(--text-small); }
+.assistant-batch-list li { display: flex; align-items: baseline; gap: var(--space-2) var(--space-3); padding: var(--space-1) 0; border-top: 1px solid var(--nested-line); }
+.assistant-batch-list li:first-child { border-top: 0; }
+.assistant-batch-list li > span:not(.chip) { display: grid; flex: 1; gap: 2px; min-width: 0; overflow-wrap: anywhere; }
+.assistant-batch-list .text-button { flex: none; }
+/* AUTOMATION VISIBILITY (2026-10-09): the "Done by Faculty" log and a target's folded earlier drafts are quiet lists; a
+   review-only request carries a small label above its text. */
+.assistant-done-list, .assistant-earlier-list { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.assistant-done-list li { display: grid; gap: 2px; justify-items: start; }
+.assistant-earlier-list li { color: var(--muted); font-size: var(--text-small); }
+.assistant-msg[data-from="you"] [data-review-only] { margin-bottom: var(--space-1); font-family: var(--font-body); }
+.assistant-done-list :is(.link-arrow, .text-button) { max-width: 100%; white-space: normal; text-align: start; overflow-wrap: anywhere; }

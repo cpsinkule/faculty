@@ -1,0 +1,105 @@
+/* A scan's reader in the Ledger language (DESIGN-LANGUAGE §3–§4): context, reading counts as large heading-weight figures over small labels,
+   then the readings as a table on hairlines. Supporting provenance and settings stay in disclosures (+/− at the right).
+   Scanned sheets keep their own pixels. Printed sheets are unaffected: this sheet is screen only. Desktop only. */
+.document-scan-review .bubble-sheets { padding: var(--space-6) 0; }
+/* On the scan's Bubble sheets page the panel sits inside the page's frame: no frame or padding of its own. */
+.document-scan-review .bubble-sheets.bubble-sheets-stage { padding: 0; border: 0; background: transparent; box-shadow: none; }
+.bubble-sheets .bubble-panel-title {
+  margin: 0 0 var(--space-5); color: var(--heading);
+  font: var(--head-weight) var(--text-title)/1.15 var(--font-serif); letter-spacing: var(--tracking-title);
+}
+.bubble-run-context { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3) var(--space-8); flex-wrap: wrap; }
+.bubble-run-context > div { min-width: 0; }
+.bubble-sheets .bubble-run-context h4 {
+  margin: 0 0 var(--space-2); color: var(--heading);
+  font: var(--head-weight) var(--text-section)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); overflow-wrap: anywhere;
+}
+.bubble-run-context p { margin: 0; color: var(--label); font-size: var(--text-caption); font-weight: 700; line-height: 1.5; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.bubble-run-context .bubble-run-size { color: var(--ink); font-variant-numeric: tabular-nums; }
+.bubble-run-size span { margin-inline: var(--space-1); color: var(--label); }
+/* How the question count was found ("inferred: …"): a note in sentence case (a bare <small> in this 11px line would fall under
+   it). */
+.bubble-run-size small { color: var(--muted); font-size: var(--text-small); font-weight: 500; text-transform: none; letter-spacing: normal; }
+/* The three counts: big heading-weight figures over small uppercase labels, split by vertical hairlines, between two rules. In a scan's
+   reader the rules run the panel's full width, like its other hairlines (the answer-key page keeps its narrower row). */
+:root:root .bubble-read-counts {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 760px;
+  margin: var(--space-6) 0; padding: var(--space-5) 0;
+  border: 0; border-block: 1px solid var(--line); background: transparent;
+}
+:root:root .bubble-sheets .bubble-read-counts { max-width: none; }
+.bubble-read-counts > div { display: flex; flex-direction: column; gap: var(--space-2); padding-inline: var(--space-6); }
+.bubble-read-counts > div:first-child { padding-inline-start: 0; }
+.bubble-read-counts > div + div { border-inline-start: 1px solid var(--line); }
+.bubble-read-counts dt { color: var(--label); font-size: var(--text-caption); font-weight: 700; line-height: 1.5; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.bubble-read-counts dd {
+  order: -1; margin: 0; color: var(--heading);
+  font: var(--head-weight) var(--text-count)/1 var(--font-serif); letter-spacing: 0; font-variant-numeric: tabular-nums;
+}
+.bubble-read-counts [data-bubble-count="clean"] dd { color: var(--tone-success); }
+.bubble-read-counts .bubble-count-attention dd { color: var(--tone-warning); }
+.bubble-results-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4) var(--space-6); margin: var(--space-6) 0 var(--space-4); }
+.bubble-result-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.bubble-sheets .bubble-results-toolbar .button { margin: 0; }
+.bubble-sheets .bubble-filter { gap: var(--space-3); color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.bubble-filter select { width: auto; max-width: 100%; color: var(--ink); }
+/* The readings: no outer frame and no header fill; rows on the row rule, student names in the ink, cells in the text ink.
+   :root:root is kept only where a theme sheet would otherwise win: outline-theme.css's framed-panel fill on the
+   wrapper, components.css's record-table cell colour (0,3,1) and button-theme.css's text-button padding. */
+:root:root .bubble-results-table { position: relative; max-width: 100%; border: 0; background: transparent; }
+.bubble-results-table table { min-width: 680px; max-width: none; font-size: var(--text-control); }
+.bubble-results-table thead th { padding: var(--space-3) var(--space-4); }
+.bubble-results-table td { padding: var(--space-4); border-color: var(--nested-line); line-height: 1.5; vertical-align: top; }
+.bubble-results-table :is(th, td):first-child { padding-inline-start: 0; }
+.bubble-results-table :is(th, td):last-child { padding-inline-end: 0; text-align: end; }
+:root:root .bubble-results-table td:nth-child(2) { min-width: 160px; color: var(--ink); }
+:root:root .bubble-results-table td:nth-child(3) { color: var(--ink); }
+.bubble-results-table td:nth-child(5) { min-width: 140px; }
+.bubble-results-table td:nth-child(5) strong { color: var(--ink); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.bubble-results-table td small { display: inline-block; margin-top: var(--space-1); color: var(--muted); font-size: var(--text-small); }
+/* The answers as read ("BCDEABCDEA"): a raw record, in the code face. */
+.bubble-results-table code { white-space: nowrap; color: var(--ink); font-size: var(--text-small); }
+:root:root .bubble-results-table td .text-button { min-height: 0; margin: 0; padding: 0 var(--space-1); }
+.bubble-table-key { margin: var(--space-3) 0 var(--space-6); color: var(--muted); font-size: var(--text-small); }
+/* Reading details, Identification settings and Read again: disclosures like the app's others (components.css):
+   rows touching on their hairlines, and an open body flush under its summary, with no side rule or indent of its own, so a fold
+   inside one (How sheets are read) is simply the next hairline row. */
+.bubble-details { margin: 0; }
+.bubble-detail-content { max-width: 760px; margin: 0; padding: 0 0 var(--space-5); }
+.bubble-detail-content > :first-child { margin-top: 0; }
+.bubble-detail-content > :last-child { margin-bottom: 0; }
+.bubble-detail-content .field-hint, .bubble-sheets [data-bubble-detected] { color: var(--text); font-size: var(--text-control); line-height: 1.6; max-width: 72ch; }
+.bubble-sheets [data-bubble-detected] { margin-bottom: var(--space-4); }
+/* The read form's one plain sentence ("Using this scan's assignment …") sits at the size of the hints around it. */
+.bubble-sheets [data-bubble-request] > p:not(.field-hint) { color: var(--text); font-size: var(--text-control); line-height: 1.6; }
+.bubble-read-facts { display: grid; gap: 0; margin: 0 0 var(--space-4); font-size: var(--text-control); }
+.bubble-read-facts > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--space-3); padding-block: var(--space-2); border-top: 1px solid var(--nested-line); }
+.bubble-read-facts > div:last-child { border-bottom: 1px solid var(--nested-line); }
+.bubble-read-facts dt { color: var(--label); font-size: var(--text-caption); font-weight: 700; line-height: 1.8; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.bubble-read-facts dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
+.bubble-sheets .bubble-detail-content h4 {
+  margin: var(--space-6) 0 var(--space-3); color: var(--heading);
+  font: var(--head-weight) var(--text-item)/1.25 var(--font-serif); letter-spacing: var(--tracking-title);
+}
+.bubble-identity-counts { display: grid; gap: 0; max-width: 480px; margin: 0 0 var(--space-5); }
+.bubble-identity-counts > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-4); padding-block: var(--space-2); border-top: 1px solid var(--nested-line); font-size: var(--text-control); }
+.bubble-identity-counts > div:last-child { border-bottom: 1px solid var(--nested-line); }
+.bubble-identity-counts dt { color: var(--ink); }
+.bubble-identity-counts dt span { display: block; margin-top: 2px; color: var(--muted); font-size: var(--text-small); }
+.bubble-identity-counts dd { margin: 0; color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); font-variant-numeric: tabular-nums; text-align: end; }
+.bubble-details .bubble-threshold { padding: 0; border: 0; margin: 0; }
+.bubble-details .bubble-threshold .field { display: block; margin: 0 0 var(--space-4); }
+.bubble-details .bubble-threshold-input { display: flex; flex-wrap: wrap; margin: var(--space-2) 0 0; color: var(--text); text-transform: none; letter-spacing: normal; font-size: var(--text-control); }
+/* The threshold is a field like every other (form-theme.css): a line of type on an ink underline, ink on hover, the focus ring. */
+.bubble-threshold-input input {
+  min-height: var(--control-height); padding: 7px 2px;
+  border: 0; border-bottom: 1px solid var(--control-line); border-radius: 0;
+  background: transparent; color: var(--ink); font: 500 var(--text-body)/1.5 var(--font-body);
+  transition: border-color var(--snappy), box-shadow var(--snappy);
+}
+.bubble-threshold-input input:hover:not(:disabled, :focus) { border-bottom-color: var(--ink); }
+.bubble-threshold-input input:focus-visible { border-bottom-color: var(--focus); box-shadow: inset 0 -1px 0 var(--focus); outline: 2px solid var(--focus); outline-offset: 2px; }
+.bubble-details .bubble-threshold .field-hint { margin-top: var(--space-3); }
+.bubble-sheets-none .bubble-details { border-top: 0; }
+.bubble-sheets-none .bubble-details > summary { padding: 0; }
+.bubble-sheets-none .bubble-details[open] > summary { padding-bottom: var(--space-4); }

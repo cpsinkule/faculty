@@ -1,0 +1,274 @@
+{
+ "about": "SCHEDULING ONE CLOCK: every clock reading, held by tests/test_scheduling_clock.py and tests/test_clock_cases.mjs (calendar-feed.js clockMinutes = \"any\").",
+ "cases": [
+  {
+   "text": "13:00",
+   "hhmm": 780,
+   "any": 780,
+   "loose": 780,
+   "span": [
+    780,
+    null
+   ]
+  },
+  {
+   "text": "09:05",
+   "hhmm": 545,
+   "any": 545,
+   "loose": 545,
+   "span": [
+    545,
+    null
+   ]
+  },
+  {
+   "text": "9:05",
+   "hhmm": null,
+   "any": 545,
+   "loose": null,
+   "span": [
+    545,
+    null
+   ]
+  },
+  {
+   "text": "00:00",
+   "hhmm": 0,
+   "any": 0,
+   "loose": 0,
+   "span": [
+    0,
+    null
+   ]
+  },
+  {
+   "text": "23:59",
+   "hhmm": 1439,
+   "any": 1439,
+   "loose": 1439,
+   "span": [
+    1439,
+    null
+   ]
+  },
+  {
+   "text": "24:00",
+   "hhmm": null,
+   "any": null,
+   "loose": null,
+   "span": null
+  },
+  {
+   "text": "12:60",
+   "hhmm": null,
+   "any": null,
+   "loose": null,
+   "span": null
+  },
+  {
+   "text": "7:05 PM",
+   "hhmm": null,
+   "any": 1145,
+   "loose": 1145,
+   "span": [
+    1145,
+    null
+   ]
+  },
+  {
+   "text": "7:05PM",
+   "hhmm": null,
+   "any": 1145,
+   "loose": 1145,
+   "span": [
+    1145,
+    null
+   ]
+  },
+  {
+   "text": "7pm",
+   "hhmm": null,
+   "any": 1140,
+   "loose": 1140,
+   "span": [
+    1140,
+    null
+   ]
+  },
+  {
+   "text": "7 pm",
+   "hhmm": null,
+   "any": 1140,
+   "loose": 1140,
+   "span": [
+    1140,
+    null
+   ]
+  },
+  {
+   "text": "12 am",
+   "hhmm": null,
+   "any": 0,
+   "loose": 0,
+   "span": [
+    0,
+    null
+   ]
+  },
+  {
+   "text": "12:30 p.m.",
+   "hhmm": null,
+   "any": 750,
+   "loose": 750,
+   "span": [
+    750,
+    null
+   ]
+  },
+  {
+   "text": "7:05p.m.",
+   "hhmm": null,
+   "any": 1145,
+   "loose": 1145,
+   "span": [
+    1145,
+    null
+   ]
+  },
+  {
+   "text": " 19:05 ",
+   "hhmm": null,
+   "any": 1145,
+   "loose": null,
+   "span": [
+    1145,
+    null
+   ]
+  },
+  {
+   "text": "1PM",
+   "hhmm": null,
+   "any": 780,
+   "loose": 780,
+   "span": [
+    780,
+    null
+   ]
+  },
+  {
+   "text": "After lecture, around 2 PM",
+   "hhmm": null,
+   "any": null,
+   "loose": 840,
+   "span": null
+  },
+  {
+   "text": "10:20 am",
+   "hhmm": null,
+   "any": 620,
+   "loose": 620,
+   "span": [
+    620,
+    null
+   ]
+  },
+  {
+   "text": "noon",
+   "hhmm": null,
+   "any": null,
+   "loose": null,
+   "span": null
+  },
+  {
+   "text": "",
+   "hhmm": null,
+   "any": null,
+   "loose": null,
+   "span": null
+  },
+  {
+   "text": "7:05–8:55 PM",
+   "hhmm": null,
+   "any": null,
+   "loose": 1145,
+   "span": [
+    1145,
+    1255
+   ]
+  },
+  {
+   "text": "11:30–1:00 PM",
+   "hhmm": null,
+   "any": null,
+   "loose": 690,
+   "span": [
+    690,
+    780
+   ]
+  },
+  {
+   "text": "9–10 AM",
+   "hhmm": null,
+   "any": null,
+   "loose": 540,
+   "span": [
+    540,
+    600
+   ]
+  },
+  {
+   "text": "13:00-17:00",
+   "hhmm": null,
+   "any": null,
+   "loose": 780,
+   "span": [
+    780,
+    1020
+   ]
+  },
+  {
+   "text": "9:00 AM–10:15 AM",
+   "hhmm": null,
+   "any": null,
+   "loose": 540,
+   "span": [
+    540,
+    615
+   ]
+  },
+  {
+   "text": "5 pm to 6 pm",
+   "hhmm": null,
+   "any": null,
+   "loose": 1020,
+   "span": [
+    1020,
+    1080
+   ]
+  },
+  {
+   "text": "13:00 PM",
+   "hhmm": null,
+   "any": null,
+   "loose": null,
+   "span": null
+  },
+  {
+   "text": "0:30",
+   "hhmm": null,
+   "any": 30,
+   "loose": null,
+   "span": [
+    30,
+    null
+   ]
+  },
+  {
+   "text": "1:5 pm",
+   "hhmm": null,
+   "any": null,
+   "loose": null,
+   "span": null
+  }
+ ]
+}

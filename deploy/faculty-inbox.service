@@ -1,0 +1,18 @@
+[Unit]
+Description=Faculty Teaching Inbox worker
+After=faculty.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/code/Teaching
+ExecStart=%h/code/Teaching/.venv/bin/python %h/code/Teaching/manage_inbox.py worker
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=FACULTY_REQUIRE_STORAGE=1
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+UMask=0077
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,12 @@
+.git
+.agents
+.codex
+.venv
+__pycache__
+data
+tests
+test-results
+.env
+*.sqlite3*
+node_modules
+.faculty-storage*.json

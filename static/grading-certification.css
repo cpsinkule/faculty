@@ -1,0 +1,355 @@
+/* Certification and Export, the sixth grading step (static/grading-certification.js). Screen only; tokens from design-tokens.css;
+   the components (callout, disclosure, chips, .stat, .data-table) keep their own look from components.css. No inline style
+   attributes: the histogram is SVG rectangles with height attributes.
+   DESIGN-LANGUAGE (the Magazine edition): the summary is a row of serif counts over small labels, each under a hairline; the
+   distribution is ink bars on an ink axis (the highlighted bar is told by its tooltip, not by colour; instructor,
+   2026-09-27, kept 2026-10-03; ink throughout since the Ledger restyle, DESIGN-LANGUAGE 1.2); Questions | Students reads as section tabs; tables inside a panel lose their
+   own frame; the drawer and the Certify dialog divide their sections with hairlines, never nested boxes. Scores and counts are
+   tabular serif figures. This sheet loads before the foundation sheets, so overrides of their rules carry :root:root. */
+
+.grading-certification { display: grid; gap: var(--space-4); min-width: 0; }
+.grading-certification [data-cert-main] { display: grid; gap: var(--space-4); min-width: 0; }
+/* The page's own tables (23 questions, 340 students) are the work surface: most of the window, header row sticky, not the
+   300 px preview box components.css gives tables in dialogs. */
+.grading-certification .data-table { max-height: min(75vh, 1100px); }
+.grading-certification .grading-step-header { margin-bottom: 0; }
+/* Inside a panel (the tables, the question, the drawer) a table is a record table: hairline rows, no frame of its own. */
+.grading-certification :is(.grading-panel, .certification-drawer) .data-table { border: 0; }
+
+/* The section label (DESIGN-LANGUAGE §3): 11px semibold uppercase sans in the label ink. Only the page's own headings: the
+   review desk mounted in the drawer keeps its own. */
+.grading-certification :is(.certification-distribution, .certification-checks, .certification-drawer-part) > h4,
+.grading-certification .certification-band-details > .disclosure-body > h4,
+.grading-certification .certification-batches > h5,
+.grading-certification :is(.certification-table, .certification-rubric) > table > caption,
+.certification-dialog :is([data-certify-body], .certification-gradebook) > h4 {
+  margin: 0 0 var(--space-2);
+  color: var(--label);
+  font: 700 var(--text-caption)/1.5 var(--font-body);
+  letter-spacing: var(--tracking-section);
+  text-transform: uppercase;
+}
+
+/* The student search sits in the panel's top row, on the field's ink underline (form-theme.css); its label text is for
+   screen readers only. As tall as the tabs beside it. */
+.certification-search { display: flex; flex: 1 1 14rem; min-width: 0; max-width: 20rem; }
+.field.certification-search { display: flex; margin: 0; }
+.field.certification-search > input { width: 100%; min-height: var(--control-height); margin-top: 0; }
+.grading-certification [data-step-actions] { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--space-2) var(--space-3); }
+/* The panel's top row: Questions | Students on the left, the student search on the right. */
+.certification-panel-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-4); }
+.certification-panel-top .certification-search { flex: 0 1 24rem; max-width: 24rem; }
+/* Questions | Students is a pair of section tabs (button-theme.css's shared tab list): here it only keeps its two words on one
+   row and drops the filter row's margin. */
+:root:root .certification-panel-top > .filter-chips[data-filter-group="cert-panel"] { flex-wrap: nowrap; margin: 0; }
+
+/* One line of status; the checks are in its Details. Their tables scroll in their own region, never the page. */
+.certification-band { display: grid; gap: 0; }
+.certification-band > * { min-width: 0; }
+.certification-band > .callout { margin-bottom: 0; }
+.certification-band-details { margin: 0; }
+/* Late papers (LATE PAPERS CERTIFY THEMSELVES): one line per student, the name a text button opening the drawer, then the section and
+   their own reason in the muted caption ink; never one long sentence. */
+.certification-late { margin: 0; }
+.certification-late-list { display: grid; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+.certification-late-section { color: var(--muted); font-size: var(--text-caption); }
+.certification-late-reason { display: block; color: var(--muted); font-size: var(--text-caption); }
+.certification-automatic-sends > h4 { margin: 0 0 var(--space-2); }
+.grading-certification .certification-checks > h4 { margin: var(--space-4) 0 var(--space-2); }
+.certification-checks ul { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.certification-checks li > .callout { margin: 0; }
+
+/* The summary (the status band, its Details, a send to Gradescope under way, the counts); the distribution follows across the
+   page under a hairline. No painting beside it since 2026-10-04 (instructor: "remove paintings"). */
+.certification-summary { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4) 44px; align-items: start; }
+.certification-summary-main { display: grid; gap: var(--space-4); min-width: 0; }
+/* The counts: a serif figure over its small label, each under its own hairline (components.css .stat), side by side with a
+   gutter between them; no cell frames. A count that filters the tables is a button: hover keeps the figure ink (DESIGN-LANGUAGE
+   1.2: hover is never orange), the pressed one stands under a 2px ink rule (components.css). */
+.certification-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: var(--space-3) var(--space-5); }
+:root:root .certification-cards > .stat { display: grid; align-content: start; gap: var(--space-2); min-width: 0; padding: var(--space-3) 0 var(--space-2); }
+:root:root .certification-cards > .stat:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+:root:root .certification-cards > .stat > strong { margin: 0; font-size: var(--text-count); line-height: 1; overflow-wrap: anywhere; }
+/* Gradescope's value is a phrase ("44 grades · 23 papers · 23 sheets"), not one number. */
+:root:root .certification-cards > .stat[data-cert-card="gradescope"] > strong { font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); }
+:root:root .certification-cards > .stat > span { display: block; line-height: 1.5; transition: color var(--snappy); }
+:root:root .certification-cards > .stat:hover > span { color: var(--ink); }
+:root:root .certification-cards > .stat[data-attention] > strong { color: var(--warning); }
+.certification-distribution { min-width: 0; padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.certification-distribution .filter-chips { margin-top: 0; }
+.certification-distribution-body { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-3) var(--space-5); align-items: end; }
+.certification-histogram { margin: 0; min-width: 0; }
+/* Ink bars on an ink axis; the highlighted bar (under the pointer, its count in the tooltip, or a focused or selected one) stays ink
+   since the Ledger restyle (requirement, 2026-09-27; 2026-10-03: "ink with only the highlighted bar in the accent", superseded by
+   DESIGN-LANGUAGE 1.2). */
+.certification-histogram svg { display: block; width: 100%; height: 120px; border-bottom: 1px solid var(--control-line); }
+.certification-histogram rect { fill: var(--ink); transition: fill var(--snappy); }
+.certification-histogram rect:is(:hover, :focus-visible, [aria-selected="true"], [aria-current="true"]) { fill: var(--ink); }
+.certification-histogram-counts { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); margin: var(--space-1) 0 0; padding: 0; list-style: none; font: 500 var(--text-caption)/1.5 var(--font-body); font-variant-numeric: tabular-nums; text-align: center; }
+.certification-histogram-counts b { display: block; font-weight: 600; color: var(--ink); }
+.certification-histogram-counts span { color: var(--label); }
+/* N, mean, median …: small labels against tabular serif figures. */
+.certification-facts { display: grid; grid-template-columns: repeat(2, auto); align-items: baseline; gap: var(--space-1) var(--space-4); margin: 0; }
+.certification-facts > div { display: contents; }
+.certification-facts dt { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.certification-facts dd { margin: 0; color: var(--ink); font: var(--head-weight) var(--text-lead)/1.3 var(--font-serif); font-variant-numeric: tabular-nums; text-align: end; }
+.certification-parts { display: grid; gap: var(--space-1); margin: var(--space-3) 0 0; padding: var(--space-3) 0 0; border-top: 1px solid var(--nested-line); list-style: none; color: var(--muted); font-size: var(--text-small); }
+.certification-parts strong { margin-inline-end: var(--space-1); color: var(--ink); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+
+/* Questions | Students: two tabs of one panel. */
+.certification-panel { min-width: 0; margin-bottom: 0; }
+.certification-table { max-height: min(70vh, 720px); }
+.certification-table table { min-width: 760px; }
+/* The shared preview's 140px second column (meant for a name) held a one-letter Version and a Section number at 140px, and row
+   headings never wrapped, which pushed the ten-column Questions and Students tables past the panel at 1440 (they scrolled
+   sideways). Every cell keeps the preview's 80px, so a score such as '26 / 30' stays on one line, and a long question title
+   may wrap in its row heading (column headings stay on one line). */
+:root:root .grading-certification .certification-table td { min-width: 80px; }
+:root:root .grading-certification .certification-table tbody th { min-width: 9rem; white-space: normal; }
+.certification-table th[scope="row"] { font-weight: 500; text-align: left; }
+.certification-table thead th { position: sticky; top: 0; z-index: 1; }
+.certification-sort { padding: 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; text-align: left; transition: color var(--snappy); }
+.certification-sort:hover { color: var(--ink); }
+.certification-sort:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* The sorted column is the current one: its heading in ink (DESIGN-LANGUAGE 1.2: the current one is never orange). */
+.certification-table th:is([aria-sort="ascending"], [aria-sort="descending"]) .certification-sort { color: var(--ink); }
+.certification-note { display: block; margin-top: 2px; color: var(--muted); font-size: var(--text-caption); }
+.certification-name { overflow-wrap: anywhere; }
+/* Bubble-sheet tables name their version in the caption, a small label above the table. */
+.grading-certification :is(.certification-table, .certification-rubric) > table > caption { padding: 0 0 var(--space-2); text-align: left; caption-side: top; }
+
+/* Secondary sections: Gradescope, then the files and the training downloads, each opening under a hairline. */
+.certification-secondary { display: grid; gap: var(--space-4); min-width: 0; }
+.certification-gradescope { margin: 0; }
+.certification-files { padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.grading-certification .certification-files > h3 { margin: 0 0 var(--space-4); font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); }
+
+/* The review desk's optional line above the response (the student it belongs to). */
+.grading-desk-heading { margin: 0 0 var(--space-2); color: var(--muted); font-size: var(--text-small); }
+
+/* Buttons that open a student or a question name their row: the table's own text in ink, sentence case, a hairline underline
+   (the actions, such as Excuse…, stay text buttons). Hover keeps the ink and darkens the underline to currentColor. */
+:root:root :is(.grading-certification, .certification-dialog) :is(.certification-open, [data-cert-open], [data-cert-question-open], [data-certify-student], [data-certify-question]).text-button {
+  display: inline; min-height: 0; padding: 0; border: 0; text-align: left; font: inherit; letter-spacing: inherit; text-transform: none;
+  color: var(--ink); text-decoration: underline; text-decoration-color: var(--line); text-decoration-thickness: 1px; text-underline-offset: 3px;
+}
+:root:root :is(.grading-certification, .certification-dialog) :is(.certification-open, [data-cert-open], [data-cert-question-open], [data-certify-student], [data-certify-question]).text-button:hover { color: var(--ink); text-decoration-color: currentColor; }
+/* Rows a UIN search returned: the name in bold ink (no tinted row). */
+:root:root .certification-students tr[data-cert-match] .certification-open.text-button { color: var(--ink); font-weight: 800; text-decoration-color: currentColor; }
+/* The open question or student is the highlighted row. */
+:root:root .certification-table tr[aria-current="true"] > * { background: var(--chosen-bg); }
+.certification-excuse { margin-left: var(--space-2); font-size: var(--text-small); }
+
+/* One question's panel, above the tables (grading-certification-question.js). */
+.certification-question { display: grid; gap: var(--space-4); min-width: 0; margin-bottom: 0; }
+.certification-question-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.grading-certification .certification-question-head h4 { margin: 0; font-size: var(--text-title); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.grading-certification .certification-question-head h4 small { margin-inline-start: var(--space-1); color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.certification-question-summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-3) var(--space-5); align-items: end; }
+.certification-score-histogram svg { height: 90px; }
+.certification-histogram-counts[data-bins] { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); grid-auto-flow: column; }
+.certification-rubric table { min-width: 560px; }
+.certification-rubric td:first-of-type { min-width: 14rem; }
+/* How often a line is in a final grade: a meter in the cell's top padding (its width is set through the CSSOM), so the percentage
+   keeps the row's baseline. It reads like the histogram's bars: ink, and ink also while its row is the highlighted one. */
+.certification-bar { display: block; block-size: 3px; inline-size: 0; max-inline-size: 100%; margin: -6px 0 3px; background: var(--ink); transition: background-color var(--snappy); }
+.certification-rubric tr:is(:hover, :focus-within) .certification-bar { background: var(--ink); }
+.certification-question-links { margin: 0; color: var(--muted); font-size: var(--text-control); }
+/* A line added to every final grade of the question (grading-certification-adjust.js): the secondary button and its sentence on
+   one row, and in the dialog the three fields side by side, the fields ending on the row's line. The preview's tables take
+   their content's width (not the shared 80/140px cell minimums). */
+.certification-question-adjust { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+.certification-question-adjust .supporting-copy { margin: 0; flex: 1 1 18rem; }
+.certification-adjust-line { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-4); }
+.certification-adjust-line .field { flex: 1 1 9rem; min-width: 0; }
+.certification-adjust-line .field:nth-child(2) { flex: 3 1 16rem; }
+/* Each grade's adjustments under its rubric lines, and the question's batch lines with Edit… and Remove…. */
+.certification-adjustment { display: block; font-size: var(--text-small); color: var(--muted); }
+.certification-batches { display: grid; gap: var(--space-2); }
+.grading-certification .certification-batches > h5 { margin: 0; }
+.certification-batch-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.certification-batch-list li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); }
+.certification-batch-line { flex: 1 1 16rem; min-width: 0; overflow-wrap: anywhere; }
+.certification-batch-list .supporting-copy { margin: 0; }
+.certification-batch-actions { display: inline-flex; flex-wrap: wrap; gap: var(--space-2); }
+.certification-batch-history { margin: 0; padding-left: var(--space-4); color: var(--muted); font-size: var(--text-small); }
+#dialog:has(> .certification-adjust-dialog) { width: min(760px, calc(100vw - 32px)); max-width: calc(100vw - 32px); }
+.certification-adjust-dialog .dialog-body { grid-template-columns: minmax(0, 1fr); }
+.certification-adjust-dialog .data-table table { min-width: 0; }
+:root:root .certification-adjust-dialog .data-table td { min-width: 0; }
+.certification-question-links .link-arrow { margin-left: var(--space-2); }
+.certification-question-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.certification-question-tools .filter-chips { margin: 0; }
+.certification-question-options { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4); color: var(--ink); font-size: var(--text-control); }
+/* Sort names its dropdown on one line (form-theme.css's inline caption): the small label, then the dropdown. */
+.certification-sort-choice { color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.certification-sort-choice > select { font-weight: 500; letter-spacing: normal; text-transform: none; }
+
+/* The page's parts: analysis above, the question panel, the tables, then Gradescope and the files. With a student open the drawer
+   docks at the right (the tables narrow beside it). */
+.grading-certification > * { grid-column: 1; min-width: 0; }
+.certification-drawer-host:empty { display: none; }
+.grading-certification[data-drawer-open] { grid-template-columns: minmax(0, 1fr) minmax(26rem, 44%); align-items: start; }
+/* Beside the drawer the counts take the column's whole width, several to a row (review UX8: one count per row pushed the table the
+   instructor had just clicked far down). */
+.grading-certification[data-drawer-open] .certification-summary { grid-template-columns: minmax(0, 1fr); }
+.grading-certification[data-drawer-open] .certification-cards { grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); }
+.grading-certification[data-drawer-open] > .certification-drawer-host { grid-column: 2; grid-row: 1 / span 5; position: sticky; top: var(--space-3); max-block-size: calc(100dvh - 2 * var(--space-3)); overflow: auto; }
+/* Beside an open drawer the student filters keep one row that scrolls sideways (certify-12: they wrapped to four rows). */
+.grading-certification[data-drawer-open] [data-filter-group="cert-students"] { flex-wrap: nowrap; overflow-x: auto; }
+.grading-certification[data-drawer-open] [data-filter-group="cert-students"] > button { flex: none; }
+
+/* The student drawer (grading-certification-students.js): a record opened beside the tables, under a 2px ink rule (no fill, no
+   frame); its parts and questions are divided by hairlines. */
+.certification-drawer { display: grid; gap: var(--space-4); padding: var(--space-4) 0 var(--space-5); border: 0; border-top: 2px solid var(--ink); background: transparent; min-width: 0; }
+.certification-drawer-head { display: grid; gap: var(--space-2); }
+.certification-drawer-title { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.grading-certification .certification-drawer-title h3 { margin: 0; font-size: var(--text-title); line-height: 1.15; letter-spacing: var(--tracking-title); overflow-wrap: anywhere; }
+.certification-drawer-meta { margin: 0; color: var(--muted); font-size: var(--text-small); }
+.certification-drawer-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+.certification-drawer-steps { display: inline-flex; gap: var(--space-2); margin-left: auto; }
+.certification-drawer-body { display: grid; gap: var(--space-4); min-width: 0; }
+.certification-drawer-part { padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.certification-drawer-part > p { margin: 0 0 var(--space-1); }
+.certification-drawer-part > p strong { color: var(--ink); }
+.certification-drawer-links { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.certification-issues { margin: 0; padding-left: 1.2em; font-size: var(--text-control); }
+.certification-drawer-questions { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--line); }
+/* One question per row, an accordion: a hairline above, the title in the serif, the score as a tabular serif figure, the +/−
+   at the right (as components.css's disclosure). The open one's rule turns ink. */
+.certification-drawer-question { padding: var(--space-3) 0; border-top: 1px solid var(--nested-line); min-width: 0; }
+.certification-drawer-question:first-child { border-top-color: var(--line); }
+.certification-drawer-question[data-open] { border-top-color: var(--ink); }
+.certification-q-toggle { display: flex; align-items: baseline; inline-size: 100%; justify-content: space-between; gap: var(--space-3); padding: 0; border: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: color var(--snappy); }
+.certification-q-toggle > .certification-name { flex: 1 1 auto; min-width: 0; font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.certification-q-toggle::after { content: "+"; content: counter(decor, none) "+" / ""; flex: 0 0 20px;  display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); transition: color var(--snappy); }
+.certification-q-toggle[aria-expanded="true"]::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+.certification-q-toggle:hover:not(:disabled) { color: var(--ink); }
+.certification-q-toggle:hover:not(:disabled)::after { color: var(--ink); }
+.certification-q-toggle:disabled { cursor: default; color: var(--muted); }
+.certification-q-toggle:disabled::after { content: none; }
+.certification-q-toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.certification-q-toggle strong { color: inherit; font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.certification-q-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: var(--space-2) 0 0; }
+.certification-q-body { display: grid; gap: var(--space-4); margin-top: var(--space-3); min-width: 0; }
+.certification-response { display: grid; gap: var(--space-4); min-width: 0; }
+/* An open question reads goal first (requirement, 2026-10-06): the grade and Change grade in one row, the lines that made the grade with the model's sentence, the paper at the drawer's
+   width, then one fold each for the other lines, the reading, the models' flags and the checks, divided by hairlines. */
+.certification-verdict { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); }
+.certification-verdict p { margin: 0; color: var(--muted); font-size: var(--text-control); }
+.certification-verdict p strong { margin-inline-end: var(--space-2); color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-head); font-variant-numeric: tabular-nums; }
+/* A rubric line: its signed points in a figure column, then its number, wording and the model's sentence. */
+.certification-line-list { display: grid; gap: var(--space-2); margin: var(--space-3) 0 0; padding: 0; list-style: none; font-size: var(--text-control); }
+.certification-fold .certification-line-list { margin-top: 0; }
+.certification-line-list > li { display: grid; grid-template-columns: 3.2em minmax(0, 1fr); gap: var(--space-2); align-items: baseline; color: var(--ink); }
+.certification-line-list > li[data-applied="no"] { color: var(--muted); }
+.certification-line-points { font-family: var(--font-num); font-weight: 700; font-variant-numeric: tabular-nums; text-align: end; white-space: nowrap; }
+.certification-line-list > li[data-applied="no"] .certification-line-points { font-weight: 500; }
+.certification-line-text { min-width: 0; overflow-wrap: anywhere; }
+.certification-line-comment { margin: 2px 0 0; color: var(--muted); font-size: var(--text-small); }
+.certification-lines > .certification-line-comment { margin-top: var(--space-2); }
+.certification-quiet { color: var(--muted); font-size: var(--text-small); }
+/* A model's longer note: its first sentence shows, the rest under a small "Full note". */
+.certification-more { margin-top: 2px; }
+.certification-more > summary { cursor: pointer; inline-size: max-content; color: var(--muted); font: 700 var(--text-caption)/1.6 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.certification-more > summary:hover { color: var(--ink); }
+.certification-crops { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+.certification-crops figure { margin: 0; }
+.certification-crops figcaption { margin-top: var(--space-1); color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.certification-response > .certification-fold { margin: 0; }
+.certification-reading .grading-transcript-preview { font-size: var(--text-control); line-height: 1.5; }
+/* The models' original flags, by who raised them: a small label over each one's sentences. */
+.certification-said { display: grid; gap: var(--space-1); margin: 0; font-size: var(--text-control); }
+.certification-said dt { margin-top: var(--space-2); color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.certification-said dt:first-child { margin-top: 0; }
+.certification-said dd { margin: 0; }
+.certification-said ul { display: grid; gap: var(--space-1); margin: var(--space-1) 0 0; padding-inline-start: 1.2em; }
+.certification-said .certification-quiet { display: block; }
+.certification-flag-state { font-weight: 700; }
+.certification-flag-state[data-resolved="no"] { color: var(--accent); }
+/* A flag that still stands: the needs-you mark (an orange square) before the line, the words in ink. */
+.certification-flag-standing::before { content: ""; display: inline-block; inline-size: 8px; block-size: 8px; margin-inline-end: var(--space-2); background: var(--needs-fill); outline: 1.5px solid var(--needs-ink); vertical-align: .1em; }
+.certification-desk-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.certification-desk-bar p { margin: 0; }
+/* The review desk in the drawer: one column, no full-height frame (that is the Review step's own layout). */
+.certification-drawer .grading-review-desk { block-size: auto; display: block; }
+.certification-drawer .grading-evidence-layout { grid-template-columns: minmax(0, 1fr); }
+.certification-drawer .grading-review-desk .grading-evidence, .certification-drawer .grading-review-desk .grading-review-scroll { block-size: auto; overflow: visible; }
+.certification-drawer .grading-review-desk .grading-review-form { block-size: auto; border-left: 0; padding-left: 0; }
+/* At the desk a crop is shown whole but short (Enlarge opens it), so the rubric and Approve grade come soon after the evidence
+   (review UX5). The read-only view shows the paper at the drawer's width, after the grade (2026-10-06), up to most of the window. */
+.certification-drawer .grading-review-desk .grading-crop-open img { inline-size: auto; max-inline-size: 100%; max-block-size: 36vh; margin-inline: auto; object-fit: contain; }
+.certification-crops .grading-crop-open img { inline-size: auto; max-inline-size: 100%; max-block-size: 80vh; margin-inline: auto; object-fit: contain; }
+
+/* A Gradescope send followed from the Certify dialog: a notice of work in progress, read like a callout (a 2px rust rule over the
+   paper, its title in the serif). */
+.certification-handoff { display: grid; gap: var(--space-1); padding: var(--space-3) 0; border: 0; border-top: 2px solid var(--accent); background: transparent; }
+/* The callout's spacing (this rule out-ranks typography.css's .supporting-copy margins, which would double the gap). */
+.certification-handoff p { margin: 0; }
+.certification-handoff > strong { color: var(--accent); font: var(--head-weight) 16px/1.2 var(--font-serif); letter-spacing: 0; }
+
+/* The Certify dialog: the app's wide dialog size, so a zero student's detail, the Excuse… button and why a grade can never be sent
+   are read without scrolling a table sideways (review UX1). Its tables wrap instead of holding the data tables' 620px minimum. */
+#dialog:has(> .certification-dialog) { width: min(1040px, calc(100vw - 32px)); max-width: calc(100vw - 32px); max-height: calc(100dvh - 32px); }
+.certification-dialog .data-table table { min-width: 0; }
+.certification-dialog .data-table td, .certification-dialog .data-table th { overflow-wrap: anywhere; }
+/* A row's cells share their first baseline: the Excuse… button's height would otherwise sink its detail below the name. */
+.certification-dialog .data-table :is(th, td) { vertical-align: baseline; }
+.certification-dialog .dialog-footer { flex-wrap: wrap; }
+.certification-missing { flex: 1 0 100%; margin: 0; color: var(--muted); font-size: var(--text-small); }
+.certification-missing:empty { display: none; }
+.certification-final { flex: 1 1 18rem; margin: 0 auto 0 0; color: var(--ink); }
+.certification-dialog [data-certify-body] > h4 { margin-top: var(--space-5); }
+/* Each group to confirm is a section of the dialog under a hairline with its title in the serif, never a box inside the dialog's
+   box. The legend is floated, so it is an ordinary first row of the section instead of a gap cut into the hairline. */
+.certification-confirm { display: grid; gap: var(--space-2); margin: 0 0 var(--space-4); padding: var(--space-3) 0 0; border: 0; border-top: 1px solid var(--line); min-width: 0; }
+.certification-confirm legend { float: left; inline-size: 100%; margin: 0 0 var(--space-1); padding: 0; color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.certification-confirm p { margin: 0; }
+.certification-tick { color: var(--ink); font-weight: 500; }
+.certification-gradescope-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--space-3) var(--space-5); }
+.certification-gradebook { display: grid; gap: var(--space-2); margin: var(--space-4) 0; }
+.certification-dialog .certification-gradebook > h4 { margin: 0; }
+/* The column's lines (its name and points, where an existing column's values go, the warnings) sit at the section's own gap. */
+.certification-gradebook > p { margin: 0; }
+/* The column and a new column's category are selects (certify-1: 80 radios were 2,206 px tall); a long column title stays inside. */
+.certification-column-choice { margin: 0; }
+.certification-column-choice select { max-inline-size: 100%; }
+.certification-counts { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); margin: 0; }
+.certification-counts > div { display: flex; gap: var(--space-2); align-items: baseline; }
+.certification-counts dt { order: 2; color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.certification-counts dd { margin: 0; color: var(--heading); font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); font-variant-numeric: tabular-nums; }
+.certification-warnings { margin: 0; padding-left: 1.2em; font-size: var(--text-control); }
+.certification-excuse-form { display: grid; gap: var(--space-2); padding: var(--space-3) 0 0; border-top: 1px solid var(--line); }
+/* The absences recorded for a student about to receive 0 (requirement, 2026-10-02: shown, never acted on), one line each under the
+   detail and Excuse…. */
+.certification-absences { display: grid; gap: var(--space-1); margin: var(--space-1) 0 0; padding: 0; list-style: none; color: var(--muted); font-size: var(--text-small); }
+
+@media (forced-colors: active) {
+  .certification-histogram rect { fill: CanvasText; }
+  .certification-histogram rect:is(:hover, :focus-visible, [aria-selected="true"], [aria-current="true"]) { fill: Highlight; }
+  .certification-bar { forced-color-adjust: none; background: CanvasText; }
+  .certification-rubric tr:is(:hover, :focus-within) .certification-bar { background: Highlight; }
+  .certification-table tr[aria-current="true"] > :first-child { border-inline-start: 2px solid Highlight; }
+}
+
+/* Final Quality Audit (grading-certification-audit.js): findings inform; the ordinary tokens only. Findings are rows on
+   hairlines. */
+.certification-audit { display: grid; gap: var(--space-3); }
+.certification-audit h4, .certification-audit h5 { margin: 0; }
+.certification-audit-finding { display: grid; gap: 6px; padding: var(--space-3) 0; border-top: 1px solid var(--nested-line); }
+.certification-audit-finding header { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.certification-audit-finding p { margin: 0; }
+.certification-audit-responses { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.certification-audit-suggestions { margin: 0; padding-left: 20px; }
+/* One finding at a time: the piles and the question picker, then the finding with its place and Previous / Next. */
+.certification-audit-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+.certification-audit-picker { color: var(--ink); font-size: var(--text-control); }
+.certification-audit-viewer { display: grid; gap: var(--space-2); border-top: 1px solid var(--line); padding-top: var(--space-3); }
+.certification-audit-viewer .certification-audit-finding { border-top: 0; padding-top: 0; }
+.certification-audit-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); }
+.certification-audit-position { margin: 0; }
+.certification-audit-about > summary { cursor: pointer; }
+/* GRADING "GRADED FOR PARTICIPATION": the assignment's setting under the band. */
+.certification-participation { padding: var(--space-2) 0 0; }
+.certification-participation .checkbox-field { margin: 0; }
+.certification-participation .field-hint { margin: 2px 0 0; }

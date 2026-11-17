@@ -1,0 +1,35 @@
+/* A course's lecture notes (course-notes.js): the course Home's line and #course/<group>/home/notes. DESIGN-LANGUAGE
+   (Ledger): the edition is a ruled block, chapters are headlines over a 2px ink rule, sections are rows on
+   hairlines with their titles and numbers. Tokens only; desktop only. */
+.course-notes-link { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); margin-top: var(--space-2); }
+.course-notes-status { color: var(--muted); font-size: var(--text-small); }
+.notes-page { display: grid; gap: var(--space-4); }
+.notes-edition { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3) var(--space-5);
+  padding: var(--space-4) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.notes-edition-text { display: grid; gap: var(--space-1); min-width: 0; }
+.notes-edition-text strong { color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.notes-edition-text small { color: var(--muted); font-size: var(--text-small); overflow-wrap: anywhere; }
+.notes-edition-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+.notes-search { max-width: 420px; }
+.notes-chapters { display: grid; gap: var(--space-8); }
+.notes-chapter[hidden], .notes-section[hidden] { display: none; }
+.notes-chapter h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); margin: 0 0 var(--space-2); font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.notes-chapter-title { color: var(--muted); font-weight: 500; }
+.notes-sections { list-style: none; margin: 0; padding: 0; display: grid; border-top: 2px solid var(--ink); }
+.notes-section { display: grid; gap: var(--space-1); padding: var(--space-3) 0; border-bottom: 1px solid var(--nested-line); }
+.notes-section-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3); }
+.notes-section-link { display: inline-flex; align-items: baseline; gap: var(--space-2); flex: 1 1 260px; min-width: 0; color: var(--ink);
+  font: var(--head-weight) var(--text-item)/1.25 var(--font-serif); letter-spacing: var(--tracking-title); text-decoration: none; transition: color var(--snappy); }
+.notes-section-link:hover, .notes-section-link:focus-visible { color: var(--ink); }
+.notes-number { min-width: 2.5em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.notes-pages { color: var(--muted); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+.notes-topics { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); margin: 0; padding: 0 0 0 calc(2.5em + var(--space-2));
+  list-style: none; font-size: var(--text-small); }
+.notes-topics a { color: var(--muted); }
+/* A quiet dot between topics, hidden from assistive technology (the list already separates them). */
+.notes-topics li + li::before { content: "·"; content: counter(decor, none) "·" / ""; margin-inline-end: var(--space-3); color: var(--faint); }
+.notes-topics a:hover, .notes-topics a:focus-visible { color: var(--ink); }
+.notes-others { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.notes-other { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); padding: var(--space-3) 0; border-top: 1px solid var(--nested-line); }
+.notes-found { margin: var(--space-2) 0 0; padding-left: var(--space-5); }
+@media (prefers-reduced-motion: reduce) { .notes-section-link { transition: none; } }

@@ -1,0 +1,15 @@
+{
+  "account_id": "00000000000000000000000000000000",
+  "zone_id": "00000000000000000000000000000000",
+  "domain": "example.com",
+  "worker": "faculty-email-gateway",
+  "tunnel_id": "00000000-0000-0000-0000-000000000000",
+  "delivery_queue_id": "00000000000000000000000000000000",
+  "dead_letter_queue_id": "00000000000000000000000000000000",
+  "scanner_rule_id": "00000000000000000000000000000000",
+  "personal_rule_id": "00000000000000000000000000000000",
+  "deployed_at": "2026-09-13",
+  "scanner_short_rule_id": "00000000000000000000000000000000",
+  "scanner_address": "scan@example.com",
+  "worker_etag": "907c169f0e375657ed47c402c55199d8b4478a1e500178625f78187e933a36e3"
+}

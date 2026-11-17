@@ -1,0 +1,12 @@
+[
+  {"name": "never thinks", "reasoning": false, "options": {"supported": false, "mandatory": false, "efforts": [], "default_effort": ""}, "choices": ["off"], "default": "off"},
+  {"name": "optional, on or off only", "reasoning": false, "options": {"supported": true, "mandatory": false, "efforts": [], "default_effort": ""}, "choices": ["off", "on"], "default": "off"},
+  {"name": "optional, marked as a reasoning model", "reasoning": true, "options": {"supported": true, "mandatory": false, "efforts": [], "default_effort": ""}, "choices": ["off", "on"], "default": "on"},
+  {"name": "optional with efforts, unmarked", "reasoning": false, "options": {"supported": true, "mandatory": false, "efforts": ["low", "high", "max"], "default_effort": "high"}, "choices": ["off", "low", "high", "max"], "default": "off"},
+  {"name": "optional with efforts, marked keeps the host default", "reasoning": true, "options": {"supported": true, "mandatory": false, "efforts": ["low", "medium", "high", "xhigh", "max"], "default_effort": "high"}, "choices": ["off", "low", "medium", "high", "xhigh", "max"], "default": "high"},
+  {"name": "must think, unmarked thinks least", "reasoning": false, "options": {"supported": true, "mandatory": true, "efforts": ["low", "high", "max"], "default_effort": "max"}, "choices": ["low", "high", "max"], "default": "low"},
+  {"name": "must think, marked keeps the host default", "reasoning": true, "options": {"supported": true, "mandatory": true, "efforts": ["low", "medium", "high"], "default_effort": "medium"}, "choices": ["low", "medium", "high"], "default": "medium"},
+  {"name": "must think, marked, no stated default takes the middle", "reasoning": true, "options": {"supported": true, "mandatory": true, "efforts": ["low", "medium", "high"], "default_effort": ""}, "choices": ["low", "medium", "high"], "default": "medium"},
+  {"name": "must think, no effort levels", "reasoning": true, "options": {"supported": true, "mandatory": true, "efforts": [], "default_effort": ""}, "choices": ["on"], "default": "on"},
+  {"name": "nothing known", "reasoning": true, "options": null, "choices": null, "default": null}
+]

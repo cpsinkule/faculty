@@ -1,0 +1,216 @@
+/* Screen hierarchy only (DESIGN-LANGUAGE §3, Ledger): Manrope for everything (headings at --head-weight; the older
+   --font-serif and --font-display names alias it), Geist Mono for meta figures. Small uppercase sans marks labels; a
+   region's heading sits under a 2px ink rule (ledger.css). Printed documents and physical seat geometry keep their own
+   type contracts. Load after the screen palette and feature styles. */
+:root { font-family: var(--font-body); font-weight: 500; font-optical-sizing: auto; }
+/* NO COMMON LIGATURES (2026-10-05): Manrope's standard ligatures draw "(c)" as ©, "->" and "<-" as arrows, "--" as a dash and
+   " <3 " as a heart; here those are answer choices, parts and limits (a makeup review read "moved from © to (b)"). Off on every
+   element, and important because any `font` shorthand resets ligatures to normal. */
+*, ::before, ::after { font-variant-ligatures: no-common-ligatures !important; }
+body {
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: var(--selection); color: var(--ink); }
+body { font-size: var(--text-body); }
+
+.brand { font-family: var(--font-serif); font-weight: var(--head-weight); letter-spacing: -.02em; }
+.page-subtitle { max-width: 72ch; line-height: 1.5; }
+.nav-item { font-family: var(--font-body); font-weight: 500; }
+.nav-label, .nav-section-label, .breadcrumb,
+.home-label, .stat-label, .filter,
+.inbox-filters, .exams-tabs, .accommodation-tabs { font-family: var(--font-body); }
+.nav-section-label, .nav-label { letter-spacing: var(--tracking-label); }
+/* Captions, compact controls and record metadata use the sans face. */
+.field-hint, .tool-description,
+.course-facts dt, .stat-caption, .category, .text-button, .danger-button,
+.checkbox-field, .choice-group legend, .course-sections legend,
+.course-code-fields legend, .home-footnote,
+.home-course > span, .home-course small, .home-records small,
+.home-records span span, .home-operations small,
+.home-operations-summary strong, .document-job small,
+.grading-badge, .grading-chip, .grading-batch-caption, .grading-batch-note,
+.grading-batch-cost, .grading-batch-stage,
+.grading-evidence figcaption, .grading-contact-sheet figcaption,
+.compute-nav small, .compute-mode small, .compute-fold summary small {
+  font-family: var(--font-body);
+}
+/* Small labels: 11px uppercase sans, semibold and widely tracked, in the label ink. */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  letter-spacing: var(--tracking-section);
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--label);
+}
+
+.home-panel h2, .section-heading h2, .seating-workflow h2 {
+  font-family: var(--font-serif);
+  font-size: var(--text-title);
+  font-weight: var(--head-weight);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-title);
+  color: var(--heading);
+}
+/* One dialog title size everywhere (a wide dialog's title is not louder than a small one's). */
+.dialog-header h2 {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: var(--head-weight);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-title);
+  text-wrap: balance;
+  margin-bottom: 8px;
+}
+.dialog-header p { line-height: 1.5; max-width: 65ch; color: var(--muted); }
+:is(.course-panel, .rc-block, .exams-block, .detail-group) > h3 {
+  color: var(--heading);
+  font-family: var(--font-serif);
+  font-size: var(--text-section);
+  font-weight: var(--head-weight);
+  line-height: 1.15;
+  letter-spacing: var(--tracking-title);
+  margin-bottom: 10px;
+}
+.room-card h3, .seating-card h3, .rc-card h4, .exams-card h3 {
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: var(--tracking-title);
+}
+/* One quiet empty-state title (components.css "Empty state"): no louder than a section heading. */
+.empty-state h3 {
+  font-family: var(--font-serif);
+  font-size: var(--text-item);
+  font-weight: var(--head-weight);
+  line-height: 1.2;
+  letter-spacing: var(--tracking-title);
+}
+
+/* A lead tells the reader what to do; details get their own quieter rhythm. */
+body .section-lead {
+  max-width: 68ch;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-block: 8px 12px;
+}
+:where(body) .supporting-copy {
+  max-width: 72ch;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin-block: 8px 12px;
+}
+.section-lead + .supporting-copy { margin-top: 0; }
+/* Emphasis in copy is ink semibold; a strong that carries its own class (a grader's role label) keeps its own colour. */
+.supporting-copy strong:where(:not([class])) { color: var(--ink); font-weight: 600; }
+.supporting-copy li + li { margin-top: 7px; }
+/* Form labels: 11px uppercase sans above the field (form-theme.css draws the field's underline). */
+.field { font-family: var(--font-body); font-weight: 600; line-height: 1.5; color: var(--label); }
+.field :is(input, textarea, select) { font-family: var(--font-body); font-weight: 500; }
+.field-optional { font-weight: 500; text-transform: none; letter-spacing: 0; }
+.button { font-family: var(--font-body); font-weight: 600; letter-spacing: .08em; }
+.page-heading-actions > .button, .dialog-footer > .button {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: var(--text-control);
+}
+.checkbox-field { line-height: 1.5; }
+
+/* A subordinate group is a flat section of its panel or dialog: no side rule, indent or frame, which read as another
+   frame inside the panel. Only consecutive groups (the sections of a dialog) are divided, by one hairline, Lambda's way
+   of dividing a panel; a group after a heading, a paragraph or a page's own records draws none, so it never doubles the
+   rule a record list draws or becomes a partial-width rule inside a toolbar column. Options that belong to the choice
+   above them (.wizard-indent) keep their indent, without a rule, so they still read as that choice's. */
+.detail-group {
+  min-width: 0;
+  margin-block: 18px;
+  margin-inline: 0;
+  padding: 0;
+  border: 0;
+}
+.detail-group + .detail-group { padding-top: var(--space-4); border-top: 1px solid var(--line); }
+.detail-group:first-child { margin-top: 0; }
+.detail-group > :first-child { margin-top: 0; }
+.detail-group > :last-child { margin-bottom: 0; }
+.detail-group.wizard-indent { margin-block: 12px 20px; margin-inline: 4px 0; padding: 0 0 0 20px; border-top: 0; }
+.inbox-facts.detail-group { margin-block: 16px; }
+.detail-group > h3 + .supporting-copy { margin-top: 0; }
+.detail-group .field:last-child { margin-bottom: 0; }
+
+.course-facts { padding-inline-start: 18px; border-inline-start: 1px solid var(--line); }
+.course-facts dt { font-size: var(--text-caption); font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.course-facts dd { font-size: var(--text-small); line-height: 1.5; color: var(--ink); }
+.home-course-code { font-family: var(--font-body); font-variant-numeric: tabular-nums; }
+.document-job > span:first-child { min-width: 0; }
+.document-job strong { font-size: var(--text-item); font-weight: 500; overflow-wrap: anywhere; }
+.document-job small { margin-top: 6px; line-height: 1.5; }
+.inbox-facts dt { font-weight: 600; color: var(--label); }
+.inbox-facts dd { line-height: 1.5; }
+
+/* The chart's generation details are a plain details (seating-theme.css draws its marker). The shared disclosures that
+   used to be listed here (the Inbox command, exam records, response-card rules and variables) take the component's own
+   summary and body, with no indent of their own. */
+.seating-provenance > summary {
+  font-weight: 500;
+  line-height: 1.5;
+}
+.seating-provenance[open] > :not(summary) {
+  margin-inline-start: 18px;
+}
+.wizard-plan input { flex-shrink: 0; }
+
+/* Prose links: ink with a hairline underline, still ink on hover (hover is never orange, DESIGN-LANGUAGE). Only links inside
+   running text; navigation, graphs, buttons and cards set their own look. */
+:is(p, dd, .supporting-copy li, .disclosure-body li, .about-page li, .callout li, .field-hint) > a:not([class]),
+:is(p, dd) > :is(span, strong, em) > a:not([class]) {
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--snappy);
+}
+:is(p, dd, .supporting-copy li, .disclosure-body li, .about-page li, .callout li, .field-hint) > a:not([class]):hover,
+:is(p, dd) > :is(span, strong, em) > a:not([class]):hover { color: var(--ink); }
+
+/* Headlines, big counts and record titles are Manrope at --head-weight (through --font-serif); everything else is --font-body.
+   Keep these roles after feature styles so new headings inherit the same face without synthetic bolding.
+   The heading rule stays at (0,1,1): a page sheet makes a heading a small sans label with any two-class selector
+   (.home-panel .home-subheading) instead of an id. Each other display role has its own rule at its own specificity;
+   never add a compound selector to the heading list (one entry sets the specificity of the whole list). */
+:root :is(h1, h2, h3, h4, h5, h6),
+:root :is(.brand, .grading-score),
+:root .home-course strong,
+:root .home-records strong,
+:root .home-operations > summary strong,
+:root .storage-summary strong,
+:root .document-job strong,
+:root .stat strong,
+:root .room-stat strong,
+:root .bubble-read-counts dd,
+:root .grading-batch-progress b,
+:root .document-job-quantity strong,
+:root #document-batches :is(.document-job-title > strong, .document-job-quantity strong) {
+  font-family: var(--font-serif);
+  font-weight: var(--head-weight);
+  font-synthesis: none;
+}
+/* Numbers that change line up: tabular figures wherever a count or score sits. */
+:root :is(.stat strong, .room-stat strong, .bubble-read-counts dd, .grading-batch-progress b, .grading-score, .nav-count, .nav-badge, td, th) {
+  font-variant-numeric: tabular-nums;
+}
+:where(h1, h2, h3, h4, h5, h6) { color: var(--heading); }
+:root :is(h1, h2, h3, h4, h5, h6) :is(small, .count-badge, .badge),
+:root :is(.count-badge, .grading-batch h3 > span, .calendar-agenda-day h3 span) {
+  font-family: var(--font-body);
+}
+/* Code, keys and raw records keep the instructor's Berkeley Mono. */
+:root :is(pre, code, kbd, samp, .code-block) { font-family: var(--font-code); }

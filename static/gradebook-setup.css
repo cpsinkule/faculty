@@ -1,0 +1,445 @@
+/* Gradebook setup editor (#gradebook/<term>/setup, static/gradebook-setup.js), the Changes page (static/gradebook-changes.js)
+   and the gradebook's dialogs (static/gradebook-dialogs.js). Screen only, shared tokens only (design-tokens.css).
+   DESIGN-LANGUAGE (Ledger). Wide tables scroll
+   in their own region; the page itself never scrolls sideways. Buttons, selects and checkboxes keep the shared
+   button-theme.css / form-theme.css looks; plain text inputs take the same underline here. */
+
+/* A control hidden by the script stays hidden even when its class gives it a display. */
+:is(.gbs, .gbd) [hidden] { display: none !important; }
+
+/* Plain inputs of the editor and dialogs, as form-theme.css draws a .field's input: a line of type on a 1px --control-line underline,
+   ink on hover, the 2px --focus (slate) ring on focus. A text area keeps a hairline frame so its bounds read. Selects keep
+   form-theme.css. */
+:is(.gbs, .gbd) :is(input[type="text"], input[type="number"], input[type="date"], input[type="search"], input:not([type]), textarea) {
+  box-sizing: border-box;
+  min-height: var(--control-height);
+  padding: 7px 2px;
+  border: 0;
+  border-bottom: 1px solid var(--control-line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 500 var(--text-body)/1.45 var(--font-body);
+  transition: border-color var(--snappy), box-shadow var(--snappy);
+}
+:is(.gbs, .gbd) textarea { padding: 8px 10px; border: 1px solid var(--line); border-bottom-color: var(--control-line); border-radius: var(--radius-control); }
+:is(.gbs, .gbd) :is(input, textarea):hover:not(:disabled, :focus) { border-bottom-color: var(--ink); }
+:is(.gbs, .gbd) :is(input:not([type="checkbox"], [type="radio"]), textarea):focus-visible { border-bottom-color: var(--focus); box-shadow: inset 0 -1px 0 var(--focus); outline: 2px solid var(--focus); outline-offset: 2px; }
+:is(.gbs, .gbd) :is(input[type="checkbox"], input[type="radio"], summary):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+:is(.gbs, .gbd) :is(input, textarea)[aria-invalid="true"] { border-bottom-color: var(--error); box-shadow: inset 0 -1px 0 var(--error); }
+:is(.gbs, .gbd) :is(input, textarea):disabled { color: var(--muted); cursor: not-allowed; }
+:is(.gbs, .gbd) input[type="number"] { font-variant-numeric: tabular-nums; }
+:is(.gbs, .gbd) input[type="checkbox"], :is(.gbs, .gbd) input[type="radio"] { accent-color: var(--ink); }
+
+/* ---------------------------------------------------------------------------------------------------------------- */
+/* Setup editor */
+
+.gbs { display: grid; gap: var(--space-6); min-width: 0; max-width: 100%; }
+.gbs-form { display: grid; gap: var(--space-6); min-width: 0; margin: 0; padding: 0; border: 0; }
+.gbs-form:disabled { opacity: var(--opacity-dim); }
+
+/* Each panel is a .card (components.css: a ruled block, a hairline above, on the page's own column); only its spacing is set
+   here. */
+.gbs-panel.card { display: block; padding: var(--space-5) 0 var(--space-6); }
+.gbs-panel h3 { margin: 0; color: var(--heading); font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+.gbs-panel > h3 { margin-bottom: var(--space-5); }
+.gbs-panel-head { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3) var(--space-5); flex-wrap: wrap; margin-bottom: var(--space-3); }
+.gbs-panel .supporting-copy { margin: 0 0 var(--space-3); font-size: var(--text-small); }
+/* "How it counts": a panel's longer explanation, closed (details.disclosure, components.css). */
+.gbs-how { margin: 0 0 var(--space-4); font-size: var(--text-small); }
+.gbs-how p { margin: 0; max-width: 78ch; color: var(--muted); line-height: 1.6; }
+.gbs-preview { margin: var(--space-3) 0 0; color: var(--muted); font-size: var(--text-small); line-height: 1.6; font-variant-numeric: tabular-nums; }
+.gbs-preview:empty { display: none; }
+.gbs-panel .button svg, .gbs-panel .text-button svg { width: 14px; height: 14px; }
+.gbs-empty { margin: 0; padding: var(--space-4) 0; color: var(--muted); font-size: var(--text-body); line-height: 1.6; border-top: 1px solid var(--nested-line); }
+
+/* Grading method: two choices per question, side by side in columns under a hairline, like a magazine's section tabs: the
+   chosen one stands under a 2px ink rule (as a pressed .stat does). The radio stays visible and native. */
+.gbs-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space-6); min-width: 0; margin: 0 0 var(--space-6); padding: 0; border: 0; }
+.gbs-choices legend { grid-column: 1 / -1; margin-bottom: var(--space-2); padding: 0; }
+.gbs-choice {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  min-width: 0;
+  padding: var(--space-3) 0 var(--space-2);
+  border: 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color var(--snappy);
+}
+.gbs-choice:hover strong { color: var(--ink); }
+.gbs-choice:has(input:checked) { padding-top: calc(var(--space-3) - 1px); border-top: 2px solid var(--ink); }
+.gbs-choice:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+.gbs-choice input { flex-shrink: 0; margin: 5px 0 0; }
+.gbs-choice input:focus-visible { outline: none; }
+.gbs-choice span { display: grid; gap: var(--space-1); min-width: 0; }
+.gbs-choice strong { color: inherit; font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); font-synthesis: none; transition: color var(--snappy); }
+.gbs-choice small { color: var(--muted); font-size: var(--text-small); line-height: 1.6; }
+.gbs-rounding { display: grid; gap: var(--space-2); max-width: 520px; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gbs-rounding select { width: min(100%, 320px); }
+.gbs-rounding .field-hint { margin: 0; color: var(--muted); font-size: var(--text-small); letter-spacing: normal; text-transform: none; }
+
+/* Tables scroll inside their own region; a wide table never widens the page. A record table (DESIGN-LANGUAGE §4) needs no
+   frame of its own inside the panel: the headings 11px uppercase over a 2px ink rule, hairlines between rows. */
+/* Positioned, so screen-reader-only labels (absolutely positioned) scroll and clip with their table instead of widening the page. */
+.gbs-scroll { position: relative; max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; border: 0; scrollbar-width: thin; }
+.gbs-scroll:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.gbs-table { width: 100%; border-collapse: collapse; color: var(--text); font-size: var(--text-body); }
+.gbs-table :is(th, td) { padding: 8px 10px; border-bottom: 1px solid var(--nested-line); text-align: left; vertical-align: top; }
+.gbs-table thead th {
+  padding-block: 10px;
+  background: var(--canvas);
+  color: var(--ink);
+  font: 700 var(--text-caption)/1.3 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--ink);
+}
+.gbs-table :is(th, td):first-child { padding-inline-start: 4px; } /* room for a field's focus ring inside the scrolling region */
+/* Inputs fill their cell but keep a readable minimum: an auto-width table would otherwise squeeze them to a digit. */
+.gbs-table :is(input[type="text"], input[type="number"], input[type="date"], select) { width: 100%; min-width: 72px; }
+.gbs .gbs-table [data-field="cat.name"] { min-width: 170px; }
+.gbs .gbs-table [data-field="item.title"] { min-width: 150px; }
+.gbs .gbs-table :is([data-field="cat.weight"], [data-field="cat.drop"], [data-field="item.points"]) { min-width: 92px; }
+.gbs .gbs-table [data-field="item.due"] { min-width: 140px; }
+.gbs .gbs-table [data-field="item.notes"] { min-width: 0; }
+.gbs .gbs-table [data-field="cat.aggregate"] { min-width: 180px; }
+.gbs .gbs-table [data-field="item.category"] { min-width: 140px; }
+.gbs .gbs-table [data-field="item.assignment"] { min-width: 220px; }
+.gbs .gbs-table [data-field="scale.min"] { min-width: 100px; }
+/* As tall as the dropdowns beside them (form-theme.css: --control-height), so a row's fields line up. */
+.gbs-table :is(input[type="text"], input[type="number"], input[type="date"], select) { min-height: var(--control-height); padding-block: 6px; font-size: var(--text-body); }
+.gbs-table .gbs-num { font-variant-numeric: tabular-nums; color: var(--label); text-align: right; padding-top: 18px; }
+.gbs-table .gbs-check { text-align: center; }
+.gbs-table .gbs-check input { width: 16px; height: 16px; margin-top: 12px; }
+.gbs-quiet input { color: var(--muted); }
+.gbs-row-actions { white-space: nowrap; }
+.gbs-table .gbs-row-actions { padding-top: 12px; } /* 32 px buttons centred on the 40 px fields */
+.gbs-row-actions > * + * { margin-inline-start: 4px; }
+.gbs-row-actions .text-button { vertical-align: top; }
+.gbs-move, .gbs-remove { width: 32px; height: 32px; vertical-align: top; font-family: var(--font-body); }
+/* Remove is a quiet × (its accessible name says what it removes); its hover is the shared 5% ink tint. */
+.gbs-remove { --button-label: var(--muted); font-size: var(--text-section); line-height: 1; }
+.gbs-more-toggle { position: relative; min-height: 32px; padding: 0 6px; font-size: var(--text-small); }
+.gbs-more-toggle[aria-expanded="true"] { text-decoration: underline; text-underline-offset: 3px; }
+.gbs-more-dot { position: absolute; top: 5px; right: -1px; width: 5px; height: 5px; background: var(--muted); }
+.gbs-more-toggle.gbs-flagged { color: var(--error); }
+
+.gbs-categories { min-width: 760px; }
+.gbs-weights { margin: var(--space-3) 0 0; color: var(--muted); font-size: var(--text-small); line-height: 1.6; }
+.gbs-weights:empty { display: none; }
+
+/* "Find a column" over a long Columns table: the search, the Uncategorized filter and how many rows it shows. It only hides rows. */
+.gbs-find-bar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-2) var(--space-4); margin: 0 0 var(--space-3); }
+.gbs-find-bar .gbs-find { flex: 0 1 320px; margin: 0; }
+.gbs-find-bar .gbs-find > input { width: 100%; }
+.gbs-find-bar .filter-chips { margin: 0; }
+.gbs-find-count { flex: 1 1 100%; margin: 0; }
+/* Empty, it takes no room but stays rendered: a status region hidden until its first message may never announce that message. */
+.gbs-find-count:empty { position: absolute; }
+.gbs-items > tbody.gbs-item[hidden] { display: none; }
+
+/* Columns: the title stays in view while the rest of the row scrolls. */
+/* A fixed layout with set widths for everything but the title, which takes the rest: about 880 px at the least, so the table
+   fits its panel beside the sidebar at 1280 px and scrolls in its own region in a narrower window. */
+.gbs-items { min-width: 880px; table-layout: fixed; }
+.gbs-items :is(th, td) { box-sizing: border-box; }
+.gbs-items > thead > tr > th:nth-child(2) { width: 184px; } /* "Quiz Category" whole (the select's title names any category); the column title takes the rest */
+.gbs-items > thead > tr > th:nth-child(3) { width: 84px; }
+.gbs-items > thead > tr > th:nth-child(4) { width: 152px; }
+.gbs-items > thead > tr > th:nth-child(5) { width: 60px; }
+.gbs-items > thead > tr > th:nth-child(6) { width: 64px; }
+.gbs-items > thead > tr > th:nth-child(7) { width: 72px; }
+.gbs-items > thead > tr > th:nth-child(8) { width: 170px; } /* move, move, More and remove, whole */
+.gbs-items > thead > tr > th:is(:nth-child(5), :nth-child(6), :nth-child(7)) { padding-inline: 4px; white-space: normal; text-align: center; }
+.gbs-items :is(input[type="text"], input[type="number"], input[type="date"], select) { min-width: 0 !important; }
+/* The category select, trimmed (less padding, the chevron nearer its edge): a name of up to about sixteen letters shows whole
+   (134 px of text, was 108); a longer one ends in "…" and the select's title names it. Wider would take room from the titles. */
+.gbs-items > tbody > tr > td:nth-child(2) { padding-inline: 6px; }
+:root:root .gbs-items select[data-field="item.category"]:not([multiple]) { padding-inline: 8px 28px; background-position: right 14px center, right 8px center; }
+.gbs-items .gbs-row-actions { padding-inline: 4px; }
+.gbs-items .gbs-row-actions > * + * { margin-inline-start: 2px; }
+.gbs-items .gbs-move, .gbs-items .gbs-remove { width: 26px; }
+.gbs-items .gbs-more-toggle { padding: 0 4px; }
+/* A column's "More" row: sections, the linked assignment and notes, under the row they belong to, on the page's paper. */
+.gbs-items > tbody.gbs-item > tr.gbs-more > td { padding: var(--space-3) var(--space-4) var(--space-5) 4px; background: var(--canvas); }
+.gbs-more-grid { display: grid; grid-template-columns: minmax(170px, 1fr) minmax(240px, 1.4fr) minmax(200px, 1.4fr); gap: var(--space-3) var(--space-5); align-items: start; }
+.gbs-more-field { display: grid; gap: 6px; min-width: 0; }
+.gbs-more-label { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gbs-more-field.gbs-flagged .gbs-more-label, .gbs-more-field.gbs-flagged summary { color: var(--error); }
+.gbs-items > tbody > tr > th, .gbs-items > thead > tr > th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--canvas);
+  box-shadow: 1px 0 var(--nested-line);
+}
+.gbs-items > tbody > tr > th { color: var(--ink); font-weight: 500; }
+.gbs-items > tbody > tr > th small { display: block; margin-top: 4px; color: var(--label); font-size: var(--text-caption); }
+.gbs-items .gbs-sections { min-width: 170px; }
+.gbs-items .gbs-link { min-width: 0; }
+/* An archived column is quieter; the sticky title cell stays opaque so the scrolled cells never show through it. .62, not
+   --opacity-dim: its fields stay editable, and at .55 their text falls under 4.5:1 on the light panel. */
+.gbs-items tr[data-archived="true"] > td:not(.gbs-row-actions) { opacity: .62; }
+.gbs-items tr[data-archived="true"] + tr.gbs-more > td { opacity: .62; }
+.gbs-items tr[data-archived="true"] > th input { color: var(--muted); border-bottom-style: dashed; }
+.gbs-items .gbs-flagged summary { color: var(--error); }
+
+/* Sections: a list that opens beneath its underline, like a select (a + / − at the right, as a disclosure has). */
+.gbs-sections summary { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: var(--control-height); padding: 7px 2px; border: 0; border-bottom: 1px solid var(--control-line); color: var(--ink); cursor: pointer; font: 500 var(--text-body)/1.45 var(--font-body); list-style: none; transition: border-color var(--snappy); }
+.gbs-sections summary::-webkit-details-marker { display: none; }
+.gbs-sections summary::after { content: "+"; content: counter(decor, none) "+" / ""; flex: 0 0 20px; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.gbs-sections[open] summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+.gbs-sections summary:hover { border-bottom-color: var(--ink); }
+.gbs-sections[open] summary { border-bottom-color: var(--nested-line); }
+.gbs-sections > div { display: grid; gap: 6px; max-height: 220px; overflow-y: auto; padding: 8px 2px; border-bottom: 1px solid var(--control-line); }
+.gbs-sections .checkbox-field, .gbs-parts .checkbox-field, .gbd-linked .checkbox-field { margin: 0; font-size: var(--text-small); font-weight: 500; }
+.gbs-parts { display: grid; gap: 6px; margin-top: 8px; }
+.gbs-parts small, .gbs-link .field-hint, .gbd-link .field-hint { color: var(--muted); font-size: var(--text-caption); }
+.gbs-link .field-hint, .gbd-link .field-hint { display: block; margin-top: 6px; line-height: 1.5; }
+
+/* Columns removed when you save: a warning notice inside the panel, so only the callout's 2px top rule in its tone (no frame,
+   no fill). */
+.gbs-removed { margin-top: var(--space-4); padding: var(--space-3) 0; border-top: 2px solid var(--tone-warning); color: var(--text); font-size: var(--text-small); }
+.gbs-removed p { margin: 0 0 6px; color: var(--warning); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gbs-removed ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.gbs-removed li { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.gbs-removed em { color: var(--warning); font-style: normal; }
+
+.gbs-presets { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.gbs-presets > span { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gbs-scale { min-width: 320px; max-width: 520px; }
+.gbs-panel .gbs-scroll:has(.gbs-scale) { max-width: 520px; }
+.gbs-min { display: flex; align-items: center; gap: 6px; }
+.gbs-min span { color: var(--label); }
+/* A letter's range as Canvas writes it: "< 90% to [80]%"; the upper end follows the minimum of the letter above. */
+.gbs-min .gbs-upper { flex: none; min-width: 4.5em; color: var(--text); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.gbs-min .gbs-to { flex: none; color: var(--muted); }
+/* The Grading scheme dialog (course Home): the same table; the last letter runs down to 0%, which is not a field. */
+.gbd-scheme [data-scheme-min] { min-width: 100px; }
+.gbs-min .gbd-scheme-floor { flex: 1 1 auto; display: flex; align-items: center; min-width: 100px; min-height: var(--control-height); padding-inline: 11px; color: var(--text); font-variant-numeric: tabular-nums; }
+.gbs-scale-actions { display: flex; align-items: center; gap: 8px 16px; flex-wrap: wrap; margin-top: var(--space-3); }
+.gbs-scale-actions .field-hint { margin: 0; color: var(--warning); }
+
+/* The save bar follows the page so Save is always in reach on a long setup: a strip of the page's paper under a 2px ink rule
+   (ochre while there are unsaved changes). While the editor is shown, scrolling a focused control into view leaves room for
+   the bar, so the bar never hides what has focus. */
+html:has(.gbs-savebar) { scroll-padding-bottom: 140px; }
+.gbs-savebar {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) 0;
+  border: 0;
+  border-top: 2px solid var(--ink);
+  background: var(--canvas);
+}
+.gbs-savebar[data-state="dirty"] { border-top-color: var(--warning); }
+.gbs-state { margin: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.gbs-state:focus { outline: none; }
+.gbs-savebar[data-state="dirty"] .gbs-state { color: var(--warning); }
+.gbs-savebar[data-state="saving"] { cursor: progress; }
+.gbs-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+.gbs-feedback { grid-column: 1 / -1; max-height: 30vh; overflow-y: auto; color: var(--error); font-size: var(--text-small); line-height: 1.6; }
+.gbs-feedback:empty { display: none; }
+.gbs-feedback p { margin: 0 0 4px; }
+.gbs-feedback ul { margin: 0; padding-inline-start: 18px; }
+.gbs-feedback a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.gbs-conflict-actions { display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; margin-top: 8px !important; }
+.gbs-conflict-actions small { color: var(--muted); }
+
+/* ---------------------------------------------------------------------------------------------------------------- */
+/* Dialogs: the shared dialog layout (style.css) keeps the header and footer in view; previews get a wider dialog. */
+
+#dialog:has(> .gbd-wide) { width: min(1080px, calc(100vw - 32px)); }
+.gbd { min-width: 0; }
+.gbd > .dialog-header > div { min-width: 0; }
+.gbd > .dialog-header :is(h2, p) { overflow-wrap: anywhere; } /* a long name never widens the dialog */
+.gbd-footer { flex-wrap: wrap; }
+/* "Add all as columns": the columns it would add, one line each. */
+.gbd-add-list { margin: var(--space-3) 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.gbd-add-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px var(--space-4); padding: 10px 0; border-bottom: 1px solid var(--nested-line); color: var(--ink); }
+.gbd-add-list small { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gbd-footnote { flex: 1 1 220px; margin: 0; color: var(--muted); font-size: var(--text-small); line-height: 1.5; }
+.gbd-footnote:empty { flex-basis: 0; }
+.gbd .form-error { margin: var(--space-3) 0 0; }
+.gbd .field { margin-bottom: var(--space-4); }
+.gbd .field > :is(input, select, textarea) { width: 100%; margin-top: 6px; }
+.gbd .field small { color: var(--muted); font-size: var(--text-caption); font-weight: 500; }
+.gbd fieldset { min-width: 0; margin: 0 0 var(--space-4); padding: 0; border: 0; }
+.gbd legend { margin-bottom: 8px; padding: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gbd-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space-4); }
+.gbd-flags, .gbd-sections { display: grid; gap: 6px; }
+.gbd-sections { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+.gbd-sections legend { grid-column: 1 / -1; }
+/* A legend over its own fields (Value, Points, Note) titles that part of the dialog: the section label, over a 2px ink rule. */
+.gbd .gbd-cell > legend { display: block; width: 100%; margin-bottom: var(--space-3); padding-top: 8px; border-top: 2px solid var(--ink); color: var(--ink); font-size: 12px; letter-spacing: var(--tracking-section); }
+.gbd-flags .checkbox-field, .gbd-sections .checkbox-field { margin: 0; line-height: 1.5; }
+.gbd-link select { width: 100%; }
+.gbd-points { min-width: 0; }
+.gbd-maximum { margin: calc(-1 * var(--space-3)) 0 var(--space-4); color: var(--muted); font-size: var(--text-small); line-height: 1.5; }
+.gbd-maximum[hidden] { display: none; }
+.gbd-maximum .text-button { margin-inline-start: 6px; font-size: var(--text-caption); }
+
+/* A refused save names what changed: always a .callout[data-tone="warning"] (components.css draws it). */
+.gbd-conflict p { margin: 0 0 8px; }
+.gbd-conflict p:last-child { margin-bottom: 0; }
+.gbd-lead { margin-top: 0; }
+.gbd-meta { margin: 0 0 var(--space-3); color: var(--muted); font-size: var(--text-small); line-height: 1.6; overflow-wrap: anywhere; }
+.gbd-meta:empty { display: none; }
+.gbd-meta strong { color: var(--heading); font-weight: 600; }
+.gbd-options { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); flex-wrap: wrap; margin: 0 0 var(--space-4); padding-bottom: var(--space-4); border-bottom: 1px solid var(--line); }
+.gbd-options .checkbox-field { margin: 0; line-height: 1.5; }
+.gbd-option { margin: var(--space-3) 0 var(--space-4); }
+
+.gbd-busy { display: flex; align-items: center; gap: var(--space-3); margin: 0 0 var(--space-4); padding: var(--space-4) 0; border-block: 1px solid var(--line); color: var(--text); font-size: var(--text-control); line-height: 1.6; }
+.gbd-busy p { margin: 0; }
+.gbd-spinner { flex-shrink: 0; width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--ink); animation: gbd-turn .9s linear infinite; }
+@keyframes gbd-turn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .gbd-spinner { animation: none; border-color: var(--ink); } }
+
+/* Counts: a row of stats (components.css .stat): each a small label under a hairline over a serif count. */
+.gbd-counts { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 0 var(--space-5); margin: 0 0 var(--space-4); }
+.gbd-counts > div { margin: 0; padding: var(--space-2) 0; border-top: 1px solid var(--line); }
+.gbd-counts dt { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gbd-counts dd { margin: var(--space-1) 0 0; color: var(--heading); font: var(--head-weight) 26px/1 var(--font-serif); letter-spacing: 0; font-variant-numeric: tabular-nums; font-synthesis: none; }
+.gbd-counts [data-count="add"] dd { color: var(--success); }
+.gbd-counts [data-count="update"] dd { color: var(--blue); }
+.gbd-counts [data-count="kept"] dd { color: var(--warning); }
+/* Warnings: the callout's 2px top rule in the warning tone, on the dialog's own paper (no frame, no fill). */
+.gbd-warnings { margin: 0 0 var(--space-4); padding: var(--space-3) 0 var(--space-3) 18px; border-top: 2px solid var(--tone-warning); color: var(--text); font-size: var(--text-small); line-height: 1.6; }
+.gbd-warnings li + li { margin-top: 4px; }
+.gbd-heading { margin: var(--space-6) 0 var(--space-3); color: var(--heading); font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+
+.gbd-toolbar { display: flex; align-items: flex-end; gap: var(--space-2) var(--space-4); flex-wrap: wrap; margin: 0 0 var(--space-3); }
+/* Sync with Canvas: the held grades (a decision, never folded) and the courses a sync writes to. */
+.gbd-held { margin: var(--space-4) 0; }
+.gbd-held h3 { margin: 0 0 var(--space-2); font-size: var(--text-body); }
+.gbd-courses { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin: var(--space-3) 0; padding: 0; border: 0; }
+.gbd-courses legend { width: 100%; margin-bottom: var(--space-2); font-weight: 600; }
+.gbd-courses .field-hint { width: 100%; margin: 0; }
+.gbd-filter { display: grid; gap: 4px; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gbd-filter :is(select, input) { min-width: 180px; text-transform: none; letter-spacing: normal; }
+.gbd-bulk { display: flex; gap: 8px; flex-wrap: wrap; margin-inline-start: auto; }
+
+/* Preview tables (ui.js tableMarkup, drawn by components.css): taller than the seating preview, never wider than the dialog. */
+.gbd-table .data-table, .gbd .data-table { position: relative; max-height: min(46vh, 460px); margin: 0 0 var(--space-3); }
+.gbd .data-table table { min-width: 720px; }
+.gbd .data-table thead th { position: sticky; top: 0; z-index: 1; }
+.gbd .data-table td { min-width: 0; overflow-wrap: break-word; } /* a short word ("empty") keeps its letters together */
+.gbd .data-table td:first-child { min-width: 150px; }
+/* The row's name is ink, like the grid's names (tbody > tr > td outranks components.css's cell colour). */
+.gbd .data-table tbody > tr > td:first-child { color: var(--ink); }
+.gbd .gbd-reason { min-width: 220px; color: var(--muted); }
+.gbd-empty { color: var(--label); }
+.gbd-source { color: var(--label); font-size: var(--text-caption); }
+.gbd-empty-note { margin: 0 0 var(--space-3); padding: var(--space-3) 0; color: var(--muted); font-size: var(--text-small); }
+.gbd-replace { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; min-height: 28px; cursor: pointer; }
+.gbd-replace input { width: 16px; height: 16px; margin: 0; }
+/* What a row does: a .chip-like tag (11px semibold uppercase, a 1px frame in its tone, no fill). */
+.gbd-action { display: inline-block; padding: 1px 7px; border: 1px solid currentColor; border-radius: var(--radius-control); color: var(--muted); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.gbd-action[data-action-kind="add"] { border-color: var(--success); color: var(--success); }
+.gbd-action[data-action-kind="update"] { border-color: var(--blue); color: var(--blue); }
+.gbd-action[data-action-kind="kept"] { border-color: var(--warning); color: var(--warning); }
+
+/* Import: the file chooser, the recognized formats, a mapping per file column. */
+.gbd-choose { margin-bottom: var(--space-4); }
+.gbd-formats { font-size: var(--text-small); line-height: 1.6; }
+.gbd-formats > summary { color: var(--muted); font-weight: 500; }
+.gbd-formats ul { margin: 8px 0; padding-inline-start: 18px; }
+.gbd-formats li + li { margin-top: 4px; }
+.gbd-formats p { margin: 0; color: var(--muted); }
+/* Its fields end level: a caption that wraps in the narrow cell lifts its own words, not its field. */
+.gbd-new-column { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr) minmax(90px, .8fr); align-items: end; gap: 8px; margin-top: 8px; }
+.gbd-new-column label { display: grid; gap: 4px; min-width: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gbd-new-column :is(input, select) { width: 100%; min-width: 0; text-transform: none; letter-spacing: normal; }
+.gbd .data-table td select { width: 100%; min-width: 180px; }
+.gbd-details { margin: var(--space-3) 0; font-size: var(--text-small); }
+.gbd-details > summary { color: var(--ink); }
+
+/* A student's record: results first, then the grades folded to one row per category; a category's row opens its columns
+   (each with its source, note and due date) beneath it. */
+.gbd-record-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.gbd .data-table tr.is-dropped .gbd-value { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; }
+.gbd .data-table td small { color: var(--label); font-size: var(--text-caption); }
+/* The record's table is read, not edited: it fits the dialog instead of the 720 px of the import tables, and grows with the
+   categories opened instead of scrolling in a box of its own (the dialog's body scrolls). */
+.gbd .gbd-record-table .data-table { max-height: none; }
+.gbd .gbd-record-table .data-table table { min-width: 0; }
+/* A category's row is a fold (DESIGN-LANGUAGE "Folds"): its name in the serif, ink, a framed +/− at the cell's end; the whole
+   row opens it, its button from the keyboard. */
+.gbd .gbd-record-grades tbody th { white-space: normal; text-align: start; }
+.gbd .gbd-record-category:has(.gbd-record-fold) { cursor: pointer; }
+.gbd-record-name { min-width: 0; color: var(--heading); font: var(--head-weight) var(--text-lead)/1.25 var(--font-serif); letter-spacing: 0; font-synthesis: none; }
+.gbd-record-fold { display: flex; align-items: center; gap: var(--space-3); width: 100%; padding: 0; text-align: start; }
+.gbd-record-fold::after { content: "+"; content: counter(decor, none) "+" / ""; flex: 0 0 20px; margin-inline-start: auto; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.gbd-record-fold[aria-expanded="true"]::after { content: "−"; content: counter(decor, none) "−" / ""; }
+.gbd-record-items[hidden] { display: none; }
+/* A category's columns sit inside it: indented, named smaller than the category. */
+.gbd .gbd-record-items td:first-child { padding-inline-start: 32px; }
+.gbd .gbd-record-items td:first-child > strong { color: var(--heading); font: var(--head-weight) var(--text-body)/1.3 var(--font-serif); letter-spacing: 0; font-synthesis: none; }
+/* A due date and the Change action never break inside themselves. */
+.gbd .gbd-record-items td:is([data-label="Due"], :last-child) { white-space: nowrap; }
+.gbd-conflict.callout { margin: var(--space-3) 0 0; }
+
+/* A cell's history, newest first. */
+.gbd-history { margin: 0 0 var(--space-5); padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.gbd-history li { padding: 12px 0; border-bottom: 1px solid var(--nested-line); }
+.gbd-history li:last-child { border-bottom: 0; } /* the change form's ink rule follows */
+.gbd-history-value { color: var(--ink); font-size: var(--text-body); font-variant-numeric: tabular-nums; }
+.gbd-history-value strong { color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); font-synthesis: none; }
+.gbd-history-value small { color: var(--label); }
+.gbd-current { margin-inline-start: 6px; padding: 1px 7px; border: 1px solid var(--ink); border-radius: var(--radius-control); color: var(--ink); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: .1em; text-transform: uppercase; vertical-align: 3px; }
+.gbd-history-meta { margin: 4px 0 0; color: var(--muted); font-size: var(--text-small); line-height: 1.5; overflow-wrap: anywhere; }
+.gbd-history-note { margin: 6px 0 0; padding-inline-start: 10px; border-inline-start: 2px solid var(--line); color: var(--text); font-size: var(--text-small); line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+.gbd-cell { padding-top: var(--space-2) !important; }
+.gbd-cell:disabled { opacity: var(--opacity-dim); }
+
+@media (forced-colors: active) {
+  .gbs-choice:has(input:checked) { outline: 2px solid Highlight; outline-offset: -3px; }
+}
+
+/* Import from Canvas: each match's grade check, and gradebook columns not in Canvas with a search to link one (2026-09-28). */
+.gbd-summary ul { margin: var(--space-2) 0 0; padding-left: 1.25em; display: grid; gap: var(--space-1); }
+.gbd-dest { color: var(--heading); }
+.gbd-details + .gbd-details, .gbd-details + .gbd-option, .gbd-option + .gbd-details { margin-top: var(--space-3); }
+.gbd-check { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: var(--space-2) 0 0; font-size: var(--text-small); }
+.gbd-check small { flex-basis: 100%; color: var(--muted); }
+.gbd-canvas-unlinked { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+.gbd-canvas-unlinked small { color: var(--muted); font-size: var(--text-caption); }
+.gbd-canvas-link { margin-top: var(--space-2); }
+.gbd-canvas-link label { display: grid; gap: 4px; font-size: var(--text-small); }
+.gbd-canvas-link input { width: 100%; max-width: 36rem; }
+.gbd-canvas-results { list-style: none; margin: var(--space-2) 0 0; padding: 0; display: grid; gap: 4px; }
+.gbd-canvas-results small { color: var(--muted); font-size: var(--text-caption); }
+
+/* ---------------------------------------------------------------------------------------------------------------- */
+/* The Changes page (#course/<gid>/section/<n>/changes, static/gradebook-changes.js): days of changes, newest first, each a
+   disclosure whose label says what made it and whose second line what it changed. */
+.gbc { max-width: 1100px; }
+.gbc .gradebook-bar .gbc-meta { margin: 0; }
+.gbc-day { margin: 0 0 var(--space-5); }
+/* A day is a list's heading: the section label over a 2px ink rule (components.css .section-label). Two classes out-rank
+   typography.css's heading face (0,1,1). */
+.gbc .gbc-day-title { margin: 0; padding-top: 8px; border-top: 2px solid var(--ink); color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.gbc-list { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--line); }
+/* The entries stack: each disclosure keeps its own hairline above (components.css) and none of its outer margin; the first
+   sits right under the day's ink rule, so it draws none. */
+.gbc-entry > details.disclosure { margin: 0; border-top-color: var(--nested-line); }
+.gbc-entry:first-child > details.disclosure { border-top: 0; }
+/* The entry's title is the disclosure's serif, regular (never a synthesized bold serif). */
+.gbc-entry > details.disclosure > summary strong { font-weight: 500; }
+.gbc-entry > details.disclosure > summary > .disclosure-hint { white-space: nowrap; } /* "1:02 PM" stays on one line */
+.gbc-what { display: block; margin-top: 2px; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); letter-spacing: normal; overflow-wrap: anywhere; }
+.gbc-meta { margin: 0 0 var(--space-2); color: var(--muted); font-size: var(--text-small); line-height: 1.5; }
+.gbc-lines { margin: 0 0 var(--space-3); padding-inline-start: var(--space-5); color: var(--text); font-size: var(--text-small); line-height: 1.6; }
+.gbc-lines li { overflow-wrap: anywhere; }
+.gbc-note { color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; }
+.gbc-older { margin-top: var(--space-2); }

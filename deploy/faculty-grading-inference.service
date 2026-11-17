@@ -1,0 +1,28 @@
+[Unit]
+Description=Faculty local vision inference (NVMe, no cloud)
+After=network.target
+ConditionPathIsMountPoint=/mnt/nvme
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/mkdir -p /mnt/nvme/Teaching/runtime/grading-models/ollama /mnt/nvme/Teaching/runtime/grading-models/cache /mnt/nvme/Teaching/tmp/grading-inference
+ExecStartPre=/usr/bin/find /mnt/nvme/Teaching/tmp/grading-inference -mindepth 1 -delete
+ExecStart=/usr/local/bin/ollama serve
+Environment=OLLAMA_HOST=127.0.0.1:11435
+Environment=OLLAMA_MODELS=/mnt/nvme/Teaching/runtime/grading-models/ollama
+Environment=XDG_CACHE_HOME=/mnt/nvme/Teaching/runtime/grading-models/cache
+Environment=TMPDIR=/mnt/nvme/Teaching/tmp/grading-inference
+Environment=OLLAMA_NO_CLOUD=1
+Environment=OLLAMA_KEEP_ALIVE=0
+Environment=OLLAMA_NUM_PARALLEL=1
+Environment=OLLAMA_MAX_LOADED_MODELS=1
+Environment=OLLAMA_CONTEXT_LENGTH=16384
+Environment=OLLAMA_FLASH_ATTENTION=1
+Environment=OLLAMA_KV_CACHE_TYPE=q8_0
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+UMask=0077
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,17 @@
+[Unit]
+Description=Faculty local embedding worker (NVMe, no network)
+ConditionPathIsMountPoint=/mnt/nvme
+
+[Service]
+Type=simple
+WorkingDirectory=%h/code/Teaching
+ExecStart=%h/code/Teaching/.venv/bin/python -m faculty_embedding.launch
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=FACULTY_EMBEDDING_RUNTIME=/mnt/nvme/Teaching/runtime/embedding
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+UMask=0077
+
+[Install]
+WantedBy=default.target

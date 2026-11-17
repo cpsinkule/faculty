@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+.env
+.env.local
+node_modules/
+test-results/
+.pytest_cache/
+.faculty-storage*.json
+.tools/

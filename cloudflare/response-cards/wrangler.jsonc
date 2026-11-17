@@ -1,0 +1,30 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "faculty-response-cards",
+  "account_id": "00000000000000000000000000000000",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-14",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{"pattern":"respond.example.com","custom_domain":true}],
+  "vars": {
+    "PUBLIC_ORIGIN": "https://respond.example.com",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAEz1BsTY_eK1m6Tj",
+    "TURNSTILE_HOSTNAME": "respond.example.com"
+  },
+  "secrets": {"required": ["FACULTY_API_SECRET", "TURNSTILE_SECRET"]},
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "faculty-response-cards",
+    "database_id": "00000000-0000-0000-0000-000000000000",
+    "migrations_dir": "migrations"
+  }],
+  "triggers": {"crons": ["*/15 * * * *"]},
+  "limits": {"cpu_ms": 1000},
+  "observability": {
+    "enabled": true,
+    "logs": {"enabled": true, "invocation_logs": false},
+    "traces": {"enabled": true, "head_sampling_rate": 0}
+  }
+}

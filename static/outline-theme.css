@@ -1,0 +1,91 @@
+/* Rules, not boxes (DESIGN-LANGUAGE §1, §4). The regions older sheets drew as framed panels (Home's panels, course panels,
+   grading panels, cards of every kind) are ruled blocks on the paper: a hairline above, no fill, no side or bottom frame,
+   no shadow, no corner marks, their text on the page's own column. A record inside one draws its rows in the quieter
+   --nested-line. Dialogs and pop-overs are the raised paper (--paper); ledger.css draws their frame and shadow. Scans, crop
+   overlays, progress marks and exam-version colours keep their roles. Add new panel classes to the list here (not
+   unframed layout wrappers). */
+:root:root :where(.home-panel, .course-panel, .tool-card, .inbox-job-list,
+  .empty-state:not(.empty-state--flat, :is(.home-panel, .grading-panel, .inbox-job-list, .calendar-agenda) *),
+  .document-review-panel, .document-assembly, .room-card,
+  .seating-card, .seating-workflow, .rc-preview, .exams-block,
+  .grading-panel, .scan-card,
+  .grading-review-group, .grading-review-decision, .grading-cloud-preview,
+  .grading-item-editor fieldset, .compute-card, .compute-fold,
+  .model-picker-results, .model-picker-selection, .bubble-read-counts,
+  .bubble-results-table) {
+  background-color: transparent;
+  border-color: var(--line);
+  border-style: solid;
+  border-width: 1px 0 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding-inline: 0;
+  & > * {
+    --line: var(--nested-line);
+    --accent-line: var(--nested-line);
+  }
+}
+/* A wide table scrolls inside its own box: a rule above and below, nothing at the sides. */
+:root:root :where(.workspace-table-wrap) {
+  background-color: transparent;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+}
+
+/* Older feature styles include literal fills: their status text stays, their containers lose the fill. */
+:root:root :is(.badge, .inbox-job-result, .form-error, .sage, .blue, .clay, .lavender, .sand,
+  .bubble-confident [data-locked], .bubble-answer.flagged input) {
+  background: transparent;
+  border-color: var(--line);
+}
+
+/* The small markers that read as chips (badges, counts) take their frame from ledger.css. */
+/* The two older notice classes aliased to the callout (components.css) take its top rule. */
+:root:root :is(.grading-warning, .guide-note) { border: 0; border-top: 2px solid var(--callout-tone, var(--line)); border-radius: 0; padding-inline: 0; }
+:root:root .guide-note { background: transparent; }
+
+/* Square corners extend to feature panels that predate the shared radius. */
+:root:root :is(.document-batch-print,
+  .template-upload, .template-preview, .template-apply, .grading-template-slot,
+  .grading-item-editor fieldset, .grading-contact-sheet figure,
+  .bubble-read-counts) {
+  border-radius: 0;
+}
+
+/* A chosen option keeps an explicit boundary. Native checkboxes/radios and semantic progress indicators are unchanged; a
+   ticked rubric line is marked by its box and the rule at its start (grading.css), never a box around the line. */
+:root:root :is(.compute-mode:has(input:checked), .model-picker-row:has(:checked)) {
+  outline: 1px solid var(--ink);
+  outline-offset: -1px;
+}
+:root:root :is(.document-job, .grading-review-group, .calendar-event):hover strong {
+  color: var(--ink);
+}
+:root:root .skip-link {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+
+/* A hairline separates an inner record from its containing box. */
+:root:root :is(.dialog-footer, .rc-rules, .grading-batch-details) { border-top: 1px solid var(--line); }
+/* Dialogs and the palette are one plane of raised paper (ledger.css draws the frame and shadow): header, body and footer
+   share the surface and are divided by hairlines. Inside a dialog the page tokens point at that paper, so a table's sticky
+   head, a card or a command block keeps the dialog's own surface, and a hover stays 5% of the ink over it. Seat fills keep
+   their own contract. */
+:root:root dialog {
+  --canvas: var(--paper);
+  --surface: var(--paper);
+  --surface-alt: var(--paper);
+  --surface-hover: color-mix(in srgb, var(--ink) 5%, var(--paper));
+  --highlight-bg: var(--surface-hover);
+}
+:root:root .dialog-footer { background: var(--paper); }
+:root:root .grading-batch progress { border: 0; }
+
+@media (forced-colors: active) {
+  /* A ticked rubric line's rule is a box shadow, which forced colours remove: a system-colour frame keeps it visible. */
+  :root:root .grading-rubric-choice:has(input:checked) { outline: 2px solid Highlight; outline-offset: -2px; }
+}

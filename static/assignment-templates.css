@@ -1,0 +1,75 @@
+/* Screen-only template mapping. Original pages and printable output stay intact. DESIGN-LANGUAGE: flat sections on
+   hairlines inside the dialog (no tinted or framed boxes within it), small uppercase sans labels, serif headlines. */
+.template-dialog { width: min(1100px, calc(100vw - 32px)); }
+/* Upload a template: an accordion like the shared disclosure (a hairline above and below, the title in Instrument Serif,
+   +/− at the right). */
+:root:root #assignment-template-manager .template-upload { margin: var(--space-5) 0; padding: 0; border: 0; border-block: 1px solid var(--line); }
+.template-upload > summary { display: flex; align-items: baseline; gap: var(--space-3); min-height: 44px; padding: var(--space-3) 0; cursor: pointer; list-style: none; color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.template-upload > summary::-webkit-details-marker { display: none; }
+.template-upload > summary::after { content: "+"; content: counter(decor, none) "+" / ""; margin-inline-start: auto;  display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); transition: color var(--snappy); }
+.template-upload[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+.template-upload > summary:hover, .template-upload > summary:hover::after { color: var(--ink); }
+.template-upload > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.template-upload form { max-width: 680px; padding: var(--space-2) 0 var(--space-5); }
+.template-upload .field { margin-bottom: var(--space-4); }
+.template-upload details { margin: var(--space-3) 0 var(--space-4); }
+.template-upload details > summary { cursor: pointer; list-style: none; color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+/* The small folds (LaTeX entry point, Problem ID, Area coordinates) open like every other disclosure: + / − after the
+   label, never the native triangle. */
+:is(.template-upload, .template-problem) details > summary { list-style: none; }
+:is(.template-upload, .template-problem) details > summary::-webkit-details-marker { display: none; }
+:is(.template-upload, .template-problem) details > summary::after { content: "+"; content: counter(decor, none) "+" / ""; margin-inline-start: var(--space-2); transition: color var(--snappy); display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+:is(.template-upload, .template-problem) details[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+:is(.template-upload, .template-problem) details > summary:hover, :is(.template-upload, .template-problem) details > summary:hover::after { color: var(--ink); }
+:is(.template-upload, .template-problem) details > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.template-summary { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-4); border-top: 1px solid var(--line); padding-top: var(--space-6); margin-top: var(--space-6); }
+/* Right after the upload accordion, its bottom rule already divides the two: no second hairline 24 px below it. */
+.template-upload + [data-template-content] > .template-summary:first-child { margin-top: 0; padding-top: var(--space-1); border-top: 0; }
+.template-summary h3 { font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+.template-summary p, .template-links { font-size: var(--text-small); color: var(--text); margin-top: var(--space-2); }
+.template-links { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--space-2) var(--space-5); }
+/* Links in ink on a hairline underline, rust on hover (typography.css's prose links). */
+.template-links a { color: var(--ink); font-weight: 500; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color var(--snappy); }
+.template-links a:hover { color: var(--ink); }
+.template-mapping-toolbar { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: end; margin: var(--space-6) 0; }
+.template-mapping-toolbar .field { flex: 1; min-width: 170px; margin: 0; }
+/* Problem settings | the page: two columns divided by one full-height hairline (a column rule), no frame of their own;
+   the white paper is the only box. */
+.template-editor-layout { display: grid; grid-template-columns: minmax(240px, .8fr) minmax(0, 1.4fr); gap: var(--space-6); align-items: stretch; }
+.template-problem { min-width: 0; padding-inline-end: var(--space-6); border-inline-end: 1px solid var(--line); }
+.template-field-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+.template-problem .field { margin-bottom: var(--space-4); }
+.template-problem details { margin-bottom: 18px; }
+.template-problem summary { cursor: pointer; margin-bottom: 10px; color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+.template-pages { display: flex; flex-wrap: wrap; gap: 10px 18px; border: 0; padding: 0; margin: 18px 0; }
+/* The legend reads like a field's label (form-theme.css). */
+.template-pages legend { margin-bottom: var(--space-2); padding: 0; }
+.template-pages .field-hint { flex-basis: 100%; }
+.template-pages .checkbox-field { margin: 0; }
+.template-area-actions { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-bottom: var(--space-5); }
+.template-area-actions .text-button { font-size: var(--text-small); }
+/* The page preview: the drawing surface and its note, flat beside the divider. */
+.template-preview { min-width: 0; align-self: start; padding: 0; border: 0; }
+.template-preview h4 { margin: 0 0 10px; font-size: var(--text-lead); letter-spacing: var(--tracking-title); }
+.template-preview .field-hint { margin: var(--space-2) 0 14px; }
+/* A blank paper page stays white paper: it is the printed page (DOCUMENTS), not the screen's paper. */
+.template-page-frame { position: relative; width: 100%; touch-action: none; user-select: none; background: white; border: 1px solid var(--line); cursor: crosshair; }
+.template-page-frame img { display: block; width: 100%; height: auto; }
+/* The overlay's colour is accent-theme.css's (the screen's selection colour); only its geometry lives here. */
+.template-area-overlay { position: absolute; pointer-events: none; border-width: 2px; border-style: solid; }
+.template-save-row { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center; margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--line); }
+.template-save-row p { flex: 1; min-width: 160px; color: var(--text); }
+.template-empty { padding: 28px 0; color: var(--text); }
+.template-empty h3 { color: var(--heading); margin-bottom: 10px; }
+/* Apply the saved mapping: a section below a hairline, not a tinted box. */
+:root:root #assignment-template-manager .template-apply { margin-top: var(--space-6); padding: var(--space-5) 0 0; border: 0; border-top: 1px solid var(--line); }
+.template-apply h3 { margin: 0 0 10px; font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+.template-apply p { margin-bottom: var(--space-3); color: var(--text); font-size: var(--text-control); line-height: 1.6; }
+/* Start from the blank paper (the exam's Manual scores tab): a notice inside the panel, a callout's 2px top rule in the
+   info ink over the serif headline, never a second frame. */
+:root:root :is(.exams-block, #exams-section) .template-grading-entry { margin: var(--space-5) 0; padding: var(--space-3) 0; border: 0; border-top: 2px solid var(--tone-info); border-radius: 0; box-shadow: none; }
+.template-grading-entry > h3 { margin: 0; font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+.template-grading-entry p { margin: var(--space-2) 0 14px; }
+.exams-question-area { margin-bottom: 22px; }
+.exams-question-area > strong { display: block; margin: 0 0 var(--space-2); color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+@media (prefers-reduced-motion: reduce) { .template-upload > summary::after, :is(.template-upload, .template-problem) details > summary::after, .template-links a { transition: none; } }

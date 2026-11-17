@@ -1,0 +1,6 @@
+{
+ "eg2": {"repo": "google/embeddinggemma-2", "revision": "914f7f89142e33e77833254d9c9b90c3cef7303b", "file": "model.safetensors",
+         "size": 1488915288, "sha256": "197a32965d4b1105faf060417baa899e193fb73cd401f42ec9295234d5553d79"},
+ "minilm": {"repo": "sentence-transformers/all-MiniLM-L6-v2", "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41", "file": "model.safetensors",
+            "size": 90868376, "sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db"}
+}

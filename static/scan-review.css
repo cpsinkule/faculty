@@ -1,0 +1,53 @@
+/* Scan review in the Ledger language (DESIGN-LANGUAGE §3–§4): a quiet reading surface and one prominent next action.
+   Headings and summaries are Manrope headings at --head-weight (`--font-serif` is a retained alias), copy and labels sans;
+   scanned thumbnails keep their own pixels on white. All rules are scoped to the scan's Inbox page. Desktop only: no phone layout. */
+:root:root .inbox-scan-job .inbox-detail-heading { align-items: center; gap: var(--space-4); }
+:root:root .inbox-scan-job .inbox-heading-state { flex-shrink: 0; }
+:root:root .inbox-scan-job .document-scan-review { gap: var(--space-5); margin-top: var(--space-5); }
+/* A scan tool ("Change assignment") is a tertiary action: the shared underlined text button, no box. */
+:root:root .inbox-scan-job .document-scan-review .scan-tool-button {
+  flex-shrink: 0; margin: 0; padding: var(--space-2) var(--space-1); min-height: 36px;
+}
+/* A count beside a group's title: a small sans label, not part of the headline. */
+:root:root .inbox-scan-job .scan-detail-count {
+  display: inline-block; margin-left: var(--space-2); color: var(--label);
+  font: 600 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); font-variant-numeric: tabular-nums;
+}
+/* One scanned page: its identity as a heading title, what was read in sans copy, its files as links. */
+:root:root .inbox-scan-job .document-scan-page { padding: var(--space-5) 0; }
+:root:root .inbox-scan-job .document-scan-page + .document-scan-page { border-top-color: var(--nested-line); }
+:root:root .inbox-scan-job .document-scan-page h4 {
+  margin: 0 0 var(--space-2); color: var(--heading); font: var(--head-weight) var(--text-item)/1.25 var(--font-serif); letter-spacing: var(--tracking-title);
+}
+:root:root .inbox-scan-job .document-scan-page :is(p, summary) { font-size: var(--text-control); line-height: 1.6; }
+:root:root .inbox-scan-job .document-scan-page p { color: var(--text); }
+:root:root .inbox-scan-job .document-scan-page > a {
+  color: var(--ink); font-size: var(--text-control); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+}
+:root:root .inbox-scan-job .document-scan-page > a:hover { color: var(--ink); }
+/* A scan without labels: a look at its first pages, then the page-by-page readings and the other tools folded. The thumbnails
+   sit on white, like every other scanned image (a paper preview, not a surface). */
+:root:root .inbox-scan-job .scan-first-look { margin: var(--space-1) 0 var(--space-3); }
+:root:root .inbox-scan-job .scan-first-look-pages { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: var(--space-3); }
+:root:root .inbox-scan-job .scan-first-look-pages a {
+  display: grid; gap: var(--space-2); min-width: 0; color: var(--label); text-decoration: none;
+  font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase;
+  transition: color var(--snappy);
+}
+:root:root .inbox-scan-job .scan-first-look-pages img {
+  display: block; width: 100%; height: auto; aspect-ratio: 8.5 / 11; object-fit: contain; border: 1px solid var(--line); background: #fff;
+  transition: border-color var(--snappy);
+}
+:root:root .inbox-scan-job .scan-first-look-pages a:is(:hover, :focus-visible) { color: var(--ink); }
+:root:root .inbox-scan-job .scan-first-look-pages a:hover img { border-color: var(--ink); }
+:root:root .inbox-scan-job .scan-first-look-pages a:focus-visible img { border-color: var(--ink); outline: 2px solid var(--focus); outline-offset: 1px; }
+:root:root .inbox-scan-job .scan-first-look figcaption { margin: var(--space-2) 0 0; }
+/* A paper's candidates on Review: the same small pages, in a row beside the page's choice (inbox-10). */
+:root:root .inbox-scan-job .scan-first-look-pages.document-assembly-thumbs { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+:root:root .inbox-scan-job .document-assembly-thumbs a { width: 120px; }
+/* A reviewed paper's PDF reads as a link, like a scanned page's files. */
+:root:root .inbox-scan-job .document-assembly-revision > a { color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+:root:root .inbox-scan-job .document-assembly-revision > a:hover { color: var(--ink); }
+:root:root .inbox-scan-job .scan-page-group { border-top: 1px solid var(--line); padding: 0; }
+:root:root .inbox-scan-job .scan-page-group > summary { cursor: pointer; }
+:root:root .inbox-scan-job .scan-unlabeled-lead { max-width: 78ch; color: var(--text); font: 500 var(--text-lead)/1.55 var(--font-body); }

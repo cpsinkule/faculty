@@ -1,0 +1,367 @@
+/* LEDGER: the component layer of DESIGN-LANGUAGE "Ledger" (requirement, 2026-10-04). Loaded after every other sheet: it states how the shared components look
+   (the shell, buttons, text actions, tabs, chips, notices, folds, fields, tables, dialogs). Colours, faces and sizes come
+   from design-tokens.css. The rules it supersedes in components.css, button-theme.css, form-theme.css, header-band.css and
+   workspace-navigation.css are pruned as each area moves to Ledger.
+   The vocabulary: an off-white page; white surfaces; near-black ink; a 2px ink outline and a hard offset shadow on what you
+   act on, pressed in when clicked; underlined bold text for quieter actions; orange fill (black type) for "needs you",
+   red fill for failing; small capitals for labels only. */
+
+:root { background: var(--canvas); }
+:root :is(h1, h2, h3, h4, h5, h6) { letter-spacing: -.01em; }
+
+/* ── The rail: black, its words in paper; the page on screen is a paper block; a needs-you count an orange block. ── */
+@media screen {
+  :root:root .graphic-navigation { background: var(--sidebar-bg); border-right: var(--frame); color: var(--sidebar-ink); scrollbar-color: var(--sidebar-field-line) transparent; }
+  :root:root .graphic-navigation .brand { color: var(--sidebar-ink); border-bottom: 0; font: 800 26px/1 var(--font-head); letter-spacing: -.03em; padding-bottom: 6px; }
+  :root:root .graphic-navigation .brand-dot { color: var(--accent-fill); }
+  :root:root .graphic-navigation .palette-trigger { border: 2px solid var(--sidebar-field-line); background: var(--sidebar-field); color: var(--sidebar-muted); padding: 7px 10px; min-height: 38px;
+    font: 500 13.5px/1.2 var(--font-body); white-space: nowrap; }
+  :root:root .graphic-navigation .palette-trigger:hover { border-color: var(--sidebar-ink); color: var(--sidebar-ink); }
+  :root:root .graphic-navigation .palette-trigger kbd { color: var(--sidebar-muted); font: 500 11px/1 var(--font-num); letter-spacing: 0; white-space: nowrap; }
+  :root:root .graphic-navigation :is(.nav-label, .nav-section-label) { color: var(--sidebar-muted); font: 700 11px/1.4 var(--font-body); letter-spacing: .12em; text-transform: uppercase; }
+  :root:root .graphic-navigation .nav-item { min-height: 34px; padding: 0 8px; border-bottom: 0; color: var(--sidebar-ink); font: 500 14.5px/1.25 var(--font-body); }
+  :root:root .graphic-navigation .nav-item:is(:hover, :focus-visible) { background: var(--sidebar-hover); color: var(--button-ink); }
+  :root:root .graphic-navigation .nav-item.active { background: var(--sidebar-selected); color: var(--nav-selected-ink); font-weight: 800; }
+  :root:root .graphic-navigation .nav-item.active .nav-face::after { content: none; }
+  :root:root .graphic-navigation .nav-count { color: var(--sidebar-muted); font: 500 12.5px/1.3 var(--font-num); }
+  :root:root .graphic-navigation .nav-item.active .nav-count { color: var(--muted); }
+  /* An inventory count of nothing ("Rooms 0") says nothing in the rail. */
+  :root:root .graphic-navigation .nav-count[data-zero] { visibility: hidden; }
+  :root:root .graphic-navigation .nav-badge:not([hidden]) { min-width: 22px; padding: 1px 6px; background: var(--nav-badge-bg); color: var(--nav-badge-ink);
+    font: 800 12px/18px var(--font-num); text-align: center; }
+  :root:root .graphic-navigation .sidebar-bottom,
+  :root:root .graphic-navigation .sidebar-bottom::before { background: var(--sidebar-bg); }
+  :root:root .graphic-navigation .sidebar-bottom { border-top: 2px solid var(--sidebar-line); }
+  :root:root .graphic-navigation .server-status { color: var(--sidebar-muted); }
+}
+
+/* ── The header band: white under a 2px ink rule; the trail and the clock on its first line, the title (and its label) on
+   the second, in ink. No photograph. ── */
+:root:root .page-plate { height: auto; min-height: 0; overflow: visible; background: var(--header-background); color: var(--ink); border-bottom: var(--frame); isolation: auto; }
+:root:root .page-plate > .topbar { min-height: 0; padding: 10px 28px 0; background: transparent; border-bottom: 0; color: var(--muted); -webkit-backdrop-filter: none; backdrop-filter: none; }
+:root:root .page-plate > .topbar .breadcrumb { color: var(--muted); font: 500 13px/1.4 var(--font-body); letter-spacing: 0; text-transform: none; }
+:root:root .page-plate > .topbar .breadcrumb a { color: var(--muted); }
+:root:root .page-plate > .topbar .breadcrumb a:hover { color: var(--ink); }
+:root:root .page-plate > .topbar .breadcrumb [aria-current] { color: var(--ink); }
+:root:root .page-plate > .topbar .workspace-clock, :root:root .page-plate > .topbar .workspace-clock time { color: var(--muted); font-family: var(--font-num); opacity: 1; }
+:root:root .page-plate > .topbar .assistant-launch { border: var(--frame); background: var(--surface); color: var(--ink); box-shadow: var(--hard-shadow); font: 700 14px/1.2 var(--font-body); }
+:root:root .page-plate > .topbar .assistant-launch { transition: transform var(--lift), box-shadow var(--lift), background-color var(--snappy), color var(--snappy); }
+:root:root .page-plate > .topbar .assistant-launch:hover { transform: translate(-1px, -1px); box-shadow: var(--hard-shadow-hover); }
+:root:root .page-plate > .topbar .assistant-launch:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
+/* Open (also by Mod+I from the keyboard): an ink block, a change of colour only. */
+:root:root .page-plate > .topbar .assistant-launch[aria-expanded="true"] { background: var(--ink); color: var(--button-ink); }
+/* The area button beside it is a 34 px square, the Assistant's height, not the page's 36 px icon button: the band stays 90 px
+   or less (DESIGN-LANGUAGE §1.1). */
+:root:root .page-plate > .topbar .assistant-launchers .icon-button { min-width: 34px; min-height: 34px; }
+:root:root .page-plate .plate-type { position: static; display: flex; padding: 2px 28px 14px; }
+:root:root .page-plate .plate-label { color: var(--muted); font: 700 11.5px/1.2 var(--font-body); letter-spacing: .1em; filter: none; }
+:root:root .page-plate #page-title { color: var(--ink); font-family: var(--font-head); font-weight: 800; letter-spacing: -.02em; }
+
+/* The row under the band: what the page says first, then its actions. A needs-you lead is an orange block. */
+:root:root .page-heading .page-subtitle { color: var(--text); font: 600 17px/1.45 var(--font-body); letter-spacing: 0; }
+/* A lead that is only the page's description, not something waiting on you, never outranks the work (§1.6). */
+:root:root .page-heading .page-subtitle:not(:has(.page-subtitle-lead)) { color: var(--muted); font: 500 15px/1.45 var(--font-body); }
+:root:root .page-heading .page-subtitle-lead { display: inline-block; margin-right: 6px; padding: 2px 10px; border: var(--frame); background: var(--needs-fill); color: var(--needs-ink); font-weight: 800; }
+/* On the title's line: the needs-you chip, then the rest of the sentence muted. The title keeps its width first: the status
+   takes only the room left (flex-basis 0, up to its own width), the muted rest gives way to an ellipsis, and the chip
+   never narrows, so neither draws over the other (the rest's minmax(0, …) column adds nothing to the status's minimum).
+   Only a title too long for the line beside the chip steps down and wraps (page-title-fit.js). */
+:root:root .page-plate .plate-status { display: grid; grid-template-columns: max-content minmax(0, max-content); align-items: center; gap: 12px; flex: 1 1 0; min-width: min-content; max-width: max-content; margin: 0; align-self: center; }
+:root:root .page-plate .plate-status[hidden] { display: none; }
+:root:root .page-plate .plate-status > .page-subtitle-lead { flex: none; padding: 3px 10px; border: var(--frame); background: var(--needs-fill); color: var(--needs-ink); font: 800 15px/1.25 var(--font-body); white-space: nowrap; }
+:root:root .page-plate .plate-status > .page-status-rest { min-width: 0; overflow: hidden; color: var(--muted); font: 600 15px/1.3 var(--font-body); white-space: nowrap; text-overflow: ellipsis; }
+
+/* ── Buttons: a 2px ink frame and a hard shadow; hover lifts, press sinks. The primary is ink. Sentence case. ── */
+:root:root :is(.button, .danger-button:not(.text-button)):not([data-exam-version], .seating-card-button) {
+  border: var(--frame); border-radius: 0; background: var(--surface); color: var(--button-label, var(--ink));
+  box-shadow: var(--button-marker, var(--hard-shadow)); font: 700 14px/1.2 var(--font-body); letter-spacing: 0; text-transform: none;
+  transition: transform var(--lift), box-shadow var(--lift), background-color var(--snappy), color var(--snappy);
+}
+/* Hover lifts (the slate ring, not a lift, is the keyboard's state); press sinks 2px onto the shadow. The shadow animates to and
+   from a zero-offset ink shadow, never `none` (which would pass through a grey sliver). */
+@media (hover: hover) and (pointer: fine) {
+  :root:root :is(.button, .danger-button:not(.text-button)):not([data-exam-version], .seating-card-button):hover:not(:disabled, [aria-pressed="true"], [aria-selected="true"], [aria-current], .active, .selected) {
+    transform: translate(-1px, -1px); background: var(--surface); color: var(--button-label-hover, var(--button-label, var(--ink))); border-color: var(--ink);
+    box-shadow: var(--button-marker, var(--hard-shadow-hover));
+  }
+}
+/* The keyboard's state is the slate ring alone (§6): a focused control keeps its face and its hard shadow, never the hover tint or a
+   shadow fading through grey (button-theme.css's shared hover/focus rule outranks the frame above; critique 2026-10-05). */
+:root:root :is(.button, .danger-button:not(.text-button)):not([data-exam-version], .seating-card-button, .primary):focus-visible:not(:hover, :disabled, [aria-pressed="true"], [aria-selected="true"], [aria-current], .active, .selected) {
+  background: var(--surface); color: var(--button-label, var(--ink)); border-color: var(--ink); box-shadow: var(--button-marker, var(--hard-shadow));
+}
+:root:root .button.primary:not([data-exam-version], .seating-card-button):focus-visible:not(:hover, :disabled) {
+  background: var(--button-fill); border-color: var(--button-fill); box-shadow: var(--button-marker, var(--hard-shadow));
+}
+:root:root :is(.button, .danger-button:not(.text-button)):not([data-exam-version], .seating-card-button):active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
+/* A hit area that stays put while the face lifts and sinks, so a quick click at the edge is never lost and hover never flickers:
+   5px up and left (where a pressed face moves away from the pointer), 1px right and down (the strip the lift uncovers; more
+   would count as overflow in a row's measurements). */
+:where(.button, .danger-button, .assistant-launch, .icon-button, .room-card, .seating-card, .section-shortcut, .support-choice) { position: relative; }
+:root:root :is(.button, .danger-button:not(.text-button), .icon-button):not([data-exam-version], .seating-card-button)::before,
+:root:root .page-plate > .topbar .assistant-launch::before { content: ""; position: absolute; inset: -5px -1px -1px -5px; }
+:root:root :is(.room-card, .seating-card, .section-shortcut)::before { content: ""; position: absolute; inset: -2px -1px -1px -2px; }
+:root:root .button.primary:not([data-exam-version], .seating-card-button),
+:root:root .button.primary:not([data-exam-version], .seating-card-button):hover:not(:disabled) {
+  background: var(--button-fill); color: var(--button-label, var(--button-ink)); border-color: var(--button-fill);
+}
+:root:root .button.primary:not([data-exam-version], .seating-card-button):hover:not(:disabled) { background: var(--button-hover); }
+:root:root .button:not([data-exam-version], .seating-card-button):is([aria-pressed="true"], [aria-selected="true"], .active, .selected) { background: var(--ink); color: var(--button-ink); }
+:root:root :is(.button, .danger-button):not([data-exam-version], .seating-card-button):disabled { opacity: .45; box-shadow: 0 0 0 var(--ink); transform: none; }
+:root:root :is(.button, .text-button, .danger-button):not([data-exam-version], .seating-card-button):focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* Icon buttons are framed squares too (a frame means you can act), lifting like buttons under the pointer. */
+:root:root .icon-button:not([data-exam-version], .seating-card-button) { min-width: 36px; min-height: 36px; border: var(--frame); background: var(--surface); color: var(--ink);
+  box-shadow: 0 0 0 var(--ink); transition: transform var(--lift), box-shadow var(--lift), background-color var(--lift); }
+@media (hover: hover) and (pointer: fine) {
+  :root:root .icon-button:not([data-exam-version], .seating-card-button):hover:not(:disabled) { transform: translate(-1px, -1px); box-shadow: var(--hard-shadow-hover); }
+}
+:root:root .icon-button:not([data-exam-version], .seating-card-button):active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
+:root:root .icon-button:not([data-exam-version], .seating-card-button):focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* Text actions: bold, underlined 2px; darker orange on hover. */
+:root:root :is(.text-button):not(.seating-card-button) {
+  min-height: 0; padding: 4px 0; border: 0; background: transparent; box-shadow: none; color: var(--button-label, var(--ink));
+  font: 700 14px/1.3 var(--font-body); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px;
+}
+:root:root :is(.text-button):not(.seating-card-button):hover:not(:disabled) { color: var(--button-label, var(--ink)); background: transparent; text-decoration-thickness: 3px; }
+.link-arrow { color: var(--ink); font: 700 14px/1.3 var(--font-body); letter-spacing: 0; text-transform: none; }
+:root:root :is(.link-arrow, .room-breadcrumbs > a.text-button):hover { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+:root:root :is(.back-link, a.course-back-link, a.exams-back, a.rc-back, .room-breadcrumbs > a.text-button) { color: var(--ink); font: 700 13.5px/1.3 var(--font-body); text-decoration: none; }
+:root:root .page-heading-secondary > :is(.button, .icon-button):not(.primary, [data-exam-version]) {
+  min-height: 0; padding: 4px 0; border: 0; background: transparent; box-shadow: none; transform: none; font: 700 14px/1.3 var(--font-body);
+  text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px;
+}
+/* Text actions and go-links never move (§6): the shared press scale (button-theme.css) is for framed controls only. */
+:root:root :is(.text-button, .link-arrow):active:not(:disabled) { transform: none; }
+/* Buttons drawn as text actions or tabs never lift, sink or cast a shadow. */
+:root:root:root .page-heading-secondary > :is(.button, .icon-button):not(.primary, [data-exam-version]):is(:hover, :focus-visible, :active),
+:root:root:root .quality-review-tabs > .button.button,
+:root:root:root .quality-review-tabs > .button.button:is(:hover, :focus-visible, :active) { transform: none; box-shadow: none; }
+:root:root:root .page-heading-secondary > :is(.button, .icon-button):not(.primary, [data-exam-version]):hover { background: transparent; text-decoration-thickness: 3px; }
+:root:root:root .page-heading-secondary > :is(.button, .icon-button):not(.primary, [data-exam-version])::before { content: none; }
+
+/* ── Tabs and filter tabs: framed words; the chosen one an ink block. ── */
+:root:root :is(.course-tabs, .course-scope-toggle, .inbox-filters, .exams-tabs, .document-tabs,
+  .accommodation-tabs, .filter-tabs, .comm-filters, .quality-review-tabs,
+  .calendar-view-switch, .grading-tabs:not(.grading-workflow), .bubble-version-tabs, .bubble-scoring,
+  .filter-chips[data-filter-group="cert-panel"], .assignment-nav) {
+  gap: 8px;
+  & > :is(button, a):not([data-exam-version], .seating-card-button) {
+    min-height: 36px; padding: 6px 12px; border: var(--frame); background: var(--surface); color: var(--ink);
+    font: 600 14px/1.2 var(--font-body); letter-spacing: 0; text-transform: none;
+    &:hover:not(:disabled, [aria-selected="true"], [aria-pressed="true"], [aria-checked="true"], [aria-current], .active, .selected) {
+      background: var(--surface-hover); border-color: var(--ink); color: var(--ink);
+    }
+    &:is([aria-selected="true"], [aria-pressed="true"], [aria-checked="true"], [aria-current], .active, .selected) {
+      background: var(--ink); color: var(--button-ink); border-color: var(--ink); font-weight: 700;
+    }
+  }
+}
+:root:root .filter-chips { gap: 8px; }
+:root:root .filter-chips > button { min-height: 36px; padding: 6px 12px; border: var(--frame); background: var(--surface); color: var(--ink); font: 600 14px/1.2 var(--font-body); }
+:root:root .filter-chips > button:hover { background: var(--surface-hover); }
+:root:root .filter-chips > button[aria-pressed="true"] { background: var(--ink); color: var(--button-ink); border-color: var(--ink); }
+:root:root .filter-chips > button > b { font: 700 12px/1 var(--font-num); color: inherit; }
+
+/* ── Chips: a 2px frame, small capitals (a chip is a label). Needs-you and failing are filled. ── */
+:root:root .chip { border: 2px solid var(--chip-tone, var(--ink)); border-radius: 0; background: var(--surface); color: var(--chip-tone, var(--ink));
+  font: 800 11px/1.5 var(--font-body); letter-spacing: .06em; text-transform: uppercase; }
+:root:root .chip[data-tone="warning"] { border-color: var(--ink); background: var(--needs-fill); color: var(--needs-ink); }
+:root:root .chip[data-tone="danger"] { border-color: var(--ink); background: var(--danger-fill); color: var(--danger-fill-ink); }
+
+/* ── Notices: a framed box; the title in the tone's ink; warning and danger tinted. ── */
+.callout { padding: 12px 16px; border: var(--frame); background: var(--surface); }
+.callout[data-tone="warning"] { background: var(--needs-tint); }
+.callout[data-tone="danger"] { background: var(--danger-tint); }
+.callout[data-tone="success"] { background: var(--success-tint); }
+.callout > .callout-title { color: var(--callout-tone); font: 800 16px/1.3 var(--font-head); }
+
+/* ── Folds: a bold summary with a framed +/−. ── */
+details.disclosure > summary { font-family: var(--font-body); font-weight: 700; }
+details.disclosure > summary::after { color: var(--ink); font-weight: 800; }
+/* A fold's words underline under the pointer, like every other control you can press that is not framed (hover is never orange). */
+:root:root details.disclosure > summary:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+
+/* ── Fields: white boxes in a 2px ink frame. ── */
+:root:root:root .field > :is(input:not([type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]), textarea, select),
+:root:root:root select, :root:root:root textarea:where(:not(.field > textarea)), :root:root:root .student-picker input[data-picker-text] {
+  border: var(--frame); border-radius: 0; background-color: var(--surface); padding-inline: 10px;
+}
+:root:root:root :is(.search-box, .year-picker) { border: var(--frame); background: var(--surface); padding-inline: 10px; }
+:root:root:root :is(.field > :is(input, textarea, select), select, textarea, .student-picker input[data-picker-text]):focus-visible,
+:root:root:root :is(.search-box, .year-picker):focus-within { outline: 3px solid var(--focus); outline-offset: 1px; border-color: var(--ink); }
+:root:root .field { color: var(--ink); font-weight: 700; letter-spacing: .08em; }
+
+/* ── Tables: the heading row on the page's paper over a 2px ink rule, in sentence case. ── */
+:root:root :is(.data-table table, .workspace-table, .roster-table, .rc-table, .exams-table, .document-version-pages) :is(thead th) {
+  background: var(--canvas); color: var(--ink); font: 700 13px/1.3 var(--font-body); letter-spacing: 0; text-transform: none; border-bottom: var(--frame);
+}
+
+/* ── Dialogs, pop-overs and the toast: framed, with the strong hard shadow. ── */
+:root:root dialog { border: var(--frame); border-radius: 0; background: var(--paper); box-shadow: var(--hard-shadow-strong); }
+:root:root :is(.status-popover, .action-menu-list, [popover]:not(dialog)) { border: var(--frame); border-radius: 0; box-shadow: var(--hard-shadow-strong); }
+.toast-item { border: var(--frame); box-shadow: var(--hard-shadow); transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); }
+/* A toast comes in (it is the system's, occasional): up 8px and in from clear; it leaves at once. */
+@starting-style { .toast-item { opacity: 0; transform: translateY(8px); } }
+:root:root .toast-item > .toast-action { font: 700 13px/1.2 var(--font-body); letter-spacing: 0; text-transform: none; }
+
+/* Page sheets that draw a control as words keep it a link, without the frame's shadow. */
+:root:root:root .home-dashboard .home-shortcuts > .button.button,
+:root:root:root .home-dashboard .home-shortcuts > .button.button:is(:hover, :focus-visible, :active) {
+  border-color: transparent; background: transparent; box-shadow: none; transform: none; text-decoration-thickness: 2px; }
+:root:root .assignment-nav { box-shadow: none; margin-bottom: 1.25rem; }
+:root:root .assignment-nav > span[aria-current] { min-height: 36px; padding: 6px 12px; border: var(--frame); background: var(--ink); color: var(--button-ink);
+  box-shadow: none; font: 700 14px/1.2 var(--font-body); }
+
+/* ── Regions and records. A page region is ruled, not boxed: a 2px ink rule above it (outline-theme.css lists the
+   regions). A record in a grid of records (a tool, a room, a seating chart, an assessment, a scan) is a white box in the
+   ink frame; one the whole card opens takes the hard shadow on hover. ── */
+:root:root :where(.home-panel, .course-panel, .inbox-job-list,
+  .empty-state:not(.empty-state--flat, :is(.home-panel, .grading-panel, .inbox-job-list, .calendar-agenda) *),
+  .document-review-panel, .document-assembly, .seating-workflow, .rc-preview, .exams-block,
+  .grading-panel, .grading-review-group, .grading-review-decision, .grading-cloud-preview,
+  .compute-card, .compute-fold, .bubble-read-counts, .bubble-results-table) {
+  border-top: var(--frame);
+}
+:root:root :is(.tool-card, .room-card, .seating-card, .scan-card) {
+  border: var(--frame); border-radius: 0; background: var(--surface); padding: 18px 20px; box-shadow: 0 0 0 var(--ink);
+  transition: transform var(--lift), box-shadow var(--lift);
+}
+@media (hover: hover) and (pointer: fine) {
+  :root:root :is(.room-card, .seating-card):hover { border-color: var(--ink); transform: translate(-1px, -1px); box-shadow: var(--hard-shadow-hover); }
+}
+/* Figures and tips cannot be pressed, so they are ruled, not framed (§1.3). */
+:root:root :is(.stats > .stat, .workspace-tip) { border: 0; border-top: var(--frame); border-radius: 0; background: transparent; padding-inline: 0; }
+:root:root :is(.stats > .stat) strong { font-family: var(--font-head); font-weight: 800; }
+
+/* Badges and counts are small chips: a 2px ink frame, mono figures. */
+:root:root :is(.grading-source, .quality-builtin, .badge, .grading-badge, .grading-chip, .document-batch-status, .count-badge) {
+  border: 2px solid var(--ink); border-radius: 0; color: var(--ink);
+}
+:root:root .count-badge { padding: 1px 6px; font: 700 11.5px/1.4 var(--font-num); }
+
+/* Follow-up / Office hours and Teaching review / Grade delivery are the same framed tabs (inside an assignment, Return's are sub-tabs). */
+:root:root .support-page > .support-tabs { gap: 8px; border-bottom: 0; }
+:root:root:root .support-page > .support-tabs > a.button.button:not([data-exam-version]),
+:root:root:root .support-page > .support-tabs > a.button.button:not([data-exam-version]):is(:hover, :focus-visible, :active) {
+  min-height: 36px; margin: 0; padding: 6px 12px; border: var(--frame); background: var(--surface); color: var(--ink); box-shadow: none; transform: none;
+  font: 600 14px/1.2 var(--font-body);
+}
+:root:root:root .support-page > .support-tabs > a.button.button:not([data-exam-version]):hover:not([aria-current]) { background: var(--surface-hover); }
+:root:root:root .support-page > .support-tabs > a.button.button:not([data-exam-version])[aria-current] { background: var(--ink); color: var(--button-ink); font-weight: 700; }
+
+/* ── Sub-tabs (requirement, 2026-10-05): the views inside one tab or one page, as words over a
+   hairline, the chosen one in ink over a 2px ink underline. Never framed, so they never compete with the framed tabs above them.
+   Absences' views (`.sub-tabs` on its view chips) and, inside an assignment, Return's Teaching review / Grade delivery. ── */
+:root:root .sub-tabs.sub-tabs, #assignment-workspace[data-area="return"] .support-page > .support-tabs {
+  display: flex; flex-wrap: wrap; gap: 0 var(--space-6); margin: 0 0 var(--space-4); border: 0; box-shadow: inset 0 -1px var(--line);
+}
+:root:root .sub-tabs.sub-tabs > :is(a, button), :root:root .sub-tabs.sub-tabs > :is(a, button):is(:hover, :focus-visible, :active),
+#assignment-workspace[data-area="return"] .support-page > .support-tabs > a.button.button,
+#assignment-workspace[data-area="return"] .support-page > .support-tabs > a.button.button:is(:hover, :focus-visible, :active) {
+  min-height: var(--button-height); margin: 0; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0;
+  background: none; box-shadow: none; transform: none; color: var(--muted); font: 600 var(--text-body)/1.2 var(--font-body);
+  letter-spacing: 0; text-transform: none;
+}
+:root:root .sub-tabs.sub-tabs > :is(a, button):hover, #assignment-workspace[data-area="return"] .support-page > .support-tabs > a.button.button:hover { color: var(--ink); }
+:root:root .sub-tabs.sub-tabs > :is(a, button):is([aria-current], [aria-pressed="true"], [aria-selected="true"]),
+#assignment-workspace[data-area="return"] .support-page > .support-tabs > a.button.button[aria-current] {
+  background: none; color: var(--ink); border-bottom-color: var(--ink); font-weight: 700;
+}
+:root:root .sub-tabs.sub-tabs > :is(a, button)::before, #assignment-workspace[data-area="return"] .support-page > .support-tabs > a.button.button::before { content: none; }
+:root:root .sub-tabs.sub-tabs > :is(a, button) > b { margin-inline-start: 6px; background: none; color: inherit; font-family: var(--font-num); }
+/* A sub-tab's count that waits on the instructor is the needs-you block (§1.2): Absences' views and Return's Regrade requests. */
+.support-page > .support-tabs > a.button > b { margin-inline-start: 6px; background: none; color: inherit; font-family: var(--font-num); }
+:root:root .sub-tabs.sub-tabs > :is(a, button)[data-needs] > b, .support-page > .support-tabs > a.button[data-needs] > b { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px; background: var(--needs-fill); color: var(--needs-ink); }
+
+/* An outward action (send, publish, push) carries the outward tint behind its frame. */
+:root:root .button[data-outward]:not(.primary) { background: var(--outward-fill); }
+
+/* Reduced motion: no lift and no sink. */
+@media (prefers-reduced-motion: reduce) {
+  :root:root :is(.button, .danger-button, .icon-button, .room-card, .seating-card, .section-shortcut, .support-choice, .assistant-launch, .toast-item) { transform: none !important; }
+  .link-arrow:hover::after { transform: none; }
+}
+
+/* Selects keep room for their chevron (the field frame's 10px inline padding once ran the words under it), drawn at 2px in ink. */
+:root:root:root :is(.field > select, select):not([multiple]):is(:not([size]), [size="1"]) {
+  padding-inline: 10px 34px;
+  background-image:
+    linear-gradient(45deg, transparent calc(50% - 1px), var(--ink) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
+    linear-gradient(-45deg, transparent calc(50% - 1px), var(--ink) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px));
+  background-position: right 17px center, right 11px center; background-size: 7px 7px, 7px 7px; background-repeat: no-repeat;
+}
+/* Fields that were still a bare underline: the Inbox search and the Calendar's month. */
+:root:root:root :is(#inbox-search, .calendar-toolbar input[type="month"]) { border: var(--frame); border-radius: 0; background-color: var(--surface); padding-inline: 10px; }
+
+/* DESIGN-LANGUAGE "Assistant glass": shared by the main drawer and the floating Assistant (hold ⌘ to select, double-tap ⌘ to chat).
+   Keep the shared chat, approval, focus and disabled states; only these surfaces soften Ledger's frames. */
+:root:root .assistant-area-selector[popover] { border: 0; box-shadow: none; }
+:root:root .assistant-panel,
+:root:root .assistant-area-bubble[popover],
+:root:root .assistant-area-selector > p {
+  background: var(--paper);
+  border: 1px solid var(--assistant-glass-edge);
+  border-radius: var(--assistant-glass-radius);
+  box-shadow: var(--assistant-glass-shadow);
+}
+:root:root :is(.assistant-panel, .assistant-area-bubble) {
+  --surface: var(--assistant-glass-control);
+  --frame: 1px solid var(--assistant-glass-line);
+  --line: var(--assistant-glass-line);
+  --muted: var(--assistant-glass-muted);
+  --label: var(--assistant-glass-muted);
+  scrollbar-color: var(--line) transparent;
+}
+:root:root .assistant-panel {
+  border-radius: var(--assistant-glass-radius) 0 0 var(--assistant-glass-radius);
+  overflow: hidden;
+}
+:root:root .assistant-area-selector > p { border-radius: var(--assistant-glass-control-radius); }
+:root:root :is(.assistant-panel, .assistant-area-bubble) .assistant-msg[data-from="you"] { border-radius: var(--assistant-glass-control-radius); }
+/* The composer's "/" and "@" list (assistant-pickers.js) is a glass control: its corners, the glass's own line. */
+:root:root :is(.assistant-panel, .assistant-area-bubble) .assistant-picker { border-color: var(--assistant-glass-line); border-radius: var(--assistant-glass-control-radius); }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root:root .assistant-panel,
+  :root:root .assistant-area-bubble[popover],
+  :root:root .assistant-area-selector > p {
+    background-color: var(--assistant-glass-surface);
+    background-image: var(--assistant-glass-sheen);
+    -webkit-backdrop-filter: blur(var(--assistant-glass-blur)) saturate(1.4);
+    backdrop-filter: blur(var(--assistant-glass-blur)) saturate(1.4);
+  }
+}
+:root:root:root :is(.assistant-panel, .assistant-area-bubble) :is(.button, .icon-button):not([data-exam-version], .seating-card-button) {
+  border-radius: var(--assistant-glass-control-radius);
+  box-shadow: var(--button-marker, none);
+  transform: none;
+}
+:root:root:root :is(.assistant-panel, .assistant-area-bubble) :is(textarea, input:not([type="checkbox"], [type="radio"]), select) {
+  border-radius: var(--assistant-glass-control-radius);
+  padding: var(--space-3);
+  box-shadow: none;
+}
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  :root:root .assistant-panel,
+  :root:root .assistant-area-bubble[popover],
+  :root:root .assistant-area-selector > p {
+    background: var(--paper);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@media (forced-colors: active) {
+  :root:root .assistant-panel,
+  :root:root .assistant-area-bubble[popover],
+  :root:root .assistant-area-selector > p { border-color: CanvasText; box-shadow: none; }
+}
+
+/* Routine "done" states read quietly (a green tick and the word), so an exception stands out (§1.5, §1.6): only needs-you,
+   failing and neutral markers keep a chip's frame. */
+:root:root .chip[data-tone="success"] { border-color: transparent; padding-inline: 0; background: transparent; color: var(--success); }
+:root:root .chip[data-tone="success"]::before { content: "✓ "; content: counter(decor, none) "✓ " / ""; }
+
+/* Meta lines are Geist Mono (§3): a record's course, section and time. */
+:root:root :is(.support-queue-meta, .support-review-head > div > .field-hint, .assignment-row > div:first-child > p, .assignment-records > li > small) {
+  font-family: var(--font-num); font-size: 12px; letter-spacing: 0;
+}

@@ -1,0 +1,13 @@
+[Unit]
+Description=Back up Faculty courses every night at 4:00 am Central time
+
+[Timer]
+# 4 am in College Station all year (CDT and CST): the backup holds the lifecycle lock and the app waits while it runs,
+# so it runs while the instructor is asleep (requirement, 2026-09-27; it ran at 02:00 UTC, 9 pm Central, before).
+OnCalendar=*-*-* 04:00:00 America/Chicago
+Persistent=true
+AccuracySec=1min
+Unit=faculty-backup.service
+
+[Install]
+WantedBy=timers.target

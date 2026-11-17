@@ -1,0 +1,152 @@
+{
+  "verified_at": "2026-09-14T01:28:23.311691+00:00",
+  "model_id": "zai-org/GLM-OCR",
+  "revision": "2e85a62840ccac27daa451df36c736c4636b8628",
+  "gpu": "NVIDIA GeForce RTX 2080 Ti",
+  "model_bytes": 2657434215,
+  "checksums_verified": true,
+  "focused_tests_passed": 7,
+  "smoke_results": [
+    {
+      "case": "classroom",
+      "task": "text",
+      "model_id": "zai-org/GLM-OCR",
+      "revision": "2e85a62840ccac27daa451df36c736c4636b8628",
+      "device": "cuda",
+      "dtype": "float16",
+      "generated_tokens": 25,
+      "truncated": false,
+      "needs_review": true,
+      "seconds": 2.501,
+      "versions": {
+        "torch": "2.7.1+cu128",
+        "torchvision": "0.22.1+cu128",
+        "transformers": "5.17.0",
+        "huggingface-hub": "1.31.0",
+        "safetensors": "0.8.0"
+      },
+      "network": false,
+      "peak_gpu_allocated_bytes": 2682509312,
+      "original_pixels": [
+        1700,
+        2200
+      ],
+      "ocr_pixels": [
+        879,
+        1137
+      ],
+      "image_sha256": "e737b4b417f7d35eb7ebac7269dc4bdb286421665ddd9d46feb2b14c5cae0fe9",
+      "pdf_render_dpi": null,
+      "page": 1,
+      "source_sha256": "fec7e0aa9b9b63fd1a9ec28642d6d0062b088d5f7a8007b31ea66ac6c9617ec3"
+    },
+    {
+      "case": "formula",
+      "task": "formula",
+      "model_id": "zai-org/GLM-OCR",
+      "revision": "2e85a62840ccac27daa451df36c736c4636b8628",
+      "device": "cuda",
+      "dtype": "float16",
+      "generated_tokens": 20,
+      "truncated": false,
+      "needs_review": true,
+      "seconds": 2.147,
+      "versions": {
+        "torch": "2.7.1+cu128",
+        "torchvision": "0.22.1+cu128",
+        "transformers": "5.17.0",
+        "huggingface-hub": "1.31.0",
+        "safetensors": "0.8.0"
+      },
+      "network": false,
+      "peak_gpu_allocated_bytes": 2322094592,
+      "original_pixels": [
+        1100,
+        200
+      ],
+      "ocr_pixels": [
+        1100,
+        200
+      ],
+      "image_sha256": "6a237b42930187644c4eaa7b48a800205b817e540ece42aebb5dee1f75b52473",
+      "pdf_render_dpi": null,
+      "page": 1,
+      "source_sha256": "6a237b42930187644c4eaa7b48a800205b817e540ece42aebb5dee1f75b52473"
+    },
+    {
+      "case": "table",
+      "task": "table",
+      "model_id": "zai-org/GLM-OCR",
+      "revision": "2e85a62840ccac27daa451df36c736c4636b8628",
+      "device": "cuda",
+      "dtype": "float16",
+      "generated_tokens": 62,
+      "truncated": false,
+      "needs_review": true,
+      "seconds": 2.665,
+      "versions": {
+        "torch": "2.7.1+cu128",
+        "torchvision": "0.22.1+cu128",
+        "transformers": "5.17.0",
+        "huggingface-hub": "1.31.0",
+        "safetensors": "0.8.0"
+      },
+      "network": false,
+      "peak_gpu_allocated_bytes": 2340697600,
+      "original_pixels": [
+        700,
+        400
+      ],
+      "ocr_pixels": [
+        700,
+        400
+      ],
+      "image_sha256": "963f471bafba380b1db169a42c6b304c292ddec898117aba14170195904c7f2d",
+      "pdf_render_dpi": null,
+      "page": 1,
+      "source_sha256": "963f471bafba380b1db169a42c6b304c292ddec898117aba14170195904c7f2d"
+    },
+    {
+      "case": "pdf",
+      "task": "text",
+      "model_id": "zai-org/GLM-OCR",
+      "revision": "2e85a62840ccac27daa451df36c736c4636b8628",
+      "device": "cuda",
+      "dtype": "float16",
+      "generated_tokens": 16,
+      "truncated": false,
+      "needs_review": true,
+      "seconds": 2.412,
+      "versions": {
+        "torch": "2.7.1+cu128",
+        "torchvision": "0.22.1+cu128",
+        "transformers": "5.17.0",
+        "huggingface-hub": "1.31.0",
+        "safetensors": "0.8.0"
+      },
+      "network": false,
+      "peak_gpu_allocated_bytes": 2682509312,
+      "original_pixels": [
+        2550,
+        3301
+      ],
+      "ocr_pixels": [
+        878,
+        1137
+      ],
+      "image_sha256": "346887749a07e6dfd4fe235e4fb263cbcab617f864b11048deb9f57bf15b920c",
+      "pdf_render_dpi": 300,
+      "page": 2,
+      "source_sha256": "094188d35b0c12944efb5c46b62dcc81d61df68ac124dc8feaa80b1889a9ed36"
+    }
+  ],
+  "live_faculty_mutations": false,
+  "limitations": [
+    "Model-only recognition, without the separate PP-DocLayout pipeline.",
+    "One selected PDF page per call; OCR images bounded to one million pixels.",
+    "Small smoke fixtures do not qualify arbitrary handwriting, dense pages, or grading."
+  ],
+  "setup_command_reproduced": true,
+  "dependency_lock": "requirements.lock",
+  "model_checksums": "model-lock.json"
+}

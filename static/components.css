@@ -1,0 +1,490 @@
+/* Shared components (UX overhaul, 2026-09-26; DESIGN-LANGUAGE §4, 2026-10-03; ledger.css restyles them). Linked after the
+   page sheets and before typography/outline/button/accent, so the theme sheets still dress these components and page
+   sheets can no longer fork them. Screen only. FRONTEND.md "Component vocabulary" says which markup each component
+   expects and when to use it. Rules, not boxes: groups are divided by hairlines and a 2px ink rule over a small label;
+   nothing is shadowed, tinted or framed on a side. */
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Step graph: pipelineMarkup (grading-guide.js) draws it for grading, the Inbox scan flow, the Exams lifecycle and
+   assignment cards. Numbered steps in columns under a double rule; each says its state in words (status only through
+   labels: the colours repeat them). Done steps slate, the current step under a 3px rust rule with a rust numeral,
+   failures brick, steps not started faint. Never fork it. */
+.grading-workflow { display: block; padding: 0; min-width: 0; margin-bottom: 0; border: 0; }
+.grading-workflow-position { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.grading-workflow-position strong { color: var(--ink); }
+.grading-pipeline-scroll { overflow-x: auto; padding: 0; scrollbar-width: thin; }
+.grading-pipeline {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(120px, 1fr);
+  margin: 0; padding: 0; list-style: none;
+  border-top: 3px double var(--ink); border-bottom: 1px solid var(--line);
+}
+.grading-pipeline li { --pipeline-color: var(--pipeline-future-ink); position: relative; min-width: 0; border-left: 1px solid var(--nested-line); }
+.grading-pipeline li:first-child { border-left: 0; }
+.grading-pipeline .is-done { --pipeline-color: var(--pipeline-done-ink); }
+.grading-pipeline .is-pending { --pipeline-color: var(--pipeline-done-ink); }
+.grading-pipeline .is-failed { --pipeline-color: var(--pipeline-failed-ink); }
+.grading-pipeline .is-idle { --pipeline-color: var(--pipeline-future-ink); }
+.grading-pipeline a {
+  display: flex; flex-direction: column; gap: 2px; height: 100%; padding: 14px;
+  color: var(--ink); text-decoration: none; line-height: 1.35; box-sizing: border-box;
+}
+.grading-pipeline li:first-child a { padding-left: 0; }
+.grading-pipeline-number { color: var(--pipeline-color); font: var(--head-weight) 24px/1 var(--font-serif); font-variant-numeric: tabular-nums; }
+.grading-pipeline strong { color: var(--ink); font: 600 14px/1.3 var(--font-body); letter-spacing: 0; text-transform: none; overflow-wrap: break-word; }
+.grading-pipeline .is-idle strong { color: var(--muted); }
+.grading-pipeline small { color: var(--muted); font: 500 13px/1.35 var(--font-body); }
+.grading-pipeline .is-failed small { color: var(--error); font-weight: 600; }
+.grading-pipeline .grading-pipeline-fraction { font-variant-numeric: tabular-nums; }
+.grading-pipeline a[aria-current="step"] { padding-top: 11px; border-top: 3px solid var(--accent); }
+.grading-pipeline a[aria-current="step"] .grading-pipeline-number { color: var(--accent); }
+.grading-pipeline a[aria-current="step"] small { color: var(--accent); font-weight: 600; }
+/* The workflow bar marks the step on screen (where you are), so it is ink, never the needs-you orange (DESIGN-LANGUAGE §1.2, Ledger);
+   on overview cards and tiles the marked step is the next task, which waits on you, and stays orange. */
+.grading-workflow .grading-pipeline a[aria-current="step"] { border-top-color: var(--ink); }
+.grading-workflow .grading-pipeline a[aria-current="step"] .grading-pipeline-number { color: var(--ink); }
+.grading-workflow .grading-pipeline a[aria-current="step"] small { color: var(--ink); }
+.grading-pipeline a:hover strong { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.grading-pipeline a:focus-visible, .grading-pipeline-scroll:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+@media (forced-colors: active) {
+  .grading-pipeline-number { color: CanvasText; }
+  .grading-pipeline a[aria-current="step"] { border-top-color: Highlight; }
+  .grading-pipeline a[aria-current="step"] strong { color: LinkText; }
+}
+/* Overview cards keep the whole graph, a step smaller. */
+.scan-card .grading-pipeline a { padding: 10px 12px; }
+.scan-card .grading-pipeline-number { font-size: 24px; }
+
+/* Compact (a Home row, an Exams tile, an Assignments card): pipelineMarkup's output inside <div data-size="compact"> or with
+   data-size="compact" on the ol. A row of thin bars, each with its label under it: done slate, current rust, later faint. */
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) {
+  grid-auto-columns: minmax(0, 1fr); gap: 4px; border: 0;
+}
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) li { border: 0; }
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) a {
+  gap: 6px; padding: 0;
+}
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) a::before {
+  content: ""; display: block; height: 4px; background: var(--nested-line);
+}
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) :is(.is-done, .is-pending) a::before { background: var(--pipeline-done-ink); }
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) .is-failed a::before { background: var(--pipeline-failed-ink); }
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) a[aria-current="step"] { padding-top: 0; border-top: 0; }
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) a[aria-current="step"]::before { background: var(--accent); }
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) .grading-pipeline-number { display: none; }
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) strong { color: var(--muted); font-size: 12px; font-weight: 500; }
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) a[aria-current="step"] strong { color: var(--accent); font-weight: 600; }
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) small { font-size: 12px; }
+:is([data-size="compact"] > .grading-pipeline-scroll > .grading-pipeline, .grading-pipeline[data-size="compact"]) .grading-pipeline-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Card: <article class="card"><header class="card-head">…</header><div class="card-body">…</div>
+   <footer class="card-foot">one next thing</footer></article>. .card--link makes the whole card one link target.
+   A card is a ruled block (a hairline above it), never a shadowed or filled box. */
+.card { position: relative; display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; padding: var(--space-4) 0; background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; }
+.card > * { --line: var(--nested-line); }
+.card-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-2) var(--space-4); min-width: 0; }
+.card-head :is(h2, h3, h4) { margin: 0; overflow-wrap: anywhere; font: var(--head-weight) var(--text-item)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+.card-body { min-width: 0; }
+.card-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--line); }
+.card--link { cursor: pointer; }
+.card--link:is(:hover, :focus-within) .card-head :is(h2, h3, h4) { color: var(--ink); }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Callout (ui.js calloutMarkup): one problem or notice with at most one action. A 2px rule in the tone's ink over paper;
+   the title in Instrument Serif. No fill, no side border. .grading-warning and .guide-note are the two older notice
+   classes still aliased (their inline content is not a callout's). */
+:is(.callout, .grading-warning, .guide-note) {
+  --callout-tone: var(--tone-info);
+  border-radius: 0;
+  box-shadow: none;
+}
+:is(.callout[data-tone="warning"], .grading-warning) { --callout-tone: var(--tone-warning); }
+.callout[data-tone="danger"] { --callout-tone: var(--tone-danger); }
+.callout[data-tone="success"] { --callout-tone: var(--tone-success); }
+.callout[data-tone="neutral"] { --callout-tone: var(--tone-neutral); }
+.callout {
+  display: grid; justify-items: start; gap: var(--space-1) var(--space-3); margin: var(--space-3) 0; padding: var(--space-3) 0 var(--space-3);
+  background: transparent; border: 0; border-top: 2px solid var(--callout-tone); color: var(--text);
+  font-size: var(--text-body); line-height: 1.5;
+}
+.callout[hidden] { display: none; }
+.callout > .callout-title { color: var(--callout-tone); font: var(--head-weight) 16px/1.2 var(--font-serif); letter-spacing: 0; text-transform: none; }
+.callout > p { margin: 0; max-width: 78ch; }
+.callout > :is(.button, .text-button, .link-arrow) { margin-top: var(--space-1); }
+/* justify-items: start keeps the action at its own width; a disclosure folded into the notice spans the callout, so its
+   +/− marker sits at the callout's right edge instead of after its words. */
+.callout > details { justify-self: stretch; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Disclosure (ui.js disclosureMarkup, aboutMarkup): <details class="disclosure"><summary><span>Label</span>
+   <span class="disclosure-hint">3</span></summary><div class="disclosure-body">…</div></details>.
+   A summary may also be bare text. Page sheets change the paddings through --disclosure-summary-padding and
+   --disclosure-body-padding (set on the summary / the body at any specificity), never by out-ranking these rules.
+   Both hooks are registered as non-inherited, so a disclosure nested in another's body keeps the default paddings
+   instead of taking its parent's inset. */
+@property --disclosure-summary-padding { syntax: "*"; inherits: false; }
+@property --disclosure-body-padding { syntax: "*"; inherits: false; }
+/* A hairline above, the summary as a control (15px 700 ink), a framed +/− after it (Ledger, DESIGN-LANGUAGE §4). */
+details.disclosure { margin: var(--space-3) 0; border-top: 1px solid var(--line); }
+details.disclosure > summary { display: flex; align-items: center; gap: var(--space-3); min-height: 44px; padding: var(--disclosure-summary-padding, var(--space-3) 0); cursor: pointer; list-style: none; color: var(--ink); font: 700 15px/1.3 var(--font-body); letter-spacing: 0; }
+details.disclosure > summary::-webkit-details-marker { display: none; }
+/* The label never shrinks under its longest word: the hint wraps instead. */
+details.disclosure > summary > :first-child:not(.disclosure-hint) { flex: 1 1 auto; min-width: min-content; }
+details.disclosure > summary::after { content: "+"; content: counter(decor, none) "+" / ""; order: 99; flex: 0 0 20px; margin-inline-start: var(--space-3); display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num);  transition: color var(--snappy); }
+/* A bare-text summary has no label box to grow, so the marker takes the free space itself and still sits at the right. */
+details.disclosure > summary:not(:has(> *))::after { margin-inline-start: auto; }
+details.disclosure[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+details.disclosure > summary:hover { color: var(--ink); }
+details.disclosure > summary:hover::after { color: var(--ink); }
+details.disclosure > summary > .disclosure-hint { margin-inline-start: auto; color: var(--muted); font: 500 12.5px/1.4 var(--font-num); letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
+details.disclosure > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+details.disclosure > .disclosure-body { padding: var(--disclosure-body-padding, 0 0 var(--space-4)); min-width: 0; }
+details.disclosure.about-page { max-width: 90ch; color: var(--muted); }
+details.disclosure.about-page > .disclosure-body { font-size: var(--text-body); line-height: 1.6; }
+/* Framed disclosure: <details class="disclosure" data-framed> is one record (a list of print jobs folded under one
+   heading): a ruled block, the body under a hairline. */
+details.disclosure[data-framed] { margin: 0; border: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: transparent; }
+details.disclosure[data-framed] > summary { --disclosure-summary-padding: var(--space-3) 0; }
+details.disclosure[data-framed] > .disclosure-body { --disclosure-body-padding: var(--space-3) 0 var(--space-4); border-top: 1px solid var(--nested-line); }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Empty state (ui.js emptyMarkup): icon, one-line title, one sentence, one action. data-kind="filtered" says the page
+   has records and a filter hides them. A ruled block: a hairline above, never a dashed box. */
+.empty-state { border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; }
+.empty-state > .empty-state-icon { display: inline-flex; color: var(--muted); margin-bottom: var(--space-3); }
+.empty-state > .empty-state-icon > .icon { width: 26px; height: 26px; }
+.empty-state > h3 { margin: 0 0 var(--space-2); color: var(--heading); font: 700 var(--text-lead)/1.3 var(--font-head); letter-spacing: 0; }
+.empty-state > p { max-width: 56ch; margin: 0 0 var(--space-4); color: var(--muted); font-size: var(--text-body); line-height: 1.6; }
+.empty-state[data-kind="filtered"] { padding-block: var(--space-6); }
+
+/* Flat card and empty state: inside a section a .card or .empty-state is a section of it: a hairline above, nothing
+   else. (Every card is flat now; the classes stay as hooks.) */
+:is(:where(.home-panel, .grading-panel, .inbox-job-list, .calendar-agenda) :is(.card, .empty-state), .card--flat, .empty-state--flat) {
+  background: transparent;
+  border-width: 1px 0 0;
+  border-style: solid;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Next step (ui.js nextStepMarkup): the one thing to do next and a link to its page. It never performs the action.
+   scan-flow.js scanNextStep emits it too (with data-scan-next-step). A 3px rust rule over a serif headline. */
+.next-step {
+  display: grid; justify-items: start; gap: 10px; margin: 4px 0 24px; padding: 14px 0 18px;
+  border: 0; border-top: 3px solid var(--accent); border-bottom: 1px solid var(--line); box-shadow: none; background: transparent;
+}
+.next-step > .eyebrow { margin: 0; color: var(--accent); }
+.next-step > .next-step-title { color: var(--heading); font: var(--head-weight) var(--text-title)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+.next-step > .next-step-detail { margin: 0; max-width: 78ch; color: var(--text); font: 500 var(--text-body)/1.5 var(--font-body); }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Chips, filter chips and stat tiles. A chip states a count or a state: 11px semibold uppercase in a 1px border of the
+   tone's ink, never filled. The time-sensitive / danger tone is the accent. */
+.chip { display: inline-flex; align-items: center; gap: 6px; min-height: 22px; padding: 2px 7px; border: 1px solid var(--chip-tone, var(--ink)); border-radius: var(--radius-control); background: transparent; color: var(--chip-tone, var(--ink)); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.chip[data-tone="info"] { --chip-tone: var(--tone-info); }
+.chip[data-tone="warning"] { --chip-tone: var(--tone-warning); }
+.chip[data-tone="danger"] { --chip-tone: var(--tone-danger); }
+.chip[data-tone="success"] { --chip-tone: var(--tone-success); }
+.chip[data-tone="neutral"] { --chip-tone: var(--tone-neutral); }
+.chip-row { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+
+/* Filter chips read as a magazine's section tabs: words as they read, the chosen one underlined in ink. */
+.filter-chips { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-6); align-items: center; margin: var(--space-3) 0; }
+.filter-chips > button { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; color: var(--muted); font: 500 var(--text-body) var(--font-body); letter-spacing: 0; text-transform: none; cursor: pointer; transition: color var(--snappy), border-color var(--snappy); }
+/* A small count is the sans with tabular figures: Instrument Serif's 1 reads as an l below about 20px. */
+.filter-chips > button > b { font: 500 var(--text-control)/1 var(--font-body); letter-spacing: 0; font-variant-numeric: tabular-nums; color: var(--label); }
+.filter-chips > button:hover { color: var(--ink); }
+.filter-chips > button[aria-pressed="true"] { border-bottom-color: var(--ink); color: var(--ink); font-weight: 600; }
+.filter-chips > button[aria-pressed="true"] > b { color: inherit; }
+.filter-chips > button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* <div class="stat"><strong>164</strong><span>seated</span></div>, or <button class="stat" aria-pressed> when it filters.
+   A serif count over a small label, under a hairline. (.stats > .stat buttons of the legacy tools page keep their own.) */
+.stat:not(.stats > .stat) { display: inline-grid; gap: 2px; min-width: 96px; padding: var(--space-2) 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--ink); text-align: start; font: inherit; }
+.stat:not(.stats > .stat) > strong { font: var(--head-weight) 26px/1 var(--font-serif); letter-spacing: 0; font-variant-numeric: tabular-nums; color: var(--heading); }
+.stat:not(.stats > .stat) > span { color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+/* A tile's label stays a label (a few words); anything longer is a plain note under it (§1.12; critique 2026-10-05). */
+.stat:not(.stats > .stat) > small { color: var(--muted); font-size: var(--text-small); font-weight: 500; line-height: 1.35; }
+button.stat:not(.stats > .stat) { cursor: pointer; transition: border-color var(--snappy); }
+button.stat:not(.stats > .stat):hover > strong { color: var(--ink); }
+button.stat:not(.stats > .stat)[aria-pressed="true"] { border-top: 2px solid var(--ink); }
+
+/* Toolbar: filters on the left, a count, actions on the right. */
+.toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-3) var(--space-6); margin: var(--space-3) 0; }
+.toolbar > .toolbar-count { color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.toolbar > .toolbar-actions { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-inline-start: auto; align-items: center; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Action menu ('⋯', ui.js actionMenuMarkup + bindActionMenu): secondary and destructive actions behind one native popover.
+   bindActionMenu places the list under its button through the CSSOM (never inline style attributes). Raised paper in an
+   ink hairline; the hovered item takes the 5% ink tint. */
+.action-menu { position: relative; display: inline-flex; }
+.action-menu-trigger { min-width: 40px; min-height: 40px; justify-content: center; font: 600 16px/1 var(--font-body); letter-spacing: .08em; }
+.action-menu-list[popover] { position: fixed; inset: auto; margin: 0; min-width: 220px; max-width: min(340px, calc(100vw - 32px)); padding: 6px 0; border: 1px solid var(--ink); border-radius: var(--radius-control); background: var(--paper); color: var(--ink); box-shadow: none; }
+.action-menu-list > :is(button, a) { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 38px; padding: 8px 16px; border: 0; background: transparent; color: var(--ink); font: 500 var(--text-body)/1.3 var(--font-body); letter-spacing: 0; text-transform: none; text-align: start; text-decoration: none; cursor: pointer; }
+.action-menu-list > :is(button, a):is(:hover, :focus-visible) { background: var(--highlight-bg); color: var(--highlight-ink); outline: none; }
+.action-menu-list > :is(button, a).danger { color: var(--error); }
+.action-menu-list > :is(button, a):disabled { color: var(--faint); cursor: not-allowed; }
+.action-menu-list > hr { margin: 6px 0; border: 0; border-top: 1px solid var(--line); }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Links that are navigation, not actions: .link-arrow ("Review →", the go-link of a row) and .back-link. */
+.link-arrow { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font: 600 var(--text-small)/1.3 var(--font-body); letter-spacing: 0; text-transform: none; text-decoration: none; white-space: nowrap; transition: color var(--snappy), transform 120ms var(--ease-out); }
+.link-arrow::after { content: "→"; content: counter(decor, none) "→" / ""; transition: transform var(--snappy); }
+.link-arrow:hover { color: var(--ink); }
+.link-arrow:hover::after { transform: translateX(2px); }
+.link-arrow:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }  /* one focus ring everywhere (§4) */
+.back-link { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 var(--space-3); color: var(--label); font: 600 var(--text-small) var(--font-body); letter-spacing: 0; text-transform: none; text-decoration: none; }
+.back-link:hover { color: var(--ink); }
+.back-link > svg { width: 16px; height: 16px; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Loading skeleton (ui.js loadingMarkup): faint bars in place of the content that is coming. The label is for screen
+   readers; .loading-state keeps its older centred sentences everywhere else. */
+.loading-state.loading-skeleton { display: grid; gap: 10px; padding: var(--space-3) 0; text-align: start; }
+.loading-skeleton > i { display: block; height: 12px; max-width: 100%; background: linear-gradient(90deg, color-mix(in srgb, var(--ink) 6%, var(--canvas)) 0 40%, color-mix(in srgb, var(--ink) 11%, var(--canvas)) 50%, color-mix(in srgb, var(--ink) 6%, var(--canvas)) 60% 100%) 0 0 / 250% 100%; animation: skeleton-sweep 1.6s linear infinite; }
+.loading-skeleton > i:nth-of-type(3n + 1) { width: 72%; }
+.loading-skeleton > i:nth-of-type(3n + 2) { width: 90%; }
+.loading-skeleton > i:nth-of-type(3n) { width: 56%; }
+@keyframes skeleton-sweep { to { background-position: -150% 0; } }
+@media (prefers-reduced-motion: reduce) { .loading-skeleton > i { animation: none; } }
+
+/* The 'Faculty was updated · Reload' notice (ui.js loadModule) sits at the top of the page until the tab reloads. */
+.app-updated { margin: 0 0 var(--space-4); }
+
+/* The course list's own Current | All switch (courses.js, shown once the sidebar has one Courses entry). */
+.course-scope-toggle { display: inline-flex; flex-wrap: wrap; margin: 0 0 var(--space-4); }
+.course-scope-toggle > a { display: inline-flex; align-items: center; gap: 8px; }
+/* A small count is the sans with tabular figures (DESIGN-LANGUAGE §3: Instrument Serif's 1 reads as an l below about 20px). */
+.course-scope-toggle .nav-count { color: var(--muted); font: 500 var(--text-small)/1 var(--font-body); font-variant-numeric: tabular-nums; }
+
+/* The existing back links share .back-link's look (their texts stay). */
+:root:root a:is(.course-back-link, .exams-back, .rc-back),
+:root:root .room-breadcrumbs > a.text-button {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 0; padding: 0; border: 0; background: transparent; box-shadow: none;
+  color: var(--label); font: 600 var(--text-small) var(--font-body); letter-spacing: 0; text-transform: none; text-decoration: none;
+}
+:root:root a:is(.course-back-link, .exams-back, .rc-back):hover,
+:root:root .room-breadcrumbs > a.text-button:hover { color: var(--ink); }
+:root:root a:is(.course-back-link, .exams-back, .rc-back) > svg,
+:root:root .room-breadcrumbs > a.text-button > svg { width: 16px; height: 16px; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Page header (page-header.js): the header band (header-band.css) carries the trail, the title and its label; the row under
+   it, on paper, carries the subtitle and the page's actions. However many actions a page has, the subtitle keeps its
+   room: actions that do not fit beside it wrap to their own right-aligned row. */
+#connection-error:not([hidden]) { margin: 0 0 var(--space-4); }
+.page-heading-actions { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px 22px; flex: 0 1 auto; min-width: 0; max-width: 100%; margin-inline-start: auto; }
+.page-heading-secondary[hidden], .page-updated[hidden] { display: none; }
+.page-updated { color: var(--muted); font: 500 var(--text-small) var(--font-body); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.page-heading-copy { flex: 1 1 24rem; min-width: min(100%, 24rem); }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Breadcrumb trail (the band's first line, header-band.css): links only, the last crumb is the page. */
+.breadcrumb { min-width: 0; }
+.breadcrumb > ol { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0; padding: 0; list-style: none; min-width: 0; }
+.breadcrumb li { display: inline-flex; align-items: center; gap: 10px; min-width: 0; overflow-wrap: anywhere; }
+.breadcrumb a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+.breadcrumb a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.breadcrumb .icon { width: 15px; height: 15px; flex-shrink: 0; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Sidebar attention badges (derived from /api/workspace/overview's attention cards) and Home's health dot: drawn by
+   workspace-navigation.css as rust serif numerals. */
+.nav-badge[hidden], .nav-health[hidden] { display: none; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Toast v2 (app.js toast): up to three stacked ink blocks with parchment type; the tone is its first word's colour and a
+   2px rule along the top. Errors are alerts with a Dismiss button. */
+.toast-stack { position: fixed; z-index: 30; inset: auto 24px 24px auto; margin: 0; overflow: visible; transform: none; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; max-width: min(460px, calc(100vw - 32px)); padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.toast-stack[hidden] { display: none; }
+/* Only a toast's own buttons take clicks: its text never covers a control beneath it, even above an open dialog (app.js). */
+.toast-stack, .toast-item { pointer-events: none; }
+.toast-item button { pointer-events: auto; }
+.toast-item { --toast-tone: var(--toast-success); display: flex; align-items: center; gap: 12px; max-width: 100%; min-height: 48px; padding: 10px 12px 10px 16px; background: var(--toast-bg); color: var(--toast-ink); border: 0; border-top: 2px solid var(--toast-tone); border-radius: var(--radius-control); box-shadow: none; font: 500 var(--text-body)/1.45 var(--font-body); letter-spacing: 0; }
+.toast-item[data-tone="danger"] { --toast-tone: var(--toast-danger); }
+.toast-item[data-tone="warning"] { --toast-tone: var(--toast-warning); }
+.toast-item[data-tone="info"] { --toast-tone: var(--toast-info); }
+.toast-message { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.toast-item > .toast-action { flex-shrink: 0; min-height: 32px; padding: 4px 10px; border: 1px solid var(--toast-muted); border-radius: var(--radius-control); background: transparent; color: var(--toast-ink); font: 700 var(--text-caption) var(--font-body); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.toast-item > .toast-action:hover { border-color: var(--toast-ink); }
+.toast-item > .toast-close { flex-shrink: 0; display: inline-grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 0; background: transparent; color: var(--toast-muted); cursor: pointer; }
+.toast-item > .toast-close:hover { color: var(--toast-ink); }
+.toast-item > .toast-close .icon { width: 14px; height: 14px; }
+.toast-item :focus-visible { outline: 2px solid var(--toast-ink); outline-offset: 2px; }
+@media (forced-colors: active) { .toast-item { border: 1px solid CanvasText; } }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Workspace settings (the settings hub, app.js showSettings): short sections, a list of settings other pages keep. */
+.settings-hub .settings-section + .settings-section { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); }
+.settings-hub .settings-section > h3 { margin: 0 0 12px; font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+.settings-links { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.settings-links li { display: grid; gap: 2px; padding: 10px 0; border-bottom: 1px solid var(--nested-line); }
+.settings-links li > span { color: var(--muted); font-size: var(--text-small); line-height: 1.5; }
+.settings-link { display: inline-flex; align-items: center; gap: 6px; width: fit-content; color: var(--ink); font: 700 15px/1.3 var(--font-body); letter-spacing: 0; text-decoration: none; }
+.settings-link:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.settings-link:hover { color: var(--ink); }
+.settings-link:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.settings-link > .icon { width: 14px; height: 14px; }
+.settings-access .settings-guide-title { margin: 4px 0 8px; font-size: var(--text-section); }
+.settings-access .guide-body { padding: 0; }
+.settings-hub .settings-hint { margin: -10px 0 17px; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   System status (system-status.js): the rail footer's status button (workspace-navigation.css) and its pop-over. Words,
+   never colour alone. Raised paper in an ink hairline. */
+.status-popover[popover] { position: fixed; inset: auto; margin: 0; width: min(380px, calc(100vw - 16px)); max-height: min(560px, calc(100vh - 16px)); overflow-y: auto; padding: 16px 20px 14px; border: 1px solid var(--ink); border-radius: var(--radius-control); background: var(--paper); color: var(--ink); box-shadow: none; font: 500 var(--text-small)/1.5 var(--font-body); }
+.status-head h2 { margin: 0 0 10px; font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+.status-rows { display: grid; gap: 0; margin: 0; }
+.status-row { display: grid; grid-template-columns: minmax(0, 14ch) minmax(0, 1fr); gap: 10px; padding: 7px 0; border-top: 1px solid var(--nested-line); }
+.status-row dt { color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.status-row dd { display: grid; margin: 0; min-width: 0; }
+.status-row strong { font-weight: 500; color: var(--ink); overflow-wrap: anywhere; }
+.status-row small { color: var(--muted); font-size: var(--text-small); }
+/* An h3 used as a section label: two classes out-rank typography.css's heading face (0,1,1). */
+.status-popover .status-heading { margin: 16px 0 4px; padding-top: 8px; border-top: 2px solid var(--ink); color: var(--ink); font: 700 var(--text-caption) var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.status-work { margin: 0; padding: 0; list-style: none; }
+.status-work a { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--nested-line); color: var(--ink); text-decoration: none; }
+.status-work a:hover span { color: var(--ink); }
+.status-work small { color: var(--muted); white-space: nowrap; }
+.status-idle { margin: 0; color: var(--muted); }
+.status-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 12px; }
+.status-rows + .status-foot { padding-top: 10px; border-top: 1px solid var(--line); }
+.status-updated { flex-basis: 100%; color: var(--muted); }
+.status-foot > .link-arrow { margin-right: auto; }
+@media (forced-colors: active) { .status-popover[popover] { border-color: CanvasText; } .sidebar .server-status .connection-dot { forced-color-adjust: none; border: 1px solid CanvasText; } }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Command palette and shortcut sheet (palette.js): a native modal dialog near the top, a combobox over a grouped listbox.
+   Raised paper in an ink hairline; groups are small labels; the active option takes the 5% ink tint. */
+dialog.palette { width: min(660px, calc(100vw - 32px)); max-height: min(70vh, 620px); margin: 12vh auto auto; padding: 0; border: 1px solid var(--ink); border-radius: var(--radius-control); background: var(--paper); color: var(--ink); box-shadow: none; overflow: hidden; }
+dialog.palette[open] { display: flex; flex-direction: column; }
+dialog.palette::backdrop { background: var(--backdrop); }
+.palette-box { display: flex; flex-direction: column; min-height: 0; max-height: inherit; }
+.palette-field { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-bottom: 1px solid var(--ink); }
+.palette-field > .icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--muted); }
+.palette-field input { flex: 1 1 auto; min-width: 0; min-height: 40px; padding: 0; border: 0; background: transparent; color: var(--ink); font: 500 19px/1.4 var(--font-body); box-shadow: none; }
+.palette-field input:focus { outline: none; }
+.palette-field:focus-within { box-shadow: inset 0 -2px var(--ink); }
+.palette kbd { display: inline-block; min-width: 18px; padding: 0 4px; border: 1px solid var(--line); border-radius: var(--radius-control); background: transparent; color: var(--label); font: 400 var(--text-caption)/16px var(--font-code); text-align: center; }
+.palette-list { flex: 1 1 auto; min-height: 0; margin: 0; padding: 6px 0; overflow-y: auto; overscroll-behavior: contain; list-style: none; }
+.palette-group { padding: 12px 18px 4px; color: var(--label); font: 700 var(--text-caption) var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.palette-list [role="option"] { display: flex; align-items: baseline; gap: 12px; min-height: 38px; padding: 8px 18px; cursor: pointer; }
+.palette-list [role="option"] small { flex: 1 1 0; margin-left: auto; min-width: 0; color: var(--label); font: 500 var(--text-small) var(--font-body); text-align: end; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The title keeps its words whole; a long detail (recent places) takes the rest of the row and ends in an ellipsis. */
+/* A palette row is a choice, not a heading (DESIGN-LANGUAGE §1.9): 15px 600; the chosen row an ink block (below). */
+.palette-label { flex: 0 0 auto; max-width: 60%; min-width: 0; font: 600 15px/1.3 var(--font-body); letter-spacing: 0; overflow-wrap: break-word; }
+.palette-list [role="option"].active { background: var(--ink); color: var(--button-ink); box-shadow: none; }
+.palette-list [role="option"].active :is(.palette-label, .palette-group, small, span) { color: var(--button-ink); }
+.palette-list [role="option"].active .palette-label { font-weight: 700; }
+.palette-list [role="option"].active small { color: inherit; opacity: .8; }
+.palette-empty { padding: 16px 18px; color: var(--muted); font: 500 var(--text-body) var(--font-body); }
+.palette-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin: 0; padding: 8px 18px; border-top: 1px solid var(--line); color: var(--label); font: 700 var(--text-caption) var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.palette-foot kbd + kbd { margin-left: 2px; }
+.palette-status { margin-left: auto; }
+.shortcut-sheet .palette-box { padding: 18px 22px 20px; overflow-y: auto; }
+.shortcut-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.shortcut-head h2 { margin: 0; font: var(--head-weight) 26px/1.1 var(--font-serif); letter-spacing: var(--tracking-title); }
+.shortcut-note { margin: 6px 0 14px; color: var(--muted); font: 500 var(--text-body) var(--font-body); }
+.shortcut-list { display: grid; gap: 0; margin: 0; }
+.shortcut-list > div { display: grid; grid-template-columns: minmax(96px, auto) minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--nested-line); }
+.shortcut-list dt { white-space: nowrap; }
+.shortcut-list dd { margin: 0; color: var(--text); font: 500 var(--text-body)/1.5 var(--font-body); }
+@media (forced-colors: active) { dialog.palette { border-color: CanvasText; } .palette-list [role="option"].active { outline: 2px solid Highlight; outline-offset: -2px; } }
+
+/* Press and open motion (requirement, 2026-10-04). A dialog the
+   instructor opens with a click enters in 160ms: it fades and settles from 98% (from its centre: a modal belongs to no
+   trigger), its backdrop fading with it; it closes at once. The palette and the shortcut list (both .palette) open from the
+   keyboard many times a day and appear without motion. Reduced motion keeps the fade and drops the scale. */
+dialog:not(.palette) { transition: opacity 160ms var(--ease-out); }
+dialog:not(.palette)::backdrop { transition: opacity 160ms var(--ease-out); }
+@starting-style {
+  dialog:not(.palette)[open] { opacity: 0; }
+  dialog:not(.palette)[open]::backdrop { opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  dialog:not(.palette) { transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out); }
+  @starting-style { dialog:not(.palette)[open] { transform: scale(.98); } }
+}
+
+/* Data table (ui.js tableMarkup): a scrolling, labelled region around one compact table. Previews and lists in dialogs
+   (mail merge, seat updates, gradebook pulls and imports, Gradescope previews, accommodation imports) share it. A wide
+   table scrolls inside its own box. */
+.data-table { max-width: 100%; max-height: 320px; overflow: auto; margin: 10px 0 16px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; }
+.data-table table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: var(--text-body); }
+.data-table th { text-align: left; white-space: nowrap; }
+/* Only the column headings stick. A row heading (a tbody th, such as a student's name on Certification and Export) that
+   stuck too piled every row scrolled past under the heading row (requirement, 2026-10-01). */
+.data-table thead th { position: sticky; top: 0; }
+.data-table th, .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--nested-line); vertical-align: top; }
+.data-table td { overflow-wrap: anywhere; min-width: 80px; }
+.data-table td:nth-child(2) { min-width: 140px; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Record tables: no fills or stripes; the heading row is 11px uppercase sans over a 2px ink rule; cells 15px; rows on
+   hairlines with the 5% ink tint on hover. Page sheets may set widths, never the look. */
+:root:root :is(.data-table table, .workspace-table, .roster-table, .rc-table, .exams-table, .document-version-pages) :is(thead th) {
+  color: var(--ink);
+  background-color: transparent;
+  font: 700 var(--text-caption)/1.3 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--ink);
+}
+:root:root :is(.data-table table, .workspace-table, .roster-table, .rc-table, .exams-table, .document-version-pages) :is(td) { color: var(--text); }
+/* A row heading names its row: ink, regular like the cells (never the browser's bold th). */
+:root:root :is(.data-table table, .workspace-table, .roster-table, .rc-table, .exams-table, .document-version-pages) tbody th { color: var(--ink); font-weight: 500; }
+:root:root :is(.data-table table, .workspace-table, .roster-table, .rc-table, .exams-table, .document-version-pages) tbody tr { background: transparent; transition: background-color var(--snappy); }
+:root:root :is(.data-table table, .workspace-table, .roster-table, .rc-table, .exams-table, .document-version-pages) tbody tr:hover { background: var(--surface-hover); }
+/* A scrolling preview's sticky heading row is opaque paper, so rows never show through it while scrolling. */
+/* Sticky surfaces repeat the paper's grain, so a heading row never reads as a flat band over the page. */
+:root:root .data-table table thead th { background: var(--canvas); }
+:root:root dialog .data-table table thead th { background: var(--paper); }
+
+/* A student's photo (student_photos/): a hairline-framed square, private image route. Beside the record in dialogs, small in Mail. */
+.student-photo { float: inline-end; box-sizing: border-box; width: 128px; height: 128px; margin: 0 0 var(--space-3) var(--space-4); border: 1px solid var(--line); background: var(--surface-alt); object-fit: cover; }
+.student-photo[data-size="small"] { float: none; width: 64px; height: 64px; margin: 0; flex: none; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Section label (DESIGN-LANGUAGE §3, §4): a list's heading is 12px semibold uppercase over a 2px ink rule. Pages opt in
+   with .section-label on their heading (or reuse it through their own sheet). */
+.section-label { margin: 0 0 6px; padding-top: 8px; border-top: 2px solid var(--ink); color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+
+/* READABLE REVIEW of a model's draft (review-notes.js; DESIGN-LANGUAGE principle 13): the makeup draft window and the quiz draft page.
+   One ruled row per problem: the problem as printed (a framed crop that opens the page) beside what to check (an orange mark: needs
+   you) and the first sentence of what the model said; the full wording, the rubric lines and the solution fold. */
+.review-problem h5, .review-fold h5, .review-changed h5, .review-whole h5 { margin: var(--space-2) 0 var(--space-1); color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.review-problem h5:first-child, .review-fold .disclosure-body > h5:first-child, .review-changed h5:first-child { margin-top: 0; }
+.review-problem .katex-display { overflow-x: auto; overflow-y: hidden; }
+.review-meta, .review-whole { color: var(--muted); font-size: var(--text-small); }
+.review-count { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.review-whole, .review-changed { margin-top: var(--space-3); max-width: 46rem; }
+.review-whole p, .review-changed p { margin: 0 0 var(--space-1); }
+/* One row per problem: the problem as printed (a framed crop that opens the page) beside what to check and what the model said. */
+.review-problems { display: grid; gap: 0; border-top: 2px solid var(--ink); }
+.review-problem { display: grid; grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); gap: var(--space-5); align-items: start; padding: var(--space-4) 0; border-bottom: 1px solid var(--nested-line); }
+.review-problem-plain { grid-template-columns: minmax(0, 1fr); }
+.review-crop { display: block; border: var(--frame); background: var(--paper); }
+.review-crop svg { display: block; width: 100%; height: auto; }
+.review-problem-notes { display: grid; gap: var(--space-2); align-content: start; min-width: 0; }
+.review-problem-notes h4 { margin: 0; font-size: var(--text-body); font-weight: 800; line-height: 1.3; }
+.review-problem-notes h4 span { margin-inline-start: var(--space-1); color: var(--muted); font-size: var(--text-small); font-weight: 500; }
+/* What waits on the instructor: an orange mark (needs you), the sentence in ink. */
+.review-checks { display: grid; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+.review-checks li { position: relative; padding: var(--space-1) var(--space-2) var(--space-1) calc(var(--space-2) + 14px); background: var(--needs-tint); }
+.review-checks li::before { content: ""; position: absolute; left: var(--space-2); top: .62em; width: 8px; height: 8px; background: var(--needs-fill); outline: 1.5px solid var(--needs-ink); }
+.review-said { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: var(--space-1) var(--space-3); margin: 0; }
+.review-said dt { padding-top: .2em; color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.review-said dd { margin: 0; }
+/* A note that ends with a colon keeps the short list it introduces (2026-10-06). */
+.review-said dd ul, .review-whole li > ul { margin: var(--space-1) 0 0; padding-inline-start: 1.2em; }
+.review-said dd > ul.review-answers { margin: 0; }
+.review-fold.disclosure { margin: 0; }
+.review-fold .disclosure-body > ul { margin: 0 0 var(--space-2); padding-inline-start: 1.2em; }
+.review-fold .disclosure-body p { margin: 0 0 var(--space-2); }
+/* A rubric line: its ID and points, the makeup wording, and under it whether it is Version A's wording or what Version A said. */
+.review-lines { display: grid; gap: var(--space-2); margin: 0 0 var(--space-3); padding: 0; list-style: none; }
+.review-lines li { display: grid; grid-template-columns: 2.6em 3.2em minmax(0, 1fr); gap: var(--space-2); }
+.review-lines[data-ids="false"] li { grid-template-columns: 3.2em minmax(0, 1fr); }
+.review-line-id { color: var(--muted); font-family: var(--font-num); font-size: var(--text-small); padding-top: .15em; }
+.review-line-points { font-variant-numeric: tabular-nums; text-align: end; font-weight: 700; }
+.review-lines small { display: block; margin-top: 2px; color: var(--muted); font-size: var(--text-small); }

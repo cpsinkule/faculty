@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": []
+  },
+  "files": [
+    "static/contracts.d.ts",
+    "static/request.js",
+    "static/ui.js",
+    "static/seating-delivery-api.js",
+    "static/page-header.js",
+    "static/palette.js",
+    "static/print-files.js",
+    "static/calendar-feed.js",
+    "static/calendar-google.js",
+    "static/mail.js",
+    "static/communications.js",
+    "static/seating-state.js",
+    "static/dom-patch.js",
+    "static/class-schedule-model.js",
+    "static/page-title-fit.js"
+  ]
+}

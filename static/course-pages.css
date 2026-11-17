@@ -1,0 +1,379 @@
+/* Course pages: the course list, the course/term home, section tabs and the section roster (UX overhaul, 2026-09-26).
+   Screen colours come from design-tokens.css; rules, labels and tables follow components.css. No hard-coded palette.
+   This sheet also applies to print: the rules below keep the print layout, and the screen look (DESIGN-LANGUAGE, Ledger:
+   ruled blocks, small uppercase labels) sits in the
+   @media screen block at the end. Desktop only: there is no phone or tablet tier (requirement, 2026-10-03). */
+
+/* ---- Course list -------------------------------------------------------------------------------------------------- */
+.course-toolbar { align-items: center; margin: 0 0 var(--space-3); }
+.course-toolbar > .course-scope-toggle { margin: 0; }
+.course-toolbar > .search-box { margin-inline-start: auto; }
+.course-toolbar > .toolbar-count { flex: 0 0 auto; }
+.storage-line { margin: 0 0 var(--space-5); color: var(--muted); font: 500 var(--text-small)/1.6 var(--font-data); }
+.storage-callout { margin: 0 0 var(--space-5); }
+.storage-callout > p + p { margin-top: var(--space-1); }
+.storage-callout > .storage-schedule { color: var(--muted); font-size: var(--text-small, 12px); }
+.course-card { position: relative; }
+.course-open { color: inherit; text-decoration: none; }
+.course-open::after { content: ""; position: absolute; inset: 0; }
+.course-open:focus-visible { outline: none; }
+.course-open:focus-visible::after { outline: 2px solid var(--focus); outline-offset: 3px; }
+.course-card-control, .course-section-chip { position: relative; z-index: 1; }
+.course-section-chips { margin: var(--space-2) 0; }
+.course-section-chip { text-decoration: none; }
+.course-section-chip:hover { border-color: var(--ink); }
+.course-section-chip:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.course-section-chip > b, .current-section-links a > b { font-weight: 600; color: var(--muted); }
+.course-section-chip > b::before, .current-section-links a > b::before { content: "· "; }
+.course-section-chip > b[data-empty="true"], .current-section-links a > b[data-empty="true"] { color: var(--warning); }
+.course-storage-reason { margin: var(--space-2) 0 0; color: var(--muted); font-size: var(--text-small, 12px); line-height: 1.5; }
+#courses-grid { display: block; }
+.course-term-group + .course-term-group { margin-top: var(--space-6, 32px); }
+.course-term-heading { display: flex; align-items: baseline; gap: 14px; margin-bottom: var(--space-4); }
+.course-term-heading h3 { font-size: var(--text-section, 18px); color: var(--heading); }
+.course-term-heading span { font: 500 var(--text-caption) var(--font-data); color: var(--muted); }
+details.disclosure.course-other-terms { margin-top: var(--space-6, 32px); }
+details.disclosure.course-other-terms > .disclosure-body { padding-inline-start: 0; padding-top: var(--space-3); }
+
+/* ---- Course page frame ---------------------------------------------------------------------------------------------- */
+/* The back link's look is components.css's .back-link; the tabs are button-theme.css's section tabs. The underline tab
+   rules below are what a printed page keeps. */
+.course-back-link { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 var(--space-4); color: var(--muted); font: 500 var(--text-small) var(--font-data); text-decoration: none; }
+.course-back-link:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+.course-tabs { display: flex; gap: 0; overflow-x: auto; max-width: 100%; border-bottom: 1px solid var(--line); padding: 0; margin-bottom: var(--space-5); }
+.course-tabs [role="tab"] { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 8px; padding: 12px 16px; color: var(--muted); font: 500 var(--text-small) var(--font-data); border-bottom: 2px solid transparent; text-decoration: none; }
+.course-tabs [role="tab"]:hover { color: var(--ink); }
+.course-tabs [role="tab"][aria-selected="true"] { border-bottom-color: var(--ink); color: var(--ink); font-weight: 600; }
+.course-tabs [role="tab"]:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+/* A section tab shows its gradebook where the roster was (2026-09-28). */
+.course-gradebook { min-width: 0; }
+#course-panel { min-width: 0; outline-offset: 5px; }
+
+/* ---- Course home: teaching now, the selected term, the course-wide area, settings ------------------------------------ */
+.course-now { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-5); margin: 0 0 var(--space-5); padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
+.course-now > h3 { margin: 0; color: var(--muted); font: 700 var(--text-caption) var(--font-data); letter-spacing: var(--tracking-label, .08em); text-transform: uppercase; }
+.course-now .current-terms { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); }
+.course-now .current-term { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.course-now .current-term + .current-term { margin-top: 0; }
+.course-now .current-term > h4 { margin: 0; font: 600 var(--text-item, 15px)/1.25 var(--font-display); letter-spacing: var(--tracking-title); color: var(--heading); }
+.current-section-links { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.current-section-links a { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 4px 10px; border: 1px solid var(--line); color: var(--ink); font: 500 var(--text-small) var(--font-data); text-decoration: none; }
+.current-section-links a:hover { border-color: var(--ink); }
+.current-section-links a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.course-home-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-5); align-items: start; margin-bottom: var(--space-5); }
+.course-panel, .offering-details { min-width: 0; padding: var(--space-5); background: var(--paper); border: 1px solid var(--line); }
+.course-panel-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-3); }
+.course-panel > h3, .course-panel-head > h3, .offering-heading h3 { margin: 0; font-size: 16px; color: var(--heading); overflow-wrap: anywhere; }
+.course-panel h4 { margin: var(--space-4) 0 var(--space-2); font: 600 var(--text-small) var(--font-data); letter-spacing: .04em; color: var(--ink); }
+.shared-resources-empty { margin: 0 0 var(--space-3); color: var(--muted); font-size: var(--text-small, 12px); line-height: 1.7; }
+
+/* The work hub: this term's or section's exams, seating, grading and records. Links only. */
+.course-work { margin: 0 0 var(--space-4); }
+.course-work > .course-work-title { margin: 0 0 var(--space-2); }
+.course-work-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.course-work-row { display: grid; grid-template-columns: minmax(8em, 11em) minmax(0, 1fr); gap: var(--space-1) var(--space-3); align-items: baseline; padding: var(--space-2) 0; border-top: 1px solid var(--line); }
+.course-work-kind { color: var(--muted); font: 500 var(--text-caption) var(--font-data); letter-spacing: var(--tracking-label, .04em); }
+.course-work-links { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); min-width: 0; }
+.course-work-links:has(.course-gradescope-course, .course-ta, .course-canvas-status, .course-scheme-status) { align-items: center; }
+.course-work-links .course-scheme-status { font-variant-numeric: tabular-nums; }
+.course-work-links > a:not(.link-arrow) { color: var(--ink); font-size: var(--text-control, 13px); text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 38%, transparent); text-underline-offset: 4px; overflow-wrap: anywhere; }
+.course-work-links > a:not(.link-arrow):hover { text-decoration-color: currentColor; }
+.course-work-links small { color: var(--muted); font-size: var(--text-caption, 11px); }
+.course-work-links > .course-work-settings { display: inline-flex; align-items: center; gap: 6px; }
+.course-work-links > .course-work-more { color: var(--muted); font: 500 var(--text-small) var(--font-data); }
+.course-work-empty { margin: var(--space-2) 0 0; color: var(--muted); font-size: var(--text-small, 12px); line-height: 1.6; }
+/* A section's TAs: each name opens an email, its address, phone and note beside it. */
+.course-ta { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-2); min-width: 0; }
+.course-ta > a, .course-ta > .course-ta-name { color: var(--ink); font-size: var(--text-control, 13px); overflow-wrap: anywhere; }
+.course-ta > a { text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 38%, transparent); text-underline-offset: 4px; }
+.course-ta > a:hover { text-decoration-color: currentColor; }
+.course-ta > small { overflow-wrap: anywhere; }
+/* The TAs dialog: each TA a hairline group of the one dialog, labelled like the course dialog's groups. */
+.ta-copy-from { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); color: var(--muted); font-size: var(--text-small, 12px); }
+.ta-copy-from small { color: var(--muted); }
+.ta-edit-row { min-width: 0; margin: 0 0 var(--space-4); padding: var(--space-4) 0 0; border: 0; border-top: 1px solid var(--line); }
+.ta-edit-row > legend { float: left; width: 100%; margin: 0 0 var(--space-3); padding: 0; color: var(--label); font: 700 var(--text-caption) / 1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.ta-edit-row > legend + * { clear: both; }
+.ta-edit-row > [data-ta-remove] { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--space-2); }
+.course-work[data-compact="true"] { margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--line); }
+.course-work[data-compact="true"] > .course-work-title { color: var(--muted); font: 700 var(--text-caption) var(--font-data); letter-spacing: var(--tracking-label, .08em); text-transform: uppercase; }
+
+.course-sections-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); margin-top: var(--space-4); }
+.course-sections-head > h4 { margin: 0; }
+.section-shortcuts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: var(--space-2); margin-top: var(--space-2); }
+.section-shortcut { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px var(--space-2); padding: var(--space-3); border: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+.section-shortcut > svg { grid-column: 2; grid-row: 1 / span 3; width: 16px; height: 16px; color: var(--muted); }
+.section-shortcut-name { display: flex; align-items: center; gap: 8px; font: 600 var(--text-control) var(--font-data); }
+.section-shortcut-name > svg { width: 16px; height: 16px; }
+.section-shortcut small { color: var(--muted); font-size: var(--text-caption, 11px); line-height: 1.5; }
+.section-shortcut small[data-empty="true"] { color: var(--warning); }
+.section-shortcut:hover { border-color: var(--ink); }
+.section-shortcut:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.course-terms > h4 { margin-top: 0; }
+.course-term-links { display: grid; gap: var(--space-1); }
+.course-term-links a { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 12px; border: 1px solid var(--line); color: var(--ink); font: 500 var(--text-small) var(--font-data); text-decoration: none; }
+.course-term-links a > svg { width: 16px; height: 16px; }
+.course-term-links a[aria-current="page"] { border-color: var(--ink); font-weight: 600; }
+.course-term-links a:hover { border-color: var(--ink); }
+.course-next-term { margin-top: var(--space-2); }
+.course-shared-links { margin: var(--space-4) 0 0; }
+.course-documents { margin-bottom: 0; }
+.shared-resources-empty { padding: var(--space-3); border: 1px solid var(--line); }
+
+details.disclosure.course-settings-section { margin-top: var(--space-5); scroll-margin-top: 20px; }
+.offering-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: var(--space-4); margin-top: var(--space-2); }
+.offering-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; }
+.offering-heading > div { min-width: 0; }
+.offering-heading h3 { margin-bottom: 6px; }
+.offering-heading p { margin: 0; color: var(--muted); font-size: var(--text-small, 12px); line-height: 1.7; overflow-wrap: anywhere; }
+.offering-heading .button { flex-shrink: 0; }
+.offering-details .course-storage { margin: var(--space-4) 0 0; padding-top: var(--space-3); border-top: 1px solid var(--line); }
+#page-title:focus { outline: none; }
+
+/* A printed page is narrower than the screen's 1180 px floor: the course home's two columns stack on paper. */
+@media print and (max-width: 900px) {
+  .course-home-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---- Section roster: a class list. Private IDs stay distinct from institutional UINs. -------------------------------- */
+#section-roster { min-width: 0; }
+.roster-empty small { margin-top: var(--space-3); color: var(--muted); }
+.roster-heading { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-5); justify-content: space-between; align-items: flex-end; margin: 0 0 var(--space-3); }
+.roster-heading h3 { display: flex; gap: 10px; align-items: center; margin: 0; font-size: 20px; }
+.roster-summary { margin: var(--space-1) 0 0; color: var(--muted); font: 500 var(--text-small)/1.6 var(--font-data); }
+.roster-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+.roster-toolbar { align-items: flex-end; }
+.roster-toolbar > .filter-chips { margin: 0; }
+.roster-search { flex: 0 1 360px; min-width: min(100%, 240px); margin: 0; }
+.roster-search > input { width: 100%; }
+.roster-table-scroll { position: relative; max-width: 100%; max-height: min(72vh, 960px); overflow: auto; border: 1px solid var(--line); background: var(--paper); overscroll-behavior-x: contain; }
+.roster-table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; font-size: var(--text-control, 13px); }
+.roster-table thead th { position: sticky; top: 0; z-index: 2; padding: 0; font-weight: 600; white-space: nowrap; background: var(--paper); border-bottom: 1px solid var(--line); }
+.roster-table tr > :first-child { position: sticky; left: 0; z-index: 1; background: var(--paper); border-right: 1px solid var(--line); }
+.roster-table thead tr > :first-child { z-index: 3; }
+.roster-sort { display: inline-flex; align-items: center; gap: 6px; width: 100%; min-height: 40px; padding: 10px 14px; border: 0; background: transparent; color: var(--ink); font: inherit; text-align: start; cursor: pointer; }
+.roster-sort-mark { flex: 0 0 1ch; color: var(--muted); }
+[aria-sort="ascending"] > .roster-sort > .roster-sort-mark::after { content: "↑"; }
+[aria-sort="descending"] > .roster-sort > .roster-sort-mark::after { content: "↓"; }
+.roster-sort:hover { text-decoration: underline; text-underline-offset: 4px; }
+.roster-sort:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.roster-table td { padding: 10px 14px; min-width: 4em; max-width: 320px; overflow-wrap: normal; word-break: normal; vertical-align: top; border-top: 1px solid var(--line); }
+.roster-table td.multiline { white-space: pre-line; }
+.roster-table td.roster-name { min-width: 12em; }
+.roster-student { padding: 0; border: 0; background: none; color: var(--ink); font: inherit; font-weight: 600; text-align: start; cursor: pointer; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 30%, transparent); text-underline-offset: 4px; overflow-wrap: normal; word-break: normal; hyphens: none; }
+.roster-student:hover { text-decoration-color: currentColor; }
+.roster-student:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.roster-support { display: flex; flex-wrap: wrap; gap: var(--space-1); align-items: flex-start; }
+.roster-support .student-accommodations > summary { list-style: none; cursor: pointer; }
+.roster-support .student-accommodations > summary::-webkit-details-marker { display: none; }
+.roster-support .student-accommodations[open] { flex-basis: 100%; }
+.roster-support .student-accommodations > :not(summary) { margin: var(--space-1) 0 0; font-size: var(--text-small, 12px); }
+/* Support sizes to its badges (the details' own 12rem minimum made a mostly '—' column 220 px wide); an opened badge
+   still gets room for its list. Names stay on one line at desktop width so the roster scans like a class list. */
+.roster-table td.roster-support-cell { width: 1%; min-width: 0; }
+.roster-support .student-accommodations { min-width: 0; max-width: none; }
+.roster-support .student-accommodations > summary { white-space: nowrap; }
+.roster-support .student-accommodations[open] { min-width: 14rem; max-width: 22rem; }
+@media screen, print and (min-width: 900px) {
+  .roster-table td.roster-name { white-space: nowrap; }
+  /* An unusually long name ends in an ellipsis rather than widening every row; its button keeps the full name. */
+  .roster-table td.roster-name .roster-student { display: inline-block; max-width: 22em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; }
+}
+.private-student-id { font-family: var(--font-data); font-variant-numeric: tabular-nums; font-weight: 500; letter-spacing: .035em; color: var(--muted); }
+.roster-import-lead { margin: 0 0 var(--space-3); font-weight: 600; }
+.roster-import-target { display: grid; gap: 2px; margin: 0 0 var(--space-4); padding: var(--space-3); border: 1px solid var(--line); }
+.roster-import-target > span { color: var(--muted); font: 500 var(--text-caption) var(--font-data); letter-spacing: var(--tracking-label, .04em); }
+.roster-import-target > strong { font-size: 16px; color: var(--heading); }
+.roster-import-info > .disclosure-body p { margin: 0; color: var(--muted); font-size: var(--text-control, 13px); line-height: 1.7; }
+.roster-multi-list { display: grid; gap: var(--space-2); margin: var(--space-3) 0; padding: 0; list-style: none; }
+.roster-multi-list:empty { display: none; }
+.roster-howdy { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin: 0 0 var(--space-4); padding-bottom: var(--space-4); border-bottom: 1px solid var(--line); }
+.roster-howdy .field-hint { flex: 1 1 18em; margin: 0; }
+.roster-multi-list > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(12em, auto); gap: var(--space-1) var(--space-3); align-items: end; padding: var(--space-3); border: 1px solid var(--line); }
+.roster-multi-file { display: grid; gap: 2px; min-width: 0; overflow-wrap: anywhere; }
+.roster-multi-file > small { color: var(--muted); font: 500 var(--text-caption) var(--font-data); }
+.roster-multi-list .field { margin: 0; }
+.roster-multi-result { grid-column: 1 / -1; margin: 0; font-size: var(--text-small, 12px); color: var(--muted); }
+.roster-multi-result:empty { display: none; }
+.roster-multi-list > li[data-state="done"] .roster-multi-result { color: var(--success); }
+.roster-multi-list > li .roster-multi-leaving { display: block; margin-top: 2px; color: var(--warning); font-weight: 600; }
+.roster-multi-list > li[data-state="failed"] .roster-multi-result { color: var(--error); }
+.student-quick-view .student-fields { display: grid; gap: var(--space-2); margin: 0 0 var(--space-4); }
+.student-quick-view .student-fields > div { display: grid; grid-template-columns: minmax(8em, 12em) minmax(0, 1fr); gap: var(--space-3); font-size: var(--text-control, 13px); }
+.student-quick-view dt { color: var(--muted); font: 700 var(--text-caption) var(--font-body); letter-spacing: var(--tracking-label, normal); text-transform: uppercase; }
+.student-quick-view dd { margin: 0; overflow-wrap: anywhere; }
+.student-quick-view dd.multiline { white-space: pre-line; }
+.student-quick-view h3 { margin: var(--space-4) 0 var(--space-2); font-size: var(--text-item, 15px); }
+.student-quick-view ul { margin: 0; padding-inline-start: 1.2em; }
+.student-quick-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); margin: var(--space-4) 0 0; }
+#roster-filter-count:empty { display: none; }
+
+/* ---- Screen: Ledger (DESIGN-LANGUAGE §1–§4). A panel is a ruled block (outline-theme.css), its groups are headed by a
+   small label over a 2px ink rule, its rows sit on hairlines. Printing keeps the rules above. ---------------------------- */
+@media screen {
+  /* Course list */
+  .storage-line { color: var(--muted); font-family: var(--font-body); }
+  .course-storage-reason { color: var(--muted); }
+  .course-term-group + .course-term-group { margin-top: var(--space-10); }
+  .course-term-heading { gap: var(--space-3); margin-bottom: var(--space-2); }
+  .course-term-heading h3 { font: var(--head-weight) var(--text-title)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+  .course-term-heading span { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+  /* The switch, the search field and the "1 course" count share one centre line. */
+  .toolbar.course-toolbar { align-items: center; }
+  /* A course card is a ruled block (outline-theme.css); its sections are outlined chips whose count is the quieter part. */
+  .course-card h3 { font-size: var(--text-title); line-height: 1.15; }
+  .course-section-chip { transition: color var(--snappy), border-color var(--snappy); }
+  .course-section-chip:hover { border-color: var(--ink); color: var(--ink); }
+  .course-section-chip > b, .current-section-links a > b { font-weight: 500; color: var(--muted); }
+  .course-section-chip:hover > b { color: inherit; }
+  .course-section-chip > b[data-empty="true"], .current-section-links a > b[data-empty="true"] { color: var(--warning); }
+
+  /* Course frame: the section tabs wrap on the desktop instead of scrolling (the scroll box clipped the focus ring). */
+  .course-tabs { flex-wrap: wrap; overflow: visible; border-bottom-color: var(--line); }
+
+  /* Teaching now: a small label, each term's name in serif, its sections as uppercase text links. */
+  #course-panel .course-now { border-bottom-color: var(--line); }
+  #course-panel .course-now > h3 { color: var(--label); font: 600 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-section); }
+  .course-now .current-term > h4 { color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+  .current-section-links { gap: var(--space-1) var(--space-5); }
+  .current-section-links a { min-height: 0; padding: 0; border: 0; color: var(--ink); font: 600 var(--text-small)/1.3 var(--font-body); letter-spacing: 0; text-transform: none; transition: color var(--snappy); }
+  .current-section-links a:hover { color: var(--ink); }
+  .current-section-links a:hover > b { color: inherit; }
+
+  /* Panels: serif headlines; each inner group is a list headed by the section label over a 2px ink rule. */
+  :root .course-panel-head > h3, :root .offering-heading h3 { font: var(--head-weight) var(--text-title)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+  #course-panel :is(.course-work > .course-work-title, .course-sections-head, .course-terms > h4) {
+    margin: var(--space-6) 0 0;
+    padding-top: var(--space-2);
+    border-top: 2px solid var(--ink);
+  }
+  #course-panel :is(.course-work > .course-work-title, .course-sections-head > h4, .course-terms > h4) {
+    color: var(--ink);
+    font: 700 12px/1.4 var(--font-body);
+    letter-spacing: var(--tracking-section);
+    text-transform: uppercase;
+  }
+  #course-panel .course-sections-head { align-items: center; }
+  #course-panel .course-sections-head > h4 { margin: 0; }
+  #course-panel :is(.course-panel-head + .course-work > .course-work-title, .course-panel-head + .course-terms > h4) { margin-top: var(--space-3); }
+  #course-panel .course-work-title { margin-bottom: var(--space-1); }
+  #course-panel .course-terms > h4 { margin-bottom: var(--space-1); }
+  .course-work-row { padding: var(--space-2) 0; border-top-color: var(--nested-line); }
+  .course-work-kind { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .course-work-links > a:not(.link-arrow) { color: var(--ink); font-size: var(--text-body); text-decoration-color: var(--faint); text-decoration-thickness: 1px; transition: color var(--snappy), text-decoration-color var(--snappy); }
+  .course-work-links > a:not(.link-arrow):hover { color: var(--ink); text-decoration-color: currentColor; }
+  .course-work-links small { color: var(--label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .course-work-links .course-ta > small { color: var(--muted); font-weight: 500; letter-spacing: normal; text-transform: none; }  /* addresses as written */
+  /* The grading scheme is state, read as written (DESIGN-LANGUAGE §1.12: small capitals are labels only). */
+  .course-work-links .course-scheme-status { color: var(--text); font-size: var(--text-small); font-weight: 500; letter-spacing: normal; text-transform: none; }
+  .course-ta > a, .course-ta > .course-ta-name { font-size: var(--text-body); }
+  .course-ta > a { text-decoration-color: var(--faint); transition: color var(--snappy), text-decoration-color var(--snappy); }
+  .course-ta > a:hover { color: var(--ink); text-decoration-color: currentColor; }
+  .course-work-links > .course-work-more { color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; text-decoration: underline; text-underline-offset: 3px; }
+  .course-work-empty { color: var(--muted); }
+  .course-work [data-course-work-rows] > .course-work-list { border-bottom: 1px solid var(--nested-line); }
+  .course-work[data-compact="true"] { padding-bottom: 0; border-bottom: 0; }
+
+  /* Section shortcuts (Ledger): each section a record the whole tile opens, white in the frame, the hard shadow under the pointer. */
+  .section-shortcuts { gap: var(--space-3); margin-top: var(--space-1); }
+  .section-shortcut { padding: var(--space-3) var(--space-4); border: var(--frame); background: var(--surface); box-shadow: 0 0 0 var(--ink);
+    transition: transform var(--lift), box-shadow var(--lift); }
+  .section-shortcut:hover { transform: translate(-1px, -1px); box-shadow: var(--hard-shadow-hover); }
+  .section-shortcut > svg { color: var(--label); transition: transform var(--snappy), color var(--snappy); }
+  .section-shortcut:hover > svg { color: var(--ink); }
+  .section-shortcut-name { color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); transition: color var(--snappy); }
+  .section-shortcut:hover .section-shortcut-name { color: var(--ink); }
+  .section-shortcut-name > svg { color: var(--label); }
+  .section-shortcut small { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+
+  /* Teaching terms: a list of terms; the term on screen is heavy ink (never the needs-you orange). */
+  .course-term-links { gap: 0; }
+  .course-term-links a { margin-bottom: -1px; padding: var(--space-2) 0; border: 0; border-block: 1px solid var(--nested-line); color: var(--ink); font: var(--head-weight) var(--text-item)/1.25 var(--font-serif); letter-spacing: var(--tracking-title); transition: color var(--snappy); }
+  .course-term-links a > svg { color: var(--label); }
+  .course-term-links a:hover, .course-term-links a:hover > svg { color: var(--ink); }
+  .course-term-links a[aria-current="page"] { color: var(--ink); font-weight: 800; }
+  .course-term-links a[aria-current="page"] > svg { color: inherit; }
+  .shared-resources-empty { padding: 0; border: 0; color: var(--muted); }
+
+  /* Course settings: each saved entry is a row under a hairline, never a filled box. */
+  .offering-list { gap: 0 var(--space-6); }
+  .offering-details { padding: var(--space-4) 0; background: transparent; border: 0; border-top: 1px solid var(--nested-line); }
+  .offering-heading p { color: var(--muted); font-size: var(--text-small); }
+  .offering-details .course-storage { border-top-color: var(--nested-line); }
+
+  /* Roster */
+  :root .roster-heading h3 { font: var(--head-weight) var(--text-title)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+  :root:root .roster-heading h3 > .count-badge { margin-left: var(--space-1); padding: 0; border: 0; color: var(--muted); font: var(--head-weight) var(--text-item)/1 var(--font-serif); }
+  .roster-summary { color: var(--muted); font-family: var(--font-body); }
+  .roster-empty small { color: var(--muted); }
+  /* Every roster table (the section roster, the accommodations and DR tables, a seating chart's Students) is one table on
+     the paper: no frame or fill, a hairline under its last row, and a wide one scrolls inside its own box. The sticky
+     heading row and first column are the page's own paper (opaque, so rows never show through them). The heading rule is
+     the 2px ink rule of every record table (components.css), drawn just below the header row over the first row's own
+     hairline, so the two never stack (whichever row a filter leaves first); being the sticky header's, it stays under the
+     header while the rows scroll. */
+  .roster-table-scroll { border: 0; border-bottom: 1px solid var(--line); background: transparent; }
+  .roster-table tr > :first-child, :root:root .roster-table-scroll > .roster-table thead th { background: var(--canvas); }
+  :root:root .roster-table-scroll > .roster-table thead th { border-bottom-width: 0; box-shadow: 0 2px 0 var(--ink); }
+  /* In a dialog the paper is plain (no grain tile). */
+  :root:root dialog .roster-table :is(tr > :first-child, thead th) { background-image: none; }
+  /* The records on these pages read at body size (DESIGN-LANGUAGE §4: cells 15px). */
+  :is(#section-roster, #accommodations-section, #absences-section) .roster-table { font-size: var(--text-body); }
+  /* The first heading stays above the sticky first column (z-index 1), whose later cells would otherwise paint over its
+     heading rule and, while the rows scroll, over the heading itself. Restated at the scroll box's specificity because a
+     page sheet (seating.css's Students table) sets every heading to z-index 1. */
+  .roster-table-scroll > .roster-table thead tr > :first-child { z-index: 3; }
+  /* A heading without a sort button (accommodations, DR schedule, seating) gets the button's inset from the cell. */
+  .roster-table thead th:not([aria-sort]) { padding: 10px 14px; }
+  .roster-table td { border-top-color: var(--nested-line); }
+  /* The row's name is its heading: ink (the other cells are body copy). */
+  :root:root .roster-table tbody td:first-child { color: var(--ink); }
+  .roster-table tbody tr > :first-child { transition: background-color var(--snappy); }
+  .roster-table tbody tr:hover > :first-child { background: var(--surface-hover); }
+  /* No column rule at rest; the sticky first column shows its hairline edge only while the table is scrolled sideways and
+     other columns slide under it (a scroll-driven fade; without support, or under reduced motion, where layout.css removes
+     every animation, there is simply no edge). */
+  .roster-table tr > :first-child { border-right-color: transparent; }
+  @supports (animation-timeline: scroll()) {
+    .roster-table-scroll > .roster-table tr > :first-child {
+      animation: roster-sticky-edge linear both;
+      animation-timeline: scroll(nearest inline);
+      animation-range: 0px 24px;
+    }
+  }
+  .roster-sort { letter-spacing: inherit; text-transform: inherit; }
+  .roster-sort:hover { color: var(--ink); text-decoration: none; }
+  .roster-sort-mark { color: var(--ink); }
+  .roster-student { font-weight: 500; text-decoration-color: var(--faint); text-decoration-thickness: 1px; transition: color var(--snappy), text-decoration-color var(--snappy); }
+  .roster-student:hover { color: var(--ink); text-decoration-color: currentColor; }
+  .private-student-id { letter-spacing: normal; color: var(--muted); }
+
+  /* Roster import and the student's card: labelled rows between hairlines, never boxes inside the dialog. */
+  .roster-import-lead { color: var(--ink); font-weight: 500; }
+  .roster-import-target { padding: var(--space-3) 0; border: 0; border-block: 1px solid var(--line); }
+  .roster-import-target > span { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  :root .roster-import-target > strong { font: var(--head-weight) var(--text-section)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+  .roster-import-info > .disclosure-body p { color: var(--text); }
+  .roster-multi-list { gap: 0; }
+  .roster-multi-list > li { margin-bottom: -1px; padding: var(--space-3) 0; border: 0; border-block: 1px solid var(--nested-line); }
+  /* A chosen file's name is a record name: ink, regular. */
+  .roster-multi-file > strong { color: var(--ink); font-weight: 500; }
+  .roster-multi-file > small { color: var(--muted); font-family: var(--font-body); }
+  .roster-multi-result { color: var(--text); }
+  .student-quick-view dt { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .student-quick-view .student-fields > div { padding-top: var(--space-2); border-top: 1px solid var(--nested-line); font-size: var(--text-body); }
+  :root .student-quick-view h3 { margin: var(--space-5) 0 var(--space-2); font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+  /* Its lists (accommodations, the communications summary) sit flush on the dialog's column: lines, not an indented outline. */
+  .student-quick-view ul { padding-inline-start: 0; list-style: none; }
+}
+@keyframes roster-sticky-edge { from { border-right-color: transparent; } to { border-right-color: var(--line); } }
+/* Forced colours drop box shadows: the sticky heading row keeps a real rule below it. */
+@media screen and (forced-colors: active) {
+  :root:root .roster-table-scroll > .roster-table thead th { border-bottom-width: 1px; }
+}
+/* The roster's Canvas comparison: the name lists (each with its checkboxes) and the actions under them. */
+.canvas-roster-names { margin: 0; padding-left: var(--space-5); columns: 2 16rem; font-size: var(--text-control, 13px); }
+.canvas-roster-names small { color: var(--muted); }
+.canvas-roster-pick { list-style: none; padding-left: 0; }
+.canvas-roster-actions { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); align-items: center; margin-top: var(--space-3); }

@@ -1,0 +1,101 @@
+/* Screen presentation only (DESIGN-LANGUAGE). The retained document layouts and print palettes continue to use their own
+   styles. The rail, the header band and the page header are workspace-navigation.css, header-band.css and components.css; this sheet
+   gives the older shared pieces (headings, records, the legacy tools view) their paper-and-ink look. */
+.brand { color: var(--sidebar-ink); }
+.section-heading h2 { font-weight: 500; }
+.section-heading p {
+  color: var(--muted);
+  font-size: var(--text-body);
+}
+/* Controls: buttons take button-theme.css's tiers; focus is the 2px slate (--focus) ring everywhere. */
+.button { color: var(--ink); background: var(--control-surface); border-color: var(--control-line); box-shadow: none; }
+.text-button { color: var(--ink); }
+.text-button:hover { color: var(--ink); }
+.icon-button { color: var(--muted); }
+.icon-button:hover, .icon-button.is-pinned { background: var(--highlight-bg); color: var(--highlight-ink); }
+:is(button, a, input, textarea, select, summary):focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.search-box:focus-within, .year-picker:focus-within { outline-color: var(--focus); }
+.field-hint, .tool-description, .category, .stat-label, .stat-caption {
+  color: var(--muted);
+}
+input::placeholder, textarea::placeholder { color: var(--label); }
+.search-box input { color: var(--ink); font-size: var(--text-body); }
+/* Dialogs: raised paper in a 1px ink frame (outline-theme.css), the page receding under warm ink. */
+dialog::backdrop { background: var(--backdrop); }
+.dialog-header {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 18px;
+}
+.dialog-header h2 { color: var(--heading); }
+.dialog-footer { background: var(--paper); }
+
+/* Separate objects (a tool, a room, a chart, a course) are ruled blocks: a hairline above, the title stays ink on hover. */
+.tool-card, .course-panel, .room-card, .seating-card, .exams-block, .rc-preview, .inbox-job-list {
+  box-shadow: none;
+  border-radius: var(--radius-panel);
+}
+.document-review-panel, .document-assembly, .empty-state {
+  border-radius: var(--radius-panel);
+}
+.tool-card:hover h3, .room-card:hover h3, .seating-card:hover h3 { color: var(--ink); }
+.tool-card h3, .room-card h3, .seating-card h3 { color: var(--heading); }
+.tool-card-bottom { border-color: var(--nested-line); }
+/* The course list card's code (course-pages.css gives it no look of its own). */
+.course-card .category { color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.empty-state { background: transparent; border-color: var(--line); }
+.room-card-icon, .seating-card-icon { background: transparent; color: var(--ink); }
+.blue { color: var(--blue); }
+.clay { color: var(--orange); }
+.lavender { color: var(--violet); }
+.sand { color: var(--warning); }
+
+/* A count beside a heading or inside a tab is a plain number, no fill. */
+.count-badge { background: transparent; color: var(--muted); }
+.filter { color: var(--muted); font-size: var(--text-control); }
+.filter.active { color: var(--ink); border-color: var(--ink); }
+.tool-controls { border-color: var(--line); }
+
+/* Records sit on the paper. The storage statement is flat (style.css draws its rule); Inbox rows take their status rule
+   from accent-theme.css. */
+.storage-summary { color: var(--muted); }
+/* Operational status colours never depend on the area. */
+.badge.building { color: var(--warning); }
+.badge.planned { color: var(--muted); background: transparent; }
+.status-dot.building { background: var(--warning); }
+.status-dot.planned { background: var(--muted); }
+
+/* Table rows are easy to follow without recolouring seats or scans. Column headings are components.css's record-table
+   rule. */
+.rc-table-scroll, .exams-table-wrap { background: transparent; border-radius: 0; }
+:is(.roster-table, .rc-table, .exams-table) tbody tr:hover { background: var(--surface-hover); }
+
+/* The legacy tools view's figures: serif counts over small labels, under a hairline. */
+.stat { background: transparent; border-color: var(--line); border-top: 1px solid var(--line); box-shadow: none; }
+.stat[data-status="ready"] { border-top-color: var(--line); }
+.stat[data-status="building"] { border-top-color: var(--warning); }
+:is(button, a).stat:hover strong { color: var(--ink); }
+.stat strong { color: var(--heading); font-weight: 500; }
+.workspace-tip { background: transparent; border-color: var(--line); }
+.workspace-tip p { color: var(--muted); font-size: var(--text-small); }
+.tip-icon { background: transparent; color: var(--ink); }
+
+/* Shared controls and record tables use the same screen scale. */
+.button { min-height: var(--control-height); border-radius: var(--radius-control); font-size: var(--text-control); }
+.field > :is(input, select, textarea) { font-size: var(--text-body); }
+.field > :is(input, select) { min-height: var(--control-height); }
+.field { font-size: var(--text-caption); }
+.workspace-table-wrap { overflow-x: auto; }
+.workspace-table { width: 100%; border-collapse: collapse; font-size: var(--text-body); text-align: left; }
+.workspace-table :is(th, td) { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--nested-line); }
+.workspace-table :is(th, td):first-child { padding-left: 0; }
+.workspace-table thead th { color: var(--ink); background: transparent; white-space: nowrap; }
+.workspace-table tbody tr:hover { background: var(--surface-hover); }
+.workspace-table tr:last-child :is(th, td) { border-bottom: 0; }
+.workspace-table a { color: var(--ink); font-weight: 500; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.workspace-table a:hover { color: var(--ink); }
+.workflow-records { margin-top: var(--space-4); }
+.workflow-records > summary { padding: var(--space-3) 0; cursor: pointer; color: var(--ink); font-size: var(--text-body); font-weight: 500; }

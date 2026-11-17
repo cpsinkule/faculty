@@ -1,0 +1,2251 @@
+{
+  "seed": 20260913,
+  "layout_profile": "faculty-corners-10mm-v1",
+  "libraries": {
+    "Pillow": "12.3.0",
+    "numpy": "2.5.3",
+    "pypdf": "6.18.1",
+    "pypdfium2": "5.13.0",
+    "zxing-cpp": "3.1.1",
+    "reportlab": "5.0.1"
+  },
+  "physical_qualification": "not established by simulation; see the separate physical qualification record",
+  "required_passed": true,
+  "incorrect_accepted": 0,
+  "summary": {
+    "300dpi": {
+      "passed": 12,
+      "total": 12
+    },
+    "200dpi": {
+      "passed": 12,
+      "total": 12
+    },
+    "150dpi": {
+      "passed": 12,
+      "total": 12
+    },
+    "rotate90": {
+      "passed": 12,
+      "total": 12
+    },
+    "rotate180": {
+      "passed": 12,
+      "total": 12
+    },
+    "rotate270": {
+      "passed": 12,
+      "total": 12
+    },
+    "skew+3": {
+      "passed": 12,
+      "total": 12
+    },
+    "skew-3": {
+      "passed": 12,
+      "total": 12
+    },
+    "blur0.6": {
+      "passed": 12,
+      "total": 12
+    },
+    "jpeg70": {
+      "passed": 12,
+      "total": 12
+    },
+    "contrast64-192": {
+      "passed": 12,
+      "total": 12
+    },
+    "combined200-90-jpeg70": {
+      "passed": 12,
+      "total": 12
+    },
+    "characterization-blur2": {
+      "passed": 0,
+      "total": 12
+    },
+    "characterization-jpeg20": {
+      "passed": 12,
+      "total": 12
+    },
+    "top-corner-only200": {
+      "passed": 12,
+      "total": 12
+    },
+    "bottom-corner-only200": {
+      "passed": 12,
+      "total": 12
+    },
+    "characterization-top-corner-only150": {
+      "passed": 12,
+      "total": 12
+    },
+    "characterization-bottom-corner-only150": {
+      "passed": 10,
+      "total": 12
+    }
+  },
+  "cases": [
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 1,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 2,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 1,
+      "page": 3,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 1,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 2,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "letter",
+      "copy": 2,
+      "page": 3,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 1,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 2,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 1,
+      "page": 3,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 1,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 2,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "150dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "bottom-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "combined200-90-jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "blur0.6",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "characterization-bottom-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "skew+3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "rotate90",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "200dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "contrast64-192",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "rotate270",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "skew-3",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "characterization-jpeg20",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "characterization-top-corner-only150",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "characterization-blur2",
+      "exact_recovery": false,
+      "exact_db_lookup": false,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 0
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "jpeg70",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "300dpi",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "rotate180",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 2
+    },
+    {
+      "paper": "a4",
+      "copy": 2,
+      "page": 3,
+      "condition": "top-corner-only200",
+      "exact_recovery": true,
+      "exact_db_lookup": true,
+      "incorrect_accepted": false,
+      "matching_mark_locations": 1
+    }
+  ]
+}

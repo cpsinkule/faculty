@@ -1,0 +1,321 @@
+/* The scan's Inbox pages (scan-pages.js): scan review, bubble sheets, first pages without labels and Papers to check.
+   Moved unchanged out of documents.css (UX overhaul wave 1). This sheet is linked right after documents.css so every rule
+   keeps its place in the cascade; the later theme sheets (bubble-sheets.css, scan-review.css) still override it. It also
+   prints: a converted literal keeps its old value as the token's fallback, and the Ledger type (DESIGN-LANGUAGE §3: Manrope
+   headings at --head-weight, sans copy, small uppercase labels) is added under `@media screen` at the end. Scans and crops keep
+   their own pixels on white. Desktop only: no phone layout. */
+.document-scan-review .field { margin: 14px 0; }
+.document-scan-page, .document-assembly { border-top: 1px solid var(--line); padding: 20px 0; }
+.document-scan-review form { max-width: 600px; }
+.document-scan-review button { margin: 8px 8px 8px 0; }
+.document-version-sort, .document-unlabeled-panel, .document-review-panel { border-top: 1px solid var(--line); padding: 20px 0; }
+.document-version-outputs { padding-left: 20px; }
+.document-version-pages-wrap { overflow-x: auto; }
+.document-version-pages { border-collapse: collapse; width: 100%; max-width: 900px; font-size: var(--text-small, 0.9em); }
+.document-version-pages th, .document-version-pages td { border-bottom: 1px solid var(--line); padding: var(--space-3, 6px) var(--space-3, 8px); text-align: left; vertical-align: top; }
+.bubble-sheets .field { margin: 14px 0; max-width: 600px; }
+.bubble-sheets .bubble-filter { margin: 0; display: inline-flex; align-items: center; gap: 8px; }
+.bubble-table tr[data-status="needs_review"] td:nth-child(5) strong { color: var(--tone-warning); }
+.bubble-table code { letter-spacing: var(--tracking-label, 1px); }
+.bubble-review { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.bubble-page { position: sticky; top: 0; max-height: 78vh; overflow: auto; border: 1px solid var(--line); }
+.bubble-page img { display: block; width: 100%; height: auto; }
+.bubble-page.upside-down img { transform: rotate(180deg); }
+.bubble-fields .field { margin: 12px 0; }
+.bubble-answers { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px 14px; }
+.bubble-answer { font-size: var(--text-small, 12px); }
+.bubble-answer label { display: grid; grid-template-columns: 26px 64px; align-items: center; gap: 6px; }
+.bubble-answer span { text-align: right; color: var(--label, var(--muted)); font-variant-numeric: tabular-nums; }
+.bubble-answer.flagged, .bubble-answer.wide { grid-column: 1 / -1; }
+.bubble-answer .bubble-show { margin-left: 32px; font-size: var(--text-caption, 11px); }
+.bubble-crop { display: block; max-width: 100%; height: auto; margin: 6px 0; border: 1px solid var(--line); background: white; }
+.bubble-identity { display: grid; gap: 4px; }
+.bubble-answer input { border: 1px solid var(--control-line, var(--line)); padding: 5px 8px; font: inherit; text-transform: uppercase; min-width: 0; }
+.bubble-answer small { display: block; margin: 3px 0 0 32px; color: var(--tone-warning); }
+.bubble-answer.flagged input { border-color: var(--tone-warning); }
+[data-scan-assemblies] > summary { cursor: pointer; font-weight: 600; }
+[data-scan-assemblies][open] > summary { margin-bottom: 10px; }
+.bubble-fields h3 { margin: 0 0 8px; font-size: var(--text-item, 15px); }
+.bubble-item { margin: 0 0 14px; }
+.bubble-confident { margin: 18px 0 6px; border-top: 1px solid var(--line); }
+.bubble-confident > summary { cursor: pointer; padding: 12px 0; font-weight: 600; font-size: var(--text-item, 15px); }
+.bubble-confident [data-locked] { color: var(--muted); cursor: not-allowed; }
+.bubble-confident .bubble-answers { margin-top: 10px; }
+#label-mode-offer .dialog-body p + p { margin-top: .75rem; }
+/* Scanned page review: a summary card (what the scan is, what is left to do), then only the tools that apply. */
+.document-scan-review { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 10px; min-width: 0; }
+.document-scan-review > * { min-width: 0; }
+.document-scan-review > [data-bubble-slot]:empty { display: none; }
+.document-scan-review > .course-panel, .document-scan-review .bubble-sheets { padding: 16px 20px; }
+.scan-papers { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 2px; font-size: var(--text-control, 13px); }
+.scan-papers li { overflow-wrap: anywhere; }
+.scan-papers li > details { display: inline-block; vertical-align: top; margin: 0 0 0 6px; }
+.scan-papers li > span { color: var(--text, var(--muted)); font-size: var(--text-control, 13px); }
+.scan-unseen { font-size: var(--text-control, 13px); margin-top: 4px; }
+.scan-unseen p { margin: 6px 0 0; color: var(--text, var(--muted)); }
+.scan-status { margin: 8px 0 0 !important; }
+.scan-status .text-button { margin: 0; }
+.document-sequence details > summary, .bubble-sheets details > summary { cursor: pointer; font-weight: 600; }
+.bubble-sheets summary small { font-weight: 500; color: var(--label, var(--muted)); }
+.document-sequence > h4 { margin: 0 0 10px; }
+.document-sequence details { margin-top: 10px; }
+.document-scan-review .bubble-sheets-none { padding-top: 12px; padding-bottom: 12px; }
+.bubble-queue-note { margin-right: auto; max-width: 420px; text-align: left; }
+#bubble-review .dialog-footer { flex-wrap: wrap; row-gap: 8px; }
+/* Click targets over the bubbles of a snapshot: an outline only, so the pencil mark underneath stays visible. Hover draws a
+   dashed rust frame, the chosen letter a solid one with a thin inner rule in the paper; the scan itself is never covered (no
+   shared button tier fills .bubble-choice, see button-theme.css). Keyboard focus keeps its ring under the pointer too. */
+.bubble-pick { position: relative; display: inline-block; max-width: 100%; line-height: 0; vertical-align: middle; margin: 6px 0; }
+.bubble-pick > img.bubble-crop { display: block; max-width: 100%; margin: 0; }
+/* Scoped to the snapshot (`.bubble-pick >`): the grading page's item analysis has list items of the same class
+   (grading-bubble-key.css), whose rules would otherwise put these targets in the flow under the snapshot. */
+.bubble-pick > .bubble-choice { position: absolute; top: 0; display: block; height: 100%; margin: 0 !important; padding: 0; border: 2px solid transparent; background: transparent; cursor: pointer; }
+.bubble-pick > .bubble-choice:is(:hover, :focus-visible):not(:disabled, [aria-pressed="true"]) { border-color: var(--ink); border-style: dashed; }
+.bubble-pick > .bubble-choice[aria-pressed="true"] { border-color: var(--ink); border-style: solid; box-shadow: inset 0 0 0 1px var(--paper, white); }
+.bubble-pick > .bubble-choice:focus-visible { outline: 2px solid var(--focus, var(--ink)); outline-offset: 1px; }
+.bubble-pick > .bubble-choice:disabled { cursor: default; }
+.bubble-threshold { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); max-width: none !important; }
+.bubble-threshold .field { display: inline-block; margin: 0 12px 0 0; max-width: none; }
+.bubble-threshold-input { display: inline-flex; align-items: center; gap: 8px; margin-left: 8px; font-weight: 500; }
+.bubble-threshold-input input { width: 84px; }
+
+/* Exams without labels (2026-09-24): the top of each cover beside what was read and whom it names. The cover is a scanned
+   image and keeps its white paper behind it. */
+.document-unlabeled td { vertical-align: top; }
+.document-unlabeled-cover { max-width: 26rem; margin-bottom: .25rem; }  /* holds the shared crop button (grading-crops.js): click to enlarge */
+.document-unlabeled select { max-width: 18rem; }
+.document-unlabeled tr[data-state="conflict"] td:last-child strong, .document-unlabeled tr[data-state="needs_review"] td:last-child strong { color: var(--tone-danger, var(--error)); }
+/* The scan's Find students and Matched papers pages (2026-09-24): the papers that need a name, apart from the matches. */
+.students-page-heading h3 { margin: 0 0 6px; }
+.students-page-heading p { margin: 0; color: var(--text, var(--muted)); }
+.students-page-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 16px 0; }
+.students-page-actions .button { margin: 0; }
+.students-page-group { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px; }
+.students-page-group h4 { margin: 0 0 8px; }
+.students-page-empty { margin: 16px 0; }
+/* Papers to check: each paper's scanned sides side by side, to look at before grading. */
+.papers-check-sides { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.papers-check-side { margin: 0; }
+.papers-check-side img { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: #fff; }
+.papers-check-side figcaption { margin-top: 4px; font-size: var(--text-small, 13px); color: var(--label, var(--muted)); }
+.papers-check-item + .papers-check-item { margin-top: 18px; }
+.papers-check-item h5 { margin: 0 0 4px; font-size: var(--text-item, 15px); }
+.papers-check-item h5 small { font-weight: 500; color: var(--label, var(--muted)); margin-left: 6px; }
+
+/* Students: what the run looks for, as facts under its progress (UX overhaul 2026-09-26). */
+.students-page-heading .students-page-facts { margin: 8px 0 0; }
+.students-run-stopped { max-width: 78ch; }
+.students-register-how { max-width: 78ch; }
+/* Papers to check: what the grouping holds, under the stage's words. Review: the stages still open, or that it is reviewed. */
+.papers-check-facts, .scan-still-open, .scan-reviewed { margin: 12px 0; }
+
+/* The Bubble sheets page is one frame (UX overhaul 2026-09-26, part B): the stage's words and Review all, then the sheets' panel. */
+.scan-sheets-frame > [data-bubble-slot]:empty, .scan-sheets-frame > [data-bubble-slot][hidden] { display: none; }
+.scan-sheets-frame > [data-bubble-slot] { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+/* A stage this scan's graph does not have: one line and the way back to the scan. */
+.scan-stage-missing { margin: 0; }
+.scan-stage-missing .link-arrow { margin-left: 6px; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   The Ledger type on screen (DESIGN-LANGUAGE §3–§4): each stage page's title a heading in Manrope at --head-weight (`--font-serif`
+   is a retained alias of it), group titles and paper names likewise, counts, captions and page numbers small uppercase sans labels,
+   copy in the text ink. Groups are divided by hairlines, rows by the quieter row rule. The spacing moves onto the token scale. */
+@media screen {
+  .document-scan-review .field, .bubble-sheets .field { margin: var(--space-3) 0; }
+  .document-scan-page, .document-assembly, .document-version-sort, .document-unlabeled-panel, .document-review-panel { padding: var(--space-5) 0; }
+  .document-scan-review > .course-panel { padding-block: var(--space-6) var(--space-5); }
+
+  /* The stage page's title: the one heading of its frame. */
+  .students-page-heading h3 {
+    margin: 0 0 var(--space-2);
+    color: var(--heading);
+    font: var(--head-weight) var(--text-title)/1.15 var(--font-serif);
+    letter-spacing: var(--tracking-title);
+  }
+  .students-page-heading p { color: var(--text); font-size: var(--text-body); line-height: 1.5; max-width: 78ch; }
+  .students-page-group { padding-top: var(--space-5); margin-top: var(--space-5); }
+  :is(.students-page-group, .document-sequence, .document-assembly) > h4,
+  .papers-check-item h5,
+  .bubble-fields h3 {
+    color: var(--heading);
+    font-family: var(--font-serif);
+    font-weight: var(--head-weight);
+    font-size: var(--text-item);
+    line-height: 1.25;
+    letter-spacing: var(--tracking-title);
+  }
+  .students-page-group > h4 { font-size: var(--text-section); margin-bottom: var(--space-3); }
+  /* A paper's place beside its name ("pages 3–4 of the scan"): metadata in the muted sans. */
+  .papers-check-item h5 small {
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+  }
+  /* A side's page number, a bubble's question number, a fold's note: small uppercase sans labels. */
+  .papers-check-side figcaption,
+  .bubble-answer span,
+  .bubble-sheets summary small {
+    font-family: var(--font-body);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+  .papers-check-side figcaption { margin-top: var(--space-2); font-size: var(--text-caption); }
+  .papers-check-side a:is(:hover, :focus-visible) img { border-color: var(--ink); }
+  /* Each held paper: its name, one note, then its sides, spaced apart from the group's own hint above it. */
+  .papers-check-item { margin-top: var(--space-4); }
+  .papers-check-item > .field-hint { margin: var(--space-1) 0 var(--space-3); }
+  .papers-check-item + .papers-check-item { margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--nested-line); }
+  /* The last paper's captions keep the same distance from the next section's hairline as the section keeps below it. */
+  .papers-check-item:last-child { padding-bottom: var(--space-5); }
+  /* A stage's folded group (look for first pages again, every other assembled paper) is an accordion item: its summary
+     carries the spacing, so the group adds no padding of its own above or below it. */
+  details.disclosure:is(.students-page-group, .document-unlabeled-panel) { padding-block: 0; }
+  /* A group of first pages ends with its table. Whatever follows (the next group, "How registering works", the settings fold)
+     opens on its own hairline, so the table's last row draws none: two rules a line apart read as a doubled divider. */
+  .students-page-group > .document-version-pages-wrap:last-child tbody > tr:last-child > td { border-bottom: 0; }
+
+  /* Summaries that are titles read as headings (heading ink, --head-weight). */
+  :is([data-scan-assemblies], .bubble-confident, .document-version-sort) > summary {
+    color: var(--heading);
+    font-family: var(--font-serif);
+    font-weight: var(--head-weight);
+    letter-spacing: var(--tracking-title);
+  }
+  :is([data-scan-assemblies], .bubble-confident, .document-version-sort) > summary:hover { color: var(--ink); }
+  /* Version sorting is a section of the Scan page: a disclosure, its note as a label, +/− at the right. */
+  .document-version-sort > summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); min-height: 44px; padding-block: var(--space-3); list-style: none; font-size: var(--text-item); line-height: 1.3; }
+  .document-version-sort > summary::-webkit-details-marker { display: none; }
+  .document-version-sort > summary::after { content: "+"; content: counter(decor, none) "+" / ""; order: 99; margin-inline-start: auto;  display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+  .document-version-sort[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+  .document-version-sort > summary small { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .document-version-sort { padding-block: var(--space-2); }
+  /* A form's checkbox ("Auto-rotate upside-down pages", "Approve this as a partial assembly") is a line of its own: the submit
+     button after it no longer runs on from its words. */
+  .document-scan-review form > label:not(.field):has(> input[type="checkbox"]) { display: flex; align-items: center; gap: var(--space-2); width: fit-content; margin: var(--space-3) 0; }
+  /* The smaller folds inside a stage page (recover a label, page-by-page readings, runs, settings, unseen papers): a small
+     toggle, written as it reads, led by +/−, in the ink, turning rust on hover. */
+  .document-scan-review details:not(.disclosure, .bubble-confident, .document-version-sort, .bubble-details) > summary {
+    width: fit-content;
+    max-width: 100%;
+    margin-block: var(--space-2);
+    list-style: none;
+    cursor: pointer;
+    color: var(--ink);
+    font: 600 var(--text-small)/1.5 var(--font-body);
+    letter-spacing: 0;
+    text-transform: none;
+    transition: color var(--snappy);
+  }
+  .document-scan-review details:not(.disclosure, .bubble-confident, .document-version-sort, .bubble-details) > summary::-webkit-details-marker { display: none; }
+  .document-scan-review details:not(.disclosure, .bubble-confident, .document-version-sort, .bubble-details) > summary::before { content: "+"; content: counter(decor, none) "+" / ""; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+  .document-scan-review details:not(.disclosure, .bubble-confident, .document-version-sort, .bubble-details)[open] > summary::before { content: "−"; content: counter(decor, none) "−" / ""; }
+  .document-scan-review details:not(.disclosure, .bubble-confident, .document-version-sort, .bubble-details) > summary:hover { color: var(--ink); }
+  .document-scan-review details:not(.disclosure, .bubble-confident, .document-version-sort, .bubble-details) > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  /* "Local OCR is not installed on this server": a condition that holds the tool back, told in the warning's colour (text,
+     never a fill) at the size of the copy around it. */
+  .document-scan-review :is(.document-version-sort, .document-unlabeled-panel .disclosure-body) > p[role="alert"] {
+    color: var(--tone-warning); font-size: var(--text-control); line-height: 1.6;
+  }
+  .scan-papers li > strong { color: var(--ink); font-weight: 600; }
+  .scan-verdict { color: var(--text); max-width: 78ch; }
+  .scan-association { color: var(--text); }
+  .document-scan-review .scan-status { color: var(--muted); font-size: var(--text-small); }
+
+  /* Tables of the scan's pages, readings and first pages: hairline rows, cells in the copy gray (components.css draws the
+     column headings and the cells' colour). A reading's status and a cover's state stay in their tone's colour. */
+  /* Inside a stage page's frame the tables and folds run its full width, so their hairlines line up with the frame's others
+     (a paragraph inside a fold still keeps its reading measure). */
+  .document-scan-review .document-version-pages { max-width: none; }
+  .document-scan-review .students-register-how { max-width: none; }
+  .document-scan-review .students-register-how .disclosure-body > p { max-width: 78ch; }
+  .document-version-pages td { line-height: 1.6; }
+  /* A cell's second line (a copy's title and version, a note): a caption in the label gray. The tables are 12px, so a bare
+     <small> would fall under 11px. */
+  .document-version-pages td small { color: var(--muted); font-size: var(--text-small); }
+  .document-unlabeled td > small { display: block; margin-top: var(--space-1); color: var(--muted); font-size: var(--text-small); }
+
+  /* The review dialog: the letter fields are lines of type on an ink underline (form-theme.css), rust on hover, the focus ring on
+     focus; a flagged answer's underline is the warning ink, 2px, with its words under it. */
+  :root:root .bubble-fields .bubble-answer input {
+    padding: 5px 2px;
+    background: transparent;
+    color: var(--ink);
+    border: 0;
+    border-bottom: 1px solid var(--control-line);
+    border-radius: 0;
+    font: 500 var(--text-body)/1.4 var(--font-body);
+    letter-spacing: var(--tracking-label);
+    transition: border-color var(--snappy), box-shadow var(--snappy);
+  }
+  :root:root .bubble-fields .bubble-answer input:hover:not(:disabled, :focus) { border-bottom-color: var(--ink); }
+  :root:root .bubble-fields .bubble-answer input:focus-visible { border-bottom-color: var(--focus); box-shadow: inset 0 -1px 0 var(--focus); outline: 2px solid var(--focus); outline-offset: 2px; }
+  :root:root .bubble-fields .bubble-answer.flagged input { color: var(--warning); border-bottom: 2px solid var(--warning); }
+  :root:root .bubble-fields .bubble-confident [data-locked] { color: var(--muted); background: transparent; border-bottom-color: var(--line); }
+  .bubble-answer small { font-size: var(--text-small); }
+  .bubble-page { border-color: var(--line); }
+
+  /* The confident reads fold like every other disclosure (components.css): +/− at the right. */
+  .bubble-confident { margin: var(--space-4) 0 var(--space-2); }
+  .bubble-confident > summary { display: flex; align-items: baseline; gap: var(--space-3); padding: var(--space-3) 0; list-style: none; font-size: var(--text-item); line-height: 1.3; }
+  .bubble-confident > summary::-webkit-details-marker { display: none; }
+  .bubble-confident > summary::after { content: "+"; content: counter(decor, none) "+" / ""; margin-inline-start: auto; flex: 0 0 20px;  display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+  .bubble-confident[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+  .bubble-confident > summary:hover::after { color: var(--ink); }
+
+  .bubble-threshold { margin-top: var(--space-3); padding-top: var(--space-3); }
+  .scan-sheets-frame > [data-bubble-slot] { margin-top: var(--space-5); padding-top: var(--space-5); }
+}
+/* A paper's pages on Review (inbox-10): each page's choice, then its scanned candidates small (the first-look thumbnails of
+   scan-review.css), so a page is chosen by what it shows, not by an ID. */
+.document-assembly-page { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin: var(--space-3) 0; }
+.document-assembly-page > .field { flex: 1 1 260px; max-width: 600px; margin: 0; }
+.document-assembly-revision { margin: var(--space-2) 0; color: var(--text); }
+
+/* A page in no paper set aside, and a held paper grouped by hand (requirement, 2026-10-02): the offer under a side, the list of pages
+   set aside with their reasons, the reason choices, and the "Choose its sides…" dialog's ticked sides, each saying the page it
+   becomes. Scanned page images keep their white frame (FRONTEND: the one literal allowed). */
+@media screen {
+  .papers-check-side > .text-button { margin-top: var(--space-1); }
+  .papers-check-item > .papers-check-left { margin: var(--space-4) 0 var(--space-2); }
+  .scan-set-aside-offer { margin: var(--space-2) 0 0; }
+  .scan-set-aside-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+  .scan-set-aside-list > li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); color: var(--text); }
+  .scan-reason-choices { display: grid; gap: var(--space-2); margin: var(--space-4) 0 var(--space-3); }
+  .scan-set-aside-page { margin: var(--space-3) 0; }
+  .scan-set-aside-page img { display: block; width: 150px; max-width: 100%; height: auto; border: 1px solid var(--line); background: #fff; }
+  .papers-choose-sides { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-3); margin: var(--space-3) 0 var(--space-4); }
+  .papers-choose-side { display: grid; align-content: start; gap: var(--space-2); padding: var(--space-2); border: 1px solid var(--line); cursor: pointer; transition: border-color var(--snappy); }
+  .papers-choose-side[data-chosen="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+  .papers-choose-side[data-first="true"] { cursor: default; }
+  .papers-choose-side[data-set-aside] { cursor: default; border-style: dashed; }
+  .papers-choose-side img { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: #fff; }
+  .papers-choose-page { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .papers-choose-side[data-chosen="true"] .papers-choose-page { color: var(--ink); }
+}
+/* OTHER PAPER (2026-10-17): the flagged first page and the student's other paper, side by side, each page opening at full size. */
+#dialog:has(> .unlabeled-other-dialog) { width: min(1100px, calc(100vw - 32px)); max-width: calc(100vw - 32px); }
+@media screen {
+  .document-unlabeled .unlabeled-other-open { color: var(--tone-danger, var(--error)); font-weight: 600; text-align: left; }
+  .unlabeled-other-paper + .unlabeled-other-paper { margin-top: var(--space-5); }
+  .unlabeled-other-paper h3 { margin: 0 0 var(--space-2); }
+  .unlabeled-other-pages { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--space-3); }
+  .unlabeled-other-pages figure { margin: 0; }
+  .unlabeled-other-pages img { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: #fff; }
+}
+#dialog:has(> .papers-choose-dialog) { width: min(960px, calc(100vw - 32px)); max-width: calc(100vw - 32px); }
+/* One way to do each stage's job (2026-10-18): Papers' one-label question in one line, the other ways to group under one fold, a
+   sides-per-paper answer shown as a reference with Change, and Review's held Finish with each blocker a link to its stage. */
+@media screen {
+  .scan-label-ask[data-label-question] > p { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin: 0 0 var(--space-2); }
+  .scan-other-way + .scan-other-way { margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--nested-line, var(--line)); }
+  .scan-other-way h5 { margin: 0 0 var(--space-1); font-size: var(--text-item, 15px); }
+  .scan-other-way-list { list-style: none; margin: var(--space-2) 0 0; padding: 0; display: grid; gap: var(--space-2); }
+  .scan-other-way-list > li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); }
+  .scan-other-way-list small { color: var(--label, var(--muted)); }
+  .scan-sides-change { margin: var(--space-3) 0; }
+  .scan-sides-change > summary { cursor: pointer; font-weight: 700; color: var(--ink); }
+  .scan-review-held { margin: 0 0 var(--space-3); }
+  .scan-review-held > p { margin: 0 0 var(--space-1); color: var(--accent); font-weight: 700; }
+  .scan-review-held ul { margin: 0; padding-left: 1.2em; }
+}

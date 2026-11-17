@@ -1,0 +1,4170 @@
+{
+  "verified_at": "2026-09-14T00:12:43.297549+00:00",
+  "result": "passed for page identification in the received classroom run: 30/30 pages; 52/60 individual marks detected",
+  "job_id": "18c8cfe7-cd77-44ee-8018-5c3e0e93d589",
+  "message_id": "33bd2e30-51f6-446d-9eae-c890186482e6",
+  "received_at": "2026-09-14T00:10:18.584538+00:00",
+  "decode": {
+    "attempts": 1,
+    "created_at": "2026-09-14T00:10:18.584538+00:00",
+    "error": "",
+    "message_id": "33bd2e30-51f6-446d-9eae-c890186482e6",
+    "status": "complete",
+    "updated_at": "2026-09-14T00:10:22.833007+00:00"
+  },
+  "instructor_review_required": true,
+  "inbox_status": "needs_review",
+  "expected_owners": {
+    "definition_id": "faeaf908-2cb7-4a91-95fe-22a3dcf0ead1",
+    "term_id": "ce945149-de2d-4b28-8f8d-b4b6cf506aab",
+    "section_id": "3928abd7-1e75-4ea8-a2f5-8a7c4163e710",
+    "assignment_id": "1531c6b7-7273-4581-b63a-90bd77219f2d",
+    "version_id": "d9ae4a83-0f39-44f3-b7d7-1fe40c975c98",
+    "batch_id": "dbc805c7-8bb4-4513-bd94-5e2fa8202b8c"
+  },
+  "print_pdf_sha256": "f0c21e2f53bcee8f958e553ee4804cca76dd4c979d1161693654f84b2fdefff5",
+  "scan_pdf_sha256": "7fbb4b5bfdafaad80d7b5e4c219d54d1d2c6afcfe2a5d9d7e6166e1ff8abad5c",
+  "raw_email_sha256": "4cffd5903a4009ae067ff4ce2ece19515d0e12fb89267d215a7225575b1eeed1",
+  "scan_address_present": true,
+  "original_contains_exact_scan_attachment": true,
+  "resolved_pages": 30,
+  "complete_copies": 10,
+  "missing_pages": 0,
+  "conflicts": 0,
+  "mapping": [
+    {
+      "id": "d1c52206-4364-5206-8189-1c68230888be",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 1,
+      "page_stamp_id": "98e4040a-5b25-49a8-a6d8-07d793d7dad5",
+      "copy_id": "14595c35-c6b6-4e14-9c91-b46176369faf",
+      "copy_number": 1,
+      "page_number": 1,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "ac311b74-2c7d-5eed-83ba-fea7fd43b690",
+      "raster_artifact_id": "ef360ad2-0409-57a5-8235-1d66f8361c07",
+      "content_sha256": "e6fb0b32792c12f548f6a2173706baeba151770b95095ecc5b0136c7506947be",
+      "detected_locations": [
+        [
+          [
+            1513,
+            100
+          ],
+          [
+            1584,
+            99
+          ],
+          [
+            1584,
+            171
+          ],
+          [
+            1513,
+            172
+          ]
+        ],
+        [
+          [
+            90,
+            2023
+          ],
+          [
+            163,
+            2023
+          ],
+          [
+            163,
+            2096
+          ],
+          [
+            90,
+            2096
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "2cfd0e97-3e99-5357-ab60-4f85853a2bab",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 2,
+      "page_stamp_id": "c04d67d0-a40c-4a6c-a50a-9d2094158eeb",
+      "copy_id": "14595c35-c6b6-4e14-9c91-b46176369faf",
+      "copy_number": 1,
+      "page_number": 2,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "91167ead-0f26-5400-a95b-ad1f13e96b14",
+      "raster_artifact_id": "46ac767b-b695-5033-9c81-e1a53ab213ec",
+      "content_sha256": "e7b19d1ce0f8d5254463ea01cfb73cf7bc3d7ab823a99ac6e7158e4356236629",
+      "detected_locations": [
+        [
+          [
+            1513,
+            100
+          ],
+          [
+            1585,
+            98
+          ],
+          [
+            1585,
+            172
+          ],
+          [
+            1512,
+            172
+          ]
+        ],
+        [
+          [
+            88,
+            2023
+          ],
+          [
+            162,
+            2022
+          ],
+          [
+            162,
+            2097
+          ],
+          [
+            88,
+            2097
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "62efc5a7-51e6-5d0e-863d-96e80ff4ddaa",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 3,
+      "page_stamp_id": "1b5f0391-961e-4754-ad32-53eb8fdb299b",
+      "copy_id": "14595c35-c6b6-4e14-9c91-b46176369faf",
+      "copy_number": 1,
+      "page_number": 3,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "67bb7b57-ad41-5d1a-8a87-60a0e5098943",
+      "raster_artifact_id": "8b636a26-8e68-5771-9aa2-44d0f832284c",
+      "content_sha256": "db0ee94055b4ba18d46a107fc810da87802eb819d1062d0e5d987f966dc1bac4",
+      "detected_locations": [
+        [
+          [
+            1508,
+            98
+          ],
+          [
+            1580,
+            98
+          ],
+          [
+            1580,
+            171
+          ],
+          [
+            1508,
+            171
+          ]
+        ],
+        [
+          [
+            86,
+            2022
+          ],
+          [
+            161,
+            2021
+          ],
+          [
+            161,
+            2095
+          ],
+          [
+            87,
+            2096
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "4a7ccf17-41e8-59ff-b340-243a1c82e221",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 4,
+      "page_stamp_id": "b2597477-0498-487f-a8c3-b3f4cc8d877f",
+      "copy_id": "cccafa93-fcfa-42d8-b7ea-78bef230245e",
+      "copy_number": 2,
+      "page_number": 1,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "ba90b320-a58b-517a-8db0-8289cb0b9be2",
+      "raster_artifact_id": "db8f9cf0-472f-5f78-b563-f8275f5fe598",
+      "content_sha256": "abef0fb2229df2591b75b6ac0e945a3f90f21aba54f1fac6a4c2757554a62f54",
+      "detected_locations": [
+        [
+          [
+            86,
+            2021
+          ],
+          [
+            161,
+            2021
+          ],
+          [
+            161,
+            2094
+          ],
+          [
+            86,
+            2095
+          ]
+        ]
+      ],
+      "detected_mark_count": 1,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "c2a047f4-f553-5e31-bf80-faf10813b22a",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 5,
+      "page_stamp_id": "6f19dea9-368b-4fa1-8ca5-e034c4b0409b",
+      "copy_id": "cccafa93-fcfa-42d8-b7ea-78bef230245e",
+      "copy_number": 2,
+      "page_number": 2,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "d309ced8-02d2-5cee-a73d-8a04498b6f16",
+      "raster_artifact_id": "ac19f0be-f988-5d7a-92ec-ab3a4beddb88",
+      "content_sha256": "36aefe44f9860abb21a3025354b3f7ab6cf8fd9b8eb480aa428236fbbf935da7",
+      "detected_locations": [
+        [
+          [
+            83,
+            2022
+          ],
+          [
+            156,
+            2022
+          ],
+          [
+            156,
+            2096
+          ],
+          [
+            83,
+            2096
+          ]
+        ]
+      ],
+      "detected_mark_count": 1,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "50729463-cc9c-55d0-8f75-dabb25568bf0",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 6,
+      "page_stamp_id": "2421a3dc-027f-48ba-bbdf-e54765f534ac",
+      "copy_id": "cccafa93-fcfa-42d8-b7ea-78bef230245e",
+      "copy_number": 2,
+      "page_number": 3,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "11340bdc-ff53-5113-9d92-95e4a54af9e2",
+      "raster_artifact_id": "91b9a8ce-42fd-5a34-addb-740398ca9c9c",
+      "content_sha256": "f4ca565a6796d961455e0fe3b0000b9c33d941b83ccd7044a48ad9f45050034a",
+      "detected_locations": [
+        [
+          [
+            88,
+            2021
+          ],
+          [
+            162,
+            2021
+          ],
+          [
+            163,
+            2095
+          ],
+          [
+            88,
+            2095
+          ]
+        ]
+      ],
+      "detected_mark_count": 1,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "dffbc6e1-5079-567b-8279-015c69ea29ef",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 7,
+      "page_stamp_id": "12ef41ff-813e-4e12-b9bd-1ef88a19997a",
+      "copy_id": "53530b66-665f-44c2-8772-b65da523cbf2",
+      "copy_number": 3,
+      "page_number": 1,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "f73d610e-9eb1-5c51-8dac-b0975f3ea39e",
+      "raster_artifact_id": "7826b03e-68a8-5652-b2d3-2b3be7ed4a6a",
+      "content_sha256": "96e29e4d18743beef04a1f36023349d53e2d8936f234368a55e3bdd1512c6edb",
+      "detected_locations": [
+        [
+          [
+            1511,
+            98
+          ],
+          [
+            1585,
+            97
+          ],
+          [
+            1585,
+            171
+          ],
+          [
+            1511,
+            171
+          ]
+        ],
+        [
+          [
+            89,
+            2021
+          ],
+          [
+            163,
+            2021
+          ],
+          [
+            163,
+            2095
+          ],
+          [
+            89,
+            2095
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "baf7ce1c-7b1b-59cc-8967-47840c034b40",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 8,
+      "page_stamp_id": "3f0ee7fd-c69d-41d7-a568-20072ac77700",
+      "copy_id": "53530b66-665f-44c2-8772-b65da523cbf2",
+      "copy_number": 3,
+      "page_number": 2,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "45f1ca18-1563-5f0b-88cd-acfb7d2bd39a",
+      "raster_artifact_id": "b2f43cfc-20fd-526c-9910-7cbe421d2924",
+      "content_sha256": "bedee74df7889802c5da56aedb52b7ef3a25fb9f2b64a3326608fb9fee726283",
+      "detected_locations": [
+        [
+          [
+            1511,
+            95
+          ],
+          [
+            1584,
+            94
+          ],
+          [
+            1584,
+            169
+          ],
+          [
+            1511,
+            169
+          ]
+        ],
+        [
+          [
+            89,
+            2019
+          ],
+          [
+            162,
+            2018
+          ],
+          [
+            163,
+            2091
+          ],
+          [
+            89,
+            2092
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "da8af1f6-750d-51c3-a438-82da3ad12913",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 9,
+      "page_stamp_id": "11afb8db-7e03-4726-8c96-2dc185818219",
+      "copy_id": "53530b66-665f-44c2-8772-b65da523cbf2",
+      "copy_number": 3,
+      "page_number": 3,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "3cb30fcb-a8fe-5857-8f73-44310a2941a3",
+      "raster_artifact_id": "a38ec17d-10df-579d-a0be-3685549bfb8a",
+      "content_sha256": "84cd57c228e31713da96479b72381556382b48bcf73313e3c5e31b047b28620d",
+      "detected_locations": [
+        [
+          [
+            1507,
+            98
+          ],
+          [
+            1580,
+            97
+          ],
+          [
+            1580,
+            171
+          ],
+          [
+            1507,
+            171
+          ]
+        ],
+        [
+          [
+            88,
+            2022
+          ],
+          [
+            163,
+            2022
+          ],
+          [
+            163,
+            2096
+          ],
+          [
+            88,
+            2096
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "89296c3a-7f4f-5d9f-8f5e-b19925145790",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 10,
+      "page_stamp_id": "a54a0f20-c755-4fe0-add9-0f1a634413a0",
+      "copy_id": "00c0772f-9ddd-4d04-a108-7d95c5f78ec6",
+      "copy_number": 4,
+      "page_number": 1,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "eddea09c-ae5b-5cf8-b619-bd4ca8e9cca9",
+      "raster_artifact_id": "d9674855-0573-5b86-8bb5-fa5f43c99ed3",
+      "content_sha256": "a7b259071755ea0b64f40e21cbd59c3a45fa2fbfc913f5ad1a2b507d62956953",
+      "detected_locations": [
+        [
+          [
+            1509,
+            98
+          ],
+          [
+            1580,
+            97
+          ],
+          [
+            1580,
+            171
+          ],
+          [
+            1509,
+            170
+          ]
+        ],
+        [
+          [
+            88,
+            2022
+          ],
+          [
+            161,
+            2022
+          ],
+          [
+            161,
+            2096
+          ],
+          [
+            88,
+            2096
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "7d6d684f-f5e3-533f-9045-b377a0e1608e",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 11,
+      "page_stamp_id": "b038e750-c4b6-4cff-9454-a47ed500d1fe",
+      "copy_id": "00c0772f-9ddd-4d04-a108-7d95c5f78ec6",
+      "copy_number": 4,
+      "page_number": 2,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "ebd74ea7-cdff-51d0-a735-3ec2053767c1",
+      "raster_artifact_id": "0bb5367f-b4bd-5b9c-af8a-912d0a10d54d",
+      "content_sha256": "361a7c26e9dc3b9968f28eed8d49c4ed08ce596637b5fbcab4b4805b0d6d17f3",
+      "detected_locations": [
+        [
+          [
+            1513,
+            99
+          ],
+          [
+            1585,
+            99
+          ],
+          [
+            1584,
+            171
+          ],
+          [
+            1512,
+            171
+          ]
+        ],
+        [
+          [
+            88,
+            2021
+          ],
+          [
+            162,
+            2021
+          ],
+          [
+            162,
+            2095
+          ],
+          [
+            88,
+            2095
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "4138e976-539d-5545-a7f0-36b5c44f620c",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 12,
+      "page_stamp_id": "b9bc05cd-7fc7-4c6a-b52d-43b0ecde2e5a",
+      "copy_id": "00c0772f-9ddd-4d04-a108-7d95c5f78ec6",
+      "copy_number": 4,
+      "page_number": 3,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "c67fe32a-0cb0-5c17-9dfb-cb1465c2cedf",
+      "raster_artifact_id": "3a0337b7-3532-574d-aaa8-4082a31032bc",
+      "content_sha256": "ea652f87d9da14a3e029e5e16d830db6cc3936adc0c1efbc275537dbc0991758",
+      "detected_locations": [
+        [
+          [
+            1511,
+            101
+          ],
+          [
+            1583,
+            100
+          ],
+          [
+            1583,
+            173
+          ],
+          [
+            1509,
+            174
+          ]
+        ],
+        [
+          [
+            87,
+            2024
+          ],
+          [
+            160,
+            2023
+          ],
+          [
+            161,
+            2097
+          ],
+          [
+            86,
+            2098
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "753fa6af-e5e1-5f27-9fad-3116beb728d2",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 13,
+      "page_stamp_id": "0e8ed450-b901-42ed-b30b-3313868052c6",
+      "copy_id": "ee946274-1f63-4cd2-82bb-20102077a905",
+      "copy_number": 5,
+      "page_number": 1,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "65ab3c76-f556-570b-a0c0-755496a46018",
+      "raster_artifact_id": "74ad878e-dba5-5d0f-a152-aca5fb8dd6e4",
+      "content_sha256": "e24d675138934284738449d9957b763191a26f496d4f268ad8e7ccc9416ed97f",
+      "detected_locations": [
+        [
+          [
+            1510,
+            93
+          ],
+          [
+            1581,
+            93
+          ],
+          [
+            1581,
+            167
+          ],
+          [
+            1510,
+            168
+          ]
+        ],
+        [
+          [
+            90,
+            2018
+          ],
+          [
+            163,
+            2018
+          ],
+          [
+            164,
+            2091
+          ],
+          [
+            90,
+            2092
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "f595383b-f4ee-5293-a550-199f821f051d",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 14,
+      "page_stamp_id": "63bc3e55-1d75-4f9e-a619-e46c6616d112",
+      "copy_id": "ee946274-1f63-4cd2-82bb-20102077a905",
+      "copy_number": 5,
+      "page_number": 2,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "8bdd35e9-a26c-5424-b134-2f5837bb4cf0",
+      "raster_artifact_id": "c43c0976-47bf-5640-8876-b6c057f3bd38",
+      "content_sha256": "eefda43d670ee80bb20ca385a535870e02b865f700576e632713b8f48c0eb6b0",
+      "detected_locations": [
+        [
+          [
+            1507,
+            95
+          ],
+          [
+            1579,
+            94
+          ],
+          [
+            1578,
+            169
+          ],
+          [
+            1507,
+            169
+          ]
+        ],
+        [
+          [
+            85,
+            2019
+          ],
+          [
+            159,
+            2018
+          ],
+          [
+            159,
+            2091
+          ],
+          [
+            85,
+            2092
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "d0c15bd2-c0cd-579d-9421-28655d08873d",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 15,
+      "page_stamp_id": "1c98dac1-3d98-4a87-aa57-e7bcfd1b6194",
+      "copy_id": "ee946274-1f63-4cd2-82bb-20102077a905",
+      "copy_number": 5,
+      "page_number": 3,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "1a56d5a6-7af1-533c-ad7b-a93099ecec57",
+      "raster_artifact_id": "5777617f-9a85-50da-9929-72c4815be08c",
+      "content_sha256": "2b2c7a04d596740c8c2ae4a4493a2b8b02ac1bf09b30afb2a065352da8ae8cfc",
+      "detected_locations": [
+        [
+          [
+            1509,
+            94
+          ],
+          [
+            1581,
+            93
+          ],
+          [
+            1581,
+            167
+          ],
+          [
+            1509,
+            168
+          ]
+        ],
+        [
+          [
+            88,
+            2019
+          ],
+          [
+            162,
+            2019
+          ],
+          [
+            163,
+            2092
+          ],
+          [
+            88,
+            2093
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "a26ca208-56a6-5143-b62f-bafa52389a7b",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 16,
+      "page_stamp_id": "2eab212e-e641-4ed6-ae52-dcce93d4062e",
+      "copy_id": "ef1a6242-1bdb-4c7e-9010-d35fb188384a",
+      "copy_number": 6,
+      "page_number": 1,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "3c0d8582-a5a0-5c86-ac05-ab3de2a57933",
+      "raster_artifact_id": "1a838e5c-7307-5d84-82b4-f94c118276b4",
+      "content_sha256": "de089b16dd4d1528de7f51c18ffeb60525136300dd6a33085437a9d2698ff792",
+      "detected_locations": [
+        [
+          [
+            1512,
+            96
+          ],
+          [
+            1586,
+            96
+          ],
+          [
+            1585,
+            170
+          ],
+          [
+            1512,
+            170
+          ]
+        ],
+        [
+          [
+            85,
+            2017
+          ],
+          [
+            159,
+            2017
+          ],
+          [
+            158,
+            2091
+          ],
+          [
+            85,
+            2091
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "6fce5093-cb11-5b13-8059-bfc77bb05517",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 17,
+      "page_stamp_id": "0623e2ae-e38b-4aff-b698-e98e09870a58",
+      "copy_id": "ef1a6242-1bdb-4c7e-9010-d35fb188384a",
+      "copy_number": 6,
+      "page_number": 2,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "92bba7b2-48e6-5cb0-9ba6-6c05d582b221",
+      "raster_artifact_id": "326c316c-b67d-5b4b-97ff-5774709aa567",
+      "content_sha256": "0332dec39656311e21bd575e5a0b3060e2b1d41d9e281865779828d9680f8313",
+      "detected_locations": [
+        [
+          [
+            91,
+            2017
+          ],
+          [
+            164,
+            2017
+          ],
+          [
+            164,
+            2090
+          ],
+          [
+            91,
+            2090
+          ]
+        ]
+      ],
+      "detected_mark_count": 1,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "384913df-8c72-5751-a228-12a7c5779fe3",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 18,
+      "page_stamp_id": "a24c05cf-3f15-4a7c-b5c3-4b72444dd8b3",
+      "copy_id": "ef1a6242-1bdb-4c7e-9010-d35fb188384a",
+      "copy_number": 6,
+      "page_number": 3,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "07cb01cd-73e1-592c-bce2-386770fb2d1b",
+      "raster_artifact_id": "b64b3c62-70fb-573e-889c-180c90785b09",
+      "content_sha256": "ed2dbb4a07374f4951a7b8d0dc8148b982e9ddf659c52c49325a04cabb2b2d13",
+      "detected_locations": [
+        [
+          [
+            88,
+            2016
+          ],
+          [
+            162,
+            2015
+          ],
+          [
+            161,
+            2089
+          ],
+          [
+            88,
+            2090
+          ]
+        ]
+      ],
+      "detected_mark_count": 1,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "9fff4c17-2277-59d2-bab6-11b149a90cde",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 19,
+      "page_stamp_id": "ae031fed-ce76-44a3-ac0e-2ca3d6d52941",
+      "copy_id": "f22a95c0-a534-439a-93af-a113d51ad6dc",
+      "copy_number": 7,
+      "page_number": 1,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "10fc13d1-6210-54b8-843a-ba1286e32530",
+      "raster_artifact_id": "ac792d52-7d95-538d-b2a4-d615fc49a53d",
+      "content_sha256": "a9c87a99e1f307d175b5ea2a13cf3998c2e25d9e8da41b4ca246422c7aed8c5a",
+      "detected_locations": [
+        [
+          [
+            1512,
+            92
+          ],
+          [
+            1583,
+            92
+          ],
+          [
+            1583,
+            165
+          ],
+          [
+            1511,
+            165
+          ]
+        ],
+        [
+          [
+            85,
+            2013
+          ],
+          [
+            159,
+            2013
+          ],
+          [
+            159,
+            2087
+          ],
+          [
+            84,
+            2087
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "df9b5bac-c107-5f63-80d5-0d3e91d3841f",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 20,
+      "page_stamp_id": "9edaf3c8-6449-45e7-a4c5-00c5f909d65f",
+      "copy_id": "f22a95c0-a534-439a-93af-a113d51ad6dc",
+      "copy_number": 7,
+      "page_number": 2,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "0eab6448-424b-5b0f-94b2-d2b67c41b69e",
+      "raster_artifact_id": "8c748d10-de63-53c8-8e16-56263ce90679",
+      "content_sha256": "16ef548ba9ab189fa7b708e36549c5bce324678b5a85cdba286d1bcf20af9189",
+      "detected_locations": [
+        [
+          [
+            1510,
+            93
+          ],
+          [
+            1581,
+            93
+          ],
+          [
+            1581,
+            167
+          ],
+          [
+            1509,
+            167
+          ]
+        ],
+        [
+          [
+            85,
+            2015
+          ],
+          [
+            158,
+            2015
+          ],
+          [
+            159,
+            2089
+          ],
+          [
+            84,
+            2089
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "d8b8b048-cccd-5217-8a22-f1ae313a3be3",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 21,
+      "page_stamp_id": "4b351578-840c-4348-977d-c2e2b04ccf0b",
+      "copy_id": "f22a95c0-a534-439a-93af-a113d51ad6dc",
+      "copy_number": 7,
+      "page_number": 3,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "34299930-5cca-5f01-9473-eb08bf743383",
+      "raster_artifact_id": "a4094703-9154-5b94-95fc-7dfc7ab88673",
+      "content_sha256": "d9def1a065cdab818988bdb630fa8de217fd6e6e37ed4d7c1d1891c8d78acc54",
+      "detected_locations": [
+        [
+          [
+            1511,
+            93
+          ],
+          [
+            1584,
+            93
+          ],
+          [
+            1583,
+            166
+          ],
+          [
+            1511,
+            166
+          ]
+        ],
+        [
+          [
+            84,
+            2013
+          ],
+          [
+            158,
+            2013
+          ],
+          [
+            158,
+            2086
+          ],
+          [
+            84,
+            2087
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "235239fa-c60a-588d-a13e-8831df217e7c",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 22,
+      "page_stamp_id": "05645bee-c6f8-435d-aa5b-f8a25fce4e80",
+      "copy_id": "9ecc4bd8-d581-40e9-810a-ef3627b2f948",
+      "copy_number": 8,
+      "page_number": 1,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "85ff7c42-dd50-58c6-9d86-d3e493a90d98",
+      "raster_artifact_id": "c46c76b6-0352-5650-a12f-1c11c57060b4",
+      "content_sha256": "7da4b3d6e294c39fdb2a50c7a88c5ed36a097721c7b943ba912fefdc8696d7f5",
+      "detected_locations": [
+        [
+          [
+            88,
+            2014
+          ],
+          [
+            161,
+            2014
+          ],
+          [
+            161,
+            2088
+          ],
+          [
+            88,
+            2088
+          ]
+        ]
+      ],
+      "detected_mark_count": 1,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "b2cfcfff-b8c8-55f0-ba37-b8496e113ae0",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 23,
+      "page_stamp_id": "007e3431-5eb5-466e-a75a-6befd17862ab",
+      "copy_id": "9ecc4bd8-d581-40e9-810a-ef3627b2f948",
+      "copy_number": 8,
+      "page_number": 2,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "4be49237-7789-5eb3-8cc1-c3b4b401c808",
+      "raster_artifact_id": "53738d29-5c5f-503b-953c-4b714b71c60f",
+      "content_sha256": "f13baa162e42a39a03c2aed55fd7edd05af5cb80968a0a4d6a5940ce5c7aaf67",
+      "detected_locations": [
+        [
+          [
+            90,
+            2013
+          ],
+          [
+            163,
+            2013
+          ],
+          [
+            163,
+            2087
+          ],
+          [
+            90,
+            2088
+          ]
+        ]
+      ],
+      "detected_mark_count": 1,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "70024017-d856-5a02-b812-904e3aaf9c21",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 24,
+      "page_stamp_id": "6c1ef175-8629-41de-b287-6b187383b212",
+      "copy_id": "9ecc4bd8-d581-40e9-810a-ef3627b2f948",
+      "copy_number": 8,
+      "page_number": 3,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "1be63fe6-ddc9-59d9-8a26-490a2063070d",
+      "raster_artifact_id": "eab4895a-8eed-5d39-8820-b3b1d5e41a1c",
+      "content_sha256": "ca4dbd4f085ca2f29750919311f74d36d3f30c5e04ce83289349f5e2bf3e8967",
+      "detected_locations": [
+        [
+          [
+            1510,
+            91
+          ],
+          [
+            1583,
+            91
+          ],
+          [
+            1583,
+            164
+          ],
+          [
+            1510,
+            164
+          ]
+        ],
+        [
+          [
+            84,
+            2013
+          ],
+          [
+            159,
+            2013
+          ],
+          [
+            159,
+            2087
+          ],
+          [
+            84,
+            2088
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "4154b4f2-4d2c-545b-9a30-963e8c8ce4b8",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 25,
+      "page_stamp_id": "5520bed9-6fb0-4a8e-ab0f-be49c8490c96",
+      "copy_id": "a627d77e-c5ae-497f-9712-ee78fc4a9ea4",
+      "copy_number": 9,
+      "page_number": 1,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "30020e61-720d-5a10-8e3c-6d15048acad1",
+      "raster_artifact_id": "b1ab4cc8-60ed-5d45-ba57-2bc64e51e8eb",
+      "content_sha256": "28ae108258d169572a41c45e0f56cb271a8610e00fa0fa9d27fa77874acde189",
+      "detected_locations": [
+        [
+          [
+            1512,
+            92
+          ],
+          [
+            1583,
+            91
+          ],
+          [
+            1583,
+            165
+          ],
+          [
+            1511,
+            165
+          ]
+        ],
+        [
+          [
+            88,
+            2013
+          ],
+          [
+            161,
+            2013
+          ],
+          [
+            162,
+            2087
+          ],
+          [
+            88,
+            2087
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "9806cd81-3095-56f5-8271-bff0d7a7df78",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 26,
+      "page_stamp_id": "92a3f536-f7f0-47fb-babd-3a1f91ff5220",
+      "copy_id": "a627d77e-c5ae-497f-9712-ee78fc4a9ea4",
+      "copy_number": 9,
+      "page_number": 2,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "52656fad-ac86-5966-b7de-24ab8054123e",
+      "raster_artifact_id": "d2717e14-a277-5f8c-82ae-15cfe9d17d4d",
+      "content_sha256": "ee207be7b056d1b8565234e51c4c34c6f12e1f4970804b23572dc6d1d613edbf",
+      "detected_locations": [
+        [
+          [
+            1508,
+            88
+          ],
+          [
+            1579,
+            87
+          ],
+          [
+            1579,
+            162
+          ],
+          [
+            1508,
+            163
+          ]
+        ],
+        [
+          [
+            85,
+            2012
+          ],
+          [
+            159,
+            2012
+          ],
+          [
+            159,
+            2085
+          ],
+          [
+            85,
+            2085
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "9a7bc48e-9366-5f82-9d49-4bb083935788",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 27,
+      "page_stamp_id": "8fdfce45-c29c-4f29-890b-898396e1c49c",
+      "copy_id": "a627d77e-c5ae-497f-9712-ee78fc4a9ea4",
+      "copy_number": 9,
+      "page_number": 3,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "a4b7b95d-0c27-57c5-b602-e3579b5da333",
+      "raster_artifact_id": "9978fe45-6937-5ed4-b3b0-bc278b4dd5ea",
+      "content_sha256": "8a7820137b4ec887cf63893cac179d5b879af3ce01116a6d96cdde10c63ae997",
+      "detected_locations": [
+        [
+          [
+            88,
+            2013
+          ],
+          [
+            161,
+            2013
+          ],
+          [
+            161,
+            2087
+          ],
+          [
+            88,
+            2088
+          ]
+        ]
+      ],
+      "detected_mark_count": 1,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "697430ab-a3a8-5bb3-aa9b-4a4be6db7028",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 28,
+      "page_stamp_id": "85f1a3ba-e10c-402d-9d1b-37cb4e948f4b",
+      "copy_id": "11de6cd3-0fee-4807-8405-239b2783cd76",
+      "copy_number": 10,
+      "page_number": 1,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "a9b2b1dd-d730-549d-9e4c-fb72b3357f5f",
+      "raster_artifact_id": "620b02a6-1bf8-50ce-ab68-de9cdf1a15fb",
+      "content_sha256": "77b519a3c5bd886221afe292232b307547d996bb31f5560b0320c0b6ffbf38b4",
+      "detected_locations": [
+        [
+          [
+            1511,
+            89
+          ],
+          [
+            1583,
+            88
+          ],
+          [
+            1583,
+            163
+          ],
+          [
+            1511,
+            163
+          ]
+        ],
+        [
+          [
+            88,
+            2013
+          ],
+          [
+            162,
+            2013
+          ],
+          [
+            163,
+            2086
+          ],
+          [
+            88,
+            2087
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "af7b30f5-a566-543b-b92b-35f290af4057",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 29,
+      "page_stamp_id": "6c5693ac-863c-4af8-8061-3c4ab6d11fa6",
+      "copy_id": "11de6cd3-0fee-4807-8405-239b2783cd76",
+      "copy_number": 10,
+      "page_number": 2,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "5756942d-3f90-5b43-be87-e7647af6f591",
+      "raster_artifact_id": "ba69c114-d391-5ad2-9a30-76d7ed40603d",
+      "content_sha256": "4b1f553cf9880f2fe68c7f57253dde4b954ce4a07a7ea698ac1f0da0b49e5f99",
+      "detected_locations": [
+        [
+          [
+            1512,
+            92
+          ],
+          [
+            1585,
+            91
+          ],
+          [
+            1585,
+            165
+          ],
+          [
+            1511,
+            165
+          ]
+        ],
+        [
+          [
+            84,
+            2013
+          ],
+          [
+            158,
+            2012
+          ],
+          [
+            158,
+            2086
+          ],
+          [
+            84,
+            2086
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    },
+    {
+      "id": "bca2cb74-a904-5371-a344-b87582cacade",
+      "source_artifact_id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "source_page_index": 30,
+      "page_stamp_id": "72bc59c2-5ef9-42dc-ba5b-21afca430f58",
+      "copy_id": "11de6cd3-0fee-4807-8405-239b2783cd76",
+      "copy_number": 10,
+      "page_number": 3,
+      "status": "resolved",
+      "review_state": "candidate",
+      "page_artifact_id": "a49194ac-6484-5525-98cd-78af371e8629",
+      "raster_artifact_id": "d0e8739f-ac7e-5f85-bf9b-c068303cadcc",
+      "content_sha256": "41fb70480384c5ab854e27d1180e4c7fe6ca33edf2e982729a508f96a9916e42",
+      "detected_locations": [
+        [
+          [
+            1505,
+            93
+          ],
+          [
+            1577,
+            91
+          ],
+          [
+            1577,
+            165
+          ],
+          [
+            1505,
+            166
+          ]
+        ],
+        [
+          [
+            85,
+            2015
+          ],
+          [
+            159,
+            2015
+          ],
+          [
+            159,
+            2089
+          ],
+          [
+            84,
+            2089
+          ]
+        ]
+      ],
+      "detected_mark_count": 2,
+      "raster_width": 1700,
+      "raster_height": 2200,
+      "detected_corners": [
+        "top-right",
+        "bottom-left"
+      ]
+    }
+  ],
+  "verified_artifacts": [
+    {
+      "id": "4260fd1e-dbc9-4cdf-8c47-2575eeee8e5d",
+      "filename": "Smath-bloc326091318060.pdf",
+      "role": "input",
+      "size": 248716,
+      "sha256": "7fbb4b5bfdafaad80d7b5e4c219d54d1d2c6afcfe2a5d9d7e6166e1ff8abad5c"
+    },
+    {
+      "id": "ac311b74-2c7d-5eed-83ba-fea7fd43b690",
+      "filename": "scan-page-1.pdf",
+      "role": "output",
+      "size": 10689,
+      "sha256": "e6fb0b32792c12f548f6a2173706baeba151770b95095ecc5b0136c7506947be"
+    },
+    {
+      "id": "ef360ad2-0409-57a5-8235-1d66f8361c07",
+      "filename": "scan-page-1.png",
+      "role": "output",
+      "size": 45112,
+      "sha256": "fec7e0aa9b9b63fd1a9ec28642d6d0062b088d5f7a8007b31ea66ac6c9617ec3"
+    },
+    {
+      "id": "91167ead-0f26-5400-a95b-ad1f13e96b14",
+      "filename": "scan-page-2.pdf",
+      "role": "output",
+      "size": 6955,
+      "sha256": "e7b19d1ce0f8d5254463ea01cfb73cf7bc3d7ab823a99ac6e7158e4356236629"
+    },
+    {
+      "id": "46ac767b-b695-5033-9c81-e1a53ab213ec",
+      "filename": "scan-page-2.png",
+      "role": "output",
+      "size": 28722,
+      "sha256": "4b8ea91368799c5fa40fa95eb130dc77c479cd11ca4ed83e2c9d8ae7b818523b"
+    },
+    {
+      "id": "67bb7b57-ad41-5d1a-8a87-60a0e5098943",
+      "filename": "scan-page-3.pdf",
+      "role": "output",
+      "size": 6922,
+      "sha256": "db0ee94055b4ba18d46a107fc810da87802eb819d1062d0e5d987f966dc1bac4"
+    },
+    {
+      "id": "8b636a26-8e68-5771-9aa2-44d0f832284c",
+      "filename": "scan-page-3.png",
+      "role": "output",
+      "size": 27238,
+      "sha256": "4fb939b4622c24b4a557d8de8b77a635747703fd67ad0339c64b218663332bb9"
+    },
+    {
+      "id": "ba90b320-a58b-517a-8db0-8289cb0b9be2",
+      "filename": "scan-page-4.pdf",
+      "role": "output",
+      "size": 8687,
+      "sha256": "abef0fb2229df2591b75b6ac0e945a3f90f21aba54f1fac6a4c2757554a62f54"
+    },
+    {
+      "id": "db8f9cf0-472f-5f78-b563-f8275f5fe598",
+      "filename": "scan-page-4.png",
+      "role": "output",
+      "size": 36678,
+      "sha256": "9c8ad1fe5642016849ddd25d22f1353a7db3a7c78d12d4e77943f0ed747263dc"
+    },
+    {
+      "id": "d309ced8-02d2-5cee-a73d-8a04498b6f16",
+      "filename": "scan-page-5.pdf",
+      "role": "output",
+      "size": 7582,
+      "sha256": "36aefe44f9860abb21a3025354b3f7ab6cf8fd9b8eb480aa428236fbbf935da7"
+    },
+    {
+      "id": "ac19f0be-f988-5d7a-92ec-ab3a4beddb88",
+      "filename": "scan-page-5.png",
+      "role": "output",
+      "size": 30968,
+      "sha256": "c4f2996664b7d60038dbfb5679418aef6c875451a6304f851d081902db5ea249"
+    },
+    {
+      "id": "11340bdc-ff53-5113-9d92-95e4a54af9e2",
+      "filename": "scan-page-6.pdf",
+      "role": "output",
+      "size": 7285,
+      "sha256": "f4ca565a6796d961455e0fe3b0000b9c33d941b83ccd7044a48ad9f45050034a"
+    },
+    {
+      "id": "91b9a8ce-42fd-5a34-addb-740398ca9c9c",
+      "filename": "scan-page-6.png",
+      "role": "output",
+      "size": 27629,
+      "sha256": "346414efe09aae67cdea48f524a42fa712cb5d453a9ac58db6d0b741341f28d8"
+    },
+    {
+      "id": "f73d610e-9eb1-5c51-8dac-b0975f3ea39e",
+      "filename": "scan-page-7.pdf",
+      "role": "output",
+      "size": 9063,
+      "sha256": "96e29e4d18743beef04a1f36023349d53e2d8936f234368a55e3bdd1512c6edb"
+    },
+    {
+      "id": "7826b03e-68a8-5652-b2d3-2b3be7ed4a6a",
+      "filename": "scan-page-7.png",
+      "role": "output",
+      "size": 37569,
+      "sha256": "b93517f65148281383f8062560159b137e2f6caf507c41b5a49430481ef0be3f"
+    },
+    {
+      "id": "45f1ca18-1563-5f0b-88cd-acfb7d2bd39a",
+      "filename": "scan-page-8.pdf",
+      "role": "output",
+      "size": 6641,
+      "sha256": "bedee74df7889802c5da56aedb52b7ef3a25fb9f2b64a3326608fb9fee726283"
+    },
+    {
+      "id": "b2f43cfc-20fd-526c-9910-7cbe421d2924",
+      "filename": "scan-page-8.png",
+      "role": "output",
+      "size": 27538,
+      "sha256": "830d92be0c54e94b8ebd1fd3fe5b325ab412c23091486c2a710c17413abdeae4"
+    },
+    {
+      "id": "3cb30fcb-a8fe-5857-8f73-44310a2941a3",
+      "filename": "scan-page-9.pdf",
+      "role": "output",
+      "size": 7120,
+      "sha256": "84cd57c228e31713da96479b72381556382b48bcf73313e3c5e31b047b28620d"
+    },
+    {
+      "id": "a38ec17d-10df-579d-a0be-3685549bfb8a",
+      "filename": "scan-page-9.png",
+      "role": "output",
+      "size": 27905,
+      "sha256": "33cd16839786f5dcc902f35fee96b3d62951f5b532ab84d33794c898106653f0"
+    },
+    {
+      "id": "eddea09c-ae5b-5cf8-b619-bd4ca8e9cca9",
+      "filename": "scan-page-10.pdf",
+      "role": "output",
+      "size": 9375,
+      "sha256": "a7b259071755ea0b64f40e21cbd59c3a45fa2fbfc913f5ad1a2b507d62956953"
+    },
+    {
+      "id": "d9674855-0573-5b86-8bb5-fa5f43c99ed3",
+      "filename": "scan-page-10.png",
+      "role": "output",
+      "size": 38587,
+      "sha256": "47a7aa3cab5e9722a7af1e5ad60f7007789aecdd48c706177acb8283155ff28f"
+    },
+    {
+      "id": "ebd74ea7-cdff-51d0-a735-3ec2053767c1",
+      "filename": "scan-page-11.pdf",
+      "role": "output",
+      "size": 7389,
+      "sha256": "361a7c26e9dc3b9968f28eed8d49c4ed08ce596637b5fbcab4b4805b0d6d17f3"
+    },
+    {
+      "id": "0bb5367f-b4bd-5b9c-af8a-912d0a10d54d",
+      "filename": "scan-page-11.png",
+      "role": "output",
+      "size": 28899,
+      "sha256": "f7fb4403fa0900d795de7943cbf18b8a1ad9987df5000a4ce0dfa7ceb71967fc"
+    },
+    {
+      "id": "c67fe32a-0cb0-5c17-9dfb-cb1465c2cedf",
+      "filename": "scan-page-12.pdf",
+      "role": "output",
+      "size": 7021,
+      "sha256": "ea652f87d9da14a3e029e5e16d830db6cc3936adc0c1efbc275537dbc0991758"
+    },
+    {
+      "id": "3a0337b7-3532-574d-aaa8-4082a31032bc",
+      "filename": "scan-page-12.png",
+      "role": "output",
+      "size": 28200,
+      "sha256": "c1be1947fc059e300ea7abbcb62f2f91ef8a3f857cb01384eed0c461f7e4b173"
+    },
+    {
+      "id": "65ab3c76-f556-570b-a0c0-755496a46018",
+      "filename": "scan-page-13.pdf",
+      "role": "output",
+      "size": 9941,
+      "sha256": "e24d675138934284738449d9957b763191a26f496d4f268ad8e7ccc9416ed97f"
+    },
+    {
+      "id": "74ad878e-dba5-5d0f-a152-aca5fb8dd6e4",
+      "filename": "scan-page-13.png",
+      "role": "output",
+      "size": 40427,
+      "sha256": "d1af4ba44c93ef4402a4afe1ffa1e6fcb4227b69703e1dee02d03de109191848"
+    },
+    {
+      "id": "8bdd35e9-a26c-5424-b134-2f5837bb4cf0",
+      "filename": "scan-page-14.pdf",
+      "role": "output",
+      "size": 7492,
+      "sha256": "eefda43d670ee80bb20ca385a535870e02b865f700576e632713b8f48c0eb6b0"
+    },
+    {
+      "id": "c43c0976-47bf-5640-8876-b6c057f3bd38",
+      "filename": "scan-page-14.png",
+      "role": "output",
+      "size": 30522,
+      "sha256": "21f99fcc3a332c000fe8396eae1ebe37f085805e729022a20e9be53bbd573ae0"
+    },
+    {
+      "id": "1a56d5a6-7af1-533c-ad7b-a93099ecec57",
+      "filename": "scan-page-15.pdf",
+      "role": "output",
+      "size": 6924,
+      "sha256": "2b2c7a04d596740c8c2ae4a4493a2b8b02ac1bf09b30afb2a065352da8ae8cfc"
+    },
+    {
+      "id": "5777617f-9a85-50da-9929-72c4815be08c",
+      "filename": "scan-page-15.png",
+      "role": "output",
+      "size": 26715,
+      "sha256": "109554736059570ae80393496958aa96c8fcea964eaf56b34ed926c2153b090e"
+    },
+    {
+      "id": "3c0d8582-a5a0-5c86-ac05-ab3de2a57933",
+      "filename": "scan-page-16.pdf",
+      "role": "output",
+      "size": 9445,
+      "sha256": "de089b16dd4d1528de7f51c18ffeb60525136300dd6a33085437a9d2698ff792"
+    },
+    {
+      "id": "1a838e5c-7307-5d84-82b4-f94c118276b4",
+      "filename": "scan-page-16.png",
+      "role": "output",
+      "size": 37978,
+      "sha256": "59b3b1f0d4a6a4b685fe91ac547590a271a9d3f2272df4ed5254f6c1eee9b99c"
+    },
+    {
+      "id": "92bba7b2-48e6-5cb0-9ba6-6c05d582b221",
+      "filename": "scan-page-17.pdf",
+      "role": "output",
+      "size": 7226,
+      "sha256": "0332dec39656311e21bd575e5a0b3060e2b1d41d9e281865779828d9680f8313"
+    },
+    {
+      "id": "326c316c-b67d-5b4b-97ff-5774709aa567",
+      "filename": "scan-page-17.png",
+      "role": "output",
+      "size": 33508,
+      "sha256": "b85c9f45a5bff8536b3588d76bea10ad9bcac6bfd5200ccd85293235d718ab81"
+    },
+    {
+      "id": "07cb01cd-73e1-592c-bce2-386770fb2d1b",
+      "filename": "scan-page-18.pdf",
+      "role": "output",
+      "size": 8107,
+      "sha256": "ed2dbb4a07374f4951a7b8d0dc8148b982e9ddf659c52c49325a04cabb2b2d13"
+    },
+    {
+      "id": "b64b3c62-70fb-573e-889c-180c90785b09",
+      "filename": "scan-page-18.png",
+      "role": "output",
+      "size": 28894,
+      "sha256": "5dcec4233928673a8a5ae278a7aedc7ea9e1eeab15fcb9f37ec7080976af9797"
+    },
+    {
+      "id": "10fc13d1-6210-54b8-843a-ba1286e32530",
+      "filename": "scan-page-19.pdf",
+      "role": "output",
+      "size": 8928,
+      "sha256": "a9c87a99e1f307d175b5ea2a13cf3998c2e25d9e8da41b4ca246422c7aed8c5a"
+    },
+    {
+      "id": "ac792d52-7d95-538d-b2a4-d615fc49a53d",
+      "filename": "scan-page-19.png",
+      "role": "output",
+      "size": 37465,
+      "sha256": "1f25fec31442a060f1d5ff4c8cf64a5485c8b40eb7a5c38ba073a864c8842426"
+    },
+    {
+      "id": "0eab6448-424b-5b0f-94b2-d2b67c41b69e",
+      "filename": "scan-page-20.pdf",
+      "role": "output",
+      "size": 6861,
+      "sha256": "16ef548ba9ab189fa7b708e36549c5bce324678b5a85cdba286d1bcf20af9189"
+    },
+    {
+      "id": "8c748d10-de63-53c8-8e16-56263ce90679",
+      "filename": "scan-page-20.png",
+      "role": "output",
+      "size": 28394,
+      "sha256": "cc83515cc672158d1b127838c6b9cd14c500a55765206734441165a009632b97"
+    },
+    {
+      "id": "34299930-5cca-5f01-9473-eb08bf743383",
+      "filename": "scan-page-21.pdf",
+      "role": "output",
+      "size": 7037,
+      "sha256": "d9def1a065cdab818988bdb630fa8de217fd6e6e37ed4d7c1d1891c8d78acc54"
+    },
+    {
+      "id": "a4094703-9154-5b94-95fc-7dfc7ab88673",
+      "filename": "scan-page-21.png",
+      "role": "output",
+      "size": 28562,
+      "sha256": "a1e23032643371e1b4e3b9106d12d5d46864ae890340aa56d674ef31a7049368"
+    },
+    {
+      "id": "85ff7c42-dd50-58c6-9d86-d3e493a90d98",
+      "filename": "scan-page-22.pdf",
+      "role": "output",
+      "size": 10198,
+      "sha256": "7da4b3d6e294c39fdb2a50c7a88c5ed36a097721c7b943ba912fefdc8696d7f5"
+    },
+    {
+      "id": "c46c76b6-0352-5650-a12f-1c11c57060b4",
+      "filename": "scan-page-22.png",
+      "role": "output",
+      "size": 39295,
+      "sha256": "143efa0546e43ad1b3e65f175e4017728a60b74fbcf5cb7b5c50853a7754e840"
+    },
+    {
+      "id": "4be49237-7789-5eb3-8cc1-c3b4b401c808",
+      "filename": "scan-page-23.pdf",
+      "role": "output",
+      "size": 7640,
+      "sha256": "f13baa162e42a39a03c2aed55fd7edd05af5cb80968a0a4d6a5940ce5c7aaf67"
+    },
+    {
+      "id": "53738d29-5c5f-503b-953c-4b714b71c60f",
+      "filename": "scan-page-23.png",
+      "role": "output",
+      "size": 30229,
+      "sha256": "03744dd22d14b3b9bc99e79ed31b1392c937abc304af84d4e6c177d1b443ad31"
+    },
+    {
+      "id": "1be63fe6-ddc9-59d9-8a26-490a2063070d",
+      "filename": "scan-page-24.pdf",
+      "role": "output",
+      "size": 6834,
+      "sha256": "ca4dbd4f085ca2f29750919311f74d36d3f30c5e04ce83289349f5e2bf3e8967"
+    },
+    {
+      "id": "eab4895a-8eed-5d39-8820-b3b1d5e41a1c",
+      "filename": "scan-page-24.png",
+      "role": "output",
+      "size": 27759,
+      "sha256": "c3608b3a1f0b9328bde16b9aea9a9e9ce98092cfd76d38bd43ce62f320c0641e"
+    },
+    {
+      "id": "30020e61-720d-5a10-8e3c-6d15048acad1",
+      "filename": "scan-page-25.pdf",
+      "role": "output",
+      "size": 8997,
+      "sha256": "28ae108258d169572a41c45e0f56cb271a8610e00fa0fa9d27fa77874acde189"
+    },
+    {
+      "id": "b1ab4cc8-60ed-5d45-ba57-2bc64e51e8eb",
+      "filename": "scan-page-25.png",
+      "role": "output",
+      "size": 36677,
+      "sha256": "a035d9ce8edd7f33ee8bf33d9ec2178cfad316a1dc0b162c34f2f2a460cad9da"
+    },
+    {
+      "id": "52656fad-ac86-5966-b7de-24ab8054123e",
+      "filename": "scan-page-26.pdf",
+      "role": "output",
+      "size": 8267,
+      "sha256": "ee207be7b056d1b8565234e51c4c34c6f12e1f4970804b23572dc6d1d613edbf"
+    },
+    {
+      "id": "d2717e14-a277-5f8c-82ae-15cfe9d17d4d",
+      "filename": "scan-page-26.png",
+      "role": "output",
+      "size": 30233,
+      "sha256": "f886cb64cf5e8283571cf64ef2d49020bfc127c1dda7bdeb81233b24297eb4f8"
+    },
+    {
+      "id": "a4b7b95d-0c27-57c5-b602-e3579b5da333",
+      "filename": "scan-page-27.pdf",
+      "role": "output",
+      "size": 7123,
+      "sha256": "8a7820137b4ec887cf63893cac179d5b879af3ce01116a6d96cdde10c63ae997"
+    },
+    {
+      "id": "9978fe45-6937-5ed4-b3b0-bc278b4dd5ea",
+      "filename": "scan-page-27.png",
+      "role": "output",
+      "size": 28550,
+      "sha256": "2b70b141607bd638de9e817dc9b381356810291ca61b6404fd168037d37a7fcf"
+    },
+    {
+      "id": "a9b2b1dd-d730-549d-9e4c-fb72b3357f5f",
+      "filename": "scan-page-28.pdf",
+      "role": "output",
+      "size": 9347,
+      "sha256": "77b519a3c5bd886221afe292232b307547d996bb31f5560b0320c0b6ffbf38b4"
+    },
+    {
+      "id": "620b02a6-1bf8-50ce-ab68-de9cdf1a15fb",
+      "filename": "scan-page-28.png",
+      "role": "output",
+      "size": 38632,
+      "sha256": "195643591dd27f89d7f08a1fbe6b936efe288ad9dcdfb5fdb22274f6dbd82093"
+    },
+    {
+      "id": "5756942d-3f90-5b43-be87-e7647af6f591",
+      "filename": "scan-page-29.pdf",
+      "role": "output",
+      "size": 6954,
+      "sha256": "4b1f553cf9880f2fe68c7f57253dde4b954ce4a07a7ea698ac1f0da0b49e5f99"
+    },
+    {
+      "id": "ba69c114-d391-5ad2-9a30-76d7ed40603d",
+      "filename": "scan-page-29.png",
+      "role": "output",
+      "size": 28869,
+      "sha256": "0bcb63a1619e2d28ea5154cb273963e4d898cba5f3d24c4f1a19d5bb2b76d9e9"
+    },
+    {
+      "id": "a49194ac-6484-5525-98cd-78af371e8629",
+      "filename": "scan-page-30.pdf",
+      "role": "output",
+      "size": 7505,
+      "sha256": "41fb70480384c5ab854e27d1180e4c7fe6ca33edf2e982729a508f96a9916e42"
+    },
+    {
+      "id": "d0e8739f-ac7e-5f85-bf9b-c068303cadcc",
+      "filename": "scan-page-30.png",
+      "role": "output",
+      "size": 28883,
+      "sha256": "4d42c9934199ce6072597192190aa8019357267cb07cce15fc439199483cd42b"
+    }
+  ],
+  "pdf_info": {
+    "pages": [
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1048",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "600",
+            "/Height": "64",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "104",
+            "/Height": "108",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "16",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "136",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "8",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "16",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "936",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "16",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1088",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "296",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "136",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1064",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "592",
+            "/Height": "64",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "168",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "936",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "168",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1088",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "296",
+            "/Height": "52",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "168",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "16",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1048",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "592",
+            "/Height": "64",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "168",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "136",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "48",
+            "/Height": "8",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "936",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "168",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "40",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "192",
+            "/Height": "20",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1088",
+            "/Height": "60",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "296",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "184",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1064",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "600",
+            "/Height": "68",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "136",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "928",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "8",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "32",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1096",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "296",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "12",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "136",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1048",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "592",
+            "/Height": "64",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "936",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1096",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "288",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "184",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "40",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "136",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1056",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "592",
+            "/Height": "64",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "12",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "936",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "80",
+            "/Height": "108",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1088",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "296",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "16",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "136",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1064",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "592",
+            "/Height": "64",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "936",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "16",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1096",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "296",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "136",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1064",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "592",
+            "/Height": "64",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "12",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "32",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "928",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "40",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "12",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1088",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "296",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "40",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "136",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1056",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "600",
+            "/Height": "64",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "936",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "12",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1088",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "296",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "144",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1056",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "592",
+            "/Height": "64",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "16",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "120",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "936",
+            "/Height": "164",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "24",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "32",
+            "/Height": "40",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "24",
+            "/Height": "16",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "120",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      },
+      {
+        "width_points": 612.0,
+        "height_points": 792.0,
+        "rotation": 0,
+        "images": [
+          {
+            "/Width": "1275",
+            "/Height": "1650",
+            "/ColorSpace": "/DeviceGray",
+            "/BitsPerComponent": "8",
+            "/Filter": "['/FlateDecode', '/DCTDecode']"
+          },
+          {
+            "/Width": "168",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "1088",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "296",
+            "/Height": "56",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "176",
+            "/Height": "28",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "40",
+            "/Height": "44",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          },
+          {
+            "/Width": "128",
+            "/Height": "124",
+            "/ColorSpace": "",
+            "/BitsPerComponent": "1",
+            "/Filter": "/CCITTFaxDecode"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "/Creator": "math-bloc306b-copier",
+      "/Producer": "KONICA MINOLTA bizhub 650i",
+      "/CreationDate": "D:20260913180630-06'00'"
+    }
+  },
+  "event_kinds": [
+    "received",
+    "gateway",
+    "needs_review",
+    "page_inspection"
+  ],
+  "layout_profile": "faculty-corners-10mm-v1",
+  "detected_marks": 52,
+  "mark_count_distribution": {
+    "2": 22,
+    "1": 8
+  },
+  "corner_detection_counts": {
+    "top-right": 22,
+    "bottom-left": 30
+  },
+  "single_mark_source_pages": [
+    4,
+    5,
+    6,
+    17,
+    18,
+    22,
+    23,
+    27
+  ],
+  "operator_report": {
+    "test_completed": true,
+    "covered_corner_procedure": "not yet confirmed",
+    "printer_scaling": "not recorded",
+    "printer_copy_setting": "not recorded",
+    "sidedness": "not recorded",
+    "scanner_panel_dpi": "not recorded",
+    "scanner_defaults": "not confirmed for Test 2"
+  },
+  "limitations": [
+    "Top-right was decoded on 22/30 pages; bottom-left on 30/30. Either-corner-alone recovery on every page is not established.",
+    "The reason eight top-right marks were not decoded is not established.",
+    "Operator covering procedure and exact device settings are unconfirmed; do not infer them from Test 1.",
+    "These results qualify this received Letter classroom run, not all devices, settings or A4."
+  ],
+  "visual_check": {
+    "source_page_index": 4,
+    "observation": "Both marks are visibly present on the retained raster; only bottom-left was decoded. No obvious cover is visible on this inspected page. This does not establish the cause or procedure on all pages."
+  },
+  "backup": {
+    "status": "complete",
+    "started_at": "2026-09-14T00:12:57.249564+00:00",
+    "finished_at": "2026-09-14T00:13:00.963835+00:00",
+    "backed_up": 5,
+    "errors": [],
+    "catalog_snapshot": "20260914T001300656696Z"
+  },
+  "browser_verification": {
+    "pages": 30,
+    "assemblies": 10,
+    "dual_mark_pages": 22,
+    "single_mark_pages": 8,
+    "instructor_review_required": true,
+    "file_groups_collapsed": true,
+    "javascript_errors": []
+  }
+}

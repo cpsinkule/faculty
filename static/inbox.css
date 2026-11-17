@@ -1,0 +1,715 @@
+/* The Teaching Inbox: the list (toolbar, views, scan cards, job rows, History runs) and a job's own page (files, facts, audit
+   history). Linked before design-tokens.css with no media attribute, so it also prints: a converted literal keeps its old value as
+   the token's fallback, and the Ledger look (DESIGN-LANGUAGE: record titles over muted metadata, small uppercase labels, rows
+   on hairlines, +/− disclosures) is added under `@media screen` at the end of this sheet. Desktop only: no phone layout. */
+#inbox-section {
+  min-width: 0;
+}
+.inbox-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--tone-warning);
+  margin-right: 7px;
+}
+.inbox-dot.online {
+  background: var(--tone-success);
+}
+.inbox-upload-list {
+  display: grid;
+  gap: var(--space-2, 8px);
+  margin: var(--space-3, 14px) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-control, 13px);
+  overflow-wrap: anywhere;
+}
+.inbox-upload-list small,
+.inbox-upload-list [data-upload-state] {
+  color: var(--label, var(--muted));
+}
+.inbox-upload-list [data-failed] {
+  color: var(--tone-danger, var(--error));
+}
+.inbox-filters {
+  display: flex;
+  overflow-x: auto;
+  gap: 5px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: var(--space-5, 20px);
+}
+.inbox-search-controls {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+}
+.inbox-search-controls .text-button {
+  min-height: var(--control-height, 42px);
+}
+.inbox-search-summary {
+  color: var(--label, var(--muted));
+  font-size: var(--text-small, 13px);
+  margin-bottom: var(--space-4, 16px);
+  overflow-wrap: anywhere;
+}
+/* On screen button-theme.css draws the views as section tabs (the chosen one underlined); these keep a printed tab strip legible. */
+.inbox-filters button {
+  display: flex;
+  gap: var(--space-2, 9px);
+  align-items: center;
+  white-space: nowrap;
+  padding: 13px 14px;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+}
+.inbox-filters button.selected {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.inbox-filters button span {
+  font-size: var(--text-caption, 11px);
+  padding: 1px 5px;
+  font-variant-numeric: tabular-nums;
+}
+.inbox-job-list {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  overflow: hidden;
+}
+.inbox-job-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5, 18px);
+  padding: var(--space-5, 23px) var(--space-6, 23px);
+}
+.inbox-job-list > * + * {
+  border-top: 1px solid var(--line);
+}
+.inbox-job-row:hover {
+  background: var(--surface-hover);
+}
+.inbox-job-row:focus-visible {
+  outline-offset: -4px;
+}
+/* A monochrome glyph, no tile: the chip beside the row says the state. */
+:is(.inbox-job-row, .inbox-job-group > summary) .inbox-job-icon {
+  display: inline-flex;
+  padding: 0;
+  color: var(--label, var(--muted));
+  flex-shrink: 0;
+}
+.inbox-job-main {
+  min-width: 0;
+  flex: 1;
+}
+.inbox-job-main h3 {
+  font-size: var(--text-item, 15px);
+  margin-bottom: var(--space-1, 4px);
+}
+.inbox-job-main p,
+.inbox-job-main small {
+  display: block;
+  color: var(--text, var(--muted));
+  font-size: var(--text-small, 12px);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.inbox-job-main .inbox-job-filenames {
+  color: var(--ink);
+  margin-top: var(--space-1, 5px);
+}
+.inbox-job-main small {
+  margin-top: var(--space-2, 5px);
+  color: var(--label, var(--muted));
+  font-size: var(--text-caption, 11px);
+}
+.inbox-job-state {
+  display: flex;
+  gap: var(--space-4, 18px);
+  align-items: center;
+}
+.inbox-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5, 20px);
+  margin-top: var(--space-5, 22px);
+  font-variant-numeric: tabular-nums;
+}
+.inbox-detail-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4, 18px);
+}
+.inbox-detail-heading p {
+  color: var(--muted);
+}
+.inbox-job-result {
+  display: flex;
+  gap: var(--space-3, 12px);
+  padding: var(--space-5, 20px);
+  background: var(--tone-success-bg);
+  color: var(--tone-success);
+  margin: var(--space-4, 18px) 0;
+}
+.inbox-job-result a {
+  display: flex;
+  margin-top: var(--space-2, 10px);
+}
+.inbox-job-actions {
+  display: flex;
+  gap: var(--space-2, 10px);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6, 24px);
+}
+.inbox-job-actions:empty {
+  display: none;
+}
+.inbox-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5, 22px);
+  margin: var(--space-5, 20px) 0;
+}
+.inbox-detail-grid > section {
+  min-width: 0;
+}
+.inbox-artifacts {
+  display: flex;
+  flex-direction: column;
+  margin: var(--space-4, 15px) 0;
+}
+.inbox-file-group {
+  border-bottom: 1px solid var(--line);
+}
+.inbox-file-group > summary {
+  cursor: pointer;
+  padding: var(--space-3, 14px) 0;
+  font-size: var(--text-body, 14px);
+  font-weight: 600;
+  line-height: 1.6;
+}
+.inbox-file-group > summary:hover {
+  color: var(--ink);
+}
+.inbox-file-group > summary:focus-visible {
+  outline: 2px solid var(--focus, var(--ink));
+  outline-offset: 4px;
+}
+.inbox-file-count {
+  display: inline-block;
+  margin-left: var(--space-2, 10px);
+  color: var(--label, var(--muted));
+  font-size: var(--text-caption, 12px);
+  font-weight: 500;
+}
+.inbox-file-group .inbox-artifacts {
+  margin: 0 0 var(--space-3, 12px);
+}
+.inbox-artifact {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-3, 13px) 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}
+.inbox-artifact span {
+  flex: 1;
+  min-width: 0;
+}
+.inbox-artifact strong {
+  font-size: var(--text-control, 13px);
+  overflow-wrap: anywhere;
+  display: block;
+}
+.inbox-artifact small {
+  color: var(--label, var(--muted));
+  font-size: var(--text-caption, 11px);
+  display: block;
+  margin-top: var(--space-1, 4px);
+}
+.inbox-course-file {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  border-bottom: 1px solid var(--line);
+}
+.inbox-course-file > .inbox-artifact {
+  flex: 1;
+  min-width: 0;
+  border-bottom: 0;
+}
+.inbox-resource-groups .inbox-resource-group + .inbox-resource-group {
+  margin-top: var(--space-2);
+}
+.inbox-resource-group .inbox-artifacts {
+  margin: 0;
+}
+[data-inbox-resources="term"] {
+  margin-top: var(--space-6, 25px);
+}
+[data-inbox-resources="section"] {
+  margin-top: var(--space-6, 24px);
+}
+.inbox-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-3, 13px) var(--space-5, 13px);
+  font-size: var(--text-small, 12px);
+  margin: var(--space-4, 18px) 0 0;
+}
+.inbox-facts dt {
+  color: var(--label, var(--muted));
+}
+.inbox-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.inbox-facts code {
+  font-size: var(--text-small, 11px);
+}
+.inbox-audit {
+  margin-top: var(--space-5, 22px);
+}
+.inbox-audit ol {
+  padding: 0;
+  list-style: none;
+  margin: var(--space-4, 22px) 0 0;
+}
+.inbox-audit li {
+  display: flex;
+  gap: var(--space-3, 14px);
+  margin: 0 0 var(--space-5, 22px);
+}
+.inbox-audit li > div {
+  min-width: 0;
+}
+.inbox-audit strong {
+  font-size: var(--text-control, 13px);
+  text-transform: capitalize;
+}
+.inbox-audit small {
+  display: block;
+  color: var(--label, var(--muted));
+  font-size: var(--text-caption, 11px);
+  margin: 3px 0 7px;
+}
+.inbox-audit p {
+  color: var(--text, var(--muted));
+  font-size: var(--text-small, 12px);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.inbox-audit-dot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  background: var(--tone-success);
+  margin-top: 6px;
+}
+.inbox-command-details {
+  margin: var(--space-4, 16px) 0;
+  font-size: var(--text-control, 13px);
+}
+.inbox-command-details pre,
+.inbox-approval-command {
+  border: 1px solid var(--line);
+  padding: var(--space-4, 16px);
+  overflow: auto;
+  max-height: 350px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: var(--text-small, 12px);
+}
+.inbox-access-heading {
+  display: flex;
+  gap: var(--space-4, 15px);
+  justify-content: space-between;
+  align-items: center;
+  margin: var(--space-2, 10px) 0 var(--space-4, 18px);
+}
+.inbox-access-heading:not(:first-child) {
+  margin-top: var(--space-8, 30px);
+}
+.inbox-access-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3, 14px);
+  padding: var(--space-3, 12px) 0;
+  border-top: 1px solid var(--line);
+}
+.inbox-access-row small {
+  display: block;
+  color: var(--label, var(--muted));
+  margin-top: var(--space-1, 5px);
+}
+.inbox-qr {
+  display: flex;
+  justify-content: center;
+}
+.inbox-qr svg {
+  max-width: 100%;
+  width: 210px;
+  height: auto;
+  margin-bottom: var(--space-4, 16px);
+}
+/* A scan's page leads with its scan checks; its files, command and history wait behind one disclosure. */
+.inbox-record { margin-top: var(--space-2, 10px); padding: var(--space-1, 12px) var(--space-5, 20px); }
+.inbox-record > summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+.inbox-record[open] > summary { margin-bottom: var(--space-2, 16px); }
+.inbox-record .inbox-detail-grid, .inbox-record .inbox-audit { margin-top: var(--space-4, 16px); }
+.inbox-scan-job .inbox-detail-heading { margin-bottom: 0; align-items: center; }
+/* Scans in the list: what the scan holds, the most pressing thing left, and a chip for whether anything is left at all. */
+.inbox-scan-tile, .inbox-tile { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+.inbox-tile .inbox-job-row { min-width: 0; }
+.inbox-scan-tile-actions { padding-right: var(--space-5, 18px); }
+.inbox-scan-tile-actions .danger-button, .inbox-scan-tile-actions .button { white-space: nowrap; }
+.inbox-job-main p.inbox-job-note { color: var(--ink); font-size: var(--text-control, 13px); line-height: 1.5; margin-top: var(--space-1, 4px); }
+.inbox-select { display: flex; align-items: center; align-self: stretch; padding-left: var(--space-5, 18px); cursor: pointer; }
+.inbox-select input { width: 18px; height: 18px; margin: 0; cursor: pointer; }
+.inbox-select input:disabled { cursor: not-allowed; }
+.inbox-selection { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2, 10px) var(--space-4, 16px); padding: var(--space-3, 12px) var(--space-4, 16px); margin-bottom: var(--space-3, 14px); border: 1px solid var(--line); background: var(--paper); font-size: var(--text-control, 13px); }
+.inbox-selection[hidden] { display: none; }
+.inbox-combine-list { display: grid; gap: var(--space-2, 10px); margin: 0 0 var(--space-3, 14px); padding-left: var(--space-5, 20px); overflow-wrap: anywhere; }
+.inbox-combine-list small { display: block; color: var(--label, var(--muted)); font-size: var(--text-small, 12px); }
+.inbox-job-main p.inbox-job-note[data-job-status="failed"] { color: var(--tone-danger, var(--error)); }
+/* A scan's working step keeps its … glyph: it carries the meaning beside the colour. */
+.inbox-scan-step[data-step="wait"]::before { content: "…"; color: var(--label, var(--muted)); }
+.inbox-heading-state { display: flex; align-items: center; gap: var(--space-3, 14px); flex-wrap: wrap; justify-content: flex-end; }
+#inbox-delete-form .dialog-body p + p, #inbox-delete-form .dialog-body .field, #inbox-delete-form .dialog-body .checkbox-field { margin-top: .75rem; }
+
+/* A scan in the list is a card with its flow graph, like an assignment card in Grading (requirement, 2026-09-24): each stage opens its page. */
+.inbox-scan-tile.has-card { grid-template-columns: minmax(0, 1fr); align-items: start; }
+.inbox-scan-tile.has-card.selectable { grid-template-columns: auto minmax(0, 1fr); }
+.inbox-scan-tile.has-card .inbox-select { align-self: start; padding-top: var(--space-6, 24px); }
+/* Inside the list a scan card is one more record on the list's hairline: no frame or fill of its own. */
+.inbox-job-list .scan-card { border: 0; background: transparent; padding: var(--space-5, 18px) var(--space-6, 23px); }
+.scan-card-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2, 10px); }
+.scan-card .grading-card-facts { align-items: center; }
+.scan-card [data-scan-working] { color: var(--ink); }
+.document-scan-review .scan-flow { display: block; min-width: 0; margin-bottom: var(--space-4, 16px); }
+.document-scan-review .scan-page-list { display: grid; gap: 0; margin-top: var(--space-3, 12px); }
+.document-scan-review .scan-label-ask { margin: var(--space-4, 16px) 0; }
+
+/* The list's one toolbar (UX overhaul 2026-09-26): the views as tabs, then search, the worker's dot and More. */
+.inbox-toolbar { align-items: center; justify-content: space-between; margin: 0 0 var(--space-3); }
+.inbox-toolbar .inbox-filters { margin: 0; border-bottom-width: 1px; }
+.inbox-toolbar-actions { align-items: center; gap: var(--space-3); flex: 1 1 320px; justify-content: flex-end; min-width: 0; }
+.inbox-toolbar #inbox-search-form { flex: 1 1 240px; max-width: 420px; min-width: 0; }
+.inbox-toolbar .inbox-search-controls { flex-wrap: nowrap; align-items: center; gap: var(--space-2, 6px); }
+.inbox-search-field { flex: 1 1 auto; min-width: 0; display: block; }
+/* Printed: a framed tray with an open top. On screen it is a field like every other (the screen section below). */
+.inbox-search-field input {
+  box-sizing: border-box; width: 100%; min-height: var(--control-height, 40px); padding: 9px 14px;
+  border: 1px solid var(--control-line, var(--line)); border-top-color: transparent; background: transparent; color: var(--ink);
+  font: 500 var(--text-control, 13px)/1.5 var(--font-body, inherit); letter-spacing: normal;
+  -webkit-appearance: none; appearance: none;
+  transition: border-color var(--snappy, 0s), box-shadow var(--snappy, 0s);
+}
+.inbox-toolbar .inbox-search-controls .text-button { min-height: var(--control-height, 40px); white-space: nowrap; }
+.inbox-worker { display: inline-flex; align-items: center; min-height: var(--control-height, 40px); }
+.inbox-worker .inbox-dot { margin: 0; }
+.inbox-more .action-menu-trigger { min-width: 0; font-size: var(--text-control, 13px); line-height: 1.5; white-space: nowrap; }
+/* One toolbar height (40px): the framed views, the tray, its search button and More line up. */
+.inbox-toolbar .inbox-search-controls > .icon-button { width: var(--control-height, 40px); height: var(--control-height, 40px); padding: 0; justify-content: center; }
+:root:root .inbox-list-page .inbox-toolbar .inbox-filters > button:not([data-exam-version]) { min-height: calc(var(--control-height) - 2px); padding-block: 9px; }
+:root:root .inbox-toolbar .inbox-more .action-menu-trigger { min-height: var(--control-height); padding-block: 9px; }
+.inbox-worker-notice { margin-top: 0; }
+.inbox-search-summary { margin: 0 0 var(--space-3); font-variant-numeric: tabular-nums; }
+.inbox-search-summary[hidden] { display: none; }
+
+/* A scan's corner: how many stages are done, and its '⋯' actions. */
+.scan-card-corner { display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0; }
+/* A job's own page: its state chip on the left, a scan's '⋯' actions on the right (the header above names it). */
+.inbox-detail-heading { align-items: center; flex-wrap: wrap; margin-bottom: var(--space-3); }
+.inbox-detail-heading > .back-link { margin: 0; }
+/* On the scan's own page the header above names the scan: its card keeps the name for assistive technology only. */
+.inbox-scan-job .document-recognition .scan-card .grading-card-heading > h3 {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+/* Under a scan's graph: where this page sits in the flow, as a small uppercase label (its screen weight is set below). */
+.scan-flow-position { margin: var(--space-1, 4px) 0 0; color: var(--label, var(--muted)); font: 700 var(--text-small, 12px)/1.5 var(--font-body, inherit); letter-spacing: var(--tracking-label, 0); text-transform: uppercase; }
+.scan-flow-position strong { color: var(--ink); font-weight: 500; }
+
+/* A scan page's one "Updated · Refresh" and, on a finished scan, the next scan in Current (UX overhaul 2026-09-26, part B). */
+.inbox-page-tools { display: flex; align-items: center; gap: var(--space-3); margin-left: auto; min-width: 0; }
+.inbox-updated { color: var(--label, var(--muted)); font: 700 var(--text-caption, 11px)/1.4 var(--font-body, inherit); letter-spacing: var(--tracking-label, 0); text-transform: uppercase; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.inbox-updated[hidden] { display: none; }
+.inbox-refresh { min-width: 36px; min-height: 36px; }
+.inbox-refresh svg { width: 16px; height: 16px; }
+.inbox-next-current { white-space: nowrap; }
+.inbox-stage-heading { margin-bottom: var(--space-2); }
+/* Current's strip and the combine toggle share one quiet line under the toolbar. */
+.inbox-list-tools { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-2) var(--space-4); }
+.inbox-list-tools > .inbox-search-summary { margin: 0 0 var(--space-3); }
+.inbox-select-toggle { margin: 0 0 var(--space-3) auto; }
+/* The scan tabs' filters (2026-10-18): All scans / Needs you as the shared filter chips, then one assignment's scans. */
+.inbox-scan-filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-6); margin: 0 0 var(--space-3); }
+.inbox-scan-filter-row > .filter-chips { margin: 0; }
+.inbox-assignment-filter select { max-width: 320px; }
+.inbox-search-summary a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+/* The group's header opens the assignment's Collect; the rest of the row still opens and closes the group. */
+.inbox-job-group-title > a { color: inherit; text-decoration: none; }
+.inbox-job-group-title > a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.inbox-job-group-title > a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* Technical details: the job ID, attempts, storage, audit history and raw command, folded under one disclosure. */
+.inbox-technical { margin: var(--space-4) 0 var(--space-2); }
+.inbox-technical .inbox-audit { margin-top: var(--space-4); }
+/* History: a run of the same submission is one row that opens to list each of them. */
+.inbox-job-group > summary { display: flex; align-items: center; gap: var(--space-5, 18px); padding: var(--space-5, 18px) var(--space-6, 23px); cursor: pointer; list-style: none; }
+.inbox-job-group > summary::-webkit-details-marker { display: none; }
+.inbox-job-group > summary:hover { background: var(--surface-hover); }
+.inbox-job-group > summary .inbox-job-main small { display: block; margin-top: var(--space-1, 4px); color: var(--label, var(--muted)); font-size: var(--text-caption, 12px); }
+.inbox-job-group-title { display: block; font: 600 var(--text-section, 18px)/1.25 var(--font-serif, inherit); letter-spacing: var(--tracking-title, 0); color: var(--heading, var(--ink)); overflow-wrap: anywhere; }
+.inbox-job-group[open] > summary { border-bottom: 1px solid var(--line); }
+.inbox-job-group-rows { padding-left: var(--space-5); }
+.inbox-job-group-rows > * + * { border-top: 1px solid var(--line); }
+/* Scans of one assignment (an exam's copier scans) are one row whose state chips say how many need you, are working or are done. */
+.inbox-scan-group > summary > .inbox-job-state { flex-wrap: wrap; justify-content: flex-end; gap: var(--space-2); }
+/* A group says it opens, as the app's disclosures do (components.css): + closed, − open, after its chips. */
+.inbox-job-group > summary > .inbox-job-state::after { content: "+"; content: counter(decor, none) "+" / ""; flex: 0 0 20px; margin-inline-start: var(--space-2);  transition: color var(--snappy); display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.inbox-job-group[open] > summary > .inbox-job-state::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+.inbox-job-group > summary:hover > .inbox-job-state::after { color: var(--ink); }
+/* Scan cards off screen are not laid out or painted until they come near it (2026-10-02: Archived's 23 graphs cost a quarter
+   of a second on every open); `auto` keeps each card's last height once it has been drawn. */
+.inbox-job-list .inbox-scan-tile { content-visibility: auto; contain-intrinsic-size: auto 300px; }
+/* A background read that failed keeps the page and says so above it; a scan waiting on a stopped worker says so above its card. */
+.inbox-stale { margin: 0 0 var(--space-3); }
+.inbox-worker-slot[hidden] { display: none; }
+.inbox-worker-slot > .callout { margin: var(--space-3) 0 0; }
+/* PDFs dragged over the list: the list says it takes them. */
+.inbox-list-page.inbox-dropping .inbox-job-list { outline: 2px dashed var(--focus, var(--ink)); outline-offset: 4px; }
+.inbox-upload-progress { margin: var(--space-3, 12px) 0 0; color: var(--ink); font: 500 var(--text-small, 12px)/1.5 var(--font-body, inherit); font-variant-numeric: tabular-nums; }
+.inbox-upload-progress[hidden] { display: none; }
+.inbox-upload-list [data-upload-state] { font-variant-numeric: tabular-nums; }
+.inbox-scan-hint { margin-top: 0; }
+/* The record's history: JSON details as facts, runs of one event kind once. */
+.inbox-audit .inbox-audit-facts { display: flex; flex-wrap: wrap; gap: var(--space-1, 4px) var(--space-4, 14px); white-space: normal; }
+.inbox-audit-facts b { font-weight: 500; color: var(--label, var(--ink)); margin-right: var(--space-1, 4px); }
+.inbox-audit-ids { display: inline-flex; flex-wrap: wrap; gap: var(--space-1, 4px) var(--space-2, 10px); }
+.inbox-audit-ids code { font-size: var(--text-caption, 11px); color: var(--label, var(--muted)); }
+.inbox-audit-run details { margin-top: var(--space-2, 6px); font-size: var(--text-small, 12px); }
+.inbox-audit-run details > summary { cursor: pointer; color: var(--accent-ink, var(--muted)); }
+.inbox-audit-run details ol { margin-top: var(--space-3, 12px); }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   The Ledger look on screen (DESIGN-LANGUAGE §3–§4). A list is rows on hairlines: a title, metadata in the muted
+   ink, the state chip and arrow at the right; the title stays ink on hover. Labels (the status strip, counts, a fact's name) are
+   11px semibold uppercase sans. Disclosures open with +/− at the right. Status is told by words, a chip or a rule, never by a
+   tinted fill. The `:root:root` rules outrank the theme sheets that load after this one. */
+@media screen {
+  /* Small labels: the status strip ("0 need you · 0 working · 0 failed"), a file group's count, a fact's and an event fact's
+     name, the page number. */
+  .inbox-search-summary, .inbox-file-count, .inbox-facts dt, .inbox-audit-facts b, .inbox-pagination > span {
+    color: var(--label);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+  /* Record metadata (where a submission came from and when, a file's kind and size, an event's time, a code's state): sans, in
+     the muted ink, as written. */
+  .inbox-job-main small, .inbox-job-group > summary .inbox-job-main small, .inbox-artifact small, .inbox-audit small,
+  .inbox-access-row small, .inbox-combine-list small {
+    color: var(--muted);
+    font-size: var(--text-small);
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  /* Search is a field like every other (form-theme.css): a line of type on an ink underline, ink on hover, the focus ring. */
+  .inbox-search-field input { padding: 7px 2px; border: 0; border-bottom: 1px solid var(--control-line); border-radius: 0; font-size: var(--text-body); }
+  .inbox-search-field input:hover:not(:focus) { border-bottom-color: var(--ink); }
+  .inbox-search-field input:focus-visible { border-bottom-color: var(--focus); box-shadow: inset 0 -1px 0 var(--focus); outline: 2px solid var(--focus); outline-offset: 2px; }
+  /* Where a stage page sits in the flow, and when the scan was last read: semibold labels. */
+  .scan-flow-position { margin-top: var(--space-2); font-size: var(--text-caption); font-weight: 600; }
+  .scan-flow-position strong, .inbox-updated { font-weight: 600; }
+
+  /* The list: rows flush with the page's column, on the list's hairlines (outline-theme.css gives the list its rule above). */
+  .inbox-job-list > .empty-state { border: 0; }
+  .inbox-job-row, .inbox-job-group > summary { gap: var(--space-4); padding: var(--space-4) 0; }
+  .inbox-job-row { color: var(--text); text-decoration: none; }
+  .inbox-job-main p { color: var(--muted); font-size: var(--text-small); line-height: 1.5; }
+  .inbox-job-main .inbox-job-filenames { color: var(--text); }
+  .inbox-job-main small { margin-top: var(--space-1); }
+  .inbox-job-list .inbox-job-main h3,
+  .inbox-job-list .scan-card .grading-card-heading > h3 {
+    margin-bottom: var(--space-1);
+    color: var(--heading);
+    font-family: var(--font-serif);
+    font-size: var(--text-item);
+    font-weight: var(--head-weight);
+    line-height: 1.2;
+    letter-spacing: var(--tracking-title);
+  }
+  .inbox-job-group-title { font-size: var(--text-item); font-weight: 500; line-height: 1.2; }
+  :is(.inbox-job-row, .inbox-job-group > summary) .inbox-job-main h3,
+  .inbox-job-group-title { transition: color var(--snappy); }
+  .inbox-job-row:is(:hover, :focus-visible) h3,
+  .inbox-job-group > summary:hover .inbox-job-group-title { color: var(--ink); }
+  .inbox-job-state > .icon { color: var(--label); transition: color var(--snappy), transform var(--snappy); }
+  .inbox-job-row:is(:hover, :focus-visible) .inbox-job-state > .icon { color: var(--ink); transform: translateX(2px); }
+  .inbox-job-group > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  /* A group's chips and its +/− keep one line at the right; its title and facts take the rest. */
+  :root:root .inbox-job-group > summary > .inbox-job-state { flex-shrink: 0; flex-wrap: nowrap; }
+  .inbox-job-group > summary > .inbox-job-state::after { font-size: 20px; }
+  /* A run's rows and a group's scans sit under its summary, a step in from the column, on the quieter row rule. */
+  .inbox-job-group[open] > summary { border-bottom: 0; }
+  .inbox-job-group-rows > * { border-top: 1px solid var(--nested-line); }
+  /* A scan card in the list is a row on the list's hairline: no rule of its own above it (outline-theme.css draws one on every
+     .scan-card), its text on the column. */
+  :root:root .inbox-job-list .scan-card { border-top: 0; padding-block: var(--space-5); }
+  .inbox-scan-tile-actions { padding-right: 0; }
+  .inbox-select { padding-left: 0; padding-right: var(--space-4); }
+
+  /* Combining scans is a mode of the list: its bar is a ruled line (a 2px ink rule above), the count and the actions on it. */
+  .inbox-selection { padding: var(--space-3) 0; border: 0; border-top: 2px solid var(--ink); background: transparent; color: var(--ink); }
+  .inbox-selection > span { font-variant-numeric: tabular-nums; }
+  .inbox-combine-list strong { color: var(--ink); font-weight: 500; }
+
+  /* A job's result: a 2px rule in the success ink over the paper, the check beside the words; no fill, no frame. */
+  :root:root .inbox-job-detail .inbox-job-result {
+    align-items: flex-start;
+    margin: var(--space-3) 0 var(--space-4);
+    padding: var(--space-3) 0 0;
+    background: transparent;
+    border: 0;
+    border-top: 2px solid var(--success);
+    box-shadow: none;
+    color: var(--text);
+  }
+  :root:root .inbox-job-detail .inbox-job-result > .icon { margin-top: 3px; color: var(--success); }
+  :root:root .inbox-job-detail .inbox-job-result strong { color: var(--ink); font: var(--head-weight) 16px/1.25 var(--font-serif); }
+
+  /* File groups and the scan's folded record: disclosures whose title is a serif headline, +/− at the right. */
+  .inbox-file-group > summary,
+  .inbox-record > summary {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    min-height: 44px;
+    list-style: none;
+    color: var(--heading);
+    font: var(--head-weight) var(--text-item)/1.25 var(--font-serif);
+    letter-spacing: var(--tracking-title);
+    transition: color var(--snappy);
+  }
+  .inbox-file-group > summary::-webkit-details-marker,
+  .inbox-record > summary::-webkit-details-marker { display: none; }
+  .inbox-file-group > summary::after,
+  .inbox-record > summary::after {
+    content: "+"; content: counter(decor, none) "+" / "";
+    margin-inline-start: auto;
+    flex: 0 0 20px;
+    
+    display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num);
+    transition: color var(--snappy);
+  }
+  .inbox-file-group[open] > summary::after,
+  .inbox-record[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+  :is(.inbox-file-group, .inbox-record) > summary:hover,
+  :is(.inbox-file-group, .inbox-record) > summary:hover::after { color: var(--ink); }
+  .inbox-file-count { margin-left: 0; font-variant-numeric: tabular-nums; }
+  .inbox-file-group:first-of-type { border-top: 1px solid var(--line); }
+  /* The last group closes on its section's own edge (the record's divider below), not on a second hairline just above it. */
+  .course-panel > .inbox-file-group:last-child { border-bottom: 0; }
+  /* An open group lists its files flat under the summary, each on the row rule above it. The body is a .detail-group
+     (typography.css), which would add its block margins between the summary and the first file; a little room is kept under
+     the last file instead. */
+  :root:root .inbox-file-group > [data-inbox-file-body].detail-group { margin: 0; padding-bottom: var(--space-3); }
+  :root:root .inbox-file-group > [data-inbox-file-body]:empty { padding: 0; }
+  .inbox-file-group .inbox-artifacts { margin: 0; }
+  .inbox-file-group .inbox-artifact { border-bottom: 0; border-top: 1px solid var(--nested-line); }
+  .inbox-file-group .inbox-artifacts + .text-button { margin-top: var(--space-2); }
+  .inbox-record > summary { padding: var(--space-3) 0; }
+  .inbox-record > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  /* A file: its name in the ink, the kind and size under it, the glyphs in the label ink; hover underlines the name. */
+  .inbox-artifact > .icon { color: var(--label); transition: color var(--snappy); }
+  .inbox-artifact strong { color: var(--ink); font-size: var(--text-body); font-weight: 500; }
+  .inbox-artifact small { margin-top: 2px; }
+  .inbox-artifact:is(:hover, :focus-visible) strong { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .inbox-artifact:is(:hover, :focus-visible) > .icon { color: var(--ink); }
+
+  /* Submission details: a spec table (labels beside values, one row rule each). The list is a .detail-group (typography.css): it
+     sits closer under its heading than the group's margin, and its rows draw their own hairlines, so the grid keeps no gap. */
+  :root:root .inbox-facts.detail-group { margin: var(--space-3) 0 0; gap: 0; }
+  .inbox-facts > :is(dt, dd) { padding-block: var(--space-2); border-top: 1px solid var(--nested-line); }
+  .inbox-facts > dt { padding-inline-end: var(--space-5); }
+  .inbox-facts > :is(dt, dd):nth-last-child(-n + 2) { border-bottom: 1px solid var(--nested-line); }
+  .inbox-facts dt { line-height: 2; }
+  .inbox-facts dd { color: var(--ink); font-size: var(--text-body); line-height: 1.5; }
+  .inbox-facts code { color: var(--text); }
+
+  /* Audit history: one event per row, its name as a small uppercase label, its time in the muted ink, what happened in the copy.
+     The list ends on its section's own edge (or, in the scan's record, on the rule of the details below it). The event glyph
+     is not drawn: the label says what happened. */
+  .inbox-audit ol { margin-top: var(--space-3); }
+  .inbox-audit li { margin: 0; padding: var(--space-3) 0 var(--space-4); border-top: 1px solid var(--nested-line); }
+  .inbox-audit li li:first-child { border-top: 0; }
+  :root:root .inbox-audit li > .inbox-audit-dot { display: none; }
+  .inbox-audit strong { color: var(--ink); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .inbox-audit small { margin: 2px 0 var(--space-2); }
+  .inbox-audit p { color: var(--text); font-size: var(--text-small); }
+  .inbox-audit-run details > summary { width: fit-content; color: var(--ink); font-size: var(--text-small); font-weight: 600; letter-spacing: 0; text-transform: none; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .inbox-audit-run details > summary:hover { color: var(--ink); }
+
+  /* Raw command and approval JSON: an unfilled block between two hairlines, in the code face. */
+  :root:root .inbox-command-details .disclosure-body pre,
+  :root:root dialog .inbox-approval-command,
+  :root:root .inbox-command-details > pre {
+    padding-inline: 0;
+    background: transparent;
+    border: 0;
+    border-block: 1px solid var(--line);
+    border-radius: 0;
+    color: var(--text);
+    font: 400 var(--text-small)/1.6 var(--font-code);
+  }
+
+  /* A chosen file's size: metadata beside its name. */
+  .inbox-upload-list small { font-size: var(--text-small); }
+
+  /* The scan's folded record: its sections sit flat inside it, split by a column rule and hairlines. */
+  :root:root .inbox-record .course-panel { padding: 0; border: 0; background: transparent; }
+  :root:root .inbox-record { padding-inline: 0; }
+  .inbox-record .inbox-detail-grid { gap: 0; margin-top: var(--space-2); }
+  :root:root .inbox-record .inbox-detail-grid > section + section { padding-inline-start: var(--space-6); margin-inline-start: var(--space-6); border-inline-start: 1px solid var(--line); }
+  /* The history starts under one full-width hairline (the flattened .course-panel rule above would otherwise remove it). */
+  :root:root .inbox-record .course-panel.inbox-audit { margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--line); }
+  .inbox-record .inbox-command-details { margin-bottom: var(--space-2); }
+
+  /* Codes & API access: each list's heading is a small label over a 2px ink rule, its action at the right; codes and keys are
+     rows on the row rule. */
+  .inbox-access-heading { margin: 0 0 var(--space-1); padding-top: var(--space-2); border-top: 2px solid var(--ink); }
+  .inbox-access-heading:not(:first-child) { margin-top: var(--space-8); }
+  :root:root .inbox-access-heading h3 { margin: 0; color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+  .inbox-access-row { align-items: center; border-top: 0; border-bottom: 1px solid var(--nested-line); }
+  .inbox-access-row strong { color: var(--ink); font: var(--head-weight) var(--text-lead)/1.3 var(--font-serif); }
+  .inbox-access-heading + .field-hint { padding-block: var(--space-3); border-bottom: 1px solid var(--nested-line); }
+  /* A new code: its QR, then its name and expiry under it, apart from the fields below. */
+  .inbox-qr + p { margin: 0 0 var(--space-5); color: var(--muted); font-size: var(--text-small); text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .inbox-job-row:is(:hover, :focus-visible) .inbox-job-state > .icon { transform: none; }
+  .inbox-job-group > summary > .inbox-job-state::after { transition: none; }
+}
+
+/* PICTURE-SEARCH: the scanned pages that look like the search words. Small pages on white, like every scanned image. */
+.picture-strip-pages { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: var(--space-4) var(--space-3); }
+.picture-strip-page { display: grid; gap: var(--space-2); align-content: start; min-width: 0; margin: 0; }
+.picture-strip-page img {
+  display: block; width: 100%; height: auto; aspect-ratio: 8.5 / 11; object-fit: contain; border: 1px solid var(--line); background: #fff;
+  transition: border-color var(--snappy);
+}
+.picture-strip-page a:hover img { border-color: var(--ink); }
+.picture-strip-page a:focus-visible img { border-color: var(--ink); outline: 2px solid var(--focus); outline-offset: 1px; }
+.picture-strip-page figcaption { display: grid; gap: 2px; min-width: 0; font-size: var(--text-small); }
+.picture-strip-page figcaption small { color: var(--muted); overflow-wrap: anywhere; }
+.picture-strip-scans { justify-self: start; }

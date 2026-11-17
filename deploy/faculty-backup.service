@@ -1,0 +1,14 @@
+[Unit]
+Description=Verified nightly backup of Faculty course data
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/code/Teaching
+ExecStart=%h/code/Teaching/.venv/bin/python %h/code/Teaching/manage_storage.py backup
+Environment=PYTHONDONTWRITEBYTECODE=1
+NoNewPrivileges=true
+UMask=0077
+TimeoutStartSec=infinity
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7

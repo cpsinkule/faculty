@@ -1,0 +1,176 @@
+/* The assignment's tabs are one of the shared tab groups (ledger.css): framed words, the chosen one the ink block; each carries its
+   stage's mark (ONE NAVIGATION, below). The list has no assignment, so its bar is empty and takes no room. */
+.assignment-nav { display: flex; flex-wrap: wrap; margin-bottom: 1.5rem; box-shadow: inset 0 -1px var(--line); }
+/* Across the column, like the page's other rules (the shared group sets fit-content at (0,4,0) and loads later). */
+:root:root .assignment-nav.assignment-nav[data-assignment-nav] { width: auto; }
+.assignment-nav:empty { display: none; }
+/* A draft's page names itself in the bar as the chosen tab would. */
+.assignment-nav > span[aria-current] { display: inline-flex; align-items: center; min-height: var(--button-height); color: var(--ink); font-weight: 600; box-shadow: inset 0 -2px var(--ink); }
+/* INDEX TABS (requirement, 2026-10-09): Pending, Certified and Archived are one of the shared tab groups (ledger.css) above the
+   filters; each count is an inventory figure in the numerals' face, never the needs-you block. */
+.assignment-tabs { display: flex; margin-bottom: 1.5rem; }
+.assignment-tabs > button > b { margin-inline-start: 6px; font: 700 12px/1 var(--font-num); color: inherit; }
+/* Archived, by course: each course a ruled region (.assignment-block, its code the heading); its rows keep the list's look. */
+[data-assignment-list] > .assignment-block { margin-bottom: 2rem; }
+.assignment-filters { display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: end; }
+.assignment-filters label { display: grid; gap: .5rem; }
+.assignment-filters input { min-width: 19rem; }
+/* The list: each assignment is one record, its serif title the headline and the row's one link (the whole row opens it). */
+.assignment-row { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(16rem, 1fr) minmax(16rem, 1fr); gap: 2rem; padding: 1.25rem 0; border-bottom: 1px solid var(--nested-line); align-items: center; }
+/* The hover tint reaches 12px past the words on each side; the row's rule stays on the column. */
+.assignment-row::before { content: ""; position: absolute; inset: 0 -12px; z-index: -1; transition: background-color var(--snappy); }
+.assignment-row:hover::before { background: var(--surface-hover); }
+.assignment-row :is(h2, h3) { margin: 0; font: var(--head-weight) 21px/1.15 var(--font-serif); text-wrap: pretty; }
+.assignment-row :is(h2, h3) a { color: var(--heading); text-decoration: none; transition: color var(--snappy); }
+.assignment-row :is(h2, h3) a::after { content: ""; position: absolute; inset: 0; }
+.assignment-row:hover :is(h2, h3) a { color: var(--ink); }
+.assignment-row :is(h2, h3) a:focus-visible { outline: none; }
+.assignment-row:has(:is(h2, h3) a:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+.assignment-row p { margin: .5rem 0; }
+/* An assignment with decisions waiting says so in the orange needs-you block; the others' summaries read muted. */
+.assignment-row .assignment-row-waits { display: inline-block; padding: 2px 8px; border: var(--frame); background: var(--needs-fill); color: var(--needs-ink); font: 700 var(--text-small)/1.4 var(--font-body); }
+.assignment-row:not([data-waits="you"]) > div:last-child p { color: var(--muted); }
+/* THE OVERVIEW (critique 2026-10-05): one column led by Needs you; Readiness at a reading width with its links in one spaced row
+   (no "·" between go-links that already carry an arrow); finished activity folded at the end. */
+.assignment-overview { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+.assignment-overview .assignment-readiness { max-width: 52rem; }
+.assignment-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); margin: var(--space-3) 0 0; }
+.assignment-activity.disclosure { margin: 0 0 var(--space-6); }
+.assignment-block { border-top: 2px solid var(--ink); padding-top: 1rem; margin-bottom: 1.5rem; min-width: 0; }
+.assignment-block h2 { font: var(--head-weight) var(--text-title)/1.15 var(--font-head); letter-spacing: -.01em; margin: 0 0 1rem; }
+.assignment-actions { list-style: none; padding: 0; }
+.assignment-actions li { display: flex; gap: 1rem; align-items: baseline; justify-content: space-between; padding: .9rem 0; border-bottom: 1px solid var(--line); }
+.assignment-actions strong { font: var(--head-weight) var(--text-count)/1 var(--font-head); font-variant-numeric: tabular-nums; }
+/* NEEDS YOU (Ledger): each decision waiting is a white row in the frame, its count an orange block, its link the action. */
+.assignment-block[data-waits="you"] .assignment-actions { display: grid; gap: var(--space-2); }
+.assignment-block[data-waits="you"] .assignment-actions li { padding: var(--space-3) var(--space-4); border: var(--frame); background: var(--surface); }
+.assignment-block[data-waits="you"] .assignment-actions strong { display: inline-block; min-width: 1.6em; padding: 2px 8px; background: var(--needs-fill); color: var(--needs-ink); font-size: var(--text-section); text-align: center; }
+/* The index's Needs you: the badge's cards, each with its one-line reason. */
+[data-assignment-needs] .assignment-block { margin-bottom: 2rem; }
+[data-assignment-needs] .assignment-block[data-waits="you"] .assignment-actions { margin: 0; }
+[data-assignment-needs] li small { margin: var(--space-1) 0 0; }
+/* In progress and Recent activity: ruled records, not bullets; a record's time under it. */
+.assignment-records { list-style: none; margin: 0; padding: 0; }
+.assignment-records > li { padding: .7rem 0; border-bottom: 1px solid var(--nested-line); }
+.assignment-records > li > small { margin: 2px 0 0; font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+.assignment-readiness { margin: 0; }
+.assignment-readiness > div { display: grid; grid-template-columns: 1.25rem 8rem 1fr; gap: 1rem; padding: .8rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.assignment-readiness dd { margin: 0; }
+/* The label and its state keep their own columns whether or not the browser draws the marker (an older Safari drops a pseudo-element
+   whose content has alternative text; then the label fell into the marker's column and over its state, 2026-10-05). */
+.assignment-readiness > div > dt { grid-column: 2; }
+.assignment-readiness > div > dd { grid-column: 3; }
+/* A row's state mark before its label: done a green tick, under way an amber dot, failed a red block, not started a faint dash;
+   what is not started reads muted. */
+.assignment-readiness > div::before { content: "–"; content: counter(decor, none) "–" / ""; color: var(--faint); font: 800 var(--text-body)/1 var(--font-body); text-align: center; }
+.assignment-readiness > div[data-state="done"]::before { content: "✓"; content: counter(decor, none) "✓" / ""; color: var(--success); }
+.assignment-readiness > div[data-state="started"]::before { content: "●"; content: counter(decor, none) "●" / ""; color: var(--warning); font-size: var(--text-small); }
+.assignment-readiness > div[data-state="failed"]::before { content: "!"; content: counter(decor, none) "!" / ""; background: var(--danger-fill); color: var(--danger-fill-ink); }
+.assignment-readiness > div[data-state="idle"] dd { color: var(--muted); }
+.assignment-readiness > div[data-state="failed"] dd { color: var(--error); font-weight: 700; }
+.assignment-block small { display: block; color: var(--muted); margin-bottom: .75rem; }
+.assignment-buttons { display: flex; gap: 1rem; flex-wrap: wrap; margin-block: 1rem; }
+.assignment-waiting { margin-top: var(--space-4); color: var(--muted); }
+/* Why grading waits: quiet while it starts by itself; in ink, behind the needs-you mark, when starting it is the instructor's. */
+.assignment-wait { margin: var(--space-2) 0 0; }
+.assignment-wait[data-yours] { color: var(--ink); font-weight: 600; }
+.assignment-wait[data-yours]::before { content: ""; display: inline-block; inline-size: 8px; block-size: 8px; margin-inline-end: var(--space-2); background: var(--needs-fill); }
+.collection-student { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, .8fr); gap: var(--space-5); padding-block: var(--space-4); border-bottom: 1px solid var(--line); }
+.collection-student strong, .collection-student span { display: block; }
+.collection-student form { display: grid; gap: var(--space-3); }
+.collection-filters { display: flex; gap: var(--space-4); align-items: end; }
+.collection-filters .field:first-child { flex: 1; }
+.collection-workspace { display: grid; grid-template-columns: minmax(18rem, .85fr) minmax(0, 1.3fr); gap: var(--space-6); align-items: start; }
+.collection-list { list-style: none; padding: 0; margin: 0; max-height: 65dvh; overflow: auto; scrollbar-gutter: stable; }
+.collection-choice { display: grid; gap: var(--space-1); text-align: left; width: 100%; padding: var(--space-3); border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--text); box-shadow: none; }
+.collection-choice:hover { background: var(--surface-hover); }
+.collection-choice[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.collection-choice[data-needs]:not([aria-pressed="true"]) > span { color: var(--accent); font-weight: 700; }
+.collection-choice small { color: inherit; margin: 0; }
+.collection-detail { border-top: 2px solid var(--ink); min-width: 0; }
+.collection-detail .collection-student { grid-template-columns: minmax(0, 1fr); padding-top: var(--space-3); }
+.collection-detail h3 { margin: 0 0 var(--space-2); }
+.delivery-checklist dl > div { display: grid; grid-template-columns: 10rem 1fr; gap: var(--space-4); padding-block: var(--space-3); border-bottom: 1px solid var(--line); }
+.delivery-checklist dd { margin: 0; }
+.delivery-checklist dd a { margin-left: var(--space-3); }
+.assignment-start { display: grid; gap: var(--space-3); }
+.assignment-also { display: flex; gap: 1.5rem; margin: -1rem 0 2rem; }
+
+/* ONE NAVIGATION (requirement, 2026-10-05). Inside an assignment its tabs are the only navigation: a mounted grading page drops its own link bar and "Step N
+   of 6" line (their places are the tabs: Scan records and Bubble sheets in Collect, Gradebook and Gradescope in Return, the exam
+   record under Needs you & progress), its step graph shows only the steps of the tab on screen (known by the tab each step opens,
+   grading-guide.js `stages`), unnumbered (Prepare: rubrics, answer
+   areas, finalization; Grade: grade, review; none on Certify). */
+#assignment-workspace[data-area] .grading-page-bar .grading-context,
+#assignment-workspace[data-area] .grading-workflow-position,
+#assignment-workspace[data-area] [data-grading-workflow] .grading-pipeline-number { display: none; }
+/* The page's refresh and Compute settings stay (a grading page is long-lived; settings are not navigation), as two icons at the right
+   end of the assignment's tab row rather than a row of their own; the settings button keeps its words as its name. */
+#assignment-workspace[data-area] { position: relative; }
+#assignment-workspace[data-area] .grading-page-bar { position: absolute; top: 0; right: 0; margin: 0; padding: 0; border: 0; min-height: 0; }
+#assignment-workspace[data-area] .grading-page-bar .grading-settings-trigger { min-width: 36px; min-height: 36px; padding: 0 8px; }
+#assignment-workspace[data-area] .grading-page-bar .grading-settings-trigger > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+#assignment-workspace[data-area="prepare"] [data-grading-workflow] .grading-pipeline > li:not(:has(> a:is([href$="tab=rubrics"], [href$="tab=locations"], [href$="tab=answer-key"]))),
+#assignment-workspace[data-area="grade"] [data-grading-workflow] .grading-pipeline > li:not(:has(> a:is([href$="tab=jobs"], [href$="tab=review"]))),
+#assignment-workspace[data-area]:is([data-area="certify"], [data-area="collect"], [data-area="return"], [data-area="create"], [data-area="overview"]) [data-grading-workflow] { display: none; }
+/* A tab's mark after its name (ONE NAVIGATION): needs you is the orange block with its count (§1.2), done a slate tick, failed the red
+   block; nothing for a stage not started or under way. Generated content of a hidden child span (its own data-count), so the tab's
+   accessible name and text stay its word. Every tab keeps the mark's slot, so the tabs never move when marks arrive (§1.8, §6), and
+   the row keeps room at its end for a grading page's refresh and Compute settings, so they never cover the last tab. */
+:root:root .assignment-nav.assignment-nav[data-assignment-nav] { padding-inline-end: 88px; }
+:root:root:root .assignment-nav.assignment-nav[data-assignment-nav] > a { padding-left: 8px; padding-right: 8px; }
+.assignment-nav > a > .assignment-mark { display: inline-grid; place-items: center; min-width: 16px; height: 16px; margin-inline-start: 4px; box-sizing: border-box; vertical-align: middle; font: 800 11px/1 var(--font-num); }  /* centred: an empty slot must not lower its tab's words */
+.assignment-nav > a[data-mark="needs"] > .assignment-mark { padding: 0 3px; background: var(--needs-fill); color: var(--needs-ink); }
+.assignment-nav > a[data-mark="needs"] > .assignment-mark::after { content: "!"; }
+.assignment-nav > a[data-mark="needs"] > .assignment-mark[data-count]::after { content: attr(data-count); }
+.assignment-nav > a[data-mark="done"] > .assignment-mark::after { content: "✓"; color: var(--pipeline-done-ink); font-size: 13px; }
+.assignment-nav > a[data-mark="done"][aria-current="page"] > .assignment-mark::after { color: inherit; }
+.assignment-nav > a[data-mark="failed"] > .assignment-mark { background: var(--danger-fill); color: var(--danger-fill-ink); }
+.assignment-nav > a[data-mark="failed"] > .assignment-mark::after { content: "!"; }
+/* ONE NAVIGATION: quiet lines say plainly that nothing waits or runs; Collect's lead names who is missing a paper. */
+.assignment-quiet { color: var(--muted); }
+.assignment-times { color: var(--muted); font-family: var(--font-num); font-size: var(--text-small); }
+.assignment-lead { margin: 0 0 var(--space-3); font-size: var(--text-lead); font-weight: 600; }
+.assignment-subhead { margin: var(--space-5) 0 var(--space-2); font-size: var(--text-body); font-weight: 800; }
+/* Return inside an assignment (ONE NAVIGATION): the assessment is the assignment on screen, so the page's own picker goes; its two
+   views (Teaching review, Grade delivery) stay as Return's sub-tabs. */
+#assignment-workspace[data-area="return"] .support-toolbar .field:has([data-review-assessment]) { display: none; }
+/* A grading page's "Next step" inside an assignment is one quiet line (ONE NAVIGATION; critique 2026-10-05, P1 "finished tabs push
+   the next one"): the next stage's tab already carries the orange mark, so the line names it and links it as a go-link, never an
+   ink button competing with the page's own work, and without the headline and paragraph that repeated it on Prepare and Grade. */
+#assignment-workspace[data-area] #grading-section .next-step { grid-template-columns: auto auto minmax(0, 1fr); align-items: baseline; justify-items: start; gap: var(--space-3); margin: var(--space-2) 0 var(--space-4); padding: var(--space-2) 0; border-top: 1px solid var(--nested-line); }
+#assignment-workspace[data-area] #grading-section .next-step > .eyebrow { color: var(--label); }
+#assignment-workspace[data-area] #grading-section .next-step > .next-step-title { font: 600 var(--text-body)/1.3 var(--font-body); letter-spacing: 0; color: var(--text); }
+#assignment-workspace[data-area] #grading-section .next-step > .next-step-detail { display: none; }
+#assignment-workspace[data-area] #grading-section .next-step > .button,
+#assignment-workspace[data-area] #grading-section .next-step > .button:is(:hover, :active, :focus-visible) { justify-self: start; min-height: 0; padding: 0; border: 0; background: none; box-shadow: none; transform: none; color: var(--ink); font: 700 var(--text-control)/1.3 var(--font-body); }
+#assignment-workspace[data-area] #grading-section .next-step > .button:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+#assignment-workspace[data-area] #grading-section .next-step > .button::before { content: none; }
+/* Grade's missing-paper notice is Collect's work (its tab carries the mark): its title and its ways there, without the paragraph. */
+#assignment-workspace[data-area="grade"] [data-grade-blocked] > p { display: none; }
+/* What runs by itself (2026-10-18): one muted line under Readiness, its link to Compute settings. */
+.assignment-automatic { margin: var(--space-3) 0 0; color: var(--muted); }
+.assignment-automatic > a { margin-inline-start: var(--space-2); }
+/* Collect's scans still in their scan checks (I2): the list's rows, each a scan and its way back to its checks. */
+.assignment-scan-checks { margin-block: var(--space-4); }
+.assignment-scan-checks:focus { outline: none; }
+.assignment-scan-checks small { display: inline; margin: 0 0 0 var(--space-2); color: var(--muted); }
+/* I6: the exam record inside an assignment shows only its content. Its own lifecycle graph and "Next step" callout are a second
+   overview (the shell's tabs and Needs you say that), and its tab row is DESIGN-LANGUAGE §4 sub-tabs: words over a hairline, the
+   chosen one in ink over a 2px ink underline. Outside the shell nothing changes. */
+#assignment-workspace[data-area] [data-exam-lifecycle] { display: none; }
+:root:root #assignment-workspace[data-area] [data-exam-subtabs] {
+  display: flex; flex-wrap: wrap; gap: 0 var(--space-6); margin: 0 0 var(--space-4); padding: 0; border: 0; overflow: visible;
+  box-shadow: inset 0 -1px var(--line);
+}
+:root:root #assignment-workspace[data-area] [data-exam-subtabs] > :is(button, a),
+:root:root #assignment-workspace[data-area] [data-exam-subtabs] > :is(button, a):is(:hover, :focus-visible, :active) {
+  min-height: var(--button-height); margin: 0; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0;
+  background: none; box-shadow: none; transform: none; color: var(--muted); font: 600 var(--text-body)/1.2 var(--font-body);
+  letter-spacing: 0; text-transform: none;
+}
+:root:root #assignment-workspace[data-area] [data-exam-subtabs] > :is(button, a):hover { color: var(--ink); }
+:root:root #assignment-workspace[data-area] [data-exam-subtabs] > :is(button, a):is([aria-selected="true"], [aria-current], [aria-pressed="true"]) {
+  background: none; color: var(--ink); border-bottom-color: var(--ink); font-weight: 700;
+}
+:root:root #assignment-workspace[data-area] [data-exam-subtabs] > :is(button, a)::before { content: none; }

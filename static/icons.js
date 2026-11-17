@@ -1,0 +1,90 @@
+// Faculty's screen pictograms: angular outlines, projected faces and construction
+// lines. Keep the names saved tools use (users, book, check, folder, calendar,
+// spark, grid, chart) stable. Controls keep their familiar silhouettes; larger
+// objects expose the chromatic edge detail.
+const shape = (outline, detail = '', trace = '', edge = '') => ({outline, detail, trace, edge});
+const glyphs = {
+  area: shape('M11 3H3v8M21 3h8v8M29 21v8h-8M11 29H3v-8', 'M10 10h12v12H10Z'),
+  home: shape('M3 13 13 3 23 13V28H3Z M23 13l6-4v15l-6 4M13 3l6-2 10 8',
+    'M10 28V18h7v10', 'M6 14H20', 'M3 13 13 3 23 13'),
+  book: shape('M3 5 16 9 29 5V24L16 28 3 24Z M16 9v19',
+    'M6 3l10 3 10-3v3M6 10l6 2M6 15l6 2M20 12l6-2M20 17l6-2',
+    'M6 22l7 2M20 24l6-2', 'M3 5 16 9 29 5'),
+  grid: shape('M3 7h9v9H3ZM20 7h9v9h-9ZM3 20h9v9H3ZM20 20h9v9h-9Z',
+    'M3 7l4-4h9l-4 4M12 16l4-4V3M20 7l4-4h5M3 20l4-4M20 20l4-4',
+    'M16 18v10', 'M3 7l4-4h9M20 7l4-4h5'),
+  mail: shape('M3 8h22l4 4v14H3ZM3 8l4-4h22v8',
+    'M3 12l11 9 15-9M8 22h5', 'M26 15v7', 'M3 8h22l4 4'),
+  calendar: shape('M4 7h22v22H4ZM4 7l5-4h21v22l-4 4M26 7l4-4',
+    'M4 13h22M10 5v5M20 5v5M9 18h3M17 18h3M9 23h3M17 23h3',
+    'M28 10v12', 'M4 7l5-4h21'),
+  users: shape('M5 5h8l3 3v5l-3 3H8l-3-3ZM3 29V22l6-4 7 4v7M21 5h5l3 3v5l-3 3h-5M22 19l7 4v6',
+    'M9 18v11M16 22l5-3v10', 'M18 4v10', 'M3 22l6-4 7 4'),
+  folder: shape('M3 10V5h10l4 4h12v15l-5 5H3ZM3 13h21v16M24 13l5-4',
+    'M7 18h9M7 22h6', 'M26 16v7', 'M3 13h21l5-4'),
+  paper: shape('M6 3h15l7 7v19H6ZM21 3v7h7',
+    'M3 7v22M10 15h13M10 20h13M10 25h8', 'M3 3v1', 'M6 3h15l7 7'),
+  print: shape('M8 10V3h16v7M8 25H3V11h26v14h-5M8 20h16v9H8Z',
+    'M3 11l4-4h1M24 7h3l2 4M23 15h3M12 24h8', 'M6 16h10', 'M3 11h26'),
+  cards: shape('M3 11h21v17H3ZM3 11l6-7h21v17l-6 7M24 11l6-7',
+    'M7 16h3v3H7ZM15 17h5M7 22h3M15 23h5', 'M27 12v7', 'M3 11l6-7h21'),
+  exam: shape('M6 3h15l7 7v19H6ZM21 3v7h7',
+    'M10 15h3v3h-3ZM18 16h5M10 23l2 2 4-5M19 24h4', 'M3 8v20', 'M6 3h15l7 7'),
+  grading: shape('M4 3h18v26H4ZM22 3l6 5v21h-6',
+    'M8 9h9M8 14h6M9 22l4 4 10-12', 'M25 11v12', 'M4 3h18l6 5'),
+  seat: shape('M7 4h13v13H7ZM7 17l-4 5 13 5 11-5-7-5M3 22v7M16 27v3M27 22v7',
+    'M20 4l5 4v11M7 4l5-2 13 6M7 17l9 4 11-5', 'M12 7v7', 'M3 22l13 5 11-5'),
+  server: shape('M4 7h20v10H4ZM4 19h20v10H4ZM4 7l6-4h20v10l-6 4M24 7l6-4M24 19l6-4v10l-6 4',
+    'M8 12h2M15 12h5M8 24h2M15 24h5', 'M27 7v5M27 19v5', 'M4 7l6-4h20'),
+  network: shape('M11 3h10v7H11ZM2 23h10v7H2ZM21 23h10v7H21Z',
+    'M16 10v6M7 23v-7h19v7', 'M16 18v11', 'M11 3h10M2 23h10M21 23h10'),
+  settings: shape('M4 3h24v26H4Z',
+    'M10 7v4m0 6v8M22 7v12m0 6v1M7 11h6v6H7ZM19 19h6v6h-6Z',
+    'M16 7v18', 'M4 3h24'),
+  chart: shape('M3 3v26h26M8 24V15h4v9M17 24V9h4v15M26 24V3h4v21',
+    '', 'M5 7h17M5 12h9M5 19h2', 'M8 15h4M17 9h4M26 3h4'),
+  route: shape('M3 3h6v6H3ZM23 23h6v6h-6ZM9 6h14l5 5-5 5H9l-5 5 5 5h14',
+    '', 'M13 6h6M13 26h6', 'M9 6h14l5 5'),
+  sprout: shape('M16 29V13M16 20 5 16 3 7l10 3 3 10ZM16 13l2-8 11-2-3 9-10 1Z',
+    'M7 11l9 9M22 8l-6 5', 'M5 29h7M20 29h7', 'M3 7l10 3M18 5l11-2'),
+  spark: shape('M16 2l4 10 10 4-10 4-4 10-4-10-10-4 10-4Z',
+    'M16 11v10M11 16h10', 'M4 4l3 3M25 25l3 3', 'M16 2l4 10 10 4'),
+  pin: shape('M17 3l12 12-8 1-6 7-6-6 7-6ZM12 20 3 29',
+    'M17 3l-2 5 9 9', 'M4 24l4-4'),
+  wrench: shape('M20 3h8l-7 7 2 3 7-7v8l-7 7h-6L7 31l-5-5 10-10v-6Z',
+    'M5 26l3 3M16 12l5 5', 'M12 23l5-5'),
+  search: shape('M8 3h9l6 6v9l-6 6H8l-6-6V9ZM21 22l9 9',
+    'M7 10V8h3M17 19h2v-3', 'M12 7v3M7 14h3'),
+  refresh: shape('M4 13V8l6-5h12l6 6M28 3v6h-6M28 19v5l-6 5H10l-6-6M4 29v-6h6',
+    '', 'M4 15v3M28 14v3'),
+  attach: shape('M22 9 11 20l3 3 13-13-7-7L6 17l10 10 12-12'),  // ATTACH IN CHAT: a paperclip in straight strokes
+  link: shape('M13 7l4-4h8l4 4v8l-6 6h-5M19 25l-4 4H7l-4-4v-8l6-6h5M11 21l10-10',
+    '', 'M3 6V3h3M26 29h3v-3'),
+  edit: shape('M4 22 23 3l6 6-19 19-8 2ZM19 7l6 6M4 22l6 6',
+    'M8 23 23 8', 'M15 29h14'),
+  trash: shape('M6 9h20v20H6ZM3 9h26M10 9V3h12v6',
+    'M12 14v10M20 14v10M26 9l3-3H3', 'M16 14v10'),
+  download: shape('M16 3v18M9 14l7 7 7-7M4 21v8h24v-8',
+    'M4 29l4-4h16l4 4', 'M3 17v-5M29 17v-5'),
+  info: shape('M10 3h12l7 7v12l-7 7H10l-7-7V10Z',
+    'M16 13v10M12 23h8M14 8h4', 'M6 10v4M26 18v4'),
+  plus: shape('M16 5v22M5 16h22', '', 'M3 9V3h6M23 29h6v-6'),
+  close: shape('M7 7l18 18M7 25 25 7', '', 'M3 10V3h7M22 29h7v-7'),
+  // The floating Assistant's window controls (assistant-area.js): put it away, bring it back or open a chat as a window.
+  minimize: shape('M7 23h18', '', 'M3 10V3h7M22 29h7v-7'),
+  window: shape('M5 8h22v17H5Z', 'M5 13h22', 'M9 4h22v17'),
+  check: shape('M5 17l8 8L28 7', '', 'M3 10V3h7M22 29h7v-7'),
+  sort: shape('M9 3v26M3 23l6 6 6-6M23 29V3M17 9l6-6 6 6', '', 'M16 13v6'),
+  'arrow-left': shape('M28 16H4M13 7l-9 9 9 9', '', 'M22 10h7M22 22h7'),
+  'arrow-right': shape('M4 16h24M19 7l9 9-9 9', '', 'M3 10h7M3 22h7'),
+  'arrow-up-right': shape('M5 27 27 5M12 5h15v15', '', 'M4 17v-5h5M15 28h5v-5'),
+};
+
+const attribute = value => String(value).replace(/[&"<>]/g, c => ({'&': '&amp;', '"': '&quot;', '<': '&lt;', '>': '&gt;'})[c]);
+export function icon(name, className = '') {
+  const key = Object.hasOwn(glyphs, name) ? name : 'grid', glyph = glyphs[key];
+  return `<svg class="icon ${attribute(className)}" data-glyph="${key}" width="20" height="20" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" focusable="false"><path class="icon-outline" d="${glyph.outline}"/>${glyph.detail ? `<path class="icon-detail" d="${glyph.detail}"/>` : ''}${glyph.trace ? `<path class="icon-trace" d="${glyph.trace}"/>` : ''}${glyph.edge ? `<g class="icon-spectrum"><path class="icon-edge-pink" d="${glyph.edge}"/><path class="icon-edge-blue" d="${glyph.edge}"/><path class="icon-edge-green" d="${glyph.edge}"/></g>` : ''}</svg>`;
+}
+export function mountIcons(root = document) {
+  root.querySelectorAll('[data-icon]').forEach(node => { node.innerHTML = icon(node.dataset.icon); });
+}

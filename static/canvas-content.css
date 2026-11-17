@@ -1,0 +1,193 @@
+/* Canvas content (canvas-content.js): Faculty's copy of a term's modules, pages and assignments, or one section's own course,
+   and the push window. Tokens only. DESIGN-LANGUAGE (Ledger): the bar keeps the page's one next step in view; a module is a row
+   that opens in place and an item is one line; the pages and the assignments are a list beside its editor, the list scrolling
+   in its own box so a row far down never opens its editor off the screen. */
+.course-canvas-content { --cc-bar: 60px; display: grid; gap: var(--space-3); }
+.cc-lead { color: var(--muted); margin: 0; }
+.cc-start { display: grid; gap: var(--space-3); max-width: 720px; }
+.cc-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+.cc-spacer { flex: 1; }
+.cc-empty { color: var(--muted); }
+.cc-notes:empty { display: none; }
+/* The bar: where the copy stands on the left, the one next step on the right; it stays under the top of the window. */
+.cc-savebar { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-5);
+  min-height: var(--button-height); padding: var(--space-2) 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: var(--canvas); }
+.cc-state { display: grid; gap: 2px; min-width: 0; }
+.cc-status { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); margin: 0; color: var(--text); font-variant-numeric: tabular-nums; }
+.cc-status-rest { color: var(--muted); }
+.cc-pushline { margin: 0; color: var(--muted); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+.cc-pushline :is(a, strong) { color: var(--ink); }
+.cc-savebar > .cc-actions { flex: 0 0 auto; flex-wrap: nowrap; }
+/* Modules | Pages | Assignments are the shared sub-tabs (ledger.css). */
+.cc-tabs.cc-tabs { margin-bottom: 0; }
+
+/* Modules: one row each, its fold a +/− at the right; open, it is ruled at the left and holds its settings and its items. */
+.cc-modules { display: grid; gap: 0; }
+.cc-module { position: relative; border-bottom: 1px solid var(--line); }
+.cc-module[open]::before { content: ""; position: absolute; inset: 0 auto 0 calc(-1 * var(--space-3)); width: 2px; background: var(--ink); }
+.cc-module > summary { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); min-height: 46px; padding: var(--space-1) 0; cursor: pointer; list-style: none; }
+.cc-module > summary::-webkit-details-marker { display: none; }
+.cc-module > summary::after { content: "+"; content: counter(decor, none) "+" / ""; order: 99; margin-inline-start: auto; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.cc-module[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; }
+.cc-module > summary:hover .cc-module-name { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.cc-module > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.cc-module-name { color: var(--heading); font: var(--head-weight) var(--text-lead)/1.25 var(--font-head); letter-spacing: var(--tracking-title); }
+.cc-module-facts { display: inline-flex; flex-wrap: wrap; gap: 0 var(--space-2); color: var(--muted); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+/* In a section's own course, what the term's copy keeps in step: a quiet word, never a frame (most of a course is). */
+.cc-mark { color: var(--muted); font: 500 var(--text-caption)/1.3 var(--font-body); letter-spacing: 0; text-transform: none; }
+.cc-module-facts .cc-mark { font-size: var(--text-small); }
+.cc-module-facts .cc-mark::before { content: "·"; content: counter(decor, none) "·" / ""; margin-inline-end: var(--space-2); }
+.cc-module-body { display: grid; gap: var(--space-3); padding: var(--space-1) 0 var(--space-4); }
+.cc-module-fields, .cc-fields { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-3) var(--space-4); }
+/* Put on Canvas (canvas-placement.js) lays its window out with these two as well. */
+.cc-module-fields .field { min-width: 220px; }
+.cc-grow { flex: 1; }
+/* On the page a row of fields wraps by itself: each as wide as what it holds, the name the widest. */
+.course-canvas-content :is(.cc-module-fields, .cc-fields) .field { flex: 0 1 200px; min-width: 150px; margin: 0; }
+.course-canvas-content :is(.cc-module-fields, .cc-fields) .field:is(.cc-grow, .cc-wide) { flex: 1 1 280px; }
+.course-canvas-content .cc-module-fields .field.cc-grow { max-width: 460px; }
+.course-canvas-content .cc-fields .field.cc-mid { flex: 1 1 220px; }
+.course-canvas-content .cc-fields .field.cc-narrow { flex: 0 1 110px; min-width: 90px; }
+.cc-checks { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-4); min-height: var(--control-height); }
+.cc-checks .checkbox-field { margin: 0; }
+.cc-module-tools { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--control-height); margin-inline-start: auto; }
+.cc-sections { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); min-height: var(--control-height); border: 0; padding: 0; margin: 0; }
+.cc-sections legend { float: left; margin-inline-end: var(--space-1); padding: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.cc-sections .checkbox-field { margin: 0; }
+/* A module's items: one line each on a hairline. What it is, its title, what it shows, Published, then its place. */
+.cc-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--nested-line); }
+.cc-item { display: flex; align-items: center; gap: var(--space-3); min-height: 44px; padding: 2px 0; border: 0; border-bottom: 1px solid var(--nested-line); border-radius: 0; background: transparent; }
+.cc-item:is(:hover, :focus-within) { background: var(--surface-hover); }
+.cc-item-kind { flex: 0 0 108px; display: grid; gap: 1px; color: var(--label); font: 700 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.cc-item-title { flex: 1 1 0; min-width: 180px; }
+/* Canvas's indentation, on the title: the kinds and the controls stay in their columns. */
+.cc-item[data-indent="1"] .cc-item-title { margin-left: var(--space-5); }
+.cc-item[data-indent="2"] .cc-item-title { margin-left: var(--space-10); }
+.cc-item:is([data-indent="3"], [data-indent="4"], [data-indent="5"]) .cc-item-title { margin-left: var(--space-12); }
+.cc-item-target { flex: 0 1 30%; display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.cc-item-target > :is(select, input) { flex: 1 1 auto; width: 100%; min-width: 0; }
+.cc-item-target > .text-button { flex: 0 0 auto; }
+.cc-content { min-width: 0; overflow: hidden; color: var(--muted); font-size: var(--text-small); text-overflow: ellipsis; white-space: nowrap; }
+/* An item's title, address and page are edited in place: quiet until pointed at, so the module reads as a list. */
+:root:root:root .cc-item :is(input:is([type="text"], [type="url"]), select) { box-sizing: border-box; min-height: 36px; padding: 4px 2px; border: 0; border-bottom: 1px solid transparent; border-radius: 0; background-color: transparent; color: var(--ink); font: 500 var(--text-body)/1.4 var(--font-body); transition: border-color var(--snappy); }
+:root:root:root .cc-item select { padding-right: 26px; color: var(--text); }
+:root:root:root .cc-item input[type="url"] { color: var(--muted); font-size: var(--text-small); }
+:root:root:root .cc-item[data-type="SubHeader"] .cc-item-title { font-weight: 700; }
+:root:root:root .cc-item:is(:hover, :focus-within) :is(input:is([type="text"], [type="url"]), select) { border-bottom-color: var(--control-line); }
+:root:root:root .cc-item :is(input:is([type="text"], [type="url"]), select):focus-visible { border-bottom-color: var(--focus); outline: 2px solid var(--focus); outline-offset: 2px; color: var(--ink); }
+.cc-published { flex: 0 0 auto; margin: 0; color: var(--muted); }
+.cc-row-actions { flex: 0 0 auto; display: inline-flex; align-items: center; gap: var(--space-1); }
+/* A row's place controls are plain marks until the row is pointed at or holds the focus; then they wear the frame (§1.3). */
+:root:root:root .cc-row-actions .icon-button { min-width: 32px; min-height: 32px; border-color: transparent; background: transparent; box-shadow: none; }
+:root:root:root .cc-item:is(:hover, :focus-within) .cc-row-actions .icon-button:not(:disabled) { border-color: var(--ink); background: var(--surface); }
+:root:root:root .cc-row-actions .icon-button:disabled { color: var(--faint); }
+.cc-add { padding-top: var(--space-1); }
+.cc-add select { flex: 0 1 280px; }
+
+/* Pages and assignments: the list at the left stays in view under the bar and scrolls in its own box; its editor is beside it. */
+.cc-pages { display: grid; grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+.cc-pages:has(> .cc-assignment-list) { grid-template-columns: minmax(280px, 380px) minmax(0, 1fr); }
+.cc-page-list { position: sticky; top: calc(var(--cc-bar) + var(--space-3)); display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; max-height: calc(100vh - var(--cc-bar) - var(--space-6)); }
+.cc-list-head { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); min-height: 28px; }
+.cc-find { flex: 1 1 100%; box-sizing: border-box; min-height: var(--control-height); padding: 6px 10px; border: var(--frame); border-radius: 0; background: var(--surface); color: var(--ink); font: 500 var(--text-body)/1.4 var(--font-body); }
+.cc-find:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.cc-list-scroll { flex: 1 1 auto; min-height: 120px; overflow-y: auto; border-block: 1px solid var(--line); }
+.cc-list-scroll ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+/* A row: its name, then a muted line of facts; what needs a look is a chip. The open one is the highlighted row. */
+.cc-page-link, .cc-canvas-only .cc-page-static { display: flex; flex-wrap: wrap; align-items: center; gap: 2px var(--space-2); width: 100%; box-sizing: border-box; min-height: 40px; padding: var(--space-2); text-align: left; background: none; border: 0; border-bottom: 1px solid var(--nested-line); border-radius: 0; color: var(--ink); font: 600 var(--text-body)/1.3 var(--font-body); letter-spacing: 0; text-transform: none; }
+.cc-page-link { cursor: pointer; transition: background-color var(--snappy); }
+.cc-page-link:hover { background: var(--surface-hover); }
+.cc-page-link:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.cc-page-link[aria-current="true"] { background: var(--chosen-bg); box-shadow: inset 2px 0 0 var(--ink); font-weight: 800; }
+.cc-row-name { flex: 1 1 55%; min-width: 0; overflow-wrap: anywhere; }
+.cc-assignment-list .cc-row-name { flex-basis: 100%; }
+.cc-row-marks { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); margin-inline-start: auto; }
+.cc-row-marks .chip { letter-spacing: .1em; }
+.cc-assignment-facts { flex: 1 1 auto; color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); font-variant-numeric: tabular-nums; }
+/* A gradebook column whose assignment Canvas keeps (COLUMN ASSIGNMENTS): a read-only row, muted, nothing to click. */
+.cc-canvas-only .cc-page-static { color: var(--muted); font-weight: 500; }
+/* The assignments by Assignment Group: one fold per group, its rows under the summary. */
+.cc-assignment-list .cc-group { border-bottom: 1px solid var(--line); }
+.cc-assignment-list .cc-group > summary { padding: var(--space-2) var(--space-2) var(--space-2) 0; }
+.cc-assignment-list .cc-group > summary .disclosure-hint { white-space: nowrap; }
+.cc-assignment-list .cc-group > ul { border-top: 1px solid var(--nested-line); }
+.cc-assignment-list .cc-group > ul > li:last-child > * { border-bottom: 0; }
+.cc-ungrouped { margin-bottom: var(--space-2); }
+.cc-choose { margin: var(--space-2) 0 0; }
+/* The editor: its fields, then the body. It opens under the bar. */
+.cc-page-editor { display: grid; gap: var(--space-3); min-width: 0; scroll-margin-top: calc(var(--cc-bar) + var(--space-3)); }
+.cc-editor-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); }
+.cc-toolbar { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.cc-toolbar[hidden] { display: none; }
+.cc-tool { min-width: 2.5rem; }
+.cc-editor-switch { margin: 0 0 0 auto; }
+.cc-editor-hint { margin: 0; }
+/* The editing surface: a white sheet in the frame, tall enough to work in; Canvas's own markup shows inside it plainly. */
+.cc-frame, .cc-html { box-sizing: border-box; width: 100%; min-height: max(360px, calc(100vh - var(--cc-bar) - 300px)); border: var(--frame); border-radius: 0; background: var(--surface); }
+.cc-html { font-family: var(--font-code); font-size: var(--text-small); padding: var(--space-2); color: var(--ink); }
+#dialog:has(> .cc-dialog) { width: min(960px, calc(100vw - 32px)); }
+.cc-dialog .dialog-body { display: grid; gap: var(--space-4); }
+.cc-course { display: grid; gap: var(--space-2); padding-bottom: var(--space-4); border-bottom: 1px solid var(--line); }
+.cc-course h3 small { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.cc-course h4 { margin: var(--space-2) 0 0; }
+.cc-summary { margin: 0; }
+.cc-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.cc-list > li { padding: var(--space-1) 0; border-bottom: 1px solid var(--nested-line); }
+.cc-new { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2); align-items: center; }
+.cc-new select { max-width: 360px; }
+.cc-managed { margin: 0; color: var(--muted); }
+.cc-managed a { color: var(--ink); }
+
+/* The sidebar's Canvas page (canvas-hub.js): one ruled block per term: the way into its content, its sections, then its setup
+   steps (numbered; folded once all are done). */
+.canvas-hub { display: grid; gap: var(--space-6); }
+.canvas-hub-term { display: grid; gap: var(--space-4); }
+.canvas-hub-title { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.canvas-hub-title h2 { margin: 0; font-size: var(--text-title); line-height: 1.1; letter-spacing: var(--tracking-title); }
+.canvas-hub-title small { color: var(--muted); font: 500 var(--text-lead)/1.2 var(--font-body); }
+.canvas-hub-steps { counter-reset: canvas-step; margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+.canvas-hub-steps li { counter-increment: canvas-step; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); }
+.canvas-hub-steps li::before { content: counter(canvas-step); content: counter(decor, none) counter(canvas-step) / ""; flex: 0 0 28px; color: var(--label); font: var(--head-weight) var(--text-item)/1 var(--font-serif); font-variant-numeric: tabular-nums; text-align: right; }
+.canvas-hub-steps li[data-state="done"]::before { color: var(--blue); }
+.canvas-hub-step { flex: 1 1 260px; color: var(--ink); }
+.canvas-hub-detail { color: var(--muted); font-size: var(--text-small); }
+.canvas-hub-sections { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.canvas-hub-sections li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-5); padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); }
+.canvas-hub-sections strong { min-width: 8rem; color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.canvas-hub-place { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); min-width: 0; }
+.canvas-hub-missing { color: var(--muted); }
+/* The push window's sections: a group of choices under a label, no frame. */
+.cc-targets { display: grid; gap: var(--space-1); border: 0; border-radius: 0; padding: 0; margin: 0; }
+.cc-targets legend { margin-bottom: var(--space-1); padding: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.cc-targets small { color: var(--muted); }
+.cc-open { margin: var(--space-1) 0 0; }
+/* Messages to chosen sections through Canvas (canvas-message.js). */
+.cm-sections { gap: var(--space-3); margin-bottom: var(--space-3); }
+.cm-term { display: grid; gap: var(--space-1); }
+.cm-term-sections { display: grid; gap: var(--space-1); padding-left: var(--space-5); }
+.cm-individual { margin: 0 0 var(--space-3); }
+.cm-individual small { display: block; color: var(--muted); }
+.cm-reach { margin: 0; }
+.cm-courses { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+/* ATTACHMENTS (canvas MESSAGES): the files a sent message carried, under the courses in its record. */
+.cm-attached-title { margin: var(--space-4) 0 var(--space-1); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; color: var(--label); }
+.cm-courses > li { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-2); padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); }
+.cm-courses > li:first-child { border-top: 1px solid var(--line); }
+.cm-courses > li > details, .cm-courses > li > p { flex: 1 1 100%; margin: 0; }
+.cm-courses small, .cm-sent-subject small { color: var(--muted); }
+.cm-names { margin: 0; color: var(--muted); font-size: var(--text-small); overflow-wrap: anywhere; }
+.cm-message { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: var(--space-1) var(--space-4); }
+.cm-message dt { color: var(--label); font: 700 var(--text-caption)/1.8 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.cm-message dd { margin: 0; overflow-wrap: anywhere; }
+.cm-state { margin: 0; }
+.cm-sent-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.cm-sent-list li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); }
+.cm-sent-list li:first-child { border-top: 1px solid var(--line); }
+.cm-sent-subject { flex: 1 1 260px; display: grid; min-width: 0; overflow-wrap: anywhere; }
+/* "Put on Canvas" (canvas-placement.js), in its own window and in the Create New Assignment window's Canvas step. */
+.cc-place { display: grid; gap: var(--space-3); }
+.cc-diff-text { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 18rem; overflow: auto; font: inherit; }
+.cc-conflict-edit { display: grid; gap: var(--space-2); margin-block: var(--space-3); }
+.cc-conflict-edit textarea { width: 100%; box-sizing: border-box; }
+.canvas-hub-place > a:not(.text-button) { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.canvas-hub-setup { border-top: 1px solid var(--line); }

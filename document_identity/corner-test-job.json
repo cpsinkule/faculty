@@ -1,0 +1,50 @@
+{
+  "label": "Test 2 - half-size corner codes",
+  "version_id": "d9ae4a83-0f39-44f3-b7d7-1fe40c975c98",
+  "assignment_id": "1531c6b7-7273-4581-b63a-90bd77219f2d",
+  "section_id": "3928abd7-1e75-4ea8-a2f5-8a7c4163e710",
+  "batch_id": "dbc805c7-8bb4-4513-bd94-5e2fa8202b8c",
+  "status": "ready",
+  "copies": 10,
+  "pages": 30,
+  "marks_per_page": 2,
+  "total_marks": 60,
+  "profile": "faculty-corners-10mm-v1",
+  "pdf_sha256": "f0c21e2f53bcee8f958e553ee4804cca76dd4c979d1161693654f84b2fdefff5",
+  "pdf_bytes": 2298366,
+  "validation": {
+    "decoder": "3.1.1",
+    "dpi": 200,
+    "layout": "faculty-corners-10mm-v1",
+    "marks_per_page": 2,
+    "pages": 30,
+    "placement_checked": true,
+    "position_tolerance_pixels": 2,
+    "quiet_zone_checked": true
+  },
+  "old_batch_unchanged": true,
+  "tokens_disjoint_from_test_1": true,
+  "created_at": "2026-09-13T21:07:41.062414+00:00",
+  "ready_at": "2026-09-13T21:07:44.410295+00:00",
+  "backup": {
+    "status": "complete",
+    "started_at": "2026-09-13T21:09:16.566899+00:00",
+    "finished_at": "2026-09-13T21:09:18.219056+00:00",
+    "backed_up": 4,
+    "errors": [],
+    "catalog_snapshot": "20260913T210917887577Z"
+  },
+  "physical_qualification": {
+    "result": "passed for page identification in this classroom run",
+    "received_at": "2026-09-14T00:10:18.584538+00:00",
+    "resolved_pages": 30,
+    "detected_marks": 52,
+    "printed_marks": 60,
+    "top_right_detected": 22,
+    "bottom_left_detected": 30,
+    "job_id": "18c8cfe7-cd77-44ee-8018-5c3e0e93d589",
+    "message_id": "33bd2e30-51f6-446d-9eae-c890186482e6",
+    "operator_procedure": "not yet confirmed",
+    "evidence": "corner-physical-qualification-results.json"
+  }
+}

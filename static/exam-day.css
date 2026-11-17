@@ -1,0 +1,370 @@
+/* The exam-day plan page (#exam-day/<assignment>/<term>, exam-day.js) and the packet preview in the chart page's Print exam-day
+   packet dialog (exam-day-packet.js). Screen only, design tokens only (DESIGN-LANGUAGE, Ledger: heading-face titles and
+   counts, small uppercase sans labels, rules instead of boxes); the printed packet keeps its own contract in seating.css. */
+
+.exam-day {
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+}
+.exam-day-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+.exam-day-head h2,
+.exam-day-instructions h2 {
+  margin: 0;
+  font: var(--head-weight) var(--text-section) / 1.15 var(--font-serif);
+  letter-spacing: var(--tracking-title);
+}
+.exam-day-rooms > .supporting-copy {
+  margin: var(--space-2) 0 var(--space-4);
+}
+.exam-day-room-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: var(--space-4);
+}
+.exam-day-room .card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.exam-day-room .card-head h3 {
+  margin: 0 auto 0 0;
+  overflow-wrap: anywhere;
+}
+.exam-day-room .card-body {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.exam-day-room .card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+.exam-day-when {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--text-small);
+}
+.exam-day-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+}
+/* Small labels: 11px semibold uppercase sans (a subhead is a heading element, so :root out-ranks typography.css's heading face). */
+.exam-day-stats dt,
+:root .exam-day-subhead {
+  margin: 0;
+  color: var(--label);
+  font: 700 var(--text-caption) / 1.4 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+/* Counts and facts in the heading face. */
+.exam-day-stats dd {
+  margin: 2px 0 0;
+  color: var(--ink);
+  font: var(--head-weight) var(--text-item) / 1.2 var(--font-serif);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.exam-day-proctors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.exam-day-proctors .chip {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px var(--space-2);
+  max-width: 100%;
+  text-transform: none;
+}
+.exam-day-proctors small {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.exam-day-remove {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+}
+.exam-day-remove:hover,
+.exam-day-remove:focus-visible {
+  color: var(--ink);
+}
+.exam-day-remove svg {
+  width: 12px;
+  height: 12px;
+}
+.exam-day-none {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-small);
+}
+.exam-day-pick,
+.exam-day-start {
+  min-width: 0;
+}
+.exam-day-pick select,
+.exam-day-start select {
+  width: 100%;
+  min-width: 0;
+}
+/* Someone else: a section under a hairline, its caption the first row below the rule (floated, so the rule runs unbroken). */
+.exam-day-typed {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-3) 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.exam-day-typed legend {
+  float: left;
+  inline-size: 100%;
+  margin: 0 0 var(--space-1);
+  padding: 0;
+  color: var(--label);
+  font: 700 var(--text-caption) / 1.5 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.exam-day-typed-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: var(--space-2) var(--space-3);
+}
+.exam-day-typed-fields input {
+  width: 100%;
+  min-width: 0;
+}
+.exam-day-typed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+}
+.exam-day-instructions .card-body {
+  display: grid;
+  gap: var(--space-3);
+}
+.exam-day-instructions .field-hint {
+  margin: 0;
+}
+.exam-day-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-2) var(--space-4);
+}
+.exam-day-tools .exam-day-start {
+  flex: 1 1 240px;
+  max-width: 420px;
+}
+.exam-day-fill {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--text-small);
+}
+.exam-day-text {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 18em;
+  resize: vertical;
+  font: 500 var(--text-control) / 1.55 var(--font-body);
+}
+/* One save bar in view at the bottom, as the gradebook setup's: a hairline above it on the page's paper (no band
+   of its own), no frame. */
+html:has(.exam-day-savebar) {
+  scroll-padding-bottom: 140px;
+}
+.exam-day-savebar {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: var(--canvas);
+}
+.exam-day-savebar[data-state="dirty"] {
+  border-top-color: var(--warning);
+}
+.exam-day-savebar[data-state="saving"] {
+  cursor: progress;
+}
+.exam-day-state {
+  margin: 0;
+  color: var(--label);
+  font: 700 var(--text-caption) / 1.5 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.exam-day-savebar[data-state="dirty"] .exam-day-state {
+  color: var(--warning);
+}
+.exam-day-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+.exam-day-feedback {
+  grid-column: 1 / -1;
+  color: var(--error);
+  font-size: var(--text-small);
+  line-height: 1.6;
+}
+.exam-day-feedback p {
+  margin: 0 0 4px;
+}
+.exam-day-conflict {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+.exam-day-conflict small {
+  color: var(--muted);
+}
+/* The Exams hub's Exam day tile: its link to the plan. */
+.exams-tile-link {
+  margin: var(--space-2) 0 0;
+}
+
+/* The packet preview in the Print exam-day packet dialog (it also carries the room roster preview's own class). */
+.seating-packet-chart {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+  margin: var(--space-3) 0;
+  padding: 0;
+  border: 0;
+}
+.seating-packet-chart legend {
+  margin-bottom: var(--space-1);
+  padding: 0;
+  color: var(--label);
+  font: 700 var(--text-caption) / 1.5 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.seating-packet-preview > section + section {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+.seating-packet-preview .packet-eyebrow {
+  margin: 0 0 var(--space-1);
+  color: var(--label);
+  font: 700 var(--text-caption) / 1.4 var(--font-body);
+  letter-spacing: var(--tracking-section);
+  text-transform: uppercase;
+}
+.seating-packet-preview h3 {
+  margin: var(--space-5) 0 var(--space-2);
+  font-size: var(--text-section);
+  line-height: 1.15;
+  letter-spacing: var(--tracking-title);
+}
+.seating-packet-preview .packet-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-3) 0 0;
+}
+.seating-packet-preview .packet-facts dt {
+  color: var(--label);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.seating-packet-preview .packet-facts dd {
+  margin: 2px 0 0;
+  color: var(--ink);
+  font: var(--head-weight) var(--text-item) / 1.2 var(--font-serif);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+/* The preview's tables are record tables: an 11px uppercase heading row over a 2px ink rule, rows on hairlines, the total
+   row's figure in the heading face. */
+.seating-packet-preview .packet-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+}
+.seating-packet-preview .packet-table :is(th, td) {
+  padding: 7px 6px;
+  border-bottom: 1px solid var(--nested-line);
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+.seating-packet-preview .packet-table :is(th, td):first-child {
+  padding-inline-start: 0;
+}
+.seating-packet-preview .packet-table th {
+  color: var(--ink);
+  font-weight: 500;
+}
+.seating-packet-preview .packet-table thead th {
+  border-bottom: 2px solid var(--ink);
+  font: 700 var(--text-caption) / 1.3 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.seating-packet-preview .packet-total :is(th, td) {
+  border-top: 1px solid var(--control-line);
+}
+.seating-packet-preview .packet-total td {
+  color: var(--ink);
+  font: var(--head-weight) var(--text-item) / 1.2 var(--font-serif);
+}
+.seating-packet-preview .packet-note,
+.seating-packet-preview .packet-warnings {
+  color: var(--text);
+  font-size: var(--text-small);
+  line-height: 1.5;
+}
+.seating-packet-preview .packet-warnings {
+  margin: var(--space-2) 0;
+  padding-inline-start: var(--space-5);
+  color: var(--warning);
+}
+.seating-packet-preview .packet-instructions-text {
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.seating-packet-plan {
+  margin: var(--space-3) 0 0;
+}

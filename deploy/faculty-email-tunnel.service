@@ -1,0 +1,15 @@
+[Unit]
+Description=Cloudflare Tunnel for Faculty email intake only
+After=network-online.target faculty-email-gateway.service
+Wants=faculty-email-gateway.service
+
+[Service]
+Type=simple
+ExecStart=%h/code/Teaching/.tools/cloudflared tunnel --no-autoupdate run --token-file %h/.config/faculty/tunnel-token
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+UMask=0077
+
+[Install]
+WantedBy=default.target

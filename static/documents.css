@@ -1,0 +1,312 @@
+/* Assignments & printing (UX overhaul W2-DOCS, 2026-09-26): theme tokens only, square corners, no light-theme literals.
+   The page header (page-header.js) names the page and holds Create assignment; this sheet styles the library below it,
+   the assignment window and the print-job lists. The print-job dialog lives in document-batch.css.
+   This sheet also applies to print: the rules below keep the print layout, and the screen look (DESIGN-LANGUAGE) sits in
+   the @media screen block at the end. */
+
+/* ----- Dialog forms shared by the print job's exports ----- */
+#document-copy-assignment .form-error:empty,
+#document-email-form .form-error:empty,
+#document-drive-export .form-error:empty { display: none; }
+#document-email-form .field { margin: 14px 0; }
+#document-email-history p, #document-email-result { overflow-wrap: anywhere; }
+#document-email-history p { margin: 12px 0; }
+#document-drive-export p { overflow-wrap: anywhere; }
+#document-drive-export .document-drive-actions { align-items: center; }
+#document-drive-export .document-drive-help { margin-top: var(--space-4); }
+#document-drive-export .document-drive-help p { margin: 0 0 var(--space-2); font-size: var(--text-small, 12px); color: var(--muted); }
+
+/* ----- The library: tabs, filters, results ----- */
+#documents-section { min-width: 0; }
+#documents-section svg.icon { width: 20px; height: 20px; flex-shrink: 0; }
+#documents-section [hidden] { display: none !important; }
+.document-activity { margin: 0 0 var(--space-4); }
+.document-attention { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; font-size: var(--text-control, 13px); }
+.document-attention .text-button { color: var(--tone-danger); font-size: var(--text-control, 13px); font-weight: 600; }
+.document-attention [data-ready-draft] { color: var(--ink); }
+.document-library-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
+/* The tabs' screen look is button-theme.css's segmented switch; these underline tabs are what a printed page keeps. */
+.document-tabs { display: flex; gap: 26px; }
+.document-tabs button { display: flex; align-items: center; gap: 9px; background: none; color: var(--muted); padding: 14px 2px 16px; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; font: 650 14px var(--font-body); cursor: pointer; }
+.document-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.document-tabs button:hover { color: var(--ink); }
+.document-tabs button > span { font: var(--text-small) var(--font-data); background: var(--surface-alt); color: var(--muted); padding: 3px 7px; border-radius: 0; }
+.document-filters { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; margin-top: 24px; }
+.document-filters .field { margin: 0; flex: 1 1 170px; max-width: 230px; }
+.document-filters .document-search { flex: 3 1 300px; max-width: none; }
+.document-search-control { position: relative; display: flex; align-items: center; }
+.document-search-control svg { position: absolute; left: 13px; color: var(--muted); pointer-events: none; }
+.document-search-control input { width: 100%; min-width: 0; min-height: 44px; padding: 11px 14px 11px 42px; background: var(--control-surface); border: 1px solid var(--line); border-radius: var(--radius-control); color: var(--ink); font: 500 var(--text-control) var(--font-body); }
+#documents-section .document-filters select { min-height: 44px; background-color: var(--control-surface); }
+.document-results-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 56px; }
+#document-results { margin: 0; color: var(--muted); font-size: var(--text-small, 12px); }
+.document-results-heading .text-button { flex-shrink: 0; }
+.document-pagination { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 20px; font-size: var(--text-small, 12px); color: var(--muted); }
+.document-pagination > div { display: flex; gap: 8px; }
+#documents-section .empty-state { grid-column: 1 / -1; }
+
+/* ----- Assignment cards: course, title, facts, the Paper → Seating → Print graph and one next step ----- */
+.document-assignment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: var(--space-4); }
+.document-archived { grid-column: 1 / -1; }
+.document-archived > .disclosure-body { padding-top: var(--space-3); }
+.document-assignment-card > .card-head { flex-direction: column; align-items: flex-start; gap: 4px; }
+.document-course-code { color: var(--muted); font: 500 var(--text-caption)/1.5 var(--font-data); letter-spacing: var(--tracking-label, .035em); overflow-wrap: anywhere; }
+.document-assignment-card h3 { font: 600 var(--text-title, 22px)/1.2 var(--font-display); letter-spacing: var(--tracking-title, -.01em); color: var(--heading); overflow-wrap: anywhere; }
+.document-card-facts { margin: 0; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-data); overflow-wrap: anywhere; }
+#documents-section .document-card-facts .text-button { font: inherit; min-height: 0; padding: 0; line-height: inherit; vertical-align: baseline; }
+.document-card-stages { margin-inline: calc(-1 * var(--space-2)); }
+/* The stage that matters now in words (the step graph says it only on hover), lined up with the card's text. */
+.document-card-stage { margin: var(--space-1) 0 0; padding-inline: var(--space-2); color: var(--muted); font-size: var(--text-small); }
+.document-assignment-card > .card-foot { margin-top: auto; justify-content: flex-start; }
+.document-assignment-card > .card-foot > .button.primary { min-height: 36px; }
+.document-card-links { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin-inline-start: auto; font-size: var(--text-small, 12px); }
+.document-card-links .text-button { font-size: var(--text-small, 12px); min-height: 32px; }
+
+/* ----- Print jobs, grouped by export, with the files to print in each header ----- */
+.document-job { display: flex; width: 100%; justify-content: space-between; gap: 16px; text-align: left; background: transparent; color: inherit; border: 0; border-bottom: 1px solid var(--line); padding: 16px 0; cursor: pointer; font: inherit; }
+.document-job small { display: block; margin-top: 6px; }
+.document-export-list { display: grid; gap: var(--space-4); min-width: 0; }
+.document-export { min-width: 0; border: 1px solid var(--line); background: var(--paper); }
+.document-export-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px 20px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.document-export-title { display: grid; gap: 4px; min-width: 0; flex: 1 1 320px; }
+.document-export-title h3 { margin: 0; font: 600 var(--text-section)/1.25 var(--font-display); letter-spacing: var(--tracking-title); color: var(--heading); overflow-wrap: anywhere; }
+.document-export-facts { margin: 0; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-data); overflow-wrap: anywhere; }
+.document-export-fact { white-space: nowrap; }
+.document-export-side { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; min-width: 0; }
+.document-export-section-files { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-small, 12px); }
+#document-batches .document-job { display: grid; grid-template-columns: minmax(0, 1.5fr) 110px minmax(150px, 1fr) 20px; align-items: center; gap: 16px; padding: 12px 20px; border-color: var(--line); min-width: 0; transition: background-color var(--snappy); }
+#document-batches .document-job:last-child { border-bottom: 0; }
+#document-batches .document-job:hover { background: var(--surface-hover); }
+#document-batches .document-job:focus-visible { outline-offset: -3px; }
+#document-batches .document-job-title { display: flex; flex-direction: column; align-items: start; min-width: 0; gap: 4px; }
+#document-batches .document-job-title > strong { font-size: 14px; font-weight: 700; line-height: 1.45; color: var(--heading); }
+#document-batches .document-job small { color: var(--muted); font-size: var(--text-caption, 11px); margin: 0; overflow-wrap: anywhere; }
+#document-batches .document-job-quantity strong { font: 600 var(--text-section) var(--font-display); font-variant-numeric: tabular-nums; }
+#document-batches .document-job-quantity small { display: inline; margin-left: 6px; }
+.document-job-status { display: flex; flex-direction: column; align-items: start; gap: 7px; }
+.document-job-open { display: flex; color: var(--muted); }
+/* A job's state reads as the shared chip (components.css .chip): an outlined uppercase word in its tone. */
+.document-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; font-size: var(--text-caption, 11px); font-weight: 650; background: var(--tone-neutral-bg); color: var(--tone-neutral); }
+.document-status::before { content: ""; width: 5px; height: 5px; background: currentColor; flex-shrink: 0; }
+.document-status[data-status="ready"] { color: var(--tone-success); background: var(--tone-success-bg); }
+.document-status:is([data-status="pending"], [data-status="rendering"], [data-status="validating"]) { color: var(--tone-info); background: var(--tone-info-bg); }
+.document-status[data-status="failed"] { color: var(--tone-danger); background: var(--tone-danger-bg); }
+.document-registration-group { margin: 0; border: 1px solid var(--line); background: var(--paper); }
+.document-registration-group > summary { padding: 12px 20px; align-items: center; }
+/* The 'Not for printing' chip follows the fold's label; its count is the hint at the right, as on every fold. */
+.document-registration-group > summary > span:first-child { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); }
+.document-registration-group > .disclosure-body { padding: 0 0 8px; }
+.document-registration-group > .disclosure-body > .supporting-copy { margin: 0 20px 8px; font-size: var(--text-small, 12px); color: var(--muted); }
+
+/* ----- Print files: the one primary file of a job or export, the rest under Other formats ----- */
+.print-files { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; }
+.print-files > .button { max-width: 100%; white-space: normal; text-align: center; }
+.print-files[data-compact] > .button { min-height: 32px; padding: 4px 12px; font-size: var(--text-small, 12px); }
+.print-files-other { flex: 1 1 100%; margin: 0; }
+.print-files-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: var(--text-small, 12px); }
+.print-files-note { margin: 0; color: var(--muted); font-size: var(--text-small, 12px); }
+
+/* ----- The assignment window. Scoped by id so the one-line trail wins over the older theme pills. ----- */
+#assignment-wizard .wizard-steps { display: flex; flex-wrap: nowrap; gap: 0; list-style: none; margin: 0 0 20px; padding: 0 0 12px;
+  border-bottom: 1px solid var(--line); overflow-x: auto; font: 500 var(--text-small)/1.4 var(--font-data); color: var(--muted); scrollbar-width: none; }
+#assignment-wizard .wizard-steps li { flex: 0 0 auto; padding: 0; background: none; border: 0; border-radius: 0; box-shadow: none; color: var(--muted); white-space: nowrap; }
+#assignment-wizard .wizard-steps li::before { content: none; }
+#assignment-wizard .wizard-steps li + li::before { content: "→"; margin: 0 10px; color: var(--muted); }
+#assignment-wizard .wizard-steps li[aria-current="step"] { color: var(--ink); font-weight: 700; background: none; box-shadow: none; }
+#assignment-wizard .wizard-steps li.done { color: var(--muted); background: none; }
+#assignment-wizard .wizard-step-link { min-height: 0; padding: 0; border: 0; background: none; color: var(--muted); font: inherit; text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 38%, transparent); text-underline-offset: 4px; cursor: pointer; box-shadow: none; }
+#assignment-wizard .wizard-step-link:hover { color: var(--ink); text-decoration-color: currentColor; }
+#assignment-wizard .field { margin: 14px 0; }
+#assignment-wizard .wizard-gate { margin: 16px 0 8px; font-size: var(--text-control, 13px); }
+.wizard-indent { margin: 0 0 8px 24px; padding: 0; border: 0; min-width: 0; }
+.wizard-indent > .button { margin: 4px 0 10px; }
+.wizard-indent > .checkbox-field { margin: 10px 0 6px; }
+fieldset.wizard-indent:disabled { opacity: 0.45; }
+#assignment-wizard fieldset[hidden] { display: none; }
+fieldset.wizard-indent:disabled :is(button, input, select, label, a) { cursor: not-allowed; }
+#wizard-attach { margin: 0 0 12px; }
+.wizard-plans { border: 1px solid var(--line); padding: 4px 12px; margin-bottom: 12px; }
+.wizard-plan { display: flex; align-items: flex-start; gap: 9px; padding: 9px 0; font-size: var(--text-small, 12px); line-height: 1.5; }
+.wizard-plan + .wizard-plan { border-top: 1px solid var(--nested-line, var(--line)); }
+.wizard-plan input { margin: 3px 0 0; }
+.wizard-plan input:disabled + span { color: var(--muted); }
+.wizard-plan ul { margin: 4px 0 0; padding-left: 16px; color: var(--muted); }
+.wizard-plan .wizard-problem { color: var(--tone-warning); }
+.wizard-heading { margin: 20px 0 6px; font-size: 13px; }
+.wizard-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 16px; padding: 12px 0; border-top: 1px solid var(--line); font-size: var(--text-small, 12px); line-height: 1.6; }
+.wizard-row > .field { margin: 0; flex: 1 1 220px; }
+.wizard-row > details { flex: 1 1 100%; }
+.wizard-row-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.wizard-row-note { flex: 1 1 100%; margin: 0; }
+.wizard-row-actions .print-files { flex: 1 1 100%; }
+.wizard-students { max-height: 200px; overflow-y: auto; padding: 0 8px; }
+.wizard-named { flex: 1 1 100%; margin: 0; font-size: var(--text-small, 12px); }
+.wizard-named-hint { flex: 1 1 100%; margin: -6px 0 0 24px; }
+.wizard-copy { margin: 8px 0; }
+#assignment-wizard [data-create-jobs] { margin-top: 12px; }
+.wizard-grading-link { margin: var(--space-5) 0 0; padding-top: var(--space-3); border-top: 1px solid var(--line); color: var(--muted); font-size: var(--text-small, 12px); }
+
+@media (prefers-reduced-motion: reduce) {
+  #document-batches .document-job { transition: none; }
+}
+
+/* Create assignment: versions and stacks (ux-pipeline) */
+/* Faculty prints it from LaTeX: each new version is its label beside its files, one hairline between versions. */
+.wizard-new-version { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; gap: var(--space-2) var(--space-4); }
+.wizard-new-version + .wizard-new-version { margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.wizard-new-version > .field { margin: 0; }
+.wizard-new-version > .text-button { grid-column: 1 / -1; justify-self: end; }
+.wizard-new-version > [data-registered-note] { grid-column: 1 / -1; margin: 0; }
+.wizard-indent > [data-add-version] { margin: var(--space-3) 0 var(--space-1); }
+/* Stamp and print: the job button sits under the copies, above the copy-by-copy choice; the stack's copies sit in a row. */
+.wizard-row > .wizard-create-job { flex: 1 1 100%; }
+/* An earlier stack's file, its other formats and its job stay on one line. */
+.wizard-printed-actions > .print-files { flex: 0 1 auto; }
+#assignment-wizard .wizard-subheading { margin: var(--space-5) 0 var(--space-1); font-size: var(--text-item); line-height: 1.3; letter-spacing: var(--tracking-title); }
+.wizard-stack-copies { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: var(--space-3) var(--space-4); margin: var(--space-3) 0 0; }
+.wizard-stack-copies > .field { margin: 0; }
+.wizard-stack [data-stack-made] { margin: var(--space-3) 0 0; }
+.wizard-stack > .wizard-row-actions { margin-top: var(--space-3); }
+.wizard-one-version { margin-top: var(--space-5); }
+.wizard-one-version .wizard-row { border-top: 0; padding-top: 0; }
+
+/* ----- Screen: Ledger (DESIGN-LANGUAGE §4). Assignment cards are ruled blocks: a small course label, the
+   heading-face title, sans facts, the compact step graph (components.css) and one next action. Print jobs are ruled groups of
+   hairline rows. Fields are underlines; labels are small uppercase sans. Printing keeps the rules above. ----- */
+@media screen {
+  #document-drive-export .document-drive-help p { color: var(--text); }
+  /* The attention line is a callout (components.css); its Show action keeps the danger tone and the sentence's line. */
+  .document-attention { color: var(--text); }
+  .document-attention .text-button { --button-label: var(--tone-danger); }
+  /* The id outranks button-theme.css's text-button padding: the action takes no taller line than the sentences beside it. */
+  #document-activity .document-attention .text-button { min-height: 0; padding: 0; }
+  /* A quiz draft ready for review is news, not a failure: its link keeps the ordinary text-button colour. */
+  .document-attention [data-ready-draft] { --button-label: initial; }
+
+  /* Tabs: button-theme.css's uppercase words over the chosen one's ink rule; the count is a heading-face tabular numeral, as on a filter
+     chip, and the pictograms give way to the words. */
+  .document-library-nav { border-bottom: 0; }
+  #documents-section .document-tabs svg { display: none; }
+  :root:root #documents-section .document-tabs button > span { padding: 0; font: var(--head-weight) 14px/1 var(--font-serif); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+
+  /* Filters: the search is a field like any other (form-theme.css), a line of type on an ink underline, the glass at its
+     start. */
+  .document-filters { gap: var(--space-4) var(--space-6); margin-top: var(--space-6); }
+  /* The field sits as far below its label as the Course and Status selects do (style.css .field > select). */
+  .document-search-control { margin-top: 7px; }
+  .document-search-control svg { left: 2px; width: 18px; height: 18px; color: var(--label); }
+  .document-search-control input {
+    height: var(--control-height);
+    min-height: var(--control-height);
+    padding: 7px 2px 7px 30px;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--control-line);
+    border-radius: 0;
+    color: var(--ink);
+    font: 500 var(--text-body)/1.5 var(--font-body);
+    letter-spacing: normal;
+    text-transform: none;
+    transition: border-color var(--snappy), box-shadow var(--snappy);
+  }
+  .document-search-control input:hover:not(:focus) { border-bottom-color: var(--ink); }
+  .document-search-control input:focus-visible { border-bottom-color: var(--focus); box-shadow: inset 0 -1px 0 var(--focus); outline: 2px solid var(--focus); outline-offset: 2px; }
+  #documents-section .document-filters select { min-height: var(--control-height); background-color: transparent; }
+  .document-results-heading { min-height: 52px; }
+  /* "10 assignments · Shared across course terms" and "Page 1 of 2" are small labels. */
+  :is(#document-results, #document-page-number) { color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .document-pagination { margin-top: var(--space-8); color: var(--label); }
+
+  /* Assignment cards: columns with a gutter, each a ruled block (components.css .card) whose next action and links sit at
+     its foot. */
+  .document-assignment-grid { gap: var(--space-8) var(--space-8); }
+  .document-course-code { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .document-assignment-card > .card-head h3 { font: var(--head-weight) var(--text-item)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); color: var(--heading); }
+  .document-card-facts { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+  /* "2 print jobs" inside the facts is a link in running text: mixed case on a hairline underline, ink on hover. */
+  #documents-section .document-card-facts .text-button { letter-spacing: normal; text-transform: none; font-weight: 500; text-underline-offset: 3px; }
+  /* The step graph lines up with the card's own text: no bleed past the hairline above it. */
+  .document-card-stages { margin-inline: 0; padding-top: var(--space-1); }
+  .document-card-stage { margin-top: var(--space-2); padding-inline: 0; color: var(--muted); }
+  /* The foot: the one next action (with the ⋯ menu at the right of its line), then the card's quieter links in one
+     wrapping row under it. */
+  .document-assignment-card > .card-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-2) var(--space-4); }
+  .document-assignment-card > .card-foot > .button.primary { justify-self: start; min-height: var(--control-height); }
+  .document-assignment-card > .card-foot > .action-menu { grid-column: 2; grid-row: 1; }
+  .document-assignment-card > .card-foot > .document-card-links { grid-column: 1 / -1; justify-content: flex-start; gap: 0 var(--space-5); margin-inline-start: 0; }
+  /* The text actions start at the card's text edge, like the link arrows beside them (no 2px inset of their own). */
+  :root:root #documents-section .document-card-links .text-button { padding-inline: 0; }
+
+  /* Print jobs: each export is a ruled group (a hairline above, its heading-face title, the files at the right); its jobs are
+     rows on quieter hairlines, the quantity darkening and the open label turning ink on hover. */
+  .document-export-list { gap: var(--space-8); }
+  .document-export { border: 0; border-top: 1px solid var(--line); background: transparent; }
+  .document-export-head { padding: var(--space-4) 0 var(--space-3); border-bottom: 1px solid var(--nested-line); }
+  .document-export-title h3 { font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+  .document-export-facts { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+  #document-batches .document-job { padding: var(--space-3) 0; border-bottom-color: var(--nested-line); }
+  #document-batches .document-job:hover { background: transparent; }
+  #document-batches .document-job:focus-visible { outline-offset: 2px; }
+  #document-batches .document-job-title > strong { font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+  #document-batches .document-job small { color: var(--muted); font-size: var(--text-small); }
+  #document-batches .document-job-quantity strong { font: var(--head-weight) var(--text-section)/1 var(--font-serif); }
+  #document-batches .document-job:hover .document-job-quantity strong { color: var(--heading); }
+  #document-batches .document-job-quantity small { color: var(--label); font: 700 var(--text-caption) var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .document-job-open { color: var(--label); }
+  #document-batches .document-job:hover .document-job-open { color: var(--ink); }
+  /* A job's state is the shared chip (components.css .chip): an uppercase word in a 1px border of its tone's ink. */
+  :root:root #document-batches .document-status {
+    --status-tone: var(--tone-neutral);
+    gap: 0;
+    min-height: 22px;
+    padding: 2px 7px;
+    border: 1px solid var(--status-tone);
+    border-radius: var(--radius-control);
+    background: transparent;
+    color: var(--status-tone);
+    font: 700 var(--text-caption)/1.4 var(--font-body);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  #document-batches .document-status::before { content: none; }
+  :root:root #document-batches .document-status[data-status="ready"] { --status-tone: var(--tone-success); }
+  :root:root #document-batches .document-status:is([data-status="pending"], [data-status="rendering"], [data-status="validating"]) { --status-tone: var(--tone-info); }
+  :root:root #document-batches .document-status[data-status="failed"] { --status-tone: var(--tone-danger); }
+  /* The folded jobs issued for scanned papers are one ruled group like an export. */
+  #document-batches details.document-registration-group { margin: 0; border: 0; border-top: 1px solid var(--line); background: transparent; }
+  #document-batches details.document-registration-group > summary { padding: var(--space-3) 0; }
+  #document-batches details.document-registration-group > .disclosure-body { padding: 0; border-top: 1px solid var(--nested-line); }
+  .document-registration-group > .disclosure-body > .supporting-copy { margin: var(--space-3) 0; color: var(--muted); }
+  #document-batches .document-registration-group .document-export-rows { border-top: 1px solid var(--nested-line); }
+
+  /* The assignment window. Its step trail reads like the plate's breadcrumb: small uppercase words divided by faint
+     slashes, the current step in ink, earlier steps links back. Where the four steps do not fit, they wrap like a
+     breadcrumb; the slash closes the step before it, so a wrapped line starts with a step. */
+  #assignment-wizard .wizard-steps { flex-wrap: wrap; row-gap: var(--space-2); color: var(--label); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+  #assignment-wizard .wizard-steps li { color: var(--label); }
+  #assignment-wizard .wizard-steps li + li::before { content: none; }
+  #assignment-wizard .wizard-steps li:not(:last-child)::after { content: "/"; content: counter(decor, none) "/" / ""; margin: 0 12px; color: var(--faint); font-weight: 500; }
+  #assignment-wizard .wizard-steps li[aria-current="step"] { color: var(--ink); font-weight: 600; }
+  #assignment-wizard .wizard-steps li.done { color: var(--label); }
+  #assignment-wizard .wizard-step-link { color: var(--label); letter-spacing: inherit; text-transform: inherit; text-decoration-color: var(--faint); text-decoration-thickness: 1px; transition: color var(--snappy); }
+  #assignment-wizard .wizard-step-link:hover { color: var(--ink); text-decoration-color: currentColor; }
+  /* Existing seating charts: rows on hairlines, not a box inside the dialog. */
+  .wizard-plans { padding: 0; border: 0; border-block: 1px solid var(--line); }
+  .wizard-plan { gap: var(--space-3); padding: var(--space-3) 0; color: var(--text); }
+  .wizard-plan + .wizard-plan { border-top-color: var(--nested-line); }
+  .wizard-plan input:disabled + span { color: var(--muted); }
+  .wizard-plan ul { color: var(--text); }
+  #assignment-wizard .wizard-heading { margin: var(--space-6) 0 var(--space-2); font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); }
+  #assignment-wizard .wizard-subheading { font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); }
+  .wizard-row { color: var(--text); border-top-color: var(--nested-line); }
+  .wizard-row strong { color: var(--ink); font-weight: 600; }
+  /* Options set aside until their choice is ticked take the shared dim level. */
+  fieldset.wizard-indent:disabled { opacity: var(--opacity-dim); }
+  .wizard-grading-link { color: var(--muted); }
+  .wizard-new-version + .wizard-new-version { border-top-color: var(--nested-line); }
+}
+@media screen and (prefers-reduced-motion: reduce) {
+  .document-search-control input, #assignment-wizard .wizard-step-link { transition: none; }
+}

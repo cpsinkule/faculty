@@ -1,0 +1,49 @@
+/* A course's rubric memories (rubric-memories.js): the course Home's line and #course/<group>/home/rubric-memories. Ledger
+   (DESIGN-LANGUAGE): sections are headings over a 2px ink rule, memories are rows on hairlines; what waits is a proposal with its
+   Keep and Drop at the right, what is kept is a calmer row with a quiet Drop. Tokens only; desktop only. */
+.course-memories-link { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); margin-top: var(--space-2); }
+.course-memories-status { color: var(--muted); font-size: var(--text-small); }
+.rubric-memories-page { display: grid; gap: var(--space-8); max-width: 1120px; }
+.rubric-memories-section { display: grid; gap: var(--space-3); min-width: 0; }
+.rubric-memories-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); }
+.rubric-memories-head h3 { display: flex; align-items: center; gap: var(--space-2); margin: 0; font-size: var(--text-section); line-height: 1.15;
+  letter-spacing: var(--tracking-title); }
+.rubric-memories-count { color: var(--muted); font: 700 var(--text-small)/1 var(--font-num); font-variant-numeric: tabular-nums; }
+.rubric-memories-why { margin: 0; color: var(--muted); font-size: var(--text-small); }
+.rubric-memory-list { display: grid; margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--ink); }
+/* A row: what it says on the left, its actions at the right of its first lines. */
+.rubric-memory { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-6); row-gap: var(--space-2);
+  padding: var(--space-4) 0; border-bottom: 1px solid var(--nested-line); }
+.rubric-memory > * { grid-column: 1; min-width: 0; }
+.rubric-memory > .rubric-memory-actions { grid-column: 2; grid-row: 1 / span 2; align-self: start; display: flex; gap: var(--space-2); }
+.rubric-memory-line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+.rubric-memory-label { color: var(--ink); font: 700 var(--text-small)/1 var(--font-num); font-variant-numeric: tabular-nums; }
+.rubric-memory-action { color: var(--muted); font-size: var(--text-small); font-weight: 700; }
+.rubric-memory-rule { max-width: 78ch; margin: 0; color: var(--ink); font-size: var(--text-lead); font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.rubric-memory-scope { display: grid; gap: var(--space-1); max-width: 78ch; margin: 0; color: var(--muted); font-size: var(--text-small); }
+.rubric-memory-scope > div { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); gap: var(--space-2); }
+.rubric-memory-scope dt { color: var(--text); font-weight: 700; }
+.rubric-memory-scope dd { margin: 0; overflow-wrap: anywhere; }
+.rubric-memory-from { max-width: 78ch; margin: 0; color: var(--muted); font-size: var(--text-small); overflow-wrap: anywhere; }
+/* A row's own fold (a proposal's Was, a kept memory's Details) is a small toggle under its text, not a ruled section of its own. */
+.rubric-memory > details.disclosure { margin: 0; border-top: 0; }
+.rubric-memory > details.disclosure > summary { --disclosure-summary-padding: 0; justify-content: flex-start; min-height: 28px; font-size: var(--text-small); }
+.rubric-memory > details.disclosure > summary > span:first-child { flex: 0 1 auto; }
+.rubric-memory > details.disclosure > summary::after { margin-inline-start: var(--space-2); }
+.rubric-memory > details.disclosure > .disclosure-body { --disclosure-body-padding: var(--space-1) 0 0; display: grid; gap: var(--space-2); }
+.rubric-memory-was .rubric-memory-rule { color: var(--muted); font-size: var(--text-body); }
+/* Kept and dropped rows are calmer than a proposal: the rule at body size, one quiet action. */
+.rubric-memory[data-list] { padding: var(--space-3) 0; }
+.rubric-memory[data-list] .rubric-memory-rule { font-size: var(--text-body); }
+.rubric-memory[data-list="dropped"] .rubric-memory-rule, .rubric-memory[data-list="retired"] .rubric-memory-rule { color: var(--muted); font-weight: 500; }
+.rubric-memories-dropped .rubric-memory-list, .rubric-memories-retired .rubric-memory-list { border-top-width: 1px; border-top-color: var(--line); }
+.rubric-memory-runs { display: grid; margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--ink); }
+.rubric-memory-run { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--nested-line); }
+.rubric-memory-run strong { color: var(--ink); font-weight: 700; }
+.rubric-memory-run small { color: var(--muted); font-size: var(--text-small); }
+.rubric-memory-run-error { flex-basis: 100%; max-width: 78ch; margin: 0; color: var(--error); font-size: var(--text-small); overflow-wrap: anywhere; }
+.rubric-memories-learn-list { display: grid; gap: 0; margin: var(--space-3) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.rubric-memories-learn-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--nested-line); }
+.rubric-memories-learn-list small { color: var(--muted); font-size: var(--text-small); }

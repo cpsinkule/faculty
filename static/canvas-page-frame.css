@@ -1,0 +1,8 @@
+/* The page body editor's frame (canvas-content.js): Canvas's own markup, shown plainly while it is edited. */
+html { color-scheme: light; }
+body { margin: 12px 16px; font: 15px/1.5 system-ui, sans-serif; color: CanvasText; background: Canvas; }
+img { max-width: 100%; height: auto; }
+img:not([src^="data:"]) { min-width: 48px; min-height: 24px; outline: 1px dashed GrayText; }
+iframe { max-width: 100%; outline: 1px dashed GrayText; }
+table { border-collapse: collapse; }
+td, th { outline: 1px solid GrayText; padding: 4px 6px; }

@@ -1,0 +1,380 @@
+/* Shell layout (README "Layout and responsive styles"). Linked WITHOUT a media attribute, so it also applies to printed
+   pages. As in style.css: a var(--token, value) fallback is the print value (print has no design tokens), screen rules
+   carry no colour literal (the print palette's colours are in the @media print block), and the rail, the plate and the
+   trail are screen furniture (seating.css hides them in print), so they use tokens directly.
+   Desktop only (requirement, 2026-10-03): one layout, no phone or tablet tiers. Below the
+   app's minimum width the window scrolls sideways instead of rearranging the page. */
+:root {
+  --rail-width: 244px;
+}
+@media screen {
+  html {
+    min-width: 1180px;
+  }
+}
+.sidebar {
+  width: var(--rail-width, 228px);
+  border-right: 1px solid var(--line);
+  position: fixed;
+  inset: 0 auto 0 0;
+  padding: 26px 22px 0 30px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  overflow-y: auto;
+}
+/* The rail's type and rules are workspace-navigation.css's and ledger.css's. */
+.brand {
+  display: flex;
+  align-items: center;
+}
+.nav-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+}
+/* A count is a plain tabular number beside its label (the rail, the Courses Current | All switch), never a pill. */
+.nav-count {
+  margin-left: auto;
+  text-align: right;
+}
+.sidebar-bottom {
+  margin-top: auto;
+}
+.server-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-small, 11px);
+}
+.server-status .icon-button {
+  margin-left: auto;
+  width: 23px;
+  height: 23px;
+}
+.server-status .icon {
+  width: 12px;
+  height: 12px;
+}
+.connection-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.page {
+  margin-left: var(--rail-width, 228px);
+  min-width: 0;
+}
+/* The page's own column, left-aligned under the header band. */
+main {
+  max-width: 1440px;
+  margin: 0;
+  padding: 30px 40px 56px;
+  outline: none;
+}
+.breadcrumb {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.breadcrumb .icon {
+  width: 15px;
+  height: 15px;
+}
+/* The row under the band: the subtitle on the left, the page's actions on the right (header-band.css owns the band). */
+.page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 18px 40px;
+  margin-bottom: 30px;
+}
+.page-subtitle {
+  font-size: var(--text-body, 12px);
+}
+/* The legacy tools view (#tools, #pinned, #roadmap): stats, filters and the workspace tip. */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin: 21px 0 36px;
+}
+.stat {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  border: 1px solid var(--line);
+  padding: 18px;
+  gap: 12px;
+  position: relative;
+}
+.stat-icon {
+  height: 37px;
+  width: 37px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.stat-icon .icon {
+  width: 18px;
+  height: 18px;
+}
+.stat > span:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+}
+.stat-label {
+  font-size: var(--text-caption, 11px);
+  color: var(--label, var(--muted));
+  white-space: nowrap;
+}
+.stat strong {
+  font-size: 24px;
+  font-weight: 450;
+  line-height: 1.25;
+  letter-spacing: var(--tracking-title, -0.8px);
+  margin-top: 3px;
+}
+.stat-caption {
+  font-size: var(--text-caption, 9px);
+  margin-left: auto;
+  align-self: flex-end;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.section-heading h2 {
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-display, -0.5px);
+}
+.section-heading p {
+  font-size: var(--text-control, 11px);
+  color: var(--muted);
+  margin-top: 5px;
+}
+.search-box {
+  width: 225px;
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.search-box > .icon {
+  width: 15px;
+  height: 15px;
+  color: var(--muted);
+}
+.search-box input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  outline: none;
+  font-size: var(--text-control, 11px);
+}
+.search-box:focus-within {
+  outline: 2px solid var(--focus, var(--ink));
+  outline-offset: 2px;
+}
+.search-box input:focus-visible {
+  outline: none;
+}
+.search-box kbd {
+  color: var(--muted);
+  border: 1px solid var(--line);
+  padding: 0 4px;
+}
+.tool-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0 21px;
+  border-bottom: 1px solid var(--line);
+}
+.filter-tabs {
+  display: flex;
+  gap: 19px;
+}
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 2px 11px;
+  border-bottom: 2px solid transparent;
+  font-size: var(--text-small, 10px);
+  color: var(--muted);
+  margin-bottom: -1px;
+  white-space: nowrap;
+}
+.filter.active {
+  color: var(--ink);
+  border-color: var(--ink);
+  font-weight: 600;
+}
+.filter:hover {
+  color: var(--ink);
+}
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  color: var(--muted);
+}
+.sort-control select {
+  border: 0;
+  background: transparent;
+  appearance: none;
+  color: var(--muted);
+  font-size: var(--text-control, 10px);
+  cursor: pointer;
+  padding: 2px 1px;
+}
+.sort-control .icon {
+  width: 13px;
+  height: 13px;
+  pointer-events: none;
+}
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.workspace-tip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--line);
+  margin: 31px 0 25px;
+  padding: 21px 24px;
+}
+.tip-icon {
+  height: 35px;
+  width: 35px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.tip-icon .icon {
+  height: 18px;
+  width: 18px;
+}
+.workspace-tip h3 {
+  font-size: var(--text-lead, 12px);
+  font-weight: 550;
+}
+.workspace-tip p {
+  font-size: var(--text-small, 10px);
+  margin-top: 4px;
+}
+.workspace-tip > .text-button {
+  margin-left: auto;
+  font-size: var(--text-small, 10px);
+  white-space: nowrap;
+}
+.workspace-tip > .text-button .icon {
+  height: 13px;
+  width: 13px;
+}
+/* Reduced motion is gentler motion, not none (FRONTEND.md "Press and open motion", 2026-10-04): fades of colour and opacity
+   stay, anything that moves or scales changes at once. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition-property: opacity, color, background-color, border-color !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print keeps the palette it has always had: these are the colours the screen themes replace. */
+@media print {
+  .stat-label,
+  .section-heading p {
+    color: #737e68;
+  }
+  .tool-controls {
+    border-bottom-color: #e3e8da;
+  }
+  .filter {
+    color: #8d9683;
+  }
+  .filter.active {
+    color: #536e41;
+    border-color: #73975a;
+  }
+  .sort-control select {
+    color: #8d9682;
+  }
+}
+
+/* On screen: counts are plain numbers, the search key is a small code key, and the legacy tools view reads as ruled
+   figures (large heading-face numbers over uppercase labels) rather than tinted tiles. */
+@media screen {
+  .search-box kbd {
+    font: 400 var(--text-caption) / 1.4 var(--font-code);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .course-scope-toggle .nav-count {
+    min-width: 0;
+    line-height: inherit;
+    text-align: start;
+    background: transparent;
+  }
+  /* (0,2,0): workspace-theme.css colours .stat-label and .stat-caption with the body grey at (0,1,0), later. */
+  .stat :is(.stat-label, .stat-caption) {
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--label);
+  }
+  .stats .stat-label {
+    white-space: normal;
+  }
+  .tool-card-bottom {
+    flex-wrap: wrap;
+  }
+  .tool-card-bottom .text-button {
+    white-space: nowrap;
+  }
+  .stats > .stat strong {
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: var(--tracking-display);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat > .stat-icon {
+    background: transparent;
+  }
+  /* The stat buttons filter the list (workspace-theme.css draws their hover). A building stat keeps its warning top rule. */
+  .stats > .stat {
+    transition: border-color var(--snappy), background-color var(--snappy);
+  }
+  .filter.active {
+    font-weight: 500;
+  }
+  .tool-controls {
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-4);
+  }
+  .tool-controls > .sort-control {
+    margin-left: auto;
+  }
+  .workspace-tip h3 {
+    line-height: 1.25;
+    letter-spacing: var(--tracking-title);
+  }
+  /* Every header action sits on the same line, centred in the band: the primary's legacy 15 px top margin (kept above for
+     print) put it about 8 px below the secondaries beside it (Import scores · Setup, Edit title · Refresh). */
+  .page-heading-actions > .button {
+    margin-top: 0;
+  }
+}

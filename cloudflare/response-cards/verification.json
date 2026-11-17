@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-09-14T12:44:00Z",
+  "worker_runtime_tests_passed": 21,
+  "faculty_response_card_tests_passed": 24,
+  "existing_regression_tests_passed": 73,
+  "typescript_check": "passed",
+  "worker_dry_build": "passed",
+  "private_browser_workflow": "passed",
+  "public_browser_worker_d1_workflow": "passed with mocked Turnstile widget and Siteverify",
+  "live_https": "passed",
+  "live_authenticated_d1_events": "passed",
+  "live_unauthenticated_faculty_api": "401 as expected",
+  "live_unknown_card": "404 as expected",
+  "live_private_faculty_context": "200, configured",
+  "email_only_listener_application_route": "404 as expected",
+  "reconciliation_service": "successful live run; timer enabled every minute",
+  "live_turnstile_human_completion": "pending: production widget requires an interactive check in the automated browser",
+  "production_student_cards_created_during_checks": 0
+}

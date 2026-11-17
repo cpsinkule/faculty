@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "faculty-print-export",
+  "main": "src/print-export.ts",
+  "account_id": "00000000000000000000000000000000",
+  "compatibility_date": "2026-09-13",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": {"EMAIL_PROVIDER": "resend", "MAIL_FROM": "faculty@print.example.com", "MESSAGE_FROM": "exam@example.com", "MESSAGE_FROM_NAME": "Professor Sinkule"},
+  "secrets": {"required": ["EXPORT_SECRET", "RESEND_API_KEY"]},
+  "send_email": [{"name": "EMAIL", "allowed_sender_addresses": ["faculty@print.example.com", "exam@example.com"]}],
+  "limits": {"cpu_ms": 1000},
+  "observability": {
+    "enabled": true,
+    "logs": {"enabled": true, "invocation_logs": false},
+    "traces": {"enabled": true, "head_sampling_rate": 0}
+  }
+}

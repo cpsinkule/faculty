@@ -1,0 +1,39 @@
+services:
+  faculty:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - faculty-data:/mnt/nvme/Teaching/docker-development
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 630s
+
+  inbox-worker:
+    build: .
+    command: ["python", "manage_inbox.py", "worker"]
+    environment:
+      TMPDIR: /mnt/nvme/Teaching/docker-development/tmp/worker
+    restart: unless-stopped
+    volumes:
+      - faculty-data:/mnt/nvme/Teaching/docker-development
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 30s
+    healthcheck:
+      disable: true
+
+volumes:
+  faculty-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/nvme/Teaching/docker-development

@@ -1,0 +1,35 @@
+/* Status inks on the paper (DESIGN-LANGUAGE §2): olive complete, ochre started, deep brick failed, slate info, rust for
+   seat updates and needs-you. Older literal-colour features take the same inks; printed palettes keep their own. */
+:root:root :is(.sage, .badge.ready, .inbox-job-result, .room-stat.card-complete strong) { color: var(--success); }
+:root:root :is(.sand, .badge.building, .bubble-answer small, .rc-required,
+  .bubble-table tr[data-status="needs_review"] td:nth-child(5) strong, .room-stat.card-pending strong) { color: var(--warning); }
+:root:root :is(.form-error, .room-stat.broken strong, .storage-warning) { color: var(--error); }
+:root:root :is(.blue, .room-stat.left strong) { color: var(--blue); }
+:root:root .lavender { color: var(--violet); }
+:root:root :is(.clay, .room-stat.card-update-pending strong) { color: var(--orange); }
+:root:root .bubble-answer.flagged input { color: var(--warning); border-color: var(--warning); }
+/* Small indicators are round ink dots, as legible as the status words beside them. */
+:root:root :is(.status-dot, .inbox-dot) { border-radius: 50%; }
+:root:root :is(.status-dot.building, .inbox-dot, .server-status.offline .connection-dot) { background: var(--warning); }
+:root:root :is(.status-dot.ready, .inbox-dot.online, .server-status.connected .connection-dot) { background: var(--success); }
+:root:root .status-dot.planned { background: var(--blue); }
+:root:root .stat[data-status="building"] { border-top-color: var(--warning); }
+
+/* Saved tool colour names remain stable; the picker shows them as the status inks. */
+.sage { --swatch: var(--success); }
+.blue { --swatch: var(--blue); }
+.clay { --swatch: var(--accent); }
+.lavender { --swatch: var(--violet); }
+.sand { --swatch: var(--warning); }
+:root:root .icon-choice.color-choice > span { background: var(--swatch); border-color: var(--swatch); }
+:root:root .color-choice input:checked + span { box-shadow: 0 0 0 2px var(--canvas), 0 0 0 4px var(--focus); }
+
+/* Selection overlays belong to the screen, not to the scanned paper underneath. The template editor's answer area is the
+   rust mark over white paper (its 12% wash keeps the printed problem legible); a grading highlight is ochre. */
+.template-area-overlay { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.grading-highlight { border-color: var(--warning); background: color-mix(in srgb, var(--warning) 14%, transparent); }
+.grading-flag-spot, .grading-flag-view-mark { border-color: var(--warning); }
+
+@media (forced-colors: active) {
+  :root:root :is(.button.danger, .danger-button) { --button-fill: ButtonFace; --button-hover: ButtonFace; --button-label: ButtonText; }
+}

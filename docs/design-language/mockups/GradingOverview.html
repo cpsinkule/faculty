@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>faculty. — Grading</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Hedvig+Letters+Serif:opsz@12..24&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#24201B}a:hover{color:#A24B2A}
+.mg-paper{background:#F2ECE1 url("/_blob/37e8e9dc03a339acc2509e05698f822f") repeat}
+.ov{color:#F1E9DA}.ov .fx-i{color:#F1E9DA;border-bottom-color:rgba(241,233,218,.16)}.ov .fx-sec,.ov .fx-n{color:#EDE3D3}
+.inked{color:#F1E9DA;background:url("/_blob/809b66fae457f5d6cf6abab8140e921b") repeat;background-size:320px 320px;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 .6px rgba(241,233,218,.55)) drop-shadow(0 2px 22px rgba(18,10,6,.38))}
+.plate-label{font:600 12px 'Instrument Sans',system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#F1E9DA;filter:drop-shadow(0 1px 8px rgba(18,10,6,.45))}
+.grn{position:absolute;pointer-events:none;background:url("/_blob/dbbe37191c86e51468920e03a2bc565c") repeat;mix-blend-mode:overlay;opacity:.2}
+.fx-sec{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#5F574B;padding:0 0 4px}
+.fx-i{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:38px;border-bottom:1px solid #E2D9C8;color:#24201B;text-decoration:none;font-size:15px}
+.fx-i:hover{color:#A24B2A}
+.fx-n{font-family:'Instrument Serif',Georgia,serif;font-size:19px;line-height:1;color:#5F574B}
+.fx-btn{min-height:44px;padding:0 18px;border:0;border-radius:2px;background:#24201B;color:#F2ECE1;font:600 13px 'Instrument Sans',system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.fx-btn:hover{background:#000;color:#F2ECE1}
+.fx-ghost{min-height:40px;padding:0 14px;border:1px solid #24201B;border-radius:2px;background:transparent;color:#24201B;font:600 12px 'Instrument Sans',system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.fx-ghost:hover{background:#E9E1D2}
+.fx-band-btn{min-height:34px;padding:0 12px;border:1px solid #6E6559;border-radius:2px;background:transparent;color:#F2ECE1;font:500 13px 'Instrument Sans',system-ui,sans-serif;cursor:pointer}
+.lnk{font:600 12px 'Instrument Sans',system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#24201B;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;white-space:nowrap}
+.lnk:hover{color:#A24B2A}
+.lbl{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5F574B}
+.sec{margin:0;padding-top:8px;border-top:2px solid #24201B;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.chip{display:inline-flex;align-items:center;min-height:22px;padding:0 7px;border:1px solid currentColor;border-radius:2px;font:600 11px 'Instrument Sans',system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+.fold>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:48px;border-top:1px solid #D4C9B5;font:600 12px 'Instrument Sans',system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary::after{content:"+";font:400 22px 'Instrument Serif',Georgia,serif;letter-spacing:0}
+.fold[open]>summary::after{content:"−"}
+.st{display:flex;flex-direction:column;gap:4px;min-width:0;padding:10px 10px 10px 0}
+.st b{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:22px;line-height:1}
+.st span{font-size:12px;line-height:1.25}
+</style>
+</helmet>
+<div class="mg-paper" style="min-height: 100vh; display: flex; flex-wrap: wrap; font-family: 'Instrument Sans', 'Helvetica Neue', system-ui, sans-serif; color: #24201B">
+
+
+  <aside aria-label="Workspace navigation" style="position: relative; isolation: isolate; flex: 1 1 232px; box-sizing: border-box; padding: 26px 24px 24px 30px; border-right: 1px solid #D4C9B5; display: flex; flex-direction: column; gap: 22px">
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 22px">
+      <a href="#" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; line-height: 1; letter-spacing: -.02em; color: #24201B; text-decoration: none; padding-bottom: 12px; border-bottom: 3px double #24201B">faculty<span style="color: #A24B2A">.</span></a>
+      <button type="button" style="display: flex; align-items: center; justify-content: space-between; min-height: 40px; padding: 0; border: 0; border-bottom: 1px solid #24201B; background: transparent; font: 15px 'Instrument Sans', system-ui, sans-serif; color: #5F574B; cursor: pointer">Search and go to<span style="font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #24201B">CTRL K</span></button>
+      <nav aria-label="Pages" style="display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">A · Today</span><a href="#" class="fx-i">Home</a><a href="#" class="fx-i">Calendar</a><a href="#" class="fx-i">Mail</a><a href="#" class="fx-i">Follow-up<span class="fx-n" style="color: #A24B2A">4</span></a></div>
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">B · Courses</span><a href="#" class="fx-i">Courses<span class="fx-n">1</span></a><a href="#" class="fx-i">Canvas</a><a href="#" class="fx-i">Accommodations</a><a href="#" class="fx-i">Absences<span class="fx-n" style="color: #A24B2A">1</span></a></div>
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">C · Assessments</span><a href="#" class="fx-i">Assignments &amp; printing</a><a href="#" class="fx-i">Seating charts<span class="fx-n">3</span></a><a href="#" class="fx-i">Response Cards</a><a href="#" class="fx-i">Teaching Inbox<span class="fx-n" style="color: #A24B2A">1</span></a><a href="#" class="fx-i">Teaching review</a><a href="#" class="fx-i">Exams</a><a href="#" class="fx-i" aria-current="page" style="font-weight: 600; color: #A24B2A">Grading<span class="fx-n" style="color: #A24B2A">16</span></a></div>
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">D · Library</span><a href="#" class="fx-i">Rooms<span class="fx-n">12</span></a></div>
+      </nav>
+      <div style="margin-top: auto; display: flex; flex-direction: column; gap: 6px; padding-top: 12px; border-top: 1px solid #D4C9B5">
+        <a href="#" class="fx-i" style="border-bottom: 0">Workspace settings</a>
+        <button type="button" style="display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0; border: 0; background: transparent; font: 13px 'Instrument Sans', system-ui, sans-serif; color: #5F574B; cursor: pointer; text-align: left"><span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: #4F6B2E"></span>Connected · worker responding</button>
+      </div>
+    </div>
+    <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 476px 520px at -306px 430px, #2f3d63 64%, #46557f 82%, #6b5878 92%, #a0502f 97.5%, #e4924c 99.2%, #ffdca6 100%, rgba(255,196,130,.45) 100.05%, rgba(255,170,110,.14) 101.4%, rgba(255,170,110,0) 103%)"></div>
+    <div aria-hidden="true" class="grn" style="inset: 0; clip-path: ellipse(476px 520px at -306px 430px)"></div>
+    <div aria-hidden="true" class="ov" style="position: absolute; inset: 0; pointer-events: none; clip-path: ellipse(476px 520px at -306px 430px); box-sizing: border-box; padding: 26px 24px 24px 30px; display: flex; flex-direction: column; gap: 22px">
+      <span style="display: block; font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; line-height: 1; letter-spacing: -.02em; padding-bottom: 12px; border-bottom: 3px double rgba(241,233,218,.6)">faculty<span style="color: #FFD9BC">.</span></span>
+      <div style="display: flex; align-items: center; justify-content: space-between; min-height: 40px; border-bottom: 1px solid rgba(241,233,218,.5); font: 15px 'Instrument Sans', system-ui, sans-serif; color: #EDE3D3">Search and go to<span style="font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #F1E9DA">CTRL K</span></div>
+      <div style="display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">A · Today</span><span class="fx-i">Home</span><span class="fx-i">Calendar</span><span class="fx-i">Mail</span><span class="fx-i">Follow-up<span class="fx-n" style="color: #FFD9BC">4</span></span></div>
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">B · Courses</span><span class="fx-i">Courses<span class="fx-n">1</span></span><span class="fx-i">Canvas</span><span class="fx-i">Accommodations</span><span class="fx-i">Absences<span class="fx-n" style="color: #FFD9BC">1</span></span></div>
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">C · Assessments</span><span class="fx-i">Assignments &amp; printing</span><span class="fx-i">Seating charts<span class="fx-n">3</span></span><span class="fx-i">Response Cards</span><span class="fx-i">Teaching Inbox<span class="fx-n" style="color: #FFD9BC">1</span></span><span class="fx-i">Teaching review</span><span class="fx-i">Exams</span><span class="fx-i" style="font-weight: 600; color: #FFD9BC">Grading<span class="fx-n" style="color: #FFD9BC">16</span></span></div>
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">D · Library</span><span class="fx-i">Rooms<span class="fx-n">12</span></span></div>
+      </div>
+      <div style="margin-top: auto; display: flex; flex-direction: column; gap: 6px; padding-top: 12px; border-top: 1px solid rgba(241,233,218,.25)"><span class="fx-i" style="border-bottom: 0">Workspace settings</span><div style="display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: 13px; color: #EDE3D3"><span style="width: 7px; height: 7px; border-radius: 50%; background: #8DB26A"></span>Connected · worker responding</div></div>
+    </div>
+  </aside>
+
+  <div style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column">
+
+    <div style="position: relative; height: 400px; overflow: hidden">
+      <img src="/_blob/3f851f0d56ea04deae294adc0e54abae" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block">
+      <span class="plate-label" style="position: absolute; right: 48px; top: 74px">MATH 140 · Fall 2026</span>
+      <h1 class="inked" style="position: absolute; left: 40px; right: 44px; top: 105px; margin: 0; text-align: right; font-family: 'Hedvig Letters Serif', Georgia, serif; font-variation-settings: 'opsz' 24; font-weight: 400; font-size: 112px; line-height: .9; letter-spacing: -.025em">Grading</h1>
+      <div aria-hidden="true" class="grn" style="inset: 0"></div>
+      <header style="position: relative; z-index: 2; background: rgba(18,14,11,.32); backdrop-filter: blur(3px); border-bottom: 1px solid rgba(241,233,218,.14); color: #F2ECE1; display: flex; flex-wrap: wrap; gap: 8px 28px; align-items: center; padding: 10px 40px; font-size: 13px">
+        <nav aria-label="Breadcrumb" style="font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase"><span style="color: #D7CCBA">Home</span> <span style="color: #A99E8E">/</span> Grading</nav>
+        <span style="margin-left: auto; font-variant-numeric: tabular-nums; color: #E3D6C2">Mon, Oct 5 · 7:42 AM</span>
+        <button type="button" class="fx-band-btn">Assistant <span style="color: #A99E8E">⌘I</span></button>
+      </header>
+    </div>
+
+    <main style="box-sizing: border-box; padding: 26px 40px 56px; max-width: 1160px; display: flex; flex-direction: column; gap: 30px">
+
+      <div style="display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; justify-content: space-between; padding-bottom: 18px; border-bottom: 3px double #24201B">
+        <p style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 23px; line-height: 1.3; color: #3D372F">6 assignments · <span style="color: #A24B2A">312 responses waiting</span> · 1 scan waiting in the Inbox</p>
+        <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap">
+          <a href="#" class="lnk">Find new scans in the Inbox →</a>
+          <button type="button" class="fx-ghost" aria-label="Refresh" title="Refresh" style="padding: 0 11px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"></path><path d="M20 4v7h-7"></path></svg></button>
+          <button type="button" class="fx-ghost"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg>Compute settings</button>
+        </div>
+      </div>
+
+      <section aria-label="Assignments" style="display: flex; flex-direction: column">
+
+        <article style="display: flex; flex-direction: column; gap: 14px; padding: 22px 0 24px; border-bottom: 1px solid #D4C9B5">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 20px">
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <span class="lbl">MATH 140 · Fall 2026</span>
+              <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 34px; line-height: 1"><a href="#" style="text-decoration: none">Test 1</a></h2>
+            </div>
+            <span class="serif" style="font-size: 20px">4 <span style="color: #5F574B">of 6 steps done</span></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; color: #5F574B"><a href="#">Scan records (2)</a><span>142 reviewed papers</span><span>1,534 final responses</span><a href="#">Gradebook</a></div>
+          <ol aria-label="Steps of Test 1" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid #E2D9C8">
+            <li class="st" style="color: #3E5A66"><b>1</b><span>Rubrics &amp; Templates</span></li>
+            <li class="st" style="color: #3E5A66; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>2</b><span>Answer areas</span></li>
+            <li class="st" style="color: #3E5A66; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>3</b><span>Key &amp; Rubric</span></li>
+            <li class="st" style="color: #3E5A66; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>4</b><span>Grade</span></li>
+            <li class="st" aria-current="step" style="color: #A24B2A; border-left: 1px solid #E2D9C8; padding-left: 10px; box-shadow: inset 0 3px 0 #A24B2A"><b style="font-style: italic">5</b><span style="font-weight: 600">Review · 83%</span><span style="height: 3px; background: #E2D9C8; display: flex"><span style="width: 83%; background: #A24B2A"></span></span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>6</b><span>Certify &amp; export</span></li>
+          </ol>
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px">
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 420px"><span style="font-weight: 600">Next: review grades</span><span style="font-size: 14px; color: #5F574B">312 responses to review · 1,204 instructor decisions · 330 automatic acceptances.</span></div>
+            <a href="#" class="fx-btn">Review responses →</a>
+          </div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 14px; padding: 22px 0 24px; border-bottom: 1px solid #D4C9B5">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 20px">
+            <div style="display: flex; flex-direction: column; gap: 4px"><span class="lbl">MATH 140 · Fall 2026</span><h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 34px; line-height: 1"><a href="#" style="text-decoration: none">Quiz 4</a></h2></div>
+            <span class="serif" style="font-size: 20px">3 <span style="color: #5F574B">of 6 steps done</span></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; color: #5F574B"><a href="#">Scan records (2)</a><span>142 reviewed papers</span><span>214 final responses</span></div>
+          <ol aria-label="Steps of Quiz 4" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid #E2D9C8">
+            <li class="st" style="color: #3E5A66"><b>1</b><span>Rubrics &amp; Templates</span></li>
+            <li class="st" style="color: #3E5A66; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>2</b><span>Answer areas</span></li>
+            <li class="st" style="color: #3E5A66; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>3</b><span>Key &amp; Rubric</span></li>
+            <li class="st" aria-current="step" style="color: #A24B2A; border-left: 1px solid #E2D9C8; padding-left: 10px; box-shadow: inset 0 3px 0 #A24B2A"><b style="font-style: italic">4</b><span style="font-weight: 600">Grade · 72%</span><span style="height: 3px; background: #E2D9C8; display: flex"><span style="width: 72%; background: #A24B2A"></span></span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>5</b><span>Review</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>6</b><span>Certify &amp; export</span></li>
+          </ol>
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px">
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 420px"><span style="font-weight: 600">In progress: grade the responses</span><span style="font-size: 14px; color: #5F574B">154 graded and waiting for review · 57 queued or running · <span style="color: #7A1F12; font-weight: 600">3 failed</span>.</span></div>
+            <a href="#" class="fx-btn">See grading progress →</a>
+          </div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 14px; padding: 22px 0 24px; border-bottom: 1px solid #D4C9B5">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 20px">
+            <div style="display: flex; flex-direction: column; gap: 4px"><span class="lbl">MATH 140 · Fall 2026</span><h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 34px; line-height: 1"><a href="#" style="text-decoration: none">Quiz 5</a></h2></div>
+            <span class="serif" style="font-size: 20px">1 <span style="color: #5F574B">of 6 steps done</span></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; color: #5F574B"><a href="#">Scan records (2)</a><span>140 reviewed papers · <span style="color: #A24B2A; font-weight: 600">2 need attention</span></span></div>
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 20px; padding: 10px 0; border-top: 2px solid #A24B2A; font-size: 14px"><span><b style="font-weight: 600">2 papers need your version decision.</b> They are not graded until you confirm which version each is.</span><a href="#" class="lnk">Decide versions →</a></div>
+          <ol aria-label="Steps of Quiz 5" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid #E2D9C8">
+            <li class="st" style="color: #3E5A66"><b>1</b><span>Rubrics &amp; Templates</span></li>
+            <li class="st" aria-current="step" style="color: #A24B2A; border-left: 1px solid #E2D9C8; padding-left: 10px; box-shadow: inset 0 3px 0 #A24B2A"><b style="font-style: italic">2</b><span style="font-weight: 600">Answer areas · 3/4</span><span style="height: 3px; background: #E2D9C8; display: flex"><span style="width: 75%; background: #A24B2A"></span></span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>3</b><span>Key &amp; Rubric</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>4</b><span>Grade</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>5</b><span>Review</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>6</b><span>Certify &amp; export</span></li>
+          </ol>
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px">
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 420px"><span style="font-weight: 600">Next: confirm where each answer is</span><span style="font-size: 14px; color: #5F574B">3 of 4 confirmed. Each suggested answer area needs one look from you.</span></div>
+            <a href="#" class="fx-btn">Review Question 4 →</a>
+          </div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 14px; padding: 22px 0 24px; border-bottom: 1px solid #D4C9B5">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 20px">
+            <div style="display: flex; flex-direction: column; gap: 4px"><span class="lbl">MATH 140 · Fall 2026</span><h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 34px; line-height: 1"><a href="#" style="text-decoration: none">Quiz 6</a></h2></div>
+            <span class="serif" style="font-size: 20px">2 <span style="color: #5F574B">of 6 steps done</span></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; color: #5F574B"><a href="#">Scan records (1)</a><span>138 reviewed papers</span></div>
+          <ol aria-label="Steps of Quiz 6" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid #E2D9C8">
+            <li class="st" style="color: #3E5A66"><b>1</b><span>Rubrics &amp; Templates</span></li>
+            <li class="st" style="color: #3E5A66; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>2</b><span>Answer areas</span></li>
+            <li class="st" aria-current="step" style="color: #A24B2A; border-left: 1px solid #E2D9C8; padding-left: 10px; box-shadow: inset 0 3px 0 #A24B2A"><b style="font-style: italic">3</b><span style="font-weight: 600">Key &amp; Rubric · 3 open</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>4</b><span>Grade</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>5</b><span>Review</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>6</b><span>Certify &amp; export</span></li>
+          </ol>
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px">
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 420px"><span style="font-weight: 600">Next: finalize the key and rubrics</span><span style="font-size: 14px; color: #5F574B">The reviewers raised 3 concerns, one a suspected error in the key. Grading starts once you approve.</span></div>
+            <a href="#" class="fx-btn">Review and confirm →</a>
+          </div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 14px; padding: 22px 0 24px; border-bottom: 1px solid #D4C9B5">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 20px">
+            <div style="display: flex; flex-direction: column; gap: 4px"><span class="lbl">MATH 140 · Fall 2026</span><h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 34px; line-height: 1"><a href="#" style="text-decoration: none">Test 2</a></h2></div>
+            <span class="serif" style="font-size: 20px">0 <span style="color: #5F574B">of 6 steps done</span></span>
+          </div>
+          <ol aria-label="Steps of Test 2" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid #E2D9C8">
+            <li class="st" aria-current="step" style="color: #A24B2A; box-shadow: inset 0 3px 0 #A24B2A"><b style="font-style: italic">1</b><span style="font-weight: 600">Rubrics &amp; Templates · 4/6</span><span style="height: 3px; background: #E2D9C8; display: flex"><span style="width: 67%; background: #A24B2A"></span></span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>2</b><span>Answer areas</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>3</b><span>Key &amp; Rubric</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>4</b><span>Grade</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>5</b><span>Review</span></li>
+            <li class="st" style="color: #8C8276; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>6</b><span>Certify &amp; export</span></li>
+          </ol>
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px">
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 420px"><span style="font-weight: 600">Next: upload the rubrics and the assignment templates</span><span style="font-size: 14px; color: #5F574B">6 of 6 questions have a rubric. 4 of 6 confirmed for rubric review. 0 of 2 version templates confirmed. Grading waits for these; Test 2 is given Oct 22.</span></div>
+            <a href="#" class="fx-btn">Confirm rubrics for review →</a>
+          </div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 14px; padding: 22px 0 24px; border-bottom: 1px solid #D4C9B5">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 20px">
+            <div style="display: flex; flex-direction: column; gap: 4px"><span class="lbl">MATH 140 · Fall 2026</span><h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 34px; line-height: 1"><a href="#" style="text-decoration: none">Quiz 3</a></h2></div>
+            <span class="serif" style="font-size: 20px">5 <span style="color: #5F574B">of 6 steps done</span></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; color: #5F574B"><a href="#">Scan records (1)</a><span>142 reviewed papers</span><span>840 final responses</span><a href="#">Sent to Gradescope Oct 2 · 840/840</a><a href="#">Gradebook</a></div>
+          <ol aria-label="Steps of Quiz 3" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid #E2D9C8">
+            <li class="st" style="color: #3E5A66"><b>1</b><span>Rubrics &amp; Templates</span></li>
+            <li class="st" style="color: #3E5A66; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>2</b><span>Answer areas</span></li>
+            <li class="st" style="color: #3E5A66; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>3</b><span>Key &amp; Rubric</span></li>
+            <li class="st" style="color: #3E5A66; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>4</b><span>Grade</span></li>
+            <li class="st" style="color: #3E5A66; border-left: 1px solid #E2D9C8; padding-left: 10px"><b>5</b><span>Review</span></li>
+            <li class="st" aria-current="step" style="color: #A24B2A; border-left: 1px solid #E2D9C8; padding-left: 10px; box-shadow: inset 0 3px 0 #A24B2A"><b style="font-style: italic">6</b><span style="font-weight: 600">Certify &amp; export</span></li>
+          </ol>
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px">
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 420px"><span style="font-weight: 600">Next: certify the grades</span><span style="font-size: 14px; color: #5F574B">140 of 142 students have every grade. Certifying records them in the gradebook column Quiz 3.</span></div>
+            <a href="#" class="fx-btn">Certify grades →</a>
+          </div>
+        </article>
+
+      </section>
+
+      <section aria-labelledby="go-waiting" style="display: flex; flex-direction: column; gap: 4px">
+        <h2 id="go-waiting" class="sec">Waiting for Inbox checks</h2>
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 20px; min-height: 52px; border-bottom: 1px solid #E2D9C8">
+          <span style="font-size: 15px"><span class="serif" style="font-size: 21px">Quiz 7</span> · MATH 140 · Fall 2026 — its scan is waiting for Inbox checks</span>
+          <a href="#" class="lnk">Open the scan →</a>
+        </div>
+      </section>
+
+      <div style="display: flex; flex-direction: column">
+        <details class="fold"><summary><span>Archived · grades certified</span><span style="margin-left: auto; color: #5F574B; letter-spacing: 0; text-transform: none; font-weight: 400; font-size: 14px">Quiz 1, Quiz 2</span></summary></details>
+        <details class="fold" open>
+          <summary><span>Compute availability and costs</span></summary>
+          <div style="display: flex; flex-direction: column; padding-bottom: 8px">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; min-height: 40px; border-bottom: 1px solid #E2D9C8; font-size: 14px"><span>Local handwriting reader</span><span class="chip" style="color: #4F6B2E">Available</span></div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; min-height: 40px; border-bottom: 1px solid #E2D9C8; font-size: 14px"><span>Mathpix</span><span class="chip" style="color: #4F6B2E">Available</span></div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; min-height: 40px; border-bottom: 1px solid #E2D9C8; font-size: 14px"><span>Local visual verifier</span><span class="chip" style="color: #4F6B2E">Available</span></div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; min-height: 40px; border-bottom: 1px solid #E2D9C8; font-size: 14px"><span>Local grader</span><span class="chip" style="color: #5F574B">Not configured</span></div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; min-height: 40px; border-bottom: 1px solid #E2D9C8; font-size: 14px"><span>Nebius</span><span class="chip" style="color: #4F6B2E">Available</span></div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; min-height: 40px; border-bottom: 1px solid #E2D9C8; font-size: 14px"><span>OpenRouter · grading</span><span class="chip" style="color: #7A1F12">Authentication failed</span></div>
+            <p style="margin: 14px 0 0; font-size: 14px; color: #5F574B; max-width: 760px"><span class="serif" style="font-size: 26px; color: #24201B">$12.48</span> recorded from usage. Estimates are made before a batch; recorded cost comes from each request’s token usage or the host’s own figure. Neither is a bill.</p>
+          </div>
+        </details>
+      </div>
+
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":2300}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

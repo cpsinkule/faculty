@@ -1,0 +1,168 @@
+/* Excused absences (absences.js): the page's filters and table, the absence dialog (facts, decision, documentation, the work it
+   covers) and the Absences part of a student's card. On tokens; tables reuse the roster table (course-pages.css).
+   DESIGN-LANGUAGE (Ledger): small uppercase labels. Desktop only. */
+.absences-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-3) var(--space-6); margin: 0 0 var(--space-3); }
+/* ONE NAVIGATION: the views (Absences, Makeups owed) are sub-tabs (ledger.css), unlike the decision filter's framed chips under
+   them; the Waiting count is the needs-you block when not 0. */
+:root:root:root [data-absences-head] .filter-chips > button[data-needs] > b { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px; background: var(--needs-fill); color: var(--needs-ink); }
+.absences-toolbar .filter-chips { margin: 0; }
+.absences-toolbar .field { margin: 0; min-width: 10rem; }
+.absences-search { flex: 1 1 16rem; min-width: 12rem; }
+:root .absences-count { margin: var(--space-4) 0 var(--space-3); color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.absences-table-scroll { max-width: 100%; }
+#absences-section td { vertical-align: top; white-space: normal; }
+#absences-section td small { display: block; color: var(--muted); font-size: var(--text-small); }
+/* The reason and its details are the record's words: their column keeps room to read them. */
+#absences-section td[data-label="Reason"] { min-width: 14em; }
+/* A date range stays on one line; the section takes only its three digits (critique 2026-10-05). */
+#absences-section td[data-label="Dates"] { white-space: nowrap; }
+#absences-section td[data-label="Section"] { width: 1%; white-space: nowrap; }
+#absences-section td .absences-details { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; max-width: 36em; }
+.absences-decision { white-space: nowrap; color: var(--ink); font-weight: 600; }
+.absences-decision:is([data-status="not_excused"], [data-status="withdrawn"]) { color: var(--muted); font-weight: 500; }
+.absences-name { padding: 0; color: var(--ink); text-align: left; white-space: nowrap; cursor: pointer; text-decoration: underline; text-decoration-color: var(--line); text-decoration-thickness: 1px; text-underline-offset: 4px; transition: color var(--snappy), text-decoration-color var(--snappy); }
+.absences-name:hover { color: var(--ink); text-decoration-color: currentColor; }
+
+.absence-form .dialog-body { display: grid; gap: var(--space-3); }
+.absence-dates { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-5); }
+.absence-dates .field { flex: 1 1 10rem; margin: 0; }
+.absence-form .field { margin: 0; }
+/* A group of choices is a section of the dialog: a hairline above, its legend a small label, never a framed box. */
+.absence-decision { display: grid; gap: var(--space-2); margin: 0; padding: var(--space-3) 0 0; border: 0; border-top: 1px solid var(--line); }
+.absence-decision legend { float: left; width: 100%; margin: 0 0 var(--space-1); padding: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.absence-decision legend + * { clear: both; }
+.absence-decision-choices { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); }
+.absence-decision-choices label { display: inline-flex; align-items: center; gap: var(--space-2); }
+.absence-section { display: grid; gap: var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.absence-section h3 { margin: 0; font-size: var(--text-item); line-height: 1.2; letter-spacing: var(--tracking-title); }
+.absence-docs, .absence-work, .absence-pick, .absence-card-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.absence-docs li, .absence-work li, .absence-pick li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); padding: var(--space-1) 0; border-top: 1px solid var(--nested-line); overflow-wrap: anywhere; }
+.absence-docs li:first-child, .absence-work li:first-child, .absence-pick li:first-child { border-top: 0; }
+.absence-docs small, .absence-work small, .absence-pick small { color: var(--muted); }
+.absence-doc-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+.absence-upload { cursor: pointer; }
+.absence-upload:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.absence-history ul { margin: var(--space-2) 0 0; padding-left: 1.15rem; color: var(--text); }
+.absence-history li { margin: 2px 0; }
+.absence-card-list li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); padding: var(--space-1) 0; }
+[data-absences-card] { display: grid; gap: var(--space-2); justify-items: start; }
+/* TOTAL ABSENCES: the count and its split on one line, the days missed folded below it at the card's full width. */
+.absence-total { justify-self: stretch; display: grid; gap: 0; }
+.absence-total-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); margin: 0; }
+.absence-total-line span { color: var(--muted); }
+.absence-total-days { margin: var(--space-1) 0 0; }
+.absence-total-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.absence-total-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); padding: var(--space-1) 0; border-top: 1px solid var(--nested-line); }
+.absence-total-list li:first-child { border-top: 0; }
+.absence-total-day { min-width: 96px; font-variant-numeric: tabular-nums; }
+.absence-total-list small { color: var(--muted); overflow-wrap: anywhere; }
+/* TOTAL ABSENCES › ON THE ABSENCES PAGE: one hairline-topped group a section, a student a line; a count opens to the days missed. */
+.absence-totals-section { display: grid; gap: var(--space-2); margin: 0 0 var(--space-6); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.absence-totals-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); }
+.absence-totals-head h3 { margin: 0; font-size: var(--text-item); line-height: 1.2; letter-spacing: var(--tracking-title); }
+.absence-totals-head small { color: var(--muted); font-size: var(--text-small); }
+/* A TABLE, NOT SENTENCES (requirement, 2026-11-12): the words are said once, in each
+   section's column headings over the 2px ink rule; a row is a name, its count, its bar of one block a day and its figures, read
+   down their columns (tabular). The row opens to the days missed: the framed +/− at its end, as on every fold. */
+.absence-totals { --totals-columns: minmax(200px, 1.5fr) 76px minmax(160px, 2fr) 104px 84px 20px; }
+.absence-totals.has-waiting { --totals-columns: minmax(200px, 1.5fr) 76px minmax(160px, 2fr) 104px 84px 84px 20px; }
+.absence-totals-columns, .absence-totals-student > summary { display: grid; grid-template-columns: var(--totals-columns); align-items: center; gap: var(--space-4); padding: var(--space-2) var(--space-3); }
+.absence-totals-columns { margin-top: var(--space-1); border-bottom: var(--frame); color: var(--ink); font: 700 13px/1.3 var(--font-body); }
+.absence-totals-columns > :nth-child(2), .absence-totals-columns > [data-state] { text-align: right; }
+/* The headings are the bar's key: each state's block before its word. */
+.absence-totals-columns > [data-state]::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-inline-end: 6px; background: var(--ink); }
+.absence-totals-columns > [data-state="pending"]::before { background: var(--needs-fill); }
+.absence-totals-columns > [data-state="excused"]::before { background: var(--faint); }
+.absence-totals-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.absence-totals-list > li { border-top: 1px solid var(--nested-line); }
+.absence-totals-list > li:first-child { border-top: 0; }
+.absence-totals-student > summary { cursor: pointer; list-style: none; transition: background-color var(--snappy); }
+.absence-totals-student > summary:hover, .absence-totals-student[open] > summary { background: var(--surface-hover); }
+.absence-totals-student > summary::-webkit-details-marker { display: none; }
+.absence-totals-student > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.absence-totals-student > summary::after { content: "+"; content: counter(decor, none) "+" / ""; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.absence-totals-student[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; }
+.absence-totals-name { color: var(--ink); overflow-wrap: anywhere; }
+.absence-totals-name small, .absence-totals-none small { color: var(--muted); font-size: var(--text-small); }
+.absence-totals-count, .absence-totals-figure { text-align: right; font-variant-numeric: tabular-nums; }
+.absence-totals-count { color: var(--ink); font-weight: 800; }
+.absence-totals-figure[data-zero] { color: var(--faint); }
+.absence-totals-figure[data-state="pending"] { color: var(--accent); font-weight: 700; }
+.absence-totals-bar { display: block; width: 100%; height: 12px; }
+.absence-bar-not_excused { fill: var(--ink); }
+.absence-bar-pending { fill: var(--needs-fill); }
+.absence-bar-excused { fill: var(--faint); }
+/* The students with no absence fold under their section, their names in columns. */
+details.disclosure:is(.absence-totals-rest, .absence-totals-more) { margin: 0; border-top: 1px solid var(--line); }
+:is(.absence-totals-rest, .absence-totals-more) > summary { --disclosure-summary-padding: var(--space-2) var(--space-3); }
+/* THE TOP FIVE: the section's other students who missed a class, the same rows, under a fold of their own. */
+.absence-totals-more > .disclosure-body { --disclosure-body-padding: 0; border-top: 1px solid var(--nested-line); }
+.absence-totals-none { margin: 0; padding: 0 var(--space-3); list-style: none; columns: 4 220px; column-gap: var(--space-5); }
+.absence-totals-none > li { padding: 2px 0; break-inside: avoid; }
+.absence-totals-none .absence-totals-ahead { display: block; }
+.absence-totals-days { padding: var(--space-2) var(--space-3) var(--space-3) var(--space-6); background: var(--surface-hover); }
+/* Makeups owed (absence-makeups.js): one hairline-topped group per assignment, its serif title, its actions beside it. */
+.makeup-group { display: grid; gap: var(--space-2); margin: 0 0 var(--space-6); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.makeup-group-head { display: flex; flex-wrap: wrap; align-items: start; justify-content: space-between; gap: var(--space-3); }
+.makeup-group-head h3 { margin: 0; font-size: var(--text-item); line-height: 1.2; letter-spacing: var(--tracking-title); }
+.makeup-group-head small { display: block; color: var(--muted); font-size: var(--text-small); }
+.makeup-group-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--space-2) var(--space-4); }
+/* ONE GRID (requirement, 2026-11-12): every assignment's table shares these five columns, so Student,
+   Section, Absence and Makeup read straight down the page from one group to the next; a name or a date range wraps in its column. */
+.makeup-table { table-layout: fixed; }
+.makeup-col-student { width: 22%; }
+.makeup-col-section { width: 84px; }
+.makeup-col-absence { width: 19%; }
+.makeup-col-actions { width: 232px; }
+.makeup-table .absences-name { white-space: normal; }
+.makeup-table :is(td, th) { overflow-wrap: break-word; }
+.makeup-sittings { display: grid; gap: var(--space-1); }
+.makeup-new { display: grid; gap: var(--space-2); }
+/* The makeup draft window (makeup-drafts.js, READABLE REVIEW): wide enough to read a problem as printed beside its notes; the header
+   and footer stay put and only the body scrolls; one column that never grows past the window (a wide formula scrolls in its own box). */
+#dialog:has(> #makeup-drafts) { width: min(1120px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); }
+#makeup-drafts { display: flex; flex-direction: column; flex: 0 1 auto; min-height: 0; }
+#makeup-drafts > .dialog-header, #makeup-drafts > .dialog-footer { flex-shrink: 0; }
+#makeup-drafts > .dialog-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+#makeup-drafts .katex-display { overflow-x: auto; overflow-y: hidden; }
+/* Summary: what the makeup is and how much waits on the instructor (components.css READABLE REVIEW), the pages as thumbnails beside it. */
+.makeup-summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-5); align-items: start; }
+.makeup-summary h3 { margin: 0; font-size: var(--text-item); line-height: 1.25; letter-spacing: var(--tracking-title); }
+.makeup-summary p { margin: var(--space-1) 0 0; }
+.makeup-pages { display: grid; justify-items: end; gap: var(--space-2); }
+.makeup-pages > div { display: flex; gap: var(--space-3); }
+.makeup-pages > div > a { display: grid; gap: var(--space-1); justify-items: center; color: var(--muted); font-size: var(--text-small); text-decoration: none; }
+.makeup-pages img { display: block; width: 96px; height: auto; border: var(--frame); background: var(--paper); }
+/* The decision: approve beside its alternative. */
+.makeup-decision { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-6); align-items: start; }
+.makeup-decision .absence-section { border-top: 2px solid var(--ink); }
+/* What approving will do as the form stands (2026-10-06), read first in the Approve column; the footer brings either form into view. */
+.makeup-approve-summary { margin: 0 0 var(--space-2); color: var(--ink); font-weight: 600; max-width: 60ch; }
+#makeup-drafts .dialog-footer [data-makeup-jump].text-button { margin-inline-end: auto; }
+/* Quiz makeups booked by card (MAKEUP BOOKING): each term's switch above the groups, the makeup version's line under a quiz's title
+   (a warning when it waits for the instructor), and a row's booking with its one action under the chip. */
+.makeup-booking { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); margin: 0 0 var(--space-4); }
+.makeup-booking p { margin: 0; max-width: 62rem; }
+.makeup-group-head small.makeup-version[data-tone="warning"] { color: var(--warning); }
+/* The action takes its own line under the chip even when no line of text sits between them ("Send booking card"), never beside it. */
+/* The Makeup column says where the makeup stands and has nothing to press: its chip, then short lines; a booked row's day, time and
+   room in ink. */
+.makeup-cell .chip + small { margin-top: var(--space-1); }
+#absences-section .makeup-cell small.makeup-when { color: var(--ink); font-weight: 600; }
+/* ONE ROW, ONE STEP (absence-makeups.js actionsMarkup): the row's actions at the right, under the group's own; the framed step first,
+   the text actions on one line under it. */
+.makeup-actions { display: grid; justify-items: end; gap: var(--space-2); }
+.makeup-actions-more { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0 var(--space-4); }
+.makeup-actions :is(.button, .text-button) { white-space: nowrap; }
+.makeup-plan { margin: 0; padding-left: 1.15rem; }
+.makeup-plan li { margin: 2px 0; }
+.makeup-plan small { display: block; color: var(--muted); font-size: var(--text-small); }
+@media (prefers-reduced-motion: reduce) { .absences-name { transition: none; } }
+/* The makeup approval window's students (2026-11-01): one row each, the name, the section and one short status in aligned columns.
+   With booking cards on and no sitting chosen they are a list to read, so the boxes are not shown. */
+.makeup-students { display: grid; grid-template-columns: auto minmax(10rem, max-content) max-content minmax(0, 1fr); gap: var(--space-1) var(--space-3); align-items: baseline; }
+.makeup-student { display: contents; }
+.makeup-students.is-reading .makeup-student input { visibility: hidden; }
+.makeup-student-status, .makeup-muted { color: var(--muted); font-size: var(--text-small); }
+.makeup-certified { margin: var(--space-3) 0 0; }
+.makeup-certified p { margin: 0; }

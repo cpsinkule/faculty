@@ -1,0 +1,20 @@
+[Unit]
+Description=Faculty teaching workspace
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/code/Teaching
+ExecStart=%h/code/Teaching/.venv/bin/python %h/code/Teaching/app.py
+Environment=HOST=127.0.0.1
+Environment=PORT=3000
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=FACULTY_REQUIRE_STORAGE=1
+EnvironmentFile=-%h/.config/faculty/response-cards.env
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+UMask=0077
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,292 @@
+/* Accommodations & DR exams (UX overhaul, 2026-09-26): on tokens, square, one primary per region. This sheet also applies
+   to print: the rules below keep the print layout (and the DR list's own print contract at the end), and the screen look
+   (DESIGN-LANGUAGE, Ledger) sits in the @media screen block before it. Desktop only: no phone tier. */
+.roster-actions { display: flex; flex-wrap: wrap; gap: .65rem; }
+.student-accommodations { min-width: 12rem; max-width: 22rem; white-space: normal; }
+.student-accommodations summary { cursor: pointer; color: var(--ink); font-weight: 600; }
+.student-accommodations ul { padding-left: 1.15rem; margin: .7rem 0; }
+.student-accommodations li { margin: .4rem 0; }
+.student-accommodations p { margin: .6rem 0; overflow-wrap: anywhere; }
+
+/* Import dialogs: purpose, the file, then the preview with problems first. */
+.accommodation-import-lead { margin: 0 0 var(--space-3); }
+.accommodation-import-term { margin: 0 0 var(--space-3); color: var(--muted); }
+.accommodation-import-term strong { color: var(--ink); font-weight: 600; }
+.accommodation-import-policy { margin: var(--space-3) 0; }
+.accommodation-import-switch { margin: var(--space-2) 0; }
+.accommodation-preview-summary { margin: var(--space-2) 0 0; }
+#accommodation-preview h3 { margin: var(--space-4) 0 var(--space-1); }
+#accommodation-preview > .field-hint { margin: 0 0 var(--space-3); }
+.accommodation-preview-group { margin: var(--space-4) 0; }
+.accommodation-preview-group h4 { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-2); font-size: var(--text-body, 14px); }
+.accommodation-preview-group[data-tone="warning"] { padding-left: var(--space-3); border-left: 3px solid var(--tone-warning); }
+.accommodation-preview-group ul, .accommodation-preview-unchanged ul { margin: var(--space-1) 0 var(--space-3); padding-left: 1.15rem; }
+.accommodation-preview-group li, .accommodation-preview-unchanged li { margin: 2px 0; overflow-wrap: anywhere; }
+.accommodation-preview-reason { margin: var(--space-2) 0 0; }
+.accommodation-preview-group td { vertical-align: top; overflow-wrap: anywhere; }
+/* A preview with tables (New, Changed: Previously → Now) needs the width: the Now column must show without scrolling. */
+#dialog:has(#accommodation-preview .accommodation-preview-group table) { width: min(920px, calc(100vw - 32px)); max-width: calc(100vw - 32px); }
+#accommodation-preview mark, .dr-details mark { background: var(--tone-warning-bg); color: var(--ink); padding: 0 2px; }
+.accommodation-import-done { margin-top: var(--space-3); display: grid; gap: var(--space-2); justify-items: start; }
+.accommodation-import-links { margin: 0; }
+
+/* The page: a status line, when each export was imported, the two imports, tabs, filters, results. */
+.accommodation-status { display: grid; gap: var(--space-1); margin: 0 0 var(--space-3); }
+.accommodation-status-line { margin: 0; font-weight: 600; }
+.accommodation-freshness { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--space-1); margin: 0; color: var(--muted); font-size: var(--text-control, 13px); }
+.accommodation-freshness a { color: inherit; }
+.accommodation-freshness .accommodation-unmatched { color: var(--tone-warning); }
+.accommodation-refresh { margin-left: var(--space-1); min-height: 28px; min-width: 28px; }
+.accommodation-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0 0 var(--space-4); }
+.accommodation-tabs { display: flex; flex-wrap: wrap; margin: 0 0 var(--space-3); }
+.accommodation-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-3); margin: 0 0 var(--space-3); }
+.accommodation-toolbar .accommodation-when { margin: 0; }
+.accommodation-when b { font-weight: 500; color: var(--muted); margin-left: 4px; }
+.accommodation-search { flex: 1 1 16rem; min-width: 12rem; margin: 0; }
+.accommodation-filters { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-3); }
+.accommodation-filters .field { min-width: 10rem; margin: 0; }
+.accommodation-clear { align-self: center; }
+#accommodations-section .filter-chips { margin: 0 0 var(--space-3); }
+.accommodation-count { margin: var(--space-2) 0 var(--space-3); font-weight: 700; }
+#accommodations-section { min-width: 0; }
+#accommodations-section .roster-table-scroll { max-width: 100%; }
+#accommodations-section .roster-table thead th { padding: 10px 14px; }
+#accommodations-section td { vertical-align: top; white-space: normal; overflow-wrap: normal; word-break: normal; }
+#accommodations-section td small { display: block; color: var(--muted); font-size: var(--text-small, 12px); }
+.accommodation-name { display: block; overflow-wrap: normal; word-break: normal; hyphens: none; }
+/* A name that opens the student's gradebook record: the gradebook's name button (underlined on hover), in the name's own type. */
+.accommodation-name-button { padding: 0; color: var(--ink); text-align: left; cursor: pointer; }
+.accommodation-name-button:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.accommodation-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 var(--space-1); padding: 0; list-style: none; }
+.accommodation-tags .chip { white-space: normal; text-align: left; }
+/* The shared +/− disclosure, compact inside a table cell. */
+details.disclosure.accommodation-source { margin: var(--space-1) 0 0; border-top: 0; }
+details.disclosure.accommodation-source > summary { min-height: 24px; padding: 2px 0; gap: var(--space-1); color: var(--muted); font-size: var(--text-small, 12px); font-weight: 500; }
+details.disclosure.accommodation-source > summary::before { font-size: var(--text-control, 13px); }
+.accommodation-source p { margin: var(--space-1) 0; overflow-wrap: anywhere; font-size: var(--text-small, 12px); }
+.accommodation-next { text-align: left; }
+
+/* DR exam schedule: one group per exam, its links and a print control. */
+.dr-group { margin: 0 0 var(--space-6); }
+.dr-group-head { display: flex; flex-wrap: wrap; align-items: start; justify-content: space-between; gap: var(--space-2) var(--space-4); margin: 0 0 var(--space-2); }
+.dr-group-text { flex: 1 1 24rem; min-width: 0; }
+.dr-group-head h3 { display: inline; margin: 0 var(--space-2) 0 0; font-size: var(--text-section, 18px); }
+.dr-group-alias { color: var(--muted); font-size: var(--text-control, 13px); }
+.dr-group-meta, .dr-group-links { margin: var(--space-1) 0 0; font-size: var(--text-control, 13px); color: var(--muted); }
+.dr-group-links a { color: var(--ink); }
+.dr-group-links .link-arrow { display: inline-flex; }
+.dr-group-seated { color: var(--tone-warning); font-weight: 600; }
+.dr-print { flex: none; }
+.dr-row-actions { white-space: nowrap; }
+.dr-row-actions .chip { margin-right: 6px; }
+.dr-details-version { margin: 0 0 var(--space-4); }
+.dr-details-version h3 { margin: 0 0 var(--space-1); font-size: var(--text-item, 15px); }
+.dr-details-version p { margin: var(--space-1) 0; }
+.dr-details-changes { margin: var(--space-1) 0; padding-left: 1.15rem; }
+/* DR quizzes: the Prescheduled cell (SCHEDULING "DR QUIZ NOTICES"): the mark or its chip and Undo, then each student's notice. */
+.dr-notice { min-width: 16rem; }
+.dr-copy { min-width: 10rem; }
+.dr-date-set { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); margin-top: var(--space-1); }
+.dr-notice-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); }
+.dr-notice-list { display: grid; gap: var(--space-1); margin: var(--space-1) 0 0; padding: 0; list-style: none; }
+.dr-notice-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 2px var(--space-2); }
+.dr-notice-list .chip { white-space: normal; text-align: left; }
+.dr-notice-detail { flex-basis: 100%; overflow-wrap: anywhere; }
+
+/* Import from AIM: the server's private browser shown live (static/aim-signin.js). The picture and the transparent
+   input layer share one box, so a click's position scales straight to the page's. */
+#dialog:has(.aim-signin) { width: min(560px, calc(100vw - 24px)); max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px); }
+#dialog:has(.aim-signin-page[open]) { width: min(1160px, calc(100vw - 24px)); }
+.aim-signin-credentials { display: grid; gap: var(--space-3); }
+.aim-signin-progress { display: grid; gap: var(--space-3); }
+.aim-signin-step { margin: 0; font-weight: 600; }
+.aim-signin-code { display: grid; justify-items: start; gap: var(--space-1); padding: var(--space-3) var(--space-4); border: 1px solid var(--line); }
+.aim-signin-code span { color: var(--muted); font-size: var(--text-small, 12px); }
+.aim-signin-code strong { font: 500 34px/1.1 var(--font-data); letter-spacing: var(--tracking-label, .12em); font-variant-numeric: tabular-nums; }
+.aim-signin-duo { display: grid; justify-items: start; gap: var(--space-2); }
+.aim-signin-passcode-row { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-2) var(--space-3); margin-top: var(--space-2); }
+.aim-signin-page { margin-top: var(--space-3); }
+.aim-signin-page > summary { cursor: pointer; color: var(--muted); font-size: var(--text-small, 12px); }
+.aim-signin-page[open] > summary { margin-bottom: var(--space-2); }
+.aim-signin .dialog-footer [data-aim-on-page] { margin-right: auto; }
+.aim-signin-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-2); }
+.aim-signin-place { color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-data); }
+.aim-signin-nav { display: flex; gap: var(--space-3); }
+.aim-signin-view { position: relative; width: min(100%, calc((100dvh - 300px) * var(--aim-scale, 1.4474))); margin-inline: auto; aspect-ratio: var(--aim-ratio, 1100 / 760); border: 1px solid var(--line); background: var(--paper); overflow: hidden; }
+.aim-signin-view:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.aim-signin-frame { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
+.aim-signin-keys { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; resize: none; overflow: hidden; background: transparent; color: transparent; caret-color: transparent; font-size: 16px; cursor: default; outline: none; }
+.aim-signin-hint { margin: var(--space-2) 0 0; color: var(--muted); font-size: var(--text-small, 12px); }
+.aim-signin-captures { margin-top: var(--space-4); }
+.aim-signin-captures h3 { margin: 0 0 var(--space-2); font-size: var(--text-body, 14px); }
+.aim-signin-captures [data-aim-recorded] { margin: 0 0 var(--space-2); }
+.aim-signin-captures ul { display: grid; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+.aim-signin-captures li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); }
+
+/* Import from AIM's review: both previews in one dialog (accommodations.js importAimExports). */
+#dialog:has(#aim-import-form) { width: min(920px, calc(100vw - 32px)); max-width: calc(100vw - 32px); }
+.aim-import-part { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.aim-import-part h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); margin: 0 0 var(--space-2); font-size: var(--text-body, 14px); }
+.aim-import-status { margin: 0 0 var(--space-2); }
+
+/* What Import from AIM brought back (browser memory only). */
+.accommodation-aim { margin-top: 0; }
+.accommodation-aim-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.accommodation-aim-files, .accommodation-aim-problems { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.accommodation-aim-files li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); }
+.accommodation-aim-kind { min-width: 13em; font-weight: 600; }
+.accommodation-aim-file { color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-data); overflow-wrap: anywhere; }
+.accommodation-aim-problems li { color: var(--tone-warning); }
+
+/* ----- Screen: Ledger (DESIGN-LANGUAGE §1–§4). Colour, not weight, for emphasis in records, small uppercase labels,
+   rows on hairlines instead of boxes, and changed values marked by a warning underline rather than a fill. Printing keeps
+   the rules above. ----- */
+@media screen {
+  .roster-actions { gap: var(--space-3); }
+  .student-accommodations summary { font-weight: 500; }
+  .student-accommodations ul { padding-left: var(--space-5); margin: var(--space-3) 0; }
+  .student-accommodations li { margin: var(--space-2) 0; }
+  .student-accommodations p { margin: var(--space-2) 0; color: var(--text); }
+
+  /* Import preview */
+  .accommodation-import-term { color: var(--text); }
+  .accommodation-import-term strong { font-weight: 500; }
+  /* "2 will be imported" and each reason a row can't be imported: ink regular, like the term above (colour, not bold). */
+  :is(.accommodation-preview-summary, .accommodation-preview-reason) > strong { color: var(--ink); font-weight: 500; }
+  :root .accommodation-preview-group h4 { font-size: var(--text-item); letter-spacing: var(--tracking-title); }
+  /* A group that needs a look is a callout's 2px warning rule above its title, not a rule at its side. */
+  .accommodation-preview-group[data-tone="warning"] { padding: var(--space-2) 0 0; border-left: 0; border-top: 2px solid var(--tone-warning); }
+  .accommodation-preview-group ul, .accommodation-preview-unchanged ul { padding-left: var(--space-5); color: var(--text); }
+  /* A changed value: the warning ink with a hairline underline (status never fills a box). */
+  #accommodation-preview mark, .dr-details mark {
+    padding: 0;
+    background: transparent;
+    color: var(--tone-warning);
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  /* The page's status: one lead sentence in ink, then the freshness line in the muted ink. */
+  .accommodation-status-line { color: var(--ink); font-size: var(--text-lead); font-weight: 500; }
+  .accommodation-freshness { color: var(--muted); }
+  /* Each view is a tab word on the row's centre line, its underline just under it. */
+  .accommodation-tabs > :is(a, button) { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .accommodation-when b { color: var(--label); font: var(--head-weight) 14px/1 var(--font-serif); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+  .accommodation-when [aria-pressed="true"] b { color: inherit; }
+  #accommodations-section .accommodation-count { margin: var(--space-4) 0 var(--space-3); color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+  #accommodations-section td small { color: var(--muted); }
+  /* A student's name reads like the section roster's: ink regular (the cell's ink), never bold. */
+  .accommodation-name { color: var(--ink); font-weight: 500; }
+  .accommodation-name-button:hover { color: var(--ink); }
+  /* The source fold inside a table cell: its +/− follows the words (a marker at the far edge of a wide cell read as
+     belonging to the next column), and the summary hugs them, so its focus ring and click target do too. */
+  details.disclosure.accommodation-source > summary { width: fit-content; max-width: 100%; color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+  details.disclosure.accommodation-source > summary:hover { color: var(--ink); }
+  details.disclosure.accommodation-source > summary::after { margin-inline-start: var(--space-1); font-size: var(--text-control); }
+  .accommodation-source p { color: var(--text); }
+  /* Its record: each exported field's name is a small label before its value; the import record is a prose link. */
+  .accommodation-source p > strong { color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  :is(.accommodation-source, .dr-details-version) > a { display: inline-block; margin-top: var(--space-1); color: var(--ink); font: 500 var(--text-small)/1.5 var(--font-body); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color var(--snappy); }
+  :is(.accommodation-source, .dr-details-version) > a:hover { color: var(--ink); }
+
+  /* DR exam schedule: each exam a serif headline over its metadata; the exam hub link is the shared .link-arrow. */
+  :root .dr-group-head h3 { font-size: var(--text-title); line-height: 1.15; letter-spacing: var(--tracking-title); }
+  .dr-group { padding-top: var(--space-3); border-top: 1px solid var(--line); }
+  .dr-group-alias, .dr-group-meta, .dr-group-links { color: var(--muted); }
+  .dr-group-links a:not(.link-arrow) { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+  .dr-group-links a:not(.link-arrow):hover { color: var(--ink); text-decoration-color: currentColor; }
+  .dr-group-seated { font-weight: 500; }
+  :root .dr-details-version h3 { font-size: var(--text-section); letter-spacing: var(--tracking-title); }
+  .dr-details-version p { color: var(--text); }
+  .dr-details-changes { padding-left: var(--space-5); color: var(--text); }
+  /* A booking's details: the link line, then each booking and the accommodations as sections between hairlines. */
+  .dr-details > .dr-details-version { margin: var(--space-4) 0 0; padding-top: var(--space-4); border-top: 1px solid var(--line); }
+  .dr-details-version h3 { margin-bottom: var(--space-2); }
+  .dr-details > p:first-child { color: var(--text); }
+  .dr-details > p:first-child strong { color: var(--ink); font-weight: 500; }
+  .dr-details > p:last-child { margin-top: var(--space-5); }
+
+  /* Import from AIM: the Duo number is the one big serif figure; no box inside the dialog. The sign-in dialog is wide
+     enough for its uppercase footer: 'Sign in on the page instead', Cancel and 'Sign in and import' each stay on one line,
+     and the footer wraps (the text action first) rather than breaking a label in two. The live page's width
+     (#dialog:has(.aim-signin-page[open])) out-ranks this. */
+  #dialog:has(.aim-signin) { width: min(680px, calc(100vw - 24px)); }
+  .aim-signin .dialog-footer { flex-wrap: wrap; }
+  .aim-signin .dialog-footer > button { white-space: nowrap; }
+  .aim-signin-step { color: var(--ink); font-weight: 500; }
+  .aim-signin-code { padding: var(--space-4) 0; border: 0; border-block: 1px solid var(--line); }
+  .aim-signin-code span { color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .aim-signin-code strong { color: var(--heading); font: var(--head-weight) var(--text-count)/1 var(--font-serif); letter-spacing: .04em; }
+  /* "Show the page" folds like every other disclosure: the +/− after its words instead of the browser's triangle. */
+  .aim-signin-page > summary { display: flex; align-items: baseline; gap: var(--space-2); width: fit-content; list-style: none; color: var(--ink); font-weight: 600; font-size: var(--text-small); letter-spacing: 0; text-transform: none; transition: color var(--snappy); }
+  .aim-signin-page > summary::-webkit-details-marker { display: none; }
+  .aim-signin-page > summary::after { content: "+"; content: counter(decor, none) "+" / ""; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+  .aim-signin-page[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; }
+  .aim-signin-page > summary:hover, .aim-signin-page[open] > summary { color: var(--ink); }
+  .aim-signin-page > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .aim-signin-place { color: var(--muted); font-family: var(--font-body); }
+  .aim-signin-hint { color: var(--muted); }
+  :root .aim-import-part h3 { font-size: var(--text-section); letter-spacing: var(--tracking-title); }
+  .accommodation-aim-kind { color: var(--ink); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .accommodation-aim-file { color: var(--muted); font-family: var(--font-body); }
+}
+@media screen and (prefers-reduced-motion: reduce) { .dr-details-version > a, .accommodation-source > a, .aim-signin-page > summary { transition: none; } }
+
+/* ----- Screen, Ledger tidy (requirement, 2026-11-01). The head is the status, one framed import with its alternatives as text actions, then the three views as the
+   shared sub-tabs (ledger.css), as on Absences; nothing framed that cannot be pressed; the DR quizzes table keeps each cell on
+   its own lines instead of wrapping words and date controls. ----- */
+@media screen {
+  #accommodations-section .accommodation-status { gap: 2px; margin: 0 0 var(--space-3); }
+  #accommodations-section .accommodation-freshness { gap: 0 var(--space-1); }
+  :root:root #accommodations-section .accommodation-refresh { min-width: 28px; min-height: 28px; width: 28px; height: 28px; margin-left: var(--space-2); }
+  :root:root #accommodations-section .accommodation-refresh svg { width: 15px; height: 15px; }
+  #accommodations-section .accommodation-actions { align-items: center; gap: var(--space-2) var(--space-5); margin: 0 0 var(--space-5); }
+  #accommodations-section .accommodation-toolbar { align-items: end; gap: var(--space-3) var(--space-5); }
+  #accommodations-section .accommodation-search { flex: 0 1 26rem; }
+  #accommodations-section .accommodation-count { margin-top: var(--space-2); }
+
+  /* Student accommodations: what each student has is a plain list of words, one a line, not a heap of framed capitals (a chip's
+     frame says "press me", DESIGN-LANGUAGE §1.3). */
+  #accommodations-section .accommodation-tags { display: grid; gap: 1px; margin: 0 0 2px; }
+  #accommodations-section .accommodation-tags > .chip {
+    padding: 0; border: 0; background: none; color: var(--text); font: 500 var(--text-body)/1.45 var(--font-body);
+    letter-spacing: 0; text-transform: none;
+  }
+  /* The rule above the views is the sub-tabs' hairline, so the first group under them draws none of its own. */
+  #accommodation-results > .dr-group:first-child { padding-top: 0; border-top: 0; }
+  #accommodations-section .accommodation-table .checkbox-field { margin-top: var(--space-1); }
+
+  /* DR exam schedule: the accommodation count is a muted note beside Details (its tooltip lists them). */
+  #accommodations-section .dr-row-actions { text-align: right; }
+  .dr-acc-count { margin-right: var(--space-3); color: var(--muted); font-size: var(--text-small); cursor: default; }
+
+  /* DR quizzes: short cells stay on one line; the DR date's field sits under the dates with its two text actions under it. */
+  #accommodations-section .dr-table th, #accommodations-section .dr-table td.dr-nowrap { white-space: nowrap; }
+  #accommodations-section .dr-table td small { margin-top: 2px; }
+  #accommodations-section .dr-date-set { display: grid; justify-items: start; gap: var(--space-1); margin-top: var(--space-2); }
+  :root:root #accommodations-section .dr-date-set input[type="date"] { width: 10.5rem; min-height: 34px; height: 34px; padding: 2px 8px; font-size: var(--text-body); }
+  #accommodations-section .dr-date-actions { display: flex; gap: var(--space-4); }
+  .dr-aim-none { color: var(--muted); }
+  #accommodations-section .dr-notice { min-width: 13rem; }
+  #accommodations-section .dr-copy { min-width: 0; white-space: nowrap; }
+  #accommodations-section .dr-notice-list { gap: 2px; margin-top: var(--space-2); }
+  #accommodations-section .dr-notice-list li { gap: 0 var(--space-3); }
+}
+
+/* Print DR list: only the list is printed; it is never shown on screen. */
+.dr-print-list { display: none; }
+@media print {
+  body.print-dr-list > :not(.dr-print-list) { display: none !important; }
+  body.print-dr-list .dr-print-list { display: block; color: #000; background: #fff; font: 10.5pt/1.35 var(--font-body); }
+  .dr-print-list h2 { margin: 0 0 4pt; font-size: 15pt; }
+  .dr-print-list header p { margin: 0 0 2pt; }
+  .dr-print-list table { width: 100%; margin-top: 8pt; border-collapse: collapse; }
+  .dr-print-list th, .dr-print-list td { padding: 3pt 5pt; border: .5pt solid #777; text-align: left; vertical-align: top; }
+  .dr-print-list thead { display: table-header-group; }
+  .dr-print-list tr { break-inside: avoid; }
+}
+/* SEND TO AIM (2026-10-27): the confirm's and the summary's lines, and the receipts under a row's AIM chip. */
+.dr-send-list { display: grid; gap: var(--space-1); margin: 0 0 var(--space-2); padding-left: var(--space-4); }
+.dr-send-list li small { display: block; color: var(--muted); }

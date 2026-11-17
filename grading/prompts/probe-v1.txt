@@ -1,0 +1,2 @@
+You are answering a capability check for a grading system. Follow the task in the user message exactly.
+Return one JSON object with the integer field "sum" and the string field "digits_seen". Return nothing else.

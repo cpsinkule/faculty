@@ -1,0 +1,39 @@
+You read the transcript of ONE CLASS MEETING that a university instructor recorded while teaching, for that instructor. Their teaching app, Faculty, will show them which sections of the course's notes this class reached and which days they told the class. The transcript was made by a machine and mishears. Numbers are often written as words: "five eight" and "five, eight" are section 5.8.
+
+You are given one JSON object: `facts` (from Faculty's own records: the day of the recording; `instructor.speaker`, the speaker label of the instructor in this transcript, "" when Faculty could not tell; the course and the section; `notes`, the sections of the course's notes, each with its number and title; `work`, this section's quizzes, exams and assignments around this day, each with an id and its title) and `transcript` (every line as "[line number] minutes:seconds Speaker: words").
+
+Answer with one JSON object and nothing else:
+{"begins_at_line": <the number of the first line where the instructor addresses the whole class; talk before it (setting up, chatting with whoever came early) is not the class>,
+ "items": [{"kind": ..., "sentence": ..., "quote": ..., "line": ..., "date": ..., "time": ..., "date_words": ..., "happening": ..., "about": {...}}]}
+
+There are only TWO kinds of item. Everything else that was said in class is NOT an item: explanations, examples, questions and answers, advice, what will be on an exam, anything said to or about one student.
+
+- "covered": a section of the notes that this class WORKED THROUGH in this meeting: the instructor taught from it or did its examples. ONE item for each section, however long it ran. A section the class started and did not finish counts. These do NOT count: a section only named as coming on another day ("we will come back to five seven Monday"), a later chapter mentioned as a preview, a section named only as being on an exam, something recalled in a sentence.
+- "announced": a DAY the instructor TOLD the class for something: when a quiz or an exam is, when work is due, or that class will or will not meet on a day. ONE item for each. These do NOT count: a date inside a worked example, doing something now with no day said ("we are going to take the quiz"), and anything said to one student.
+
+HOW MANY. A class usually leaves 1 to 4 "covered" items and 0 to 3 "announced" items. A class that was a review or an exam may leave none: an empty list is a good answer. Never give two items for the same section or the same day of the same thing: keep ONE, resting on the clearest statement.
+
+Its fields:
+- "kind": "covered" or "announced".
+- "sentence": ONE plain sentence saying it, complete without the transcript: "The class worked through section 5.8, Logarithms." or "You told the class Exam 3 is on Thursday, November 19." Never write a person's name.
+- "quote": the EXACT words from the transcript that it rests on, copied character for character from one line (it may run on into the next lines when the same person keeps speaking). At least three words. For "covered", the words where the instructor names the section or begins it; for "announced", the words that say the day. Never join words from different places, never correct a word, never turn a word into a figure, never quote the facts. An item whose quote is not in the transcript exactly is thrown away.
+- "line": the number of the line where the quote begins.
+- "date": for "announced", the day that was SAID, as YYYY-MM-DD; resolve words like "Monday", "tonight" or "next week" against the recording's own day given in the facts, and take the day from the instructor's words alone. If you cannot tell which day was meant, give no item. For "covered", "".
+- "time": the clock time that was said for it as HH:MM on a 24-hour clock ("23:59"), or "" when none was said.
+- "date_words": the words that were said for that day and time ("due Wednesday night"), or "".
+- "happening": false ONLY for an "announced" item saying class will NOT meet that day; otherwise true.
+- "about": always give all three fields; use [] and "" for the ones that do not apply:
+  {"what": "notes", "notes": [<the section's number exactly as `facts.notes` lists it, like "5.8">], "work": ""}
+      for "covered". Only a number that `facts.notes` lists; a section you cannot match to one is no item;
+  {"what": "work", "notes": [], "work": <an id from `facts.work`>}
+      for an "announced" day of one listed quiz, exam or assignment ("exam three" is "Exam 3"). When you cannot tell which listed one it is, use "none";
+  {"what": "class", "notes": [], "work": ""}
+      for an "announced" day on which the class itself will or will not meet;
+  {"what": "none", "notes": [], "work": ""}
+      for any other "announced" day.
+
+Rules:
+- Only what was SAID in this class. Do not infer a section from the facts, and do not add what the plan might have been: you are not told the plan.
+- NOTHING about one student: not who asked, who is absent, who needs a makeup, or anyone's grade, whoever is named or heard. No name in any sentence.
+- No tasks, promises, rules or answers to questions: this reading keeps only the two kinds above.
+- If the class left neither, answer {"begins_at_line": <n>, "items": []}.

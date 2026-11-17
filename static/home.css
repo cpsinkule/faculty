@@ -1,0 +1,168 @@
+/* Home (DESIGN-LANGUAGE, the approved Home mockup, 2026-10-03): two ruled rows of a wide and a narrow column divided by a
+   hairline (Needs you beside Coming up, In progress beside Current courses), each section opened by a small uppercase
+   label over a 2px ink rule. Needs you rows are count | headline + metadata | ACTION →, the count the orange needs-you block in a
+   right-aligned column (red when it counts a failure); the rows themselves are not boxed or shadowed. */
+.home-dashboard { display: grid; gap: 34px; }
+.home-columns { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: start; }
+.home-columns > .home-panel:first-child { padding-right: 32px; }
+.home-columns > .home-panel + .home-panel { padding-left: 32px; align-self: stretch; }
+:root:root .home-dashboard .home-panel { min-width: 0; padding-block: 0; border: 0; background: transparent; }
+:root:root .home-dashboard .home-columns > .home-panel + .home-panel { border-left: 1px solid var(--line); }
+/* Current courses keeps the narrow column when In progress is hidden (no current grading plan): auto-placement would move it
+   into the wide column. */
+.home-columns > .home-teaching { grid-column: 2; }
+.home-panel-heading {
+  display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2) var(--space-4);
+  margin: 0 0 6px; padding-top: 8px; border-top: 2px solid var(--ink);
+}
+/* The section label: an <h2> by structure, a small uppercase label by look (two classes beat typography.css). */
+.home-panel .home-panel-heading h2 { margin: 0; color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.home-panel .home-panel-heading h2 small { margin-left: var(--space-3); color: var(--muted); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.home-coming .home-panel-heading h2 { display: flex; justify-content: space-between; width: 100%; }
+.home-label { display: block; margin-bottom: var(--space-2); color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.home-panel .text-button, .home-shortcuts .text-button { flex-shrink: 0; }
+.home-panel-more { margin-top: 10px; }
+/* An empty region is one quiet line of the section, not a box inside it: no icon, set flush left like the rows it stands
+   for (style.css centres every other empty state in a flex column), its title in the rows' serif. */
+.home-panel .empty-state { display: block; padding: 14px 0 6px; border: 0; text-align: start; }
+.home-panel .empty-state > .empty-state-icon { display: none; }
+.home-panel .empty-state > h3 { margin: 0 0 2px; font: var(--head-weight) 18px/1.15 var(--font-serif); text-wrap: pretty; }
+.home-panel .empty-state > p { max-width: 52ch; margin: 0; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.home-panel .empty-state > :is(a, button) { margin-top: var(--space-3); }
+
+/* Needs you: one row per thing to do. Every row has a count cell (a faint dash for a lone scan), so every headline starts
+   at the same place. */
+.home-attention-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; }
+.home-attention-item {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+  gap: 4px 16px;
+  min-width: 0;
+  min-height: 66px;
+  padding: 10px 0;
+  color: var(--ink);
+  background: transparent;
+  border-bottom: 1px solid var(--line);
+}
+.home-attention-item:last-child { border-bottom: 0; }
+/* NEEDS YOU (Ledger): a count that waits on you is the orange block; a failure's the red block; a row with no count a dash. */
+.home-attention-count { justify-self: end; min-width: 1.6em; padding: 4px 8px; border: var(--frame); background: var(--needs-fill); color: var(--needs-ink);
+  font: var(--head-weight) var(--text-section)/1 var(--font-head); font-variant-numeric: tabular-nums; text-align: center; font-synthesis: none; }
+.home-attention-count:empty { padding: 0; border: 0; background: transparent; }
+.home-attention-count:empty::before { content: "—"; content: counter(decor, none) "—" / ""; color: var(--faint); }
+.home-attention-item[data-kind="error"] .home-attention-count { background: var(--danger-fill); color: var(--danger-fill-ink); }
+.home-need-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.home-need-title { display: block; color: var(--heading); font: var(--head-weight) 18px/1.15 var(--font-serif); letter-spacing: 0; font-synthesis: none; overflow-wrap: anywhere; text-wrap: pretty; }
+.home-need-facts { display: block; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.home-need-detail {
+  margin: 0;
+  color: var(--muted);
+  font: 500 var(--text-small)/1.5 var(--font-body);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  text-wrap: pretty;
+}
+.home-attention-item[data-kind="error"] .home-need-detail { color: var(--error); font-weight: 600; }
+/* The rows share one action column; each action ends on its right edge, so the arrows stand in one line. */
+.home-need-action { justify-self: end; white-space: nowrap; }
+@media (forced-colors: active) { .home-attention-item { border-bottom-color: CanvasText; } }
+
+/* Working on it: the scans the worker has, then one line for the finished ones. */
+.home-working:empty { display: none; }
+.home-working { margin-top: var(--space-5); }
+.home-panel .home-subheading { margin: 0 0 var(--space-1); color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.home-records.home-working-list a { display: grid; gap: 2px; align-items: start; }
+.home-records.home-working-list a > span { color: var(--text); font: 500 var(--text-small)/1.5 var(--font-body); }
+.home-finished { margin: var(--space-3) 0 0; color: var(--muted); font: 500 var(--text-small)/1.6 var(--font-body); }
+.home-finished .link-arrow { margin-left: var(--space-1); }
+
+/* In progress: each grading assignment under way: its serif title, its steps as a row of thin bars (the compact step
+   graph) and its one next step. */
+.home-panel-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); justify-content: flex-end; }
+.home-grading-grid { display: grid; gap: 0; }
+:root:root .home-panel .home-grading-card { gap: 10px; padding: 14px 0 16px; border-top: 1px solid var(--nested-line); }
+:root:root .home-panel .home-grading-card:first-child { border-top: 0; padding-top: 6px; }
+.home-grading-idle { margin: var(--space-3) 0 0; color: var(--muted); font: 500 var(--text-small)/1.6 var(--font-body); }
+.home-grading-idle .link-arrow { margin-left: var(--space-1); }
+.home-grading-grid:empty + .home-grading-idle, .home-grading-idle:first-child { margin-top: 0; }
+:root:root .home-grading-card .card-head h3 { font: var(--head-weight) 22px/1.1 var(--font-serif); letter-spacing: 0; }
+.home-grading-card .card-head h3 a { color: var(--heading); text-decoration: none; }
+.home-grading-card .card-head h3 a:hover { color: var(--ink); }
+.home-grading-meta { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+.home-grading-card .card-foot { padding-top: 0; border-top: 0; }
+.home-grading-status { margin: 0; font: 500 var(--text-small)/1.5 var(--font-body); color: var(--text); min-width: 0; }
+
+/* Coming up: the date in its own column (weekday over the day in the serif, the month under it), then what it is. The row's
+   link (to the calendar day) covers both columns; the owning page's link sits under the words, beside the date's lower half,
+   so the title keeps the narrow column's whole width. */
+.home-coming-list { list-style: none; margin: 0; padding: 0; }
+.home-coming-item { display: grid; grid-template: auto 1fr / 52px minmax(0, 1fr); gap: 0 14px; align-items: start; border-bottom: 1px solid var(--nested-line); }
+.home-coming-main { display: grid; grid-area: 1 / 1 / 3 / 3; grid-template: subgrid / subgrid; gap: 0 14px; min-width: 0; padding: 10px 0; color: var(--ink); text-decoration: none; }
+.home-coming-main > .home-coming-date { grid-area: 1 / 1 / 3 / 2; }
+.home-coming-main > .home-coming-copy { grid-area: 1 / 2 / 2 / 3; }
+.home-coming-main:hover strong { color: var(--ink); }
+.home-coming-date { display: flex; flex-direction: column; align-items: center; color: var(--ink); }
+.home-coming-weekday, .home-coming-month { font: 700 11px/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.home-coming-month { color: var(--muted); font-weight: 500; }
+.home-coming-day { font: var(--head-weight) 26px/1 var(--font-serif); font-variant-numeric: tabular-nums; }
+.home-coming-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-top: 2px; }
+.home-coming-copy strong { display: block; color: var(--heading); font: 600 var(--text-body)/1.35 var(--font-body); overflow-wrap: anywhere; text-wrap: pretty; }
+.home-coming-copy small { display: block; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); overflow-wrap: anywhere; }
+.home-coming-source { grid-area: 2 / 2 / 3 / 3; justify-self: start; align-self: end; margin-top: 4px; padding-bottom: 10px; white-space: nowrap; }
+
+/* Current courses: the course code as its headline, its name and term, its current sections (each to its tab) and its
+   gradebook. */
+.home-course-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.home-course { display: grid; gap: var(--space-2); padding: 6px 0 12px; border-bottom: 1px solid var(--nested-line); min-width: 0; }
+.home-course-main { display: grid; gap: 4px; color: var(--ink); text-decoration: none; min-width: 0; }
+.home-course-main:hover .home-course-code { color: var(--ink); }
+:root:root .home-course-code { color: var(--ink); font: var(--head-weight) 32px/1 var(--font-display); font-variation-settings: "opsz" 24; letter-spacing: -.02em; text-transform: none; }
+:root:root .home-course strong { color: var(--ink); font: 500 var(--text-body)/1.4 var(--font-body); overflow-wrap: anywhere; }
+.home-course-main > span:not([class]) { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.home-course-links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.home-section-chip { text-decoration: none; transition: color var(--snappy), border-color var(--snappy); }
+.home-section-chip:hover { border-color: var(--ink); color: var(--ink); }
+.home-course-gradebook { margin-left: auto; }
+
+.home-records { list-style: none; margin: 0; padding: 0; }
+.home-records li + li { border-top: 1px solid var(--nested-line); }
+.home-records a { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) 0; color: var(--ink); text-decoration: none; }
+.home-records strong, .home-records span span, .home-records small { display: block; overflow-wrap: anywhere; }
+.home-records strong { color: var(--heading); font-size: var(--text-item); line-height: 1.2; margin-bottom: var(--space-1); }
+.home-records small, .home-records span span { font-size: var(--text-small); color: var(--muted); line-height: 1.6; }
+.home-records a:hover strong { color: var(--ink); }
+
+/* Workspace health: the page's footer line under a 1px ink rule: its label, then the worker, backup and disks in one
+   line; opened, the facts and only the busy queues. */
+:root:root .home-dashboard .home-operations { padding: 0; border-top: 1px solid var(--ink); }
+.home-operations > summary { display: flex; gap: var(--space-4); align-items: baseline; padding: 12px 0; cursor: pointer; list-style: none; }
+.home-operations > summary::-webkit-details-marker { display: none; }
+.home-operations > summary > span { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.home-operations > summary::after { content: "+"; content: counter(decor, none) "+" / ""; flex: 0 0 20px; margin-left: auto; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.home-operations[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+.home-operations > summary:hover::after { color: var(--ink); }
+.home-operations > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+:root:root .home-operations > summary strong { color: var(--ink); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.home-operations > summary small { display: block; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.home-operations[data-health="check"] > summary strong { color: var(--warning); }
+.home-operations-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); padding: var(--space-3) 0 var(--space-4); border-top: 1px solid var(--nested-line); }
+.home-operations-summary > div { min-width: 0; padding-left: var(--space-4); border-left: 1px solid var(--nested-line); }
+.home-operations-summary > div:nth-child(odd) { padding-left: 0; border-left: 0; }
+.home-operations-summary strong { display: block; color: var(--ink); font-size: var(--text-body); font-weight: 500; overflow-wrap: anywhere; }
+.home-operations-summary small { display: block; font-size: var(--text-small); margin-top: var(--space-1); color: var(--muted); }
+#home-queues { margin: 0; }
+#home-queues .workspace-table-wrap { border: 0; }
+.home-queues-idle, .home-queues-more { margin: var(--space-2) 0 0; color: var(--muted); font: 500 var(--text-small)/1.6 var(--font-body); }
+.home-footnote { font-size: var(--text-small); color: var(--label); line-height: 1.6; margin: var(--space-3) 0 var(--space-4); }
+
+/* Quick actions the rail does not have: text actions. */
+.home-shortcuts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-5); }
+:root:root .home-dashboard .home-shortcuts > .button.button { min-height: 32px; padding: 0; border-color: transparent; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-transform: none; letter-spacing: 0; }
+:root:root .home-dashboard .home-shortcuts > .button.button:hover { background: transparent; color: var(--ink); border-color: transparent; }
+/* The icon's wrapper, not only its drawing: an empty wrapper kept the button's gap and set the words 9px off the column. */
+:root:root .home-shortcuts > .button > [data-icon] { display: none; }

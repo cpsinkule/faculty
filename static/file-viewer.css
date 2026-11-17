@@ -1,0 +1,44 @@
+/* The in-app file viewer (static/file-viewer.js): a tall dialog whose header (name, Download, Close) stays in view while the pages
+   scroll. Pages and pictures fit the window; "Actual size" shows them at the size they were drawn, scrolling both ways.
+   DESIGN-LANGUAGE (Ledger): raised paper in an ink hairline (outline-theme.css draws the dialog); pages sit in a
+   hairline frame; a table reads like every record table; an email reads in the body face, a text file in the code face. */
+dialog.file-viewer {
+  width: min(1100px, calc(100vw - 32px));
+  height: calc(100dvh - 32px);
+  max-height: none;
+  background: var(--paper);
+}
+dialog.file-viewer[open] { display: flex; flex-direction: column; }
+.file-viewer-head { flex-shrink: 0; padding-bottom: var(--space-3); border-bottom: 1px solid var(--line); }
+.file-viewer-head > div:first-child { min-width: 0; }
+.file-viewer-head h2 { overflow-wrap: anywhere; }
+.file-viewer-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: var(--space-2) var(--space-3); }
+.file-viewer-body { flex: 1 1 auto; min-height: 0; overflow: auto; display: grid; justify-items: center; align-content: start; gap: var(--space-5); padding: var(--space-5) var(--space-4); }
+.file-viewer-page { display: grid; gap: var(--space-1); margin: 0; width: 100%; max-width: 1000px; }
+.file-viewer-page img, .file-viewer-picture img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+.file-viewer-page figcaption { color: var(--muted); font: 500 var(--text-small)/1.4 var(--font-body); text-align: center; font-variant-numeric: tabular-nums; }
+.file-viewer-picture { width: 100%; max-width: 1000px; }
+.file-viewer-picture img { width: auto; max-width: 100%; margin: 0 auto; }
+.file-viewer-actual .file-viewer-body { justify-items: start; }
+.file-viewer-actual .file-viewer-page, .file-viewer-actual .file-viewer-picture { width: auto; max-width: none; }
+.file-viewer-actual .file-viewer-page img, .file-viewer-actual .file-viewer-picture img { width: auto; max-width: none; }
+/* A PDF Faculty made, in the browser's own PDF viewer: it fills the body, which then neither pads nor scrolls. */
+.file-viewer-body:has(> .file-viewer-frame) { display: block; padding: 0; overflow: hidden; }
+.file-viewer-frame { display: block; width: 100%; height: 100%; border: 0; }
+.file-viewer-frame[hidden] { display: none; }
+.file-viewer-selection-pages { width: 100%; }
+.file-viewer-text { width: 100%; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: 400 var(--text-small)/1.5 var(--font-code); }
+.file-viewer-none { color: var(--muted); }
+/* A spreadsheet: the record table's look (an 11 px uppercase head over a 2 px ink rule, rows on hairlines), scrolling in its box. */
+.file-viewer-table { width: 100%; overflow: auto; }
+.file-viewer-table table { border-collapse: collapse; font: 500 var(--text-small)/1.4 var(--font-body); font-variant-numeric: tabular-nums; }
+.file-viewer-table th, .file-viewer-table td { padding: 6px var(--space-3) 6px 0; border: 0; border-bottom: 1px solid var(--nested-line); text-align: left; white-space: nowrap; }
+.file-viewer-table thead th { position: sticky; top: 0; background: var(--paper); color: var(--ink); border-bottom: 2px solid var(--ink); font: 700 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+/* An email: its headers as labelled lines, the message in reading type (two classes beat typography.css's code face for a pre). */
+.file-viewer-email { display: grid; gap: var(--space-4); width: 100%; max-width: 1000px; }
+.file-viewer-headers { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: var(--space-1) var(--space-4); margin: 0; padding-bottom: var(--space-3); border-bottom: 1px solid var(--line); }
+.file-viewer-headers dt { color: var(--label); font: 700 var(--text-caption)/1.8 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.file-viewer-headers dd { margin: 0; overflow-wrap: anywhere; }
+:root .file-viewer-email .file-viewer-text { max-width: 78ch; color: var(--text); font: 500 var(--text-body)/1.6 var(--font-body); }
+:root .file-viewer-subhead { margin: 0; padding-top: var(--space-2); border-top: 2px solid var(--ink); color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.file-viewer-attachments { margin: 0; padding-left: 1.2em; }

@@ -1,0 +1,84 @@
+/* Mail screen only (AGENTS.md "Gmail in Faculty"). DESIGN-LANGUAGE (Ledger): conversations are ruled rows (who
+   and when in small sans, the subject in the heading face at head weight, the snippet muted), the open one the highlighted
+   row; messages are ruled blocks of plain reading type on the paper. Tokens only. */
+#mail-section { min-width: 0; }
+.mail-toolbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-6); margin-bottom: var(--space-5); padding-bottom: var(--space-4); border-bottom: 1px solid var(--line); }
+.mail-toolbar .field { margin: 0; flex: 1 1 260px; }
+.mail-account { margin-inline-start: auto; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.mail-layout { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: var(--space-8); align-items: start; }
+.mail-layout > * { min-width: 0; }
+/* Two panes that scroll on their own: the list (with Show more) on the left, the open message on the right stays in place while the
+   list moves. mail.js sets --mail-h so the panes end at the bottom of the window. */
+.mail-layout { height: var(--mail-h, calc(100vh - 260px)); min-height: 360px; align-items: stretch; }
+.mail-layout > * { height: 100%; overflow-y: auto; overscroll-behavior: contain; }
+.mail-list { display: grid; min-width: 0; margin: 0; padding: 0; list-style: none; }
+.mail-list > li { min-width: 0; }
+.mail-thread { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; width: 100%; min-width: 0; box-sizing: border-box; padding: var(--space-3); border: 0; border-bottom: 1px solid var(--nested-line); border-radius: 0; background: transparent; color: var(--ink); text-align: start; cursor: pointer; font: inherit; transition: background-color var(--snappy); }
+.mail-thread:hover { background: var(--surface-hover); }
+.mail-thread:hover .mail-thread-subject { color: var(--ink); }
+.mail-thread:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+/* The open conversation is the highlighted row. */
+.mail-thread[aria-current="true"] { background: var(--chosen-bg); }
+.mail-thread-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.mail-thread-top strong { min-width: 0; overflow: hidden; color: var(--muted); font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.mail-thread-top span { flex: none; font-variant-numeric: tabular-nums; }
+.mail-thread-subject { overflow: hidden; color: var(--text); font: var(--head-weight) 15px/1.25 var(--font-serif); letter-spacing: var(--tracking-title); text-overflow: ellipsis; white-space: nowrap; transition: color var(--snappy); }
+/* Unread: the sender in semibold ink, the subject in ink (the subject keeps the heading weight; unread never changes it). */
+.mail-thread[data-unread="true"] .mail-thread-top strong { color: var(--ink); font-weight: 600; }
+.mail-thread[data-unread="true"] .mail-thread-subject { color: var(--ink); }
+.mail-thread-snippet { margin: 0; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mail-more { margin-top: var(--space-4); }
+.mail-reader { min-width: 0; display: grid; gap: var(--space-4); align-content: start; grid-auto-rows: max-content; }
+.mail-reader-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-5); }
+.mail-reader-head h2 { min-width: 0; margin: 0; margin-right: auto; color: var(--heading); font: var(--head-weight) var(--text-title)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); overflow-wrap: anywhere; }
+/* A message is a ruled block: a hairline above, the head in small sans, then the text in reading type. */
+.mail-message { display: grid; gap: var(--space-3); align-content: start; padding: var(--space-4) 0; border: 0; border-top: 1px solid var(--line); }
+.mail-message-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-1) var(--space-4); color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.mail-message-head strong { color: var(--heading); font-weight: 600; }
+/* A <pre> keeps the sender's line breaks; it reads in the body face, not the code face typography.css gives a pre. */
+:root :is(pre, p, div).mail-text { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text); font: 500 var(--text-body)/1.6 var(--font-body); max-width: 78ch; }
+.mail-files { margin: 0; padding: 0; list-style: none; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.mail-compose textarea[name="body"] { min-height: 220px; }
+.mail-audience { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3); }
+.mail-audience .field { margin: 0; flex: 1 1 220px; }
+.mail-review dl { display: grid; grid-template-columns: max-content 1fr; gap: var(--space-2) var(--space-4); margin: 0 0 var(--space-4); }
+.mail-review dt { color: var(--label); font: 700 var(--text-caption)/1.8 var(--font-body); text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.mail-review dd { margin: 0; overflow-wrap: anywhere; }
+/* What Faculty sent: ruled rows, the subject in the heading face. */
+.mail-sent-list { margin: 0; padding: 0; list-style: none; display: grid; }
+.mail-sent-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-4); padding: var(--space-3) 0; border-bottom: 1px solid var(--nested-line); color: var(--muted); font-size: var(--text-small); }
+.mail-sent-list li > strong { flex: 1 1 320px; min-width: 0; color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); overflow-wrap: anywhere; }
+.mail-sent-list li > small { flex-basis: 100%; }
+
+.mail-student-card { display: flex; align-items: center; gap: var(--space-3); }
+.mail-student-card > div { display: grid; gap: var(--space-1); min-width: 0; }
+.mail-student-card small { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+/* A name that opens the student's gradebook record: ink, and ink on hover (hover stays ink, DESIGN-LANGUAGE §4), in the name's own type. */
+.mail-student-name { justify-self: start; padding: 0; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+.mail-student-name:hover strong { color: var(--ink); }
+/* Attachments in the compose window: files from the computer and from Faculty (MAIL-ATTACHMENTS). */
+.mail-attach { display: grid; gap: var(--space-2); }
+.mail-attach-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+.mail-attach-upload { cursor: pointer; }
+.mail-attach-upload:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.mail-attached, .mail-library-items { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.mail-attached li, .mail-library-items li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: var(--space-1) var(--space-3); min-width: 0; padding: var(--space-1) 0; border-bottom: 1px solid var(--nested-line); }
+.mail-attached-name, .mail-library-title { min-width: 0; overflow-wrap: anywhere; }
+.mail-attached .field-hint, .mail-library-items .field-hint { margin: 0; text-align: right; }
+/* Attach from Faculty: a ruled block under the actions that open it. */
+.mail-library { display: grid; gap: var(--space-3); padding: var(--space-3) 0 0; border: 0; border-top: 1px solid var(--line); }
+.mail-library[hidden] { display: none; }
+.mail-library .field[hidden] { display: none; }
+/* An <h4> by structure, a small label by look (two classes beat typography.css's heading face). */
+.mail-library .mail-library-group { margin: var(--space-2) 0 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+/* MAIL-SEND-LATER (2026-11-07): the review's Send later… field, and the scheduled messages (Mail's Scheduled tab, the Canvas page). */
+.send-later { margin-top: var(--space-3); }
+.send-later input[type="datetime-local"] { max-width: 16rem; }
+.scheduled-sends .scheduled-title h2 { margin: 0 0 var(--space-2); }
+.scheduled-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.scheduled-list li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); padding: var(--space-3) 0; border-bottom: 1px solid var(--nested-line); }
+.scheduled-list li:first-child { border-top: 1px solid var(--line); }
+.scheduled-main { flex: 1 1 320px; display: grid; gap: var(--space-1); min-width: 0; overflow-wrap: anywhere; }
+.scheduled-main small { color: var(--muted); font-size: var(--text-small); }
+.scheduled-main .scheduled-why { color: var(--text); }
+.scheduled-actions { display: flex; align-items: center; gap: var(--space-2); }

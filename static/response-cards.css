@@ -1,0 +1,232 @@
+/* Response Cards (UX overhaul, 2026-09-26): on the design tokens. Cards, callouts, chips, filter chips, disclosures and the
+   toolbar come from components.css; these rules only lay out this page's parts. No radii, no light hex.
+   This sheet also applies to print: the rules below keep the print layout, and the screen look (DESIGN-LANGUAGE, Ledger)
+   sits in the @media screen block at the end. Desktop only. */
+#response-cards-section { min-width: 0; }
+.rc-block { margin-top: var(--space-8); }
+.rc-block > h3 { margin: 0 0 var(--space-1); }
+.rc-list-toolbar { margin-top: 0; }
+.rc-list-toolbar > h3 { flex: 1 1 100%; margin: 0; }
+.rc-list-toolbar .field, .rc-issue-page .toolbar .field { margin: 0; min-width: 160px; }
+.rc-empty { font-size: var(--text-control, 13px); line-height: 1.6; color: var(--muted); }
+
+/* Needs attention: every current term's issues with flagged answers, undelivered email or pending revocations. */
+.rc-attention { margin: 0 0 var(--space-5); padding: var(--space-3) var(--space-4) var(--space-3) calc(var(--space-4) + 3px); border: 1px solid var(--line); box-shadow: inset 3px 0 0 var(--tone-warning); background: var(--paper); }
+.rc-attention h3 { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-2); font-size: var(--text-item, 15px); }
+.rc-attention h3:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.rc-attention-list { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.rc-attention-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); padding-top: var(--space-2); border-top: 1px solid var(--line); }
+.rc-attention-list li:first-child { padding-top: 0; border-top: 0; }
+.rc-attention-title { color: var(--heading); font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+.rc-attention-title:hover { text-decoration: underline; text-underline-offset: 3px; }
+.rc-attention-where { color: var(--muted); font: 500 var(--text-small) var(--font-data); }
+#response-cards-section a.chip { text-decoration: none; }
+#response-cards-section a.chip:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* "Responses sync automatically every minute · last synced …" with a quiet Sync now. */
+.rc-sync-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); margin: 0 0 var(--space-3); color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-data); }
+.rc-sync-line[data-stale="true"] > span { color: var(--tone-warning); }
+
+/* Issued cards, grouped by exam; attention first. */
+.rc-exam-group { margin-top: var(--space-5); }
+.rc-group-title { margin: 0 0 var(--space-3); color: var(--muted); font: 700 var(--text-caption)/1.5 var(--font-data); letter-spacing: var(--tracking-label, .06em); text-transform: uppercase; }
+.rc-issue-list, .rc-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: var(--space-4); margin-top: var(--space-3); }
+.rc-issue .eyebrow { margin: 0; }
+.rc-issue h4 { margin: 0; font-size: 16px; overflow-wrap: anywhere; }
+.rc-issue h4 a { color: inherit; text-decoration: none; }
+.rc-issue h4 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.rc-issue[data-attention="true"] { box-shadow: inset 3px 0 0 var(--tone-warning); }
+.rc-issue-line { margin: 0; font-size: var(--text-control, 13px); color: var(--ink); }
+/* A thin responded/total rule. */
+.rc-progress { appearance: none; display: block; width: 100%; height: 3px; margin: 0; border: 0; background: var(--line); color: var(--ink); }
+.rc-progress::-webkit-progress-bar { background: var(--line); }
+.rc-progress::-webkit-progress-value { background: var(--ink); }
+.rc-progress::-moz-progress-bar { background: var(--ink); }
+
+/* Course templates: name, two lines of description, a note on the ones Faculty manages. */
+.rc-card { color: inherit; text-decoration: none; overflow-wrap: anywhere; }
+.rc-card h4 { margin: 0; font-size: 16px; color: var(--heading); }
+.rc-card .chip { align-self: flex-start; }
+.rc-clamp { display: -webkit-box; margin: 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; font-size: var(--text-control, 13px); line-height: 1.6; color: var(--muted); }
+
+/* Email delivery: one status line; the settings sit in their disclosure (#response-cards?email opens it). */
+.rc-delivery-line { margin: 0; font-size: var(--text-control, 13px); color: var(--ink); }
+.rc-delivery .supporting-copy { font-size: var(--text-control, 13px); line-height: 1.65; }
+.rc-delivery .toolbar { margin-bottom: 0; }
+
+/* The template editor and its preview. */
+.rc-builder { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(270px, .85fr); gap: var(--space-5); align-items: start; }
+.rc-builder .course-panel { margin: 0; }
+.rc-builder .field input, .rc-builder .field textarea, .rc-builder .field select { max-width: 100%; }
+.rc-editor-top { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-3); }
+.rc-editor-top .eyebrow { margin: 0; }
+.rc-field-editor { min-width: 0; border: 1px solid var(--line); border-radius: 0; padding: var(--space-4); margin: var(--space-5) 0; }
+.rc-field-editor legend { font: 500 var(--text-caption) var(--font-data); letter-spacing: var(--tracking-label); padding: 0 7px; color: var(--muted); }
+.rc-field-actions { display: flex; justify-content: flex-end; gap: 14px; flex-wrap: wrap; margin-bottom: var(--space-4); }
+.rc-field-actions button { font-size: var(--text-caption, 11px); }
+.rc-field-actions button:disabled { opacity: .35; cursor: default; }
+.rc-check { display: flex; gap: 9px; align-items: flex-start; font-size: var(--text-control, 13px); line-height: 1.65; margin: 9px 0; }
+.rc-check input { margin-top: 4px; flex-shrink: 0; }
+.rc-check[hidden] { display: none; }
+.rc-two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-width: 0; }
+.rc-two-columns > * { min-width: 0; }
+.rc-rules, .rc-variables { font-size: var(--text-small, 12px); }
+.rc-variables code { display: inline-block; padding: 4px 6px; font-size: var(--text-caption, 11px); background: var(--surface-alt); border: 1px solid var(--line); margin: 3px 0; overflow-wrap: anywhere; max-width: 100%; }
+/* One state-driven primary (Save draft → Freeze as version N → Issue version N…), always in sight at the bottom of the form.
+   It spans the panel edge to edge: its bleed matches the panel's padding (course-pages.css .course-panel). */
+.rc-editor-footer { position: sticky; bottom: 0; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--space-2) var(--space-4); margin: var(--space-5) calc(-1 * var(--space-5)) 0; padding: var(--space-3) var(--space-5); border-top: 1px solid var(--line); background: var(--paper); }
+.rc-editor-footer #rc-save-status { margin-inline-end: auto; font-family: var(--font-data); }
+.rc-footer-note { flex: 1 1 200px; text-align: end; }
+.rc-version-list { margin-bottom: var(--space-5); padding-bottom: var(--space-4); border-bottom: 1px solid var(--line); }
+.rc-version-list h4 { margin: 0 0 var(--space-2); font-size: 14px; }
+.rc-version-list > div { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; justify-content: space-between; font: 500 var(--text-small) var(--font-data); margin-top: var(--space-2); }
+.rc-preview-panel { position: sticky; top: var(--space-5); min-width: 0; }
+.rc-preview-panel > .eyebrow { margin: 0; }
+.rc-preview-panel > .field-hint { margin: var(--space-1) 0 var(--space-3); }
+.rc-preview { background: var(--paper); border: 1px solid var(--line); border-radius: 0; padding: var(--space-5); overflow-wrap: anywhere; }
+.rc-preview h3 { font: 600 var(--text-title, 22px)/1.2 var(--font-display); letter-spacing: var(--tracking-title); margin: 0 0 var(--space-4); color: var(--heading); }
+.rc-preview-field { margin: 18px 0; }
+.rc-preview .field { margin-bottom: 0; }
+.rc-preview-choice { border: 0; padding: 0; min-width: 0; font-size: var(--text-control, 13px); }
+.rc-required { font-size: var(--text-caption, 10px); color: var(--tone-warning); font-weight: 500; }
+.rc-static { white-space: pre-wrap; line-height: 1.75; font-size: var(--text-control, 13px); }
+
+/* The Issue dialog: Who → Timing → Exam context. */
+.rc-dialog-step { margin: var(--space-4) 0 var(--space-2); font-size: var(--text-item, 15px); }
+.rc-dialog-step:first-child { margin-top: 0; }
+.rc-audience { border: 1px solid var(--line); border-radius: 0; padding: 12px; margin: var(--space-3) 0 var(--space-4); }
+.rc-audience legend { font-size: var(--text-small, 12px); padding: 0 6px; }
+.rc-student-list { max-height: 250px; overflow: auto; }
+.rc-chart-effect:empty { display: none; }
+
+/* The issue page. */
+.rc-issue-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); margin: 0 0 var(--space-4); }
+.rc-issue-note { margin: 0; font-size: var(--text-control, 13px); color: var(--muted); }
+.rc-about { margin-top: var(--space-1); }
+.rc-issue-status { display: grid; gap: var(--space-2); margin: var(--space-4) 0; }
+.rc-issue-status p { margin: 0; font-size: var(--text-body, 14px); }
+.rc-issue-status strong { color: var(--heading); }
+.rc-done { color: var(--muted); font-size: var(--text-control, 13px); }
+.rc-table-scroll { overflow-x: auto; }
+/* The table's look (uppercase sans headings over an ink rule, hairline rows) is components.css's record table; these rules
+   are its layout and what a printed page keeps. */
+.rc-table { width: 100%; text-align: left; border-collapse: collapse; font-size: var(--text-small, 12px); min-width: 740px; }
+.rc-table th, .rc-table td { padding: 14px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.rc-table thead th { font: 700 10px var(--font-data); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.rc-table tbody th { font-weight: 500; }
+.rc-table tbody tr[hidden] { display: none; }
+.rc-cell-note { display: block; color: var(--muted); font-size: var(--text-caption, 11px); font-weight: 500; margin-top: 5px; overflow-wrap: anywhere; }
+.rc-differs { color: var(--tone-warning); }
+.rc-row-actions { display: flex; flex-wrap: wrap; gap: 9px 13px; min-width: 150px; }
+.rc-row-actions button { font-size: var(--text-caption, 11px); }
+.rc-history section + section { border-top: 1px solid var(--line); margin-top: 22px; padding-top: 22px; }
+.rc-history dl { margin: 15px 0; }
+.rc-history dt { font-size: var(--text-caption, 11px); color: var(--muted); margin-top: 12px; }
+.rc-history dd { margin: 4px 0 0; font-size: var(--text-control, 13px); white-space: pre-wrap; overflow-wrap: anywhere; }
+.rc-mark { margin-inline-start: var(--space-2); font: 500 var(--text-caption) var(--font-data); letter-spacing: var(--tracking-label, normal); }
+.rc-mark[data-matched="true"] { color: var(--tone-success); }
+.rc-mark[data-matched="false"] { color: var(--tone-danger); }
+.rc-mark > span { font-weight: 500; letter-spacing: normal; }
+
+/* A printed page (Letter or A4, narrower than 1000 px) keeps the editor above its preview, as it always printed; the screen
+   is desktop only (DESIGN-LANGUAGE) and keeps the two columns. */
+@media print and (max-width: 1000px) { .rc-builder { grid-template-columns: 1fr; } .rc-preview-panel { position: static; } }
+
+/* ----- Screen: Ledger (DESIGN-LANGUAGE). Printing keeps the rules above. ----- */
+@media screen {
+  :root :is(.rc-block > h3, .rc-list-toolbar > h3) { font-size: var(--text-title); line-height: 1.15; letter-spacing: var(--tracking-title); }
+  .rc-empty { color: var(--muted); }
+  .rc-cards > .rc-empty { grid-column: 1 / -1; }
+
+  /* Needs attention is a warning callout (components.css .callout): a 2px rule in the tone over the paper, the title in the
+     serif in that tone; the issues are rows on hairlines. */
+  .rc-attention { padding: var(--space-3) 0; border: 0; border-top: 2px solid var(--tone-warning); background: transparent; box-shadow: none; }
+  #response-cards-section .rc-attention h3 { margin-bottom: var(--space-2); color: var(--tone-warning); font: var(--head-weight) 16px/1.2 var(--font-serif); letter-spacing: 0; text-transform: none; }
+  .rc-attention-list { gap: 0; }
+  .rc-attention-list li { padding: var(--space-2) 0; border-top-color: var(--nested-line); }
+  .rc-attention-list li:first-child { padding-top: var(--space-1); }
+  .rc-attention-title { color: var(--ink); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); text-decoration: none; transition: color var(--snappy); }
+  .rc-attention-title:hover { color: var(--ink); text-decoration: none; }
+  .rc-attention-where { color: var(--muted); }
+  .rc-sync-line { color: var(--muted); }
+
+  /* Issued cards: each exam group's heading is the section label over a 2px ink rule; a card needing attention carries a
+     warning rule above its title (its chips say why). */
+  .rc-exam-group > .rc-group-title { margin-bottom: var(--space-2); padding-top: 8px; border-top: 2px solid var(--ink); color: var(--ink); font: 600 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); }
+  .rc-exam-group > .rc-group-title + .rc-issue-list { margin-top: 0; }
+  :root :is(.rc-issue, .rc-card) h4 { font-size: var(--text-item); line-height: 1.15; letter-spacing: var(--tracking-title); }
+  .rc-issue h4 a:hover { color: var(--ink); text-decoration: none; }
+  .rc-issue[data-attention="true"] { box-shadow: none; border-top: 2px solid var(--tone-warning); }
+  .rc-issue-line { color: var(--muted); font-size: var(--text-small); }
+  /* The responded/total rule: an ink fill on a hairline track. */
+  .rc-progress { height: 2px; background: var(--nested-line); color: var(--ink); }
+  .rc-progress::-webkit-progress-bar { background: var(--nested-line); }
+  .rc-clamp { color: var(--muted); font-size: var(--text-small); }
+  .rc-delivery-line { color: var(--text); }
+
+  /* The editor: each field is a section below a hairline inside the panel, not a box within it; its caption is a small
+     uppercase label. */
+  .rc-field-editor { padding: var(--space-4) 0 0; border: 0; border-top: 1px solid var(--line); }
+  .rc-field-editor legend { padding: 0 var(--space-3) 0 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  /* Up, Down and Remove are underlined text actions (button-theme.css); the gap spaces them. */
+  .rc-field-actions { gap: 0 var(--space-4); }
+  .rc-field-actions button { font-size: var(--text-caption); }
+  .rc-field-actions button:disabled { opacity: var(--opacity-dim); }
+  /* A choice's own note ("4 students") sits on its label's baseline; the box keeps its place at the top. */
+  .rc-check { align-items: baseline; gap: var(--space-2); color: var(--text); font-size: var(--text-body); line-height: 1.6; }
+  .rc-check > input { align-self: flex-start; }
+  .rc-check > .field-hint { margin: 0; }
+  .rc-rules, .rc-variables { color: var(--text); }
+  /* Variable names are code, set in Berkeley Mono without a box of their own. */
+  .rc-variables code { padding: 0; border: 0; background: transparent; color: var(--ink); font: 400 var(--text-small)/1.6 var(--font-code); }
+  /* New field type + Add field: the toolbar aligns its items' bottoms, so the field's own bottom margin would lift the
+     select 17px above the button. */
+  .rc-builder .toolbar > .field { margin-bottom: 0; }
+  /* The save footer stays in sight on the page's paper (the same grain, so it is no band of its own) under a hairline,
+     aligned with the column (the panel has no side padding). */
+  .rc-editor-footer { margin-inline: 0; padding-inline: 0; background: var(--canvas); }
+  .rc-editor-footer #rc-save-status { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  /* Frozen versions: the section label over a 2px ink rule, a row per version. */
+  #response-cards-section .rc-version-list h4 { margin-bottom: var(--space-1); padding-top: 8px; border-top: 2px solid var(--ink); color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+  .rc-version-list { border-bottom: 0; }
+  .rc-version-list > div { margin-top: 0; padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); color: var(--text); font-family: var(--font-body); }
+  .rc-preview-field { margin: var(--space-5) 0; }
+  .rc-preview-choice { color: var(--text); }
+  /* A choice question's words are its caption (form-theme.css), like the preview's other questions. */
+  .rc-preview-choice > legend { margin-bottom: var(--space-1); padding: 0; }
+  .rc-required { font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .rc-static { color: var(--text); line-height: 1.6; }
+
+  /* The Issue dialog: step titles in the serif; the audience is a section below a hairline. */
+  :root .rc-dialog-step { font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); }
+  .rc-audience { padding: var(--space-3) 0 0; border: 0; border-top: 1px solid var(--line); }
+  /* Its caption (form-theme.css) is the section's first row under the hairline, never set into the rule: floated, so the
+     rule runs unbroken above it (like the seating dialogs' groups). */
+  .rc-audience > legend { float: left; inline-size: 100%; margin: 0 0 var(--space-2); padding: 0; }
+  .rc-audience > legend + * { clear: both; }
+
+  /* The issue page. */
+  .rc-issue-note, .rc-done { color: var(--muted); }
+  .rc-issue-status p { color: var(--text); }
+  /* "0 of 6 responded" is the issue's status sentence: a serif count over the progress rule. */
+  .rc-issue-status strong { color: var(--ink); font: var(--head-weight) var(--text-section)/1.15 var(--font-serif); letter-spacing: var(--tracking-title); font-variant-numeric: tabular-nums; }
+  .rc-table { font-size: var(--text-body); }
+  .rc-table :is(th, td) { border-bottom-color: var(--nested-line); }
+  .rc-cell-note { color: var(--muted); font-size: var(--text-small); }
+  /* A delivery or publication state is a word or two ("Not sent", "Not published") and stays on one line; its notes below
+     it wrap. The row's text actions stay on one line up to 26rem (the student column wraps instead) and wrap beyond it
+     rather than claiming a one-line width that squeezed the status columns. The list gives back the actions' own padding (button-theme.css, 6px 2px), so the first
+     label sits on the row's first line and starts under the ACTIONS heading. */
+  .rc-table td:is(:nth-child(4), :nth-child(5)) { white-space: nowrap; }
+  .rc-table td .rc-cell-note { white-space: normal; }
+  .rc-row-actions { width: max-content; max-width: 26rem; gap: 0 var(--space-4); margin-block: -6px; margin-inline-start: -2px; }
+  .rc-row-actions button { font-size: var(--text-caption); }
+  .rc-history section + section { margin-top: var(--space-6); padding-top: var(--space-6); }
+  .rc-history dt { color: var(--label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .rc-history dd { color: var(--text); font-size: var(--text-body); }
+  .rc-mark { font-weight: 700; text-transform: uppercase; }
+  .rc-mark > span { text-transform: none; }
+  /* The recipient search is wide enough for its placeholder ('Name, email, or section'). */
+  .rc-issue-page .toolbar .field:has(> #rc-recipient-search) { flex: 0 1 16rem; }
+}
+@media screen and (prefers-reduced-motion: reduce) { .rc-attention-title { transition: none; } }

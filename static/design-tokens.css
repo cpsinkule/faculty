@@ -1,0 +1,221 @@
+/* Shared screen tokens: DESIGN-LANGUAGE, "Ledger" (requirement, 2026-10-04). One appearance: off-white page, white surfaces, near-
+   black ink and 2px ink outlines; orange fill for "needs you" (with a darker orange for text); red only for failing. There is no dark appearance (requirement, 2026-10-03). Printed documents, seat
+   charts and exam-version palettes keep their own colours. Screen rules elsewhere use these semantic names, never a hex
+   colour or radius of their own (FRONTEND.md "Legacy sheets"). */
+:root {
+  color-scheme: light;
+  color: var(--ink);
+  background: var(--canvas);
+
+  /* The page and what sits on it. --canvas is the page (flat); --paper and --surface are the white of fields, framed
+     records, dialogs, pop-overs and the header band. */
+  --canvas: #f3f2ec;
+  --paper: #ffffff;
+  --surface: #ffffff;
+  --surface-alt: #fbfbf8;
+  --surface-hover: #f7f5ee;
+  --control-surface: #ffffff;
+
+  /* Ink. --ink for headings, frames and anything interactive, --text for body copy, --muted/--label for metadata and
+     labels (6.5:1 on the canvas), --faint for disabled and decorative marks only (never text that must be read). */
+  --ink: #101010;
+  --heading: var(--ink);
+  --text: #1e1e1e;
+  --muted: #5a5a55;
+  --label: #5a5a55;
+  --faint: #8c8a82;
+
+  /* Rules: --line between groups, --nested-line between rows, --control-line for outlined controls. A region sits under
+     a 2px --ink rule (ledger.css). */
+  --line: #cfccc2;
+  --nested-line: #e4e2da;
+  --control-line: var(--ink);
+
+  /* The one signal, orange: "needs you" and nothing else (DESIGN-LANGUAGE §1.2). --accent-fill is the filled block with
+     black type; --accent is its darker ink for text on the canvas. */
+  --accent: #c2410c;
+  --accent-ink: var(--accent);
+  --accent-fill: #ff6a1a;
+  --accent-soft: #ffe6d6;
+  --accent-line: var(--line);
+  --focus: var(--blue); /* slate, never the "needs you" orange (requirement, 2026-10-04) */
+  --selection: #ffd8c2;
+
+  /* Status inks (text-safe on the canvas). Green complete, amber started, red failed (always with the word), slate
+     finished steps, info and progress. Seat updates take the accent. */
+  --success: #2e7d32;
+  --warning: #9a4e00;
+  --error: #c21f35;
+  --blue: #3e5a66;
+  --violet: #6a4a7a;
+  --orange: var(--accent);
+  --green: var(--success);
+  /* Status never fills a box: these keep their names for older rules and resolve to no fill. */
+  --success-bg: transparent;
+  --warning-bg: transparent;
+  --error-bg: transparent;
+  --version-lightness: 38%;
+  /* A rubric line's points are ink, deductions included: green stays the colour of complete work (instructor,
+     2026-09-27). */
+  --rubric-points-ink: var(--ink);
+  /* Step graphs: done and started steps slate, failures red, later steps faint (DESIGN-LANGUAGE §4). */
+  --pipeline-done-ink: var(--blue);
+  --pipeline-failed-ink: var(--error);
+  --pipeline-future-ink: var(--faint);
+
+  /* Grading roles keep distinct hues at >= 4.5:1 on the canvas (DESIGN-LANGUAGE §2). */
+  --grading-role-primary: #2f5e6e;
+  --grading-role-second: #6a4a7a;
+  --grading-role-verifier: #4e5b78;
+  --grading-role-arbiter: #8a2f6a;
+  --grading-role-flag-reviewer: #a24b2a;
+  --grading-role-reader: #2a4a9a;
+  --grading-role-jev: #8a6414;
+  --grading-apply-ink: var(--success);
+  --grading-do-not-apply-ink: var(--error);
+
+  /* Seats (screen only; print palettes live with the seating sheets). */
+  --seat-fill: transparent;
+  --seat-line: var(--control-line);
+  --seat-blocked-mark: var(--line);
+  --seat-broken-mark: color-mix(in srgb, var(--error) 14%, #ffffff);
+  --seat-update: var(--accent);
+  --seat-update-bg: transparent;
+
+  /* Navigation rail (DESIGN-LANGUAGE §5): black, light words, the page on screen an inverted block, needs-you counts
+     orange blocks. */
+  --sidebar-bg: #101010;
+  --sidebar-ink: #f3f2ec;
+  --sidebar-muted: #a8a79f;
+  --sidebar-line: #2e2e2b;
+  --sidebar-field: #1c1c1a;
+  --sidebar-field-line: #3a3a36;
+  --sidebar-hover: #242422;
+  --sidebar-selected: #f3f2ec;
+  --nav-selected-ink: #101010;
+  /* A hovered or chosen row is ink on the hover tint. */
+  --highlight-bg: var(--surface-hover);
+  --highlight-ink: var(--ink);
+
+  /* Buttons: the primary is an ink block with white type; every button is framed in ink with the hard shadow
+     (ledger.css). */
+  --button-fill: var(--ink);
+  --button-hover: #2a2a2a;
+  --button-ink: #ffffff;
+  --button-line: var(--control-line);
+
+  --header-background: #ffffff;
+
+  /* LEDGER (requirement, 2026-10-04): heavy sans headings, mono figures for meta, 2px ink outlines and a
+     hard offset shadow on what you act on. */
+  --font-head: "Manrope", "Helvetica Neue", system-ui, sans-serif;
+  --font-num: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+  --head-weight: 800;
+  --frame: 2px solid var(--ink);
+  --hard-shadow: 3px 3px 0 var(--ink);
+  --hard-shadow-hover: 4px 4px 0 var(--ink);
+  --hard-shadow-strong: 6px 6px 0 var(--ink);
+  --needs-fill: var(--accent-fill);
+  --needs-ink: #101010;
+  --danger-fill: #d7263d;
+  --danger-fill-ink: #ffffff;
+  --outward-fill: #dce8ff;
+  /* DESIGN-LANGUAGE "Assistant glass": the main drawer and the floating Assistant share one material. */
+  --assistant-glass-surface: color-mix(in srgb, var(--paper) 62%, transparent);
+  --assistant-glass-control: color-mix(in srgb, var(--paper) 48%, transparent);
+  --assistant-glass-sheen: linear-gradient(135deg,
+    color-mix(in srgb, var(--paper) 36%, transparent), transparent 48%,
+    color-mix(in srgb, var(--paper) 12%, transparent));
+  --assistant-glass-edge: color-mix(in srgb, var(--paper) 94%, transparent);
+  --assistant-glass-muted: color-mix(in srgb, var(--ink) 88%, var(--paper));
+  --assistant-glass-line: color-mix(in srgb, var(--ink) 14%, transparent);
+  --assistant-glass-shadow: 0 24px 72px color-mix(in srgb, var(--ink) 20%, transparent),
+    0 6px 20px color-mix(in srgb, var(--ink) 10%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent),
+    inset 0 1px 0 var(--paper),
+    inset 0 -1px 0 color-mix(in srgb, var(--paper) 40%, transparent);
+  --assistant-glass-blur: 40px;
+  --assistant-glass-radius: 20px;
+  --assistant-glass-control-radius: 10px;
+  --assistant-message-own: color-mix(in srgb, var(--blue) 10%, var(--paper));
+  --assistant-reading-surface: color-mix(in srgb, var(--paper) 82%, transparent);
+  --assistant-text-size: 16px;
+  /* Light tints behind a framed notice of each tone, and behind the guess to check on a suggested step. */
+  --needs-tint: #fff1e6;
+  /* A chosen row or option (the open conversation, a checked choice, the current page in a list): a neutral tint, never the
+     needs-you orange (DESIGN-LANGUAGE §1.2). */
+  --chosen-bg: #e9e7df;
+  --danger-tint: #fde8eb;
+  --success-tint: #eaf5ea;
+
+  /* Space, type and shape */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  /* Manrope for everything (the older --font-serif and --font-display names alias it); --font-num (Geist Mono, above)
+     for meta figures; Berkeley Mono for code, keys and raw records (DESIGN-LANGUAGE §3). */
+  --font-display: "Manrope", "Helvetica Neue", system-ui, sans-serif;
+  --font-serif: "Manrope", "Helvetica Neue", system-ui, sans-serif;
+  --font-body: "Manrope", "Helvetica Neue", system-ui, sans-serif;
+  --font-data: var(--font-body);
+  --font-code: "Berkeley Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --radius-control: 0;
+  --radius-panel: 0;
+  --radius: 0;
+  --text-caption: 11px;
+  --text-small: 13px;
+  --text-control: 13px;
+  --text-body: 15px;
+  --text-lead: 17px;
+  /* Heading sizes (Manrope at --head-weight): --text-item for record, card and list-item headings; --text-section for
+     section and sub-panel headings; --text-title for the heading that leads a page region; --text-count for big counts. */
+  --text-item: 18px;
+  --text-section: 21px;
+  --text-title: 24px;
+  --text-count: 30px;
+  --tracking-label: .1em;
+  --tracking-section: .1em;
+  --tracking-display: -.02em;
+  --tracking-title: -.01em;
+  --control-height: 40px;
+  --button-height: 44px;
+  /* Disabled controls and content set aside (a left-out section, an unused field): one dim level everywhere. */
+  --opacity-dim: .55;
+  /* Behind modal dialogs, the command palette and pop-ups: the page recedes under ink. */
+  --backdrop: color-mix(in srgb, #101010 50%, transparent);
+  --ease: cubic-bezier(.6, 0, .4, 1);
+  --snappy: .1s ease;
+  /* A framed control's lift, press and shadow (DESIGN-LANGUAGE §6): short, with the strong ease-out. */
+  --lift: 80ms var(--ease-out);
+  /* Entering and pressing (FRONTEND.md "Press and open motion"): a strong ease-out, so the first frames already move. */
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+
+  /* Tones for callouts, chips and toasts (components.css): the ink of each state; no tinted fills. */
+  --tone-info: var(--blue);
+  --tone-info-bg: transparent;
+  --tone-warning: var(--warning);
+  --tone-warning-bg: transparent;
+  --tone-danger: var(--error);
+  --tone-danger-bg: transparent;
+  --tone-success: var(--success);
+  --tone-success-bg: transparent;
+  --tone-neutral: var(--muted);
+  --tone-neutral-bg: transparent;
+  /* Sidebar attention counts are orange blocks with black mono figures. */
+  --nav-badge-bg: var(--accent-fill);
+  --nav-badge-ink: #101010;
+  /* The toast is an ink block: white type, its tones in light inks that read on the ink. */
+  --toast-bg: var(--ink);
+  --toast-ink: #ffffff;
+  --toast-muted: #c9c7bf;
+  --toast-danger: #ff8a8a;
+  --toast-warning: #ffb27a;
+  --toast-success: #8fd18f;
+  --toast-info: #9cc3d6;
+}

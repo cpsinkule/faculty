@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>faculty. — Home, magazine edition</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Hedvig+Letters+Serif:opsz@12..24&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#24201B}a:hover{color:#A24B2A}
+.mg-paper{background:#F2ECE1 url("/_blob/37e8e9dc03a339acc2509e05698f822f") repeat}
+.prt{text-shadow:0 0 24px rgba(255,200,140,.2)}
+.ov{color:#F1E9DA}.ov .fx-i{color:#F1E9DA;border-bottom-color:rgba(241,233,218,.16)}.ov .fx-sec,.ov .fx-n{color:#E3D6C2}
+.inked{color:#F1E9DA;background:url("/_blob/809b66fae457f5d6cf6abab8140e921b") repeat;background-size:320px 320px;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 .6px rgba(241,233,218,.55)) drop-shadow(0 2px 22px rgba(18,10,6,.38))}
+.plate-label{font:600 12px 'Instrument Sans',system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#F1E9DA;filter:drop-shadow(0 1px 8px rgba(18,10,6,.45))}
+.prt-ink{text-shadow:none}
+.grn{position:absolute;pointer-events:none;background:url("/_blob/dbbe37191c86e51468920e03a2bc565c") repeat;mix-blend-mode:overlay;opacity:.2}
+.fx-sec{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#5F574B;padding:0 0 4px}
+.fx-i{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:38px;border-bottom:1px solid #E2D9C8;color:#24201B;text-decoration:none;font-size:15px}
+.fx-i:hover{color:#A24B2A}
+.fx-n{font-family:'Instrument Serif',Georgia,serif;font-size:19px;line-height:1;color:#5F574B}
+.fx-btn{min-height:46px;padding:0 20px;border:0;border-radius:2px;background:#24201B;color:#F2ECE1;font:600 13px 'Instrument Sans',system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.fx-btn:hover{background:#000}
+.fx-link{background:transparent;border:0;padding:0;min-height:44px;font:600 13px 'Instrument Sans',system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#24201B;cursor:pointer;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.fx-link:hover{color:#A24B2A}
+.fx-go{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:#24201B;white-space:nowrap}
+.fx-go:hover{color:#A24B2A}
+.fx-band-btn{min-height:34px;padding:0 12px;border:1px solid #6E6559;border-radius:2px;background:transparent;color:#F2ECE1;font:500 13px 'Instrument Sans',system-ui,sans-serif;cursor:pointer}
+.fx-band-btn:hover{border-color:#F2ECE1}
+</style>
+</helmet>
+<div class="mg-paper" style="min-height: 100vh; display: flex; flex-wrap: wrap; font-family: 'Instrument Sans', 'Helvetica Neue', system-ui, sans-serif; color: #24201B">
+
+
+  <aside aria-label="Workspace navigation" style="position: relative; isolation: isolate; flex: 1 1 232px; box-sizing: border-box; padding: 26px 24px 24px 30px; border-right: 1px solid #D4C9B5; display: flex; flex-direction: column; gap: 22px">
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 22px">
+      <a href="#" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; line-height: 1; letter-spacing: -.02em; color: #24201B; text-decoration: none; padding-bottom: 12px; border-bottom: 3px double #24201B">faculty<span style="color: {{accent}}">.</span></a>
+      <button type="button" style="display: flex; align-items: center; justify-content: space-between; min-height: 40px; padding: 0; border: 0; border-bottom: 1px solid #24201B; background: transparent; font: 15px 'Instrument Sans', system-ui, sans-serif; color: #5F574B; cursor: pointer">Search and go to<span style="font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #24201B">CTRL K</span></button>
+      <nav aria-label="Pages" style="display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; flex-direction: column">
+          <span class="fx-sec">A · Today</span>
+          <a href="#" class="fx-i" aria-current="page" style="font-weight: 600; color: {{accent}}">Home<span class="fx-n" style="color: {{accent}}">●</span></a>
+          <a href="#" class="fx-i">Calendar</a>
+          <a href="#" class="fx-i">Mail</a>
+          <a href="#" class="fx-i">Follow-up<span class="fx-n" style="color: {{accent}}">4</span></a>
+        </div>
+        <div style="display: flex; flex-direction: column">
+          <span class="fx-sec">B · Courses</span>
+          <a href="#" class="fx-i">Courses<span class="fx-n">1</span></a>
+          <a href="#" class="fx-i">Canvas</a>
+          <a href="#" class="fx-i">Accommodations</a>
+          <a href="#" class="fx-i">Absences<span class="fx-n" style="color: {{accent}}">1</span></a>
+        </div>
+        <div style="display: flex; flex-direction: column">
+          <span class="fx-sec">C · Assessments</span>
+          <a href="#" class="fx-i">Assignments &amp; printing</a>
+          <a href="#" class="fx-i">Seating charts<span class="fx-n">3</span></a>
+          <a href="#" class="fx-i">Response Cards</a>
+          <a href="#" class="fx-i">Teaching Inbox<span class="fx-n" style="color: {{accent}}">1</span></a>
+          <a href="#" class="fx-i">Teaching review</a>
+          <a href="#" class="fx-i">Exams</a>
+          <a href="#" class="fx-i">Grading<span class="fx-n" style="color: {{accent}}">16</span></a>
+        </div>
+        <div style="display: flex; flex-direction: column">
+          <span class="fx-sec">D · Library</span>
+          <a href="#" class="fx-i">Rooms<span class="fx-n">12</span></a>
+        </div>
+      </nav>
+      <div style="margin-top: auto; display: flex; flex-direction: column; gap: 6px; padding-top: 12px; border-top: 1px solid #D4C9B5">
+        <a href="#" class="fx-i" style="border-bottom: 0">Workspace settings</a>
+        <button type="button" style="display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0; border: 0; background: transparent; font: 13px 'Instrument Sans', system-ui, sans-serif; color: #5F574B; cursor: pointer; text-align: left"><span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: #4F6B2E"></span>Connected · worker responding</button>
+      </div>
+    </div>
+    <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 476px 520px at -306px 430px, #2f3d63 64%, #46557f 82%, #6b5878 92%, #a0502f 97.5%, #e4924c 99.2%, #ffdca6 100%, rgba(255,196,130,.45) 100.05%, rgba(255,170,110,.14) 101.4%, rgba(255,170,110,0) 103%)"></div>
+    <div aria-hidden="true" class="grn" style="inset: 0; clip-path: ellipse(476px 520px at -306px 430px)"></div>
+    <div aria-hidden="true" class="ov" style="position: absolute; inset: 0; pointer-events: none; clip-path: ellipse(476px 520px at -306px 430px); box-sizing: border-box; padding: 26px 24px 24px 30px; display: flex; flex-direction: column; gap: 22px">
+      <span style="display: block; font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; line-height: 1; letter-spacing: -.02em; padding-bottom: 12px; border-bottom: 3px double rgba(241,233,218,.6)">faculty<span style="color: #FFD9BC">.</span></span>
+      <div style="display: flex; align-items: center; justify-content: space-between; min-height: 40px; border-bottom: 1px solid rgba(241,233,218,.5); font: 15px 'Instrument Sans', system-ui, sans-serif; color: #CDBFA8">Search and go to<span style="font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #F1E9DA">CTRL K</span></div>
+      <div style="display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">A · Today</span><span class="fx-i" style="font-weight: 600; color: #FFD9BC">Home<span class="fx-n" style="color: #FFD9BC">●</span></span><span class="fx-i">Calendar</span><span class="fx-i">Mail</span><span class="fx-i">Follow-up<span class="fx-n" style="color: #FFD9BC">4</span></span></div>
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">B · Courses</span><span class="fx-i">Courses<span class="fx-n">1</span></span><span class="fx-i">Canvas</span><span class="fx-i">Accommodations</span><span class="fx-i">Absences<span class="fx-n" style="color: #FFD9BC">1</span></span></div>
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">C · Assessments</span><span class="fx-i">Assignments &amp; printing</span><span class="fx-i">Seating charts<span class="fx-n">3</span></span><span class="fx-i">Response Cards</span><span class="fx-i">Teaching Inbox<span class="fx-n" style="color: #FFD9BC">1</span></span><span class="fx-i">Teaching review</span><span class="fx-i">Exams</span><span class="fx-i">Grading<span class="fx-n" style="color: #FFD9BC">16</span></span></div>
+        <div style="display: flex; flex-direction: column"><span class="fx-sec">D · Library</span><span class="fx-i">Rooms<span class="fx-n">12</span></span></div>
+      </div>
+      <div style="margin-top: auto; display: flex; flex-direction: column; gap: 6px; padding-top: 12px; border-top: 1px solid rgba(241,233,218,.25)">
+        <span class="fx-i" style="border-bottom: 0">Workspace settings</span>
+        <div style="display: flex; align-items: center; gap: 8px; min-height: 36px; font: 13px 'Instrument Sans', system-ui, sans-serif; color: #CDBFA8"><span style="width: 7px; height: 7px; border-radius: 50%; background: #8DB26A"></span>Connected · worker responding</div>
+      </div>
+    </div>
+  </aside>
+
+  <div style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column">
+
+    <div style="position: relative; height: 400px; overflow: hidden">
+      <img src="/_blob/19715a81956885dc76eda59ddceae284" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block">
+      <span class="plate-label" style="position: absolute; left: 40px; right: 40px; top: 88px; text-align: center">Monday, October 5</span>
+      <h1 class="inked" style="position: absolute; left: 40px; right: 40px; top: 122px; margin: 0; text-align: center; font-family: 'Hedvig Letters Serif', Georgia, serif; font-variation-settings: 'opsz' 24; font-weight: 400; font-size: 100px; line-height: .9; letter-spacing: -.025em">Your teaching day.</h1>
+      <div aria-hidden="true" class="grn" style="inset: 0"></div>
+      <header style="position: relative; z-index: 2; background: rgba(18,14,11,.32); backdrop-filter: blur(3px); border-bottom: 1px solid rgba(241,233,218,.14); color: #F2ECE1; display: flex; flex-wrap: wrap; gap: 8px 28px; align-items: center; padding: 10px 40px; font-size: 13px">
+        <nav aria-label="Breadcrumb" style="font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase">Home</nav>
+        <span style="color: #E3B35A; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; font-size: 12px">Next</span>
+        <span><b style="font-weight: 600">8:00</b> MATH 140 · HELD 107</span>
+        <span style="color: #A99E8E">|</span>
+        <span><b style="font-weight: 600">3:00</b> Office hours · BLOC 309</span>
+        <span style="margin-left: auto; font-variant-numeric: tabular-nums; color: #E3D6C2">Mon, Oct 5 · 7:42 AM</span>
+        <button type="button" class="fx-band-btn">Assistant <span style="color: #A99E8E">⌘I</span></button>
+      </header>
+    </div>
+
+    <main style="box-sizing: border-box; padding: 30px 40px 56px; max-width: 1120px; display: flex; flex-direction: column; gap: 34px">
+
+      <header style="display: flex; flex-direction: column; padding-bottom: 28px; border-bottom: 3px double #24201B">
+        <div style="display: flex; flex-wrap: wrap; gap: 18px 40px; align-items: flex-end; justify-content: space-between">
+          <p style="margin: 0; flex: 1 1 420px; max-width: 640px; font-family: 'Instrument Serif', Georgia, serif; font-size: 23px; line-height: 1.35; color: #3D372F; text-wrap: pretty"><span style="color: {{accent}}">5 things need you</span> · Test 1: review the graded responses · Next: Test 2 DR exams, Thu, Oct 22</p>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px">
+            <button type="button" class="fx-btn">Upload scanned assignment</button>
+            <button type="button" class="fx-link">New assignment</button>
+            <button type="button" class="fx-link">Draft a quiz</button>
+          </div>
+        </div>
+      </header>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 32px 0">
+
+        <section aria-labelledby="mg-needs" style="flex: 2 1 460px; min-width: 0; padding-right: 32px; display: flex; flex-direction: column">
+          <h2 id="mg-needs" style="margin: 0 0 6px; padding-top: 8px; border-top: 2px solid #24201B; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase">Needs you</h2>
+          <div style="display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 16px; align-items: center; min-height: 66px; border-bottom: 1px solid #D4C9B5">
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; line-height: 1; text-align: right">14</span>
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; line-height: 1.15">Responses waiting for your review</span><span style="font-size: 13px; color: #5F574B">Test 1 · MATH 140 · flagged where the graders disagreed</span></div>
+            <a href="#" class="fx-go">Review →</a>
+          </div>
+          <div style="display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 16px; align-items: center; min-height: 66px; border-bottom: 1px solid #D4C9B5">
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; line-height: 1; text-align: right; color: {{accent}}">2</span>
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; line-height: 1.15">Responses that failed to grade</span><span style="font-size: 13px; color: {{accent}}; font-weight: 500">Test 1 · the model timed out twice</span></div>
+            <a href="#" class="fx-go">Retry →</a>
+          </div>
+          <div style="display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 16px; align-items: center; min-height: 66px; border-bottom: 1px solid #D4C9B5">
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; line-height: 1; text-align: right; color: #ABA08F">—</span>
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; line-height: 1.15">Scan to check · Quiz 5, 9:10 section</span><span style="font-size: 13px; color: #5F574B">3 pages could not be matched to a student</span></div>
+            <a href="#" class="fx-go">Check →</a>
+          </div>
+          <div style="display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 16px; align-items: center; min-height: 66px; border-bottom: 1px solid #D4C9B5">
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; line-height: 1; text-align: right">4</span>
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; line-height: 1.15">Student follow-ups</span><span style="font-size: 13px; color: #5F574B">1 time-sensitive · 2 suggested replies ready</span></div>
+            <a href="#" class="fx-go">Open →</a>
+          </div>
+          <div style="display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 16px; align-items: center; min-height: 66px">
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; line-height: 1; text-align: right">6</span>
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; line-height: 1.15">Seat updates to send</span><span style="font-size: 13px; color: #5F574B">Test 2 · after the latest roster import</span></div>
+            <a href="#" class="fx-go">Send →</a>
+          </div>
+        </section>
+
+        <section aria-labelledby="mg-coming" style="flex: 1 1 280px; min-width: 0; padding-left: 32px; border-left: 1px solid #D4C9B5; display: flex; flex-direction: column; gap: 6px">
+          <h2 id="mg-coming" style="margin: 0 0 6px; padding-top: 8px; border-top: 2px solid #24201B; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; display: flex; justify-content: space-between">Coming up <span style="color: #5F574B; font-weight: 500">Next 3 weeks</span></h2>
+          <div style="display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 14px; align-items: start; padding: 10px 0; border-bottom: 1px solid #E2D9C8">
+            <div style="display: flex; flex-direction: column; align-items: center"><span style="font-size: 11px; font-weight: 600; letter-spacing: .12em">THU</span><span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 32px; line-height: 1">8</span></div>
+            <div style="display: flex; flex-direction: column; gap: 2px; padding-top: 2px"><span style="font-weight: 600">Quiz 5 grades due</span><span style="font-size: 13px; color: #5F574B">Gradebook</span></div>
+          </div>
+          <div style="display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 14px; align-items: start; padding: 10px 0; border-bottom: 1px solid #E2D9C8">
+            <div style="display: flex; flex-direction: column; align-items: center"><span style="font-size: 11px; font-weight: 600; letter-spacing: .12em">MON</span><span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 32px; line-height: 1">19</span></div>
+            <div style="display: flex; flex-direction: column; gap: 2px; padding-top: 2px"><span style="font-weight: 600">Test 2 seating published</span><span style="font-size: 13px; color: #5F574B">Seating chart · HELD 107</span></div>
+          </div>
+          <div style="display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 14px; align-items: start; padding: 10px 0; border-bottom: 1px solid #E2D9C8">
+            <div style="display: flex; flex-direction: column; align-items: center; color: {{accent}}"><span style="font-size: 11px; font-weight: 600; letter-spacing: .12em">THU</span><span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 32px; line-height: 1">22</span></div>
+            <div style="display: flex; flex-direction: column; gap: 2px; padding-top: 2px"><span style="font-weight: 600">Test 2</span><span style="font-size: 13px; color: #5F574B">In class · DR exams for 4 students</span></div>
+          </div>
+          <a href="#" class="fx-go" style="padding-top: 10px">Calendar →</a>
+        </section>
+
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 32px 0">
+
+        <section aria-labelledby="mg-progress" style="flex: 2 1 460px; min-width: 0; padding-right: 32px; display: flex; flex-direction: column; gap: 18px">
+          <h2 id="mg-progress" style="margin: 0; padding-top: 8px; border-top: 2px solid #24201B; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase">In progress</h2>
+
+          <article style="display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap"><h3 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 28px; line-height: 1.1">Test 1 <span style="font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 13px; color: #5F574B; letter-spacing: 0">MATH 140 · 142 papers</span></h3><a href="#" class="fx-go">Open grading →</a></div>
+            <ol aria-label="Grading steps" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px">
+              <li style="display: flex; flex-direction: column; gap: 6px"><span style="height: 4px; background: #3E5A66"></span><span style="font-size: 12px; color: #5F574B">Rubrics</span></li>
+              <li style="display: flex; flex-direction: column; gap: 6px"><span style="height: 4px; background: #3E5A66"></span><span style="font-size: 12px; color: #5F574B">Answer areas</span></li>
+              <li style="display: flex; flex-direction: column; gap: 6px"><span style="height: 4px; background: #3E5A66"></span><span style="font-size: 12px; color: #5F574B">Key &amp; rubric</span></li>
+              <li style="display: flex; flex-direction: column; gap: 6px"><span style="height: 4px; background: #3E5A66"></span><span style="font-size: 12px; color: #5F574B">Grade</span></li>
+              <li aria-current="step" style="display: flex; flex-direction: column; gap: 6px"><span style="height: 4px; background: {{accent}}"></span><span style="font-size: 12px; font-weight: 600; color: {{accent}}">Review · 14</span></li>
+              <li style="display: flex; flex-direction: column; gap: 6px"><span style="height: 4px; background: #E2D9C8"></span><span style="font-size: 12px; color: #5F574B">Certify &amp; export</span></li>
+            </ol>
+          </article>
+
+          <article style="display: flex; flex-direction: column; gap: 10px; padding-top: 16px; border-top: 1px solid #E2D9C8">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap"><h3 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 24px; line-height: 1.1">Quiz 5 scan · 9:10 section <span style="font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 13px; color: #5F574B">received 7:31 AM · 71 pages</span></h3><a href="#" class="fx-go">Teaching Inbox →</a></div>
+            <ol aria-label="Scan steps" style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: 13px">
+              <li style="color: #3E5A66">Scan</li><li aria-hidden="true" style="color: #ABA08F">→</li>
+              <li style="color: #3E5A66">Assignment</li><li aria-hidden="true" style="color: #ABA08F">→</li>
+              <li style="color: #3E5A66">Students</li><li aria-hidden="true" style="color: #ABA08F">→</li>
+              <li aria-current="step" style="color: {{accent}}; font-weight: 600; border-bottom: 2px solid {{accent}}">Papers · 3 to check</li><li aria-hidden="true" style="color: #ABA08F">→</li>
+              <li style="color: #8C8276">Review</li><li aria-hidden="true" style="color: #ABA08F">→</li>
+              <li style="color: #8C8276">Grading</li>
+            </ol>
+          </article>
+        </section>
+
+        <section aria-labelledby="mg-courses" style="flex: 1 1 280px; min-width: 0; padding-left: 32px; border-left: 1px solid #D4C9B5; display: flex; flex-direction: column; gap: 10px">
+          <h2 id="mg-courses" style="margin: 0; padding-top: 8px; border-top: 2px solid #24201B; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase">Current courses</h2>
+          <article style="display: flex; flex-direction: column; gap: 6px; padding-bottom: 12px; border-bottom: 1px solid #E2D9C8">
+            <div style="position: relative; margin: 0 0 6px; aspect-ratio: 3 / 2; overflow: hidden">
+              <img src="/_blob/2eda49a20a0aad3d3478e2998c5ad939" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover">
+              <h3 class="prt-ink" style="position: absolute; left: 16px; top: 12px; margin: 0; font-family: 'Hedvig Letters Serif', Georgia, serif; font-variation-settings: 'opsz' 24; font-weight: 400; font-size: 40px; line-height: 1; letter-spacing: -.02em; color: #24201B">MATH 140</h3>
+              <div aria-hidden="true" class="grn" style="inset: 0"></div>
+            </div>
+            <span style="margin-top: -2px; font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #5F574B; text-align: right">Raphael · The School of Athens (detail)</span>
+            <span style="font-size: 14px">Business Calculus · Fall 2026</span>
+            <span style="font-size: 13px; color: #5F574B">Sections 8:00 and 9:10 · HELD 107</span>
+          </article>
+          <a href="#" class="fx-go">All courses →</a>
+        </section>
+
+      </div>
+
+      <footer style="display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; padding-top: 12px; border-top: 1px solid #24201B; font-size: 13px; color: #5F574B">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #24201B">Workspace health</span>
+        <span>Worker responding · 2 running · Backup verified 3:12 AM · NVMe 1.4 TB free</span>
+      </footer>
+
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#A24B2A","options":["#A24B2A","#3E5A66","#66683A"]},"$preview":{"width":1360,"height":1700}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#A24B2A' };
+  }
+}
+</script>
+</body>
+</html>

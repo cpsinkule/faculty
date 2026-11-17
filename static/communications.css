@@ -1,0 +1,59 @@
+/* A student's communications record (communications.js, AGENTS.md "Communications record"). DESIGN-LANGUAGE
+   (Ledger): the timeline is a list of ruled rows (channel chip, who, when in small type; the subject; the
+   message in reading type), class-wide messages folded into one row with a +/− at its right. Tokens only. */
+/* The timeline is wide only while it is the dialog's content: a window opened from it (their mail, a message, Back to the card)
+   keeps its own width (a class on #dialog used to stay until the dialog closed). */
+#dialog:has(> .comm-dialog) { width: min(1140px, calc(100vw - 32px)); }
+.comm-status { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-5); margin-bottom: var(--space-5); padding-bottom: var(--space-4); border-bottom: 1px solid var(--line); }
+.comm-status ul { display: grid; gap: var(--space-2); flex: 1 1 360px; min-width: 0; margin: 0; padding: 0; list-style: none; }
+.comm-status li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.comm-status li .chip { min-width: 92px; justify-content: center; }
+.comm-toolbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-5); margin-bottom: var(--space-4); }
+/* Channel filters: secondary buttons, the applied one the ink block (button-theme.css); the count in the serif. */
+.comm-filters { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.comm-filters small { color: inherit; font: 500 var(--text-control)/1 var(--font-body); letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
+.comm-search { flex: 1 1 240px; margin: 0; }
+.comm-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+/* An entry is a row under a hairline: the head, then the subject, the message and its files. Who wrote it is in the words. */
+.comm-entry { display: grid; gap: var(--space-2); min-width: 0; padding: var(--space-4) 0; border: 0; border-bottom: 1px solid var(--nested-line); }
+.comm-entry-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.comm-entry-head strong { color: var(--heading); font-weight: 600; }
+.comm-entry-head time { margin-inline-start: auto; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.comm-to { min-width: 0; overflow-wrap: anywhere; }
+.comm-subject { margin: 0; color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); overflow-wrap: anywhere; }
+.comm-subject small { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; }
+.comm-source { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+.comm-text summary { color: var(--muted); font: 500 var(--text-body)/1.5 var(--font-body); cursor: pointer; overflow-wrap: anywhere; }
+.comm-text summary:hover { color: var(--ink); }
+.comm-text[open] summary { color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); text-transform: none; letter-spacing: 0; }
+/* A <pre> keeps the sender's line breaks; it reads in the body face, not the code face typography.css gives a pre. */
+:root :is(.comm-text pre, .comm-revisions pre, .comm-mass-text) { max-width: 78ch; margin: var(--space-2) 0 0; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text); font: 500 var(--text-body)/1.6 var(--font-body); }
+.comm-files { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); margin: 0; padding: 0; list-style: none; font: 500 var(--text-small)/1.5 var(--font-body); }
+.comm-files small { color: var(--muted); }
+.comm-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); }
+.comm-revisions { display: grid; gap: var(--space-2); margin: 0; padding: var(--space-2) 0 0; border-top: 1px solid var(--nested-line); list-style: none; }
+.comm-revisions small { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+/* The student card's newest entries (the roster window): one line each, flush with the card's headings (the doubled class
+   outranks the card's own list indent, .student-quick-view ul). */
+.comm-summary.comm-summary { display: grid; gap: 0; margin: 0 0 var(--space-2); padding: 0; list-style: none; }
+.comm-summary li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); min-width: 0; padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); font: 500 var(--text-body)/1.5 var(--font-body); }
+.comm-summary li > span:not(.chip) { flex: 1 1 200px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.comm-summary time { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); font-variant-numeric: tabular-nums; }
+/* A message to the whole class: one folded line (its head), opened like any other entry. */
+.comm-mass { padding-block: var(--space-3); }
+.comm-mass-fold > summary, .comm-mass-run > details > summary { cursor: pointer; list-style: none; }
+:is(.comm-mass-fold, .comm-mass-run > details) > summary::-webkit-details-marker { display: none; }
+/* The fold's +/− sits at the row's right, as on every disclosure. */
+:is(.comm-mass-fold, .comm-mass-run > details) > summary::after { content: "+"; content: counter(decor, none) "+" / ""; order: 99; flex: 0 0 20px; margin-inline-start: var(--space-3);  display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+:is(.comm-mass-fold, .comm-mass-run > details)[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+:is(.comm-mass-fold, .comm-mass-run > details) > summary:hover :is(strong, .comm-mass-subject), :is(.comm-mass-fold, .comm-mass-run > details) > summary:hover::after { color: var(--ink); }
+.comm-mass-fold[open] > summary { margin-bottom: var(--space-2); }
+.comm-mass-subject { min-width: 0; flex: 1 1 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
+.comm-mass-fold[open] .comm-mass-subject { display: none; }
+.comm-mass-fold > :not(summary) + :not(summary) { margin-top: var(--space-2); }
+.comm-mass-to { margin: 0; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+/* Consecutive class-wide messages: one folded row for the run (communications.js massRuns), each message keeping its own fold. */
+.comm-mass-run { padding: var(--space-3) 0; border-bottom: 1px solid var(--nested-line); }
+.comm-mass-run > details[open] > summary { margin-bottom: var(--space-2); }
+.comm-mass-run .comm-list { border-top: 0; padding-inline-start: var(--space-5); }
+.comm-mass-run .comm-list > :last-child { border-bottom: 0; }

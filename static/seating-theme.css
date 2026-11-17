@@ -1,0 +1,632 @@
+/* Screen only: room plans and seating charts in Ledger (DESIGN-LANGUAGE §1–§4: ink on an off-white page,
+   one orange accent). rooms.css and seating.css keep the print palettes
+   and geometry; this sheet re-tokenises them for the screen. Do not change seat dimensions or the font used to fit names
+   into physical plans: seat names and numbers stay in Inter (print and name fitting are measured in it; instructor,
+   2026-09-27) and each seat's frame stays the Berkeley Mono box-drawing glyphs; exam-version colours keep their palette
+   (SEATING). The plan's chrome (row letters, tables, landmarks, toolbar) and its counts take the shared faces
+   (design-tokens.css). This sheet loads before the foundation's theme sheets (typography, outline, button, accent, form), so rules
+   that must beat them carry the extra specificity noted beside them. */
+:root .seat-chart {
+  color: var(--ink);
+  background: transparent;
+  border-color: var(--line);
+  border-radius: var(--radius-panel);
+  font-family: var(--font-body);
+  scrollbar-color: var(--line) transparent;
+}
+.seat-chart .seat-grid {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+:root .seating-view { font-family: var(--font-body); }
+/* Inside its panel the plan is not a second box: a hairline above it, on the page's own paper. The plan keeps its side
+   inset (rooms.css: 22px): the zoom that holds the point under the pointer (seat-grid.js zoomAt) scrolls the plan
+   sideways, and that inset is part of the room it can scroll. Above and below, the panel's own padding is enough. */
+:root .course-panel .seat-chart {
+  --plan-inset: 22px;
+  padding: var(--space-4) var(--plan-inset) 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+}
+/* The plan's toolbar, its "Room continues" cue and table shortcuts line up with the panel's text rather than the inset
+   canvas, so the toolbar row sits between two hairlines of the same width. They are sticky (left: 0) inside the
+   scrolling plan, and Chrome measures that from the plan's content edge, so the inset is taken back from the sticky
+   offset as well as from the margin; scrolling and the scroll range are unchanged. */
+:root .course-panel .seat-chart :is(.seat-plan-controls, .seat-plan-groups) {
+  left: calc(-1 * var(--plan-inset));
+  width: calc(100% + 2 * var(--plan-inset));
+  margin-inline: calc(-1 * var(--plan-inset));
+  padding-inline: 1px;  /* room for the zoom cells' 1px rings, which the scrolling plan would otherwise clip */
+}
+:root .course-panel .seat-chart .seat-plan-zoom-hint {
+  left: calc(-1 * var(--plan-inset));
+  margin-inline-start: calc(-1 * var(--plan-inset));
+}
+/* Full width: the plan's panel covers the window (rooms.css), so it takes the page's paper instead of showing the page
+   through it, and keeps a margin of paper around its words. (0,5,1) beats outline-theme's transparent panel. */
+:root:root body.seat-plan-full .course-panel.room-chart-panel {
+  padding: var(--space-5) var(--space-6);
+  background: var(--canvas);
+}
+:root :is(.seating-roster-preview, .seating-version-preview, .room-stat, .seating-status, .seating-flag) { border-radius: 0; box-shadow: none; }
+:root .seat-popover { border-radius: var(--radius-control); box-shadow: none; }
+
+/* ---- Counts: a serif number over a small label under a hairline (components.css .stat). The label is the count's own
+   text node, so the count carries the label's type and the number resets it. Printed counts keep rooms.css/seating.css. */
+:root .room-summary { gap: var(--space-3) var(--space-6); }
+:root .room-stat {
+  display: inline-grid;
+  align-content: start;
+  gap: 4px;
+  min-width: 96px;
+  padding: var(--space-2) 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  color: var(--label);
+  font: 700 var(--text-caption)/1.4 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-align: start;
+  text-transform: uppercase;
+}
+/* The face and weight come from typography.css (.room-stat strong is one of its display roles); its colour from
+   accent-theme.css for the counts that carry a state. */
+:root .room-stat strong {
+  color: var(--heading);
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+}
+/* Problem counts are filters (seating.js): the count turns rust on hover; pressed draws the 2px ink rule. */
+:root button.room-stat { cursor: pointer; transition: border-color var(--snappy); }
+:root button.room-stat:hover strong { color: var(--ink); }
+:root button.room-stat[aria-pressed="true"] { padding-top: calc(var(--space-2) - 1px); border-top: 2px solid var(--ink); color: var(--ink); }
+:root button.room-stat:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* The room page's source line and the chart's generation details sit beside the counts as quiet copy. */
+:root .room-source { color: var(--text); font-size: var(--text-small); line-height: 1.6; }
+:root .room-source strong { color: var(--ink); font-weight: 600; }
+:root .seating-provenance > summary {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-height: 32px;
+  font-weight: 600;
+  list-style: none;
+  transition: color var(--snappy);
+}
+:root .seating-provenance > summary::-webkit-details-marker { display: none; }
+:root .seating-provenance > summary::after { content: "+"; content: counter(decor, none) "+" / ""; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+:root .seating-provenance[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+:root .seating-provenance > summary:hover { color: var(--ink); }
+:root .seating-provenance > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* ---- List cards (Rooms, Seating charts): ruled blocks (outline-theme), the title turning rust on hover
+   (workspace-theme); the icon is line art; the facts sit under a hairline with serif numbers. */
+:root:root :is(.room-card, .seating-card):focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+:root:root :is(.room-card-icon, .seating-card-icon) { justify-content: flex-start; color: var(--ink); }
+:root :is(.room-card, .seating-card) h3 {
+  color: var(--heading);
+  font-size: var(--text-item);
+  line-height: 1.15;
+  letter-spacing: var(--tracking-title);
+  transition: color var(--snappy);
+}
+:root :is(.room-card, .seating-card) > p { color: var(--muted); font-size: var(--text-small); line-height: 1.5; }
+:root .room-facts {
+  gap: var(--space-1) var(--space-5);
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--nested-line);
+  color: var(--label);
+  font: 700 var(--text-caption)/1.4 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+:root .room-facts strong {
+  margin-inline-end: 4px;
+  color: var(--heading);
+  font: var(--head-weight) var(--text-item)/1.15 var(--font-serif);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+/* A flag reads as a warning chip (components.css .chip[data-tone=warning]); seat updates take the seat-update ink. */
+:root .seating-flag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 7px;
+  border: 1px solid var(--warning);
+  background: transparent;
+  color: var(--warning);
+  font: 700 var(--text-caption)/1.4 var(--font-body);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+:root .seating-flag.seating-flag-updates { border-color: var(--seat-update); color: var(--seat-update); }
+/* Exam groups on the Seating charts page: a hairline between them, a serif title with its course and term as a small
+   label, the summary line as metadata. */
+:root .seating-group + .seating-group { padding-top: var(--space-6); border-top: 1px solid var(--line); }
+:root .seating-group-heading h3 { font-size: var(--text-title); line-height: 1.15; letter-spacing: var(--tracking-title); }
+:root .seating-group-scope {
+  color: var(--label);
+  font: 700 var(--text-caption)/1.4 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  vertical-align: 4px;
+}
+:root .seating-group-heading p { color: var(--muted); font-size: var(--text-small); }
+:root .seating-group-heading p strong { color: var(--ink); font-weight: 600; }
+/* The group's "N updated seat cards to send" chip (seating.js groupChips: its only warning chip) takes the seat-update
+   ink like the card's own flag: on seating pages yellow means a response card awaiting an answer. (0,4,0) beats
+   components.css .chip[data-tone] (0,2,0), which loads later. */
+:root .seating-group-chips > .chip[data-tone="warning"] { --chip-tone: var(--seat-update); }
+:root .seating-group-date { color: var(--ink); font-weight: 600; }
+/* An exam's tile (SEATING "One tile per exam"): course and term as the label under its title, the exam's date in ink. */
+:root .seating-exam-card > p.seating-exam-scope {
+  color: var(--label);
+  font: 700 var(--text-caption)/1.4 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+:root .seating-exam-card > p.seating-group-date { color: var(--ink); }
+
+/* ---- Rooms page chrome ---- */
+:root .rooms-search p { color: var(--label); font: 700 var(--text-caption) var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+:root .room-used-by-list { color: var(--text); font-size: var(--text-small); line-height: 1.9; }
+:root .room-used-by-scope { color: var(--muted); font-size: var(--text-small); }
+:root .room-tips { font-size: var(--text-small); }
+:root .room-tips p { color: var(--text); line-height: 1.6; }
+:root .room-imports { color: var(--text); font-size: var(--text-small); line-height: 1.6; }
+:root .room-imports strong { color: var(--ink); font-weight: 600; }
+:root #seat-selection-count { color: var(--label); font: 700 var(--text-caption) var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+/* A room that needs checking is a warning callout (components.css .callout): a 2px warning rule over the paper, the
+   title in Instrument Serif in the warning ink; the list stays in copy colour. (0,3,0) beats rooms.css. */
+:root:root .room-review {
+  padding: var(--space-3) 0;
+  border: 0;
+  border-top: 2px solid var(--tone-warning);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text);
+  font-size: var(--text-body);
+  line-height: 1.5;
+}
+:root .room-review > strong {
+  display: block;
+  color: var(--tone-warning);
+  font: var(--head-weight) 16px/1.2 var(--font-serif);
+  letter-spacing: 0;
+  text-transform: none;
+}
+:root .room-review .room-review-option { color: var(--ink); }
+:root .room-import-note { color: var(--warning); }
+
+/* ---- Chart page: the next step, the action groups and their labels ---- */
+/* The chart's next step (components.css .next-step): a 3px rule over the serif headline, ink when it is the usual next
+   step, rust when the chart needs you. (0,3,0) beats outline-theme's ruled block (0,2,0). */
+:root:root .seating-workflow { padding-block: var(--space-4) var(--space-5); border-top: 3px solid var(--ink); }
+:root:root .seating-workflow.needs-attention { border-top-color: var(--accent); }
+:root .seating-workflow.needs-attention .seating-workflow-scope { color: var(--accent); }
+/* Each group of actions: a small label over a 2px ink rule (seating.css; components.css .section-label). (0,3,1) beats
+   typography.css's heading face (0,1,1). */
+:root .seating-action-group.seating-action-group > :is(h3, h4) {
+  margin: 0 0 var(--space-3);
+  color: var(--ink);
+  font: 700 12px/1.4 var(--font-body);
+  letter-spacing: var(--tracking-section);
+  text-transform: uppercase;
+}
+:root .seating-chart-heading h3 {
+  font-size: var(--text-section);
+  line-height: 1.15;
+  letter-spacing: var(--tracking-title);
+}
+/* Exam versions: a callout with a neutral rule, warning when letters conflict, are missing or unbalanced (seating.css). */
+:root .seating-version-total { color: var(--text); font-variant-numeric: tabular-nums; }
+:root .seating-version-key { font-family: var(--font-body); font-weight: 600; }
+
+/* ---- The plan's legend and toolbar ---- */
+:root .seat-legend {
+  gap: var(--space-2) var(--space-5);
+  color: var(--label);
+  font: 700 var(--text-caption)/1.4 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+:root .seat-plan-controls {
+  column-gap: 1px;
+  row-gap: var(--space-2);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
+  border-color: var(--line);
+  color: var(--label);
+  font-family: var(--font-body);
+}
+:root .seat-plan-caption-label {
+  margin-inline-end: var(--space-4);
+  color: var(--ink);
+  font: 600 12px/1.4 var(--font-body);
+  letter-spacing: var(--tracking-section);
+}
+/* Zoom and view controls form one segmented switch (FIT ROOM | − | 100% | + | ACTUAL SIZE | FULL WIDTH): joined ink
+   hairline frames in the secondary button's type, the pressed view as the ink block, hover the 5% ink tint. Each cell's
+   frame is a 1px ring outside it and the cells stand 1px apart, so neighbouring rings fall on one line without the cells
+   overlapping, and a row that wraps still starts with a complete frame wherever it breaks. (0,5,0)/(0,7,0) beat
+   button-theme's text action (0,4,0) and its hover (0,6,0). */
+:root:root .seat-chart .seat-plan-controls :is(.text-button, .seat-plan-zoom) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  min-height: 32px;
+  margin: 0;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--control-line);
+  font: 600 var(--text-small)/1.2 var(--font-body);
+  letter-spacing: 0;
+  text-decoration: none;
+  text-transform: none;
+}
+:root:root .seat-chart .seat-plan-controls .seat-plan-zoom { min-width: 60px; font-variant-numeric: tabular-nums; }
+:root:root .seat-chart .seat-plan-controls .text-button[aria-pressed="true"] {
+  z-index: 1;
+  background: var(--button-fill);
+  color: var(--button-ink);
+  box-shadow: 0 0 0 1px var(--button-fill);
+}
+:root:root .seat-chart .seat-plan-controls .text-button:hover:not(:disabled, [aria-pressed="true"]) {
+  z-index: 1;
+  background: var(--highlight-bg);
+  color: var(--highlight-ink);
+  box-shadow: 0 0 0 1px var(--control-line);
+}
+:root:root .seat-chart .seat-plan-controls .text-button:focus-visible { z-index: 2; outline: 2px solid var(--focus); outline-offset: 2px; }
+:root .seat-plan-zoom-hint {
+  color: var(--label);
+  font: 700 var(--text-caption)/1.4 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+:root .seat-plan-groups { color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+:root .seat-plan-groups summary { color: var(--ink); }
+/* "Select a table" (floor plans) and the mail dialogs' "Excluded students" open like every other disclosure: a +/−
+   after their words, not the browser's triangle. */
+:root :is(.seat-plan-groups, .seating-merge-skipped) > summary {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  list-style: none;
+}
+:root :is(.seat-plan-groups, .seating-merge-skipped) > summary::-webkit-details-marker { display: none; }
+:root :is(.seat-plan-groups, .seating-merge-skipped) > summary::after { content: "+"; content: counter(decor, none) "+" / ""; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+:root :is(.seat-plan-groups, .seating-merge-skipped)[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+:root :is(.seat-plan-groups, .seating-merge-skipped) > summary:hover { color: var(--ink); }
+:root :is(.seat-plan-groups, .seating-merge-skipped) > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* Table shortcuts outside the grid are outlined chips; the grid's own table titles are below. */
+:root .seat-plan-groups .seat-table-title {
+  padding: 5px 10px;
+  border: 1px solid var(--control-line);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--ink);
+  font: 600 var(--text-caption)/1.4 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  transition: background-color var(--snappy), color var(--snappy);
+}
+:root .seat-plan-groups .seat-table-title:hover { background: var(--highlight-bg); border-color: var(--ink); color: var(--highlight-ink); }
+
+/* ---- The plan's furniture: tables, row letters, landmarks, floor-plan drawing ---- */
+:root .seat-table { background: transparent; border-color: var(--line); border-radius: var(--radius-control); }
+:root .seat-table-title { color: var(--label); border-radius: var(--radius-control); }
+:root .seat-table-title:hover { background: var(--surface-hover); color: var(--ink); }
+:root .seat-chart .seat-grid .seat-table-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-label);
+}
+:root .seat-rowlabel { color: var(--label); }
+:root .seat-chart .seat-grid .seat-rowlabel { font-family: var(--font-serif); font-weight: var(--head-weight); }
+:root .seat-landmark {
+  background: transparent;
+  border-color: var(--line);
+  border-radius: var(--radius-control);
+  color: var(--label);
+}
+:root .seat-chart .seat-grid .seat-landmark {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-label);
+}
+:root .seat-plan-wall { stroke: var(--control-line); }
+:root .seat-plan-table { stroke: var(--seat-line); }
+:root .seat-plan-caption { fill: var(--label); }
+:root .seat-plan-label { fill: var(--label); stroke: none; }
+:root .seat-plan-legend { fill: var(--canvas); }
+
+/* Neutral seats keep the room quiet; frames, patterns and labels convey state. */
+:root .seat, :root .seat-legend i {
+  background: var(--control-surface);
+  border-color: var(--control-line);
+  color: var(--ink);
+  border-radius: var(--radius-control);
+}
+:root .seat.seat-mini { border-radius: var(--radius-control); }
+:root .seat:hover { border-color: var(--ink); background: var(--surface-hover); }
+:root .seating-view .seat.free { background: var(--control-surface); color: var(--muted); }
+:root .seating-view .seat.seated, :root .seating-view .seat-legend i.seated {
+  background: var(--seat-fill);
+  border-color: var(--seat-line);
+  color: var(--ink);
+}
+:root .seating-view .seat.seated:hover { background: var(--surface-hover); border-color: var(--ink); }
+:root .seating-view .seat-tag { color: var(--muted); }
+/* A crowded student's marker is a small square (print keeps its dot). */
+:root .seating-view .seat.seated.crowded::before { background: var(--warning); border-radius: 0; }
+:root .seating-view .seat-legend i.seated.crowded {
+  background: var(--seat-fill) linear-gradient(var(--warning), var(--warning)) right 2px top 2px / 4px 4px no-repeat;
+}
+:root .seat.blocked, :root .seat-legend i.blocked,
+:root .seat.blocked[aria-pressed="true"] {
+  background: var(--surface-alt) linear-gradient(135deg, transparent 46%, var(--seat-blocked-mark) 46%, var(--seat-blocked-mark) 54%, transparent 54%);
+  border-color: var(--control-line);
+  color: var(--muted);
+}
+:root .seat.broken, :root .seat-legend i.broken,
+:root .seat.broken[aria-pressed="true"] {
+  background: repeating-linear-gradient(45deg, var(--error-bg) 0 6px, var(--seat-broken-mark) 6px 12px);
+  border-color: var(--error);
+  color: var(--error);
+}
+:root .seat.left-handed, :root .seat-legend i.left-handed {
+  border-color: var(--blue);
+  box-shadow: none;
+}
+:root .seat.left-handed::after { color: var(--blue); }
+
+/* Response-card states: the status ink on the seat's frame and label over the neutral seat (olive complete, ochre
+   pending, brick issue, rust seat update not sent). */
+:root .seating-view .seat.seated.card-complete,
+:root .seating-view .seat-legend i.card-complete, :root .seating-card-state.complete {
+  background: var(--success-bg); border-color: var(--success); color: var(--success);
+}
+:root .seating-view .seat.seated.card-pending,
+:root .seating-view .seat-legend i.card-pending, :root .seating-card-state.pending {
+  background: var(--warning-bg); border-color: var(--warning); color: var(--warning);
+}
+:root .seating-view .seat.seated.card-issue,
+:root .seating-view .seat-legend i.card-issue, :root .seating-card-state.issue {
+  background: var(--error-bg); border-color: var(--error); color: var(--error);
+}
+:root .seating-view .seat.seated.card-update_pending,
+:root .seating-view .seat-legend i.card-update_pending, :root .seating-card-state.update_pending {
+  background: var(--seat-update-bg); border-color: var(--seat-update); color: var(--seat-update);
+}
+:root .seating-card-state:is(.complete, .pending, .issue, .update_pending) { background: transparent; }
+:root .seating-view .seat.seated[class*="card-"] .seat-tag { color: inherit; opacity: 1; }
+/* The seat's pop-over is raised paper in an ink hairline; a card state frames it in its own ink (seating.css). */
+:root .seat-popover-detail { color: var(--text); }
+/* A long name wraps inside the head instead of running under the close control. */
+:root .seat-popover-head strong { overflow-wrap: anywhere; }
+/* Actions in the popover: the underlined text actions, and the Response Cards link as a navigation link (.link-arrow). */
+:root .seat-popover-actions { align-items: center; }
+:root .seat-popover-actions > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font: 600 var(--text-small)/1.3 var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
+  transition: color var(--snappy);
+}
+:root .seat-popover-actions > a::after { content: "→"; content: counter(decor, none) "→" / ""; }
+:root .seat-popover-actions > a:hover { color: var(--ink); }
+:root .seat-popover-actions > a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* Close / cancel in a popover's head: a square ink hairline control like the dialog's close, not an underlined text
+   action. (0,5,0)/(0,7,0) beat button-theme's text action (0,4,0) and its hover (0,6,0). */
+:root:root .seat-popover .seat-popover-head .text-button {
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  border: 1px solid var(--control-line);
+  color: var(--ink);
+  font: 500 var(--text-lead)/1 var(--font-body);
+  text-decoration: none;
+}
+:root:root .seat-popover .seat-popover-head .text-button:hover:not(:disabled) {
+  background: var(--highlight-bg);
+  border-color: var(--ink);
+  color: var(--highlight-ink);
+}
+/* The Students table's Move / Seat action keeps its 32px target but sits on the row's first line of text instead of
+   pushing the row taller than its words. */
+:root .seating-table td > .text-button[data-move] { margin-block: -8px -4px; }
+:root .seating-status { background: transparent; color: var(--ink); }
+:root .seating-status.dr_testing { color: var(--blue); }
+:root .seating-status.unseated, :root .seating-status.seat_unusable { color: var(--warning); }
+
+/* Reuse each letter's retained hue without changing --exam-version-fill, which
+   also colors printed charts. Seats, count keys and editor choices match. */
+[data-exam-version] {
+  --version-screen-fill: var(--canvas);
+  --version-screen-line: hsl(from var(--exam-version-fill, #c9ced9) h 100% var(--version-lightness));
+}
+[data-exam-version="D"], [data-exam-version="H"], [data-exam-version="P"], [data-exam-version="V"] {
+  --version-screen-line: var(--ink);
+}
+:root .seating-version-key,
+:root .seating-view.version-view .seat.version-seat,
+:root .seating-version-choices .button[data-exam-version],
+:root .seating-version-choices .button[data-exam-version]:hover:not(:disabled) {
+  background: var(--version-screen-fill);
+  border-color: var(--version-screen-line);
+  color: var(--version-screen-line);
+  border-radius: var(--radius-control);
+}
+:root .seating-view.version-view .seat.version-seat .seat-tag { color: inherit; }
+:root .seating-view.version-view .seat.version-conflict { border-color: var(--ink); }
+:root .seating-view.version-view .seat.version-missing { background: var(--surface-alt); border-color: var(--muted); color: var(--ink); }
+:root .seating-version-choices .button:hover:not(:disabled) { outline: 1px solid var(--version-screen-line); outline-offset: 2px; }
+:root .seating-version-warning { color: var(--ink); }
+:root .seating-move-selection { background: transparent; color: var(--ink); }
+
+/* Selection outlines preserve the underlying status/version color. */
+:root .seat[aria-pressed="true"], :root .seat-legend i.selected,
+:root .seating-view .seat[aria-expanded="true"],
+:root .seating-version-choices [aria-pressed="true"] { outline: 2px solid var(--focus); outline-offset: 2px; }
+:root .seating-view .seat.move-source, :root .seating-view .seat.version-source {
+  outline: calc(3px * var(--plan-line-scale, 1)) solid var(--focus);
+  outline-offset: calc(3px * var(--plan-line-scale, 1));
+  box-shadow: 0 0 0 calc(6px * var(--plan-line-scale, 1)) var(--canvas);
+}
+:root .seat:focus-visible, :root .seat[aria-pressed="true"]:focus-visible { outline-color: var(--focus); }
+
+/* Real Berkeley Mono glyphs form each seat's frame. Clip repeated strokes into
+   the available edge length so room geometry and zoom remain unchanged. */
+.seat { --seat-frame-line: var(--control-line); }
+.seat.seated { --seat-frame-line: var(--seat-line); }
+.seat.left-handed { --seat-frame-line: var(--blue); }
+.seat.broken, .seat.card-issue { --seat-frame-line: var(--error); }
+.seat.card-complete { --seat-frame-line: var(--success); }
+.seat.card-pending { --seat-frame-line: var(--warning); }
+.seat.card-update_pending { --seat-frame-line: var(--seat-update); }
+.seat.version-seat { --seat-frame-line: var(--version-screen-line); }
+.seat.version-conflict, .seat.version-missing { --seat-frame-line: var(--ink); }
+/* Keep the native border's measured width, but paint the glyph frame instead. */
+.seat-chart .seat { border-color: transparent !important; }
+.seat-chart .seat-frame {
+  position: absolute;
+  inset: -1px;
+  display: grid;
+  grid-template-columns: 1ch minmax(0, 1fr) 1ch;
+  grid-template-rows: 1em minmax(0, 1fr) 1em;
+  pointer-events: none;
+  color: var(--seat-frame-line);
+  font: 400 10px/1 "Berkeley Mono", monospace;
+  letter-spacing: 0;
+  text-align: left;
+  text-decoration: none;
+  text-transform: none;
+}
+.seat-frame > span { overflow: hidden; min-width: 0; min-height: 0; white-space: pre; }
+.seat-frame-tl { grid-area: 1 / 1; }
+.seat-frame-top { grid-area: 1 / 2; }
+.seat-frame-tr { grid-area: 1 / 3; }
+.seat-frame-left { grid-area: 2 / 1; }
+.seat-frame-right { grid-area: 2 / 3; }
+.seat-frame-bl { grid-area: 3 / 1; }
+.seat-frame-bottom { grid-area: 3 / 2; }
+.seat-frame-br { grid-area: 3 / 3; }
+.seat-frame-tl::before { content: "┌"; }
+.seat-frame-tr::before { content: "┐"; }
+.seat-frame-bl::before { content: "└"; }
+.seat-frame-br::before { content: "┘"; }
+.seat-frame-top::before, .seat-frame-bottom::before {
+  content: "────────────────────────────────────────────────────────────────";
+}
+.seat-frame-left::before, .seat-frame-right::before {
+  content: "│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│\a│";
+}
+/* The supplied Berkeley face has solid box glyphs, but not dashed ones. Mask
+   its real strokes instead of silently drawing those edges with another font. */
+.seat:is(.free, .blocked, .version-conflict, .version-missing) :is(.seat-frame-top, .seat-frame-bottom) {
+  mask-image: repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 5px);
+}
+.seat:is(.free, .blocked, .version-conflict, .version-missing) :is(.seat-frame-left, .seat-frame-right) {
+  mask-image: repeating-linear-gradient(#000 0 3px, transparent 3px 5px);
+}
+
+/* Seats of the students a filter shows: an outline only, so card and version colors keep their meaning; a
+   selection's own outline wins. The searched student's seat pulses a few times. */
+:root .seating-view .seat.seat-highlight:not([aria-pressed="true"], [aria-expanded="true"], .move-source, .version-source) {
+  outline: calc(2px * var(--plan-line-scale, 1)) dashed var(--ink);
+  outline-offset: calc(2px * var(--plan-line-scale, 1));
+}
+@keyframes seat-found-pulse { 50% { outline-offset: calc(7px * var(--plan-line-scale, 1)); } }
+:root .seating-view .seat.seat-found {
+  outline: calc(3px * var(--plan-line-scale, 1)) solid var(--focus);
+  outline-offset: calc(3px * var(--plan-line-scale, 1));
+  animation: seat-found-pulse .8s ease-in-out 3;
+}
+@media (prefers-reduced-motion: reduce) { :root .seating-view .seat.seat-found { animation: none; } }
+
+/* ---- Dialogs: the room-roster and version-list previews read as record tables (components.css; the printed documents
+   keep their Arial contract in seating.css), and the response-card editor's fields are underlined lines. ---- */
+:root :is(.seating-roster-preview, .seating-version-preview) :is(.seating-roster-table, .seating-version-table) { color: var(--text); font-size: var(--text-small); }
+:root :is(.seating-roster-preview, .seating-version-preview) :is(.seating-roster-table, .seating-version-table) :is(th, td) {
+  padding: 9px 8px;
+  border-bottom-color: var(--nested-line);
+}
+:root :is(.seating-roster-preview, .seating-version-preview) :is(.seating-roster-table, .seating-version-table) thead th {
+  color: var(--ink);
+  font: 700 var(--text-caption)/1.3 var(--font-body);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--ink);
+}
+:root :is(.seating-roster-preview, .seating-version-preview) :is(.seating-roster-table, .seating-version-table) tbody th { color: var(--ink); font-weight: 500; }
+:root .seating-version-preview .seating-version-table tbody + tbody tr:first-child th { border-top: 1px solid var(--line); }
+:root:root .seating-version-preview .seating-version-row-summary th {
+  background: transparent;
+  color: var(--label);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+/* A student row is all cells: its row label ("Row E") stays on one line. */
+:root .seating-version-preview .seating-version-student > td:first-child { white-space: nowrap; }
+:root .seating-version-preview .seating-version-table td:last-child { color: var(--ink); font: var(--head-weight) var(--text-item)/1.1 var(--font-serif); }
+:root .seating-version-preview .seating-version-table td:last-child strong { font-weight: 500; }
+:root .seating-roster-preview :is(.seating-roster-time-note, .seating-roster-warnings) { color: var(--text); }
+:root :is(.seating-roster-preview, .seating-version-preview) h2 { font-weight: 500; }
+/* The editor's two card columns are sections under a hairline, not framed boxes; each response field is a line of type
+   on an ink underline (form-theme.css). */
+.sc-columns > .sc-column { border-color: var(--line); }
+.sc-field .sc-type { color: var(--ink); border-color: var(--control-line); }
+:root:root .sc-field :is(.sc-label, .sc-expected, .sc-policy) {
+  background-color: transparent;
+  color: var(--ink);
+  border: 0;
+  border-bottom: 1px solid var(--control-line);
+  border-radius: 0;
+  transition: border-color var(--snappy), box-shadow var(--snappy);
+}
+:root:root .sc-field :is(.sc-label, .sc-expected):hover:not(:disabled, :focus) { border-bottom-color: var(--ink); }
+:root:root .sc-field :is(.sc-label, .sc-expected):focus-visible {
+  border-bottom-color: var(--focus);
+  box-shadow: inset 0 -1px 0 var(--focus);
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+/* A hint ends its control's group: the next field or choice starts a step below it, not against it. */
+:root :is(#seating-print, #seating-export, #seating-stamps-only, #seating-version-assign, #seating-roster-print,
+  #seating-version-print) .dialog-body > .field-hint:not(:last-child) {
+  margin-bottom: var(--space-4);
+}
+:root #seating-version-assign .dialog-body > .checkbox-field + .field-hint { margin-top: var(--space-1); }
+:root #seating-version-assign .dialog-body > p:not([class]) { color: var(--text); font-size: var(--text-body); line-height: 1.6; }
+
+/* Forced colours drop fills and box-shadows: the zoom cells get a real frame, and pressed counts and the pressed view
+   keep a system-coloured one. */
+@media (forced-colors: active) {
+  :root:root .seat-chart .seat-plan-controls :is(.text-button, .seat-plan-zoom) { border: 1px solid CanvasText; }
+  :root button.room-stat[aria-pressed="true"],
+  :root:root .seat-chart .seat-plan-controls .text-button[aria-pressed="true"] {
+    border-color: Highlight;
+    outline: 2px solid Highlight;
+    outline-offset: -3px;
+  }
+}

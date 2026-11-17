@@ -1,0 +1,165 @@
+/* A course's question bank (question-bank.js): the course Home's line and #course/<group>/home/questions. Tokens only;
+   DESIGN-LANGUAGE: rules, not boxes; serif headlines; desktop only. */
+.course-bank-link { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); margin-top: var(--space-2); }
+.course-bank-status { color: var(--muted); font-size: var(--text-small); }
+.bank-page { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+.bank-layout { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+.bank-main { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); min-width: 0; }
+.bank-muted { color: var(--muted); font-size: var(--text-small); }
+
+/* The outline: a tree that filters the questions. */
+.bank-outline { position: sticky; top: var(--space-4); display: grid; gap: var(--space-2); max-height: calc(100vh - 2 * var(--space-6)); overflow: auto;
+  padding: var(--space-2) 0 var(--space-3); border-top: 2px solid var(--ink); }
+.bank-outline-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.bank-outline-head h3 { margin: 0; font-size: var(--text-section); }
+.bank-outline-source { margin: 0; color: var(--muted); font-size: var(--text-caption); }
+.bank-outline-retired { display: flex; align-items: center; gap: var(--space-2); color: var(--muted); font-size: var(--text-small); }
+.bank-tree { list-style: none; margin: 0; padding: 0; }
+.bank-tree .bank-tree { padding-left: var(--space-4); border-left: 1px solid var(--nested-line); margin-left: calc(var(--space-3) - 1px); }
+.bank-node-row { display: flex; align-items: center; gap: var(--space-1); min-width: 0; }
+.bank-toggle { flex: none; width: 1.5em; min-height: 1.5em; padding: 0; color: var(--muted); font-size: var(--text-small); }
+/* COMPACT ROWS: an entry's toggle is the fold's small frame (20 px), not a full button, so the tree's names keep the width. */
+:root:root .bank-node-row .bank-toggle.icon-button { width: 20px; min-width: 20px; height: 20px; min-height: 20px; box-shadow: none; font-size: 10px; line-height: 1; }
+:root:root .bank-node-row .bank-toggle.icon-button::before { inset: -6px; }
+.bank-toggle-space { flex: none; width: 20px; }
+.bank-node { display: flex; align-items: baseline; gap: var(--space-2); flex: 1 1 auto; min-width: 0; padding: var(--space-1) var(--space-2);
+  border: 0; background: none; color: var(--ink); font: inherit; font-size: var(--text-small); text-align: left; cursor: pointer; }
+.bank-node:hover, .bank-node:focus-visible { background: var(--surface-hover); }
+.bank-node[aria-current="true"] { background: var(--chosen-bg); color: var(--ink); font-weight: 700; }
+.bank-node-all { font-size: var(--text-body); }
+.bank-node-name { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.bank-node-count { flex: none; color: var(--muted); font-family: var(--font-data); font-weight: 500; }
+.bank-node-kind, .bank-tag-kind { flex: none; color: var(--muted); font-size: var(--text-caption); text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.bank-tree-item[data-level="chapter"] > .bank-node-row .bank-node { font-weight: 600; }
+.bank-tree-item[data-retired="true"] > .bank-node-row .bank-node-name { color: var(--muted); text-decoration: line-through; }
+/* Each entry's menu shows on hover or focus, so the tree stays quiet. */
+.bank-node-row .action-menu { opacity: 0; }
+.bank-node-row:hover .action-menu, .bank-node-row:focus-within .action-menu { opacity: 1; }
+
+/* Filters and the list. */
+.bank-filters { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-3); }
+.bank-search { flex: 1 1 260px; min-width: 0; }
+/* The rarer filters (type, show, source, versions together) fold after the others; open while one of them is set. */
+.bank-more-filters { flex: 1 1 100%; }
+.bank-more-filters > summary { display: inline-flex; align-items: center; gap: var(--space-2); cursor: pointer; font-size: var(--text-small); font-weight: 700; list-style: none; }
+.bank-more-filters > summary::-webkit-details-marker { display: none; }
+.bank-more-filters > summary::after { content: "+"; display: inline-grid; place-items: center; width: 18px; height: 18px; border: var(--frame); font: 800 12px/1 var(--font-num); }
+.bank-more-filters[open] > summary::after { content: "−"; }
+.bank-more-filters > .bank-filters { margin-top: var(--space-2); }
+.bank-more-count { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px; background: var(--ink); color: var(--paper); font: 700 11px/1 var(--font-num); }
+.bank-filter { flex: 0 1 160px; min-width: 0; }
+.bank-filters select, .bank-filters input[type="search"] { width: 100%; min-width: 0; }
+.bank-grouped input { flex: none; width: auto; margin: 0; }
+.bank-result-line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin: 0; color: var(--muted); font-size: var(--text-small); }
+button.bank-to-check { cursor: pointer; }
+/* COMPACT ROWS: one ruled row per problem; the whole row opens the question. */
+.bank-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); border-top: 2px solid var(--ink); }
+.bank-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; padding: var(--space-2) var(--space-2); border-bottom: 1px solid var(--nested-line); }
+.bank-card:hover { background: var(--surface-hover); }
+.bank-card[data-retired="true"] { opacity: var(--opacity-dim); }
+.bank-card-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); min-width: 0; }
+.bank-source { padding: 0; border: 0; background: none; color: var(--ink); font: 700 var(--text-body)/1.3 var(--font-body); text-align: left; cursor: pointer; }
+.bank-source:hover, .bank-source:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.bank-card .bank-tags { display: inline-flex; gap: var(--space-1); }
+.bank-card .bank-tags:empty { display: none; }
+/* The facts: one quiet line at the row's right, figures tabular so a column of rows reads down. */
+.bank-card .bank-facts { display: block; margin-left: auto; color: var(--muted); font-size: var(--text-small); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bank-card .bank-facts .bank-tag { color: var(--ink); font-weight: 600; }
+.bank-card .bank-facts .bank-measured { color: var(--ink); }
+.bank-facts { display: flex; flex-wrap: wrap; gap: var(--space-1); margin: 0; }
+.bank-card-body { display: flex; align-items: flex-start; gap: var(--space-3); cursor: pointer; min-width: 0; }
+.bank-card .bank-statement { flex: 1 1 auto; min-width: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; white-space: normal; color: var(--text); }
+.bank-card .bank-statement .katex-display { display: inline; margin: 0; }
+.bank-card .bank-statement .katex-display > .katex { display: inline; }
+.bank-statement { white-space: pre-wrap; overflow-wrap: anywhere; }
+.bank-parts, .bank-choices { margin: var(--space-2) 0 0; padding-left: var(--space-5); list-style: none; display: grid; gap: var(--space-1); }
+.bank-choices { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); padding-left: var(--space-3); }
+.bank-choices li[data-correct="true"] { color: var(--tone-success); font-weight: 600; }
+.bank-label { color: var(--muted); font-family: var(--font-data); }
+.bank-tags { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1); margin: 0; }
+/* A tag can be long (a learning objective): it wraps inside its chip. */
+.bank-tags .bank-tag { max-width: 100%; cursor: pointer; white-space: normal; text-align: left; overflow-wrap: anywhere; }
+.bank-tag[data-level="objective"] { font-style: italic; }
+.bank-tagged-by { color: var(--faint); font-size: var(--text-caption); margin-left: var(--space-1); }
+.bank-difficulty[data-difficulty="easy"] { color: var(--tone-success); background: var(--tone-success-bg); }
+.bank-difficulty[data-difficulty="medium"] { color: var(--tone-warning); background: var(--tone-warning-bg); }
+.bank-difficulty[data-difficulty="hard"] { color: var(--tone-danger); background: var(--tone-danger-bg); }
+.bank-more { justify-self: start; }
+/* A problem's versions: one button per version letter, the one shown pressed. */
+.bank-version-picks { display: inline-flex; flex-wrap: wrap; gap: 3px; }
+.bank-version-pick { min-width: 2em; padding: 0 var(--space-2); border: 1px solid var(--control-line); background: transparent; color: var(--muted);
+  font: inherit; font-family: var(--font-data); font-size: var(--text-small); cursor: pointer; }
+.bank-version-pick[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--canvas); }
+.bank-version-pick[data-unmatched="true"] { opacity: var(--opacity-dim); }
+.bank-measured { color: var(--tone-info); }
+.bank-grouped { display: flex; align-items: center; justify-content: flex-start; gap: var(--space-2); flex-basis: 100%; color: var(--muted); font-size: var(--text-small); }
+.bank-version-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-1); }
+.bank-printed { margin: 0; font-size: var(--text-small); }
+.bank-link-picker label { align-items: flex-start; }
+
+/* PDFs read for questions. */
+.bank-uploads { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+.bank-upload { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.bank-upload-text { display: grid; gap: var(--space-1); flex: 1 1 220px; min-width: 0; }
+.bank-upload-text small { color: var(--muted); font-size: var(--text-small); }
+.bank-upload-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+
+/* Dialogs: one question, its tags, editing it, a PDF's questions. */
+.bank-dialog .dialog-body { display: grid; gap: var(--space-4); }
+.bank-detail-content { padding: var(--space-3) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.bank-detail-block { display: grid; gap: var(--space-2); }
+.bank-detail-block h4 { margin: 0; font-size: var(--text-item); }
+.bank-detail-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.bank-answers { margin: 0; padding-left: var(--space-5); }
+.bank-solution { white-space: pre-wrap; overflow-wrap: anywhere; }
+.bank-notes { margin: 0; color: var(--muted); font-size: var(--text-small); }
+.bank-code { font-family: var(--font-code); font-size: var(--text-small); white-space: pre-wrap; overflow-wrap: anywhere; }
+.bank-history { margin: 0; padding-left: var(--space-5); font-size: var(--text-small); display: grid; gap: var(--space-1); }
+.bank-fieldset { display: grid; gap: var(--space-2); margin: 0; padding: 0; border: 0; min-width: 0; }
+.bank-fieldset legend { padding: 0; margin-bottom: var(--space-2); font-weight: 600; }
+.bank-inline { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+.bank-inline legend { flex-basis: 100%; }
+.bank-inline label { display: inline-flex; align-items: center; gap: var(--space-1); }
+.bank-picker { list-style: none; margin: 0; padding: var(--space-2) 0; max-height: 260px; overflow: auto; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: var(--space-1); }
+.bank-picker li[hidden] { display: none; }
+.bank-picker li[data-depth="1"] { padding-left: var(--space-4); }
+.bank-picker li[data-depth="2"] { padding-left: var(--space-8); }
+.bank-picker li[data-depth="3"] { padding-left: var(--space-12); }
+.bank-picker label { display: flex; align-items: baseline; gap: var(--space-2); font-size: var(--text-small); }
+.bank-row { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.bank-row .field { flex: 1 1 140px; }
+.bank-preview { min-height: 1.5em; padding: var(--space-2) 0; border-top: 1px dashed var(--line); white-space: pre-wrap; overflow-wrap: anywhere; }
+.bank-preview:empty { display: none; }
+.bank-found-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+.bank-found { display: grid; gap: var(--space-2); padding: var(--space-3) 0; border-top: 1px solid var(--line); }
+.bank-found[data-added="true"] { opacity: var(--opacity-dim); }
+.bank-found-pick { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); font-weight: 600; }
+/* A reading's problems by the section the PDF printed them under, what to check in each, and the figures cut when it is added. */
+.bank-found-section { display: grid; gap: var(--space-3); }
+.bank-found-section[hidden], .bank-found[hidden] { display: none; }
+.bank-found-head { position: sticky; top: 0; z-index: 1; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: var(--space-1) var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid var(--line); background: var(--paper); }
+.bank-found-filter { display: inline-flex; align-items: center; gap: var(--space-2); justify-self: start; }
+.bank-found-checks { margin: 0; padding: var(--space-2) 0 var(--space-2) var(--space-5); border-top: 2px solid var(--tone-warning);
+  display: grid; gap: var(--space-1); font-size: var(--text-small); }
+.bank-found-figures { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-2); }
+.bank-found-figure { display: block; max-width: 100%; height: auto; border: 1px solid var(--line); background: var(--paper); }
+
+/* Pictures that go with a question: thumbnails on its card (sized under COMPACT ROWS), full width in its dialog, and the page a picture is cut from. */
+.bank-card-pictures { display: flex; flex-wrap: wrap; }
+.bank-picture-image { display: block; width: auto; height: auto; max-width: 100%; border: 1px solid var(--line); background: var(--paper); }
+.bank-pictures { display: grid; gap: var(--space-3); }
+.bank-picture { display: grid; gap: var(--space-1); margin: 0; justify-items: start; }
+.bank-picture .bank-picture-image { max-height: 420px; }
+.bank-picture figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-2); font-size: var(--text-small); }
+.bank-removed-pictures { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-1); }
+.bank-cut-pager { display: flex; align-items: center; gap: var(--space-1); }
+.bank-cut-pager input { width: 5em; }
+.bank-cut-page { flex: 0 1 220px; }
+.bank-cut-stage { position: relative; justify-self: start; max-width: 100%; border: 1px solid var(--line); cursor: crosshair; touch-action: none; user-select: none; }
+.bank-cut-stage img { display: block; max-width: 100%; height: auto; pointer-events: none; }
+.bank-cut-box { position: absolute; border: 2px solid var(--accent-line); outline: 1px dashed var(--paper); pointer-events: none; }
+
+/* COMPACT ROWS: a question's pictures as small thumbnails after its two lines. */
+.bank-card .bank-card-pictures { display: flex; flex: none; gap: var(--space-1); margin-top: 0; }
+.bank-card .bank-card-pictures img { width: auto; height: 44px; max-width: 88px; object-fit: contain; border: 1px solid var(--line); background: var(--paper); }

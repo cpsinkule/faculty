@@ -1,0 +1,15 @@
+{
+  "engine": "pdfTeX 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian)",
+  "shell_escape": false,
+  "network": false,
+  "source_date_epoch": "1789257600",
+  "class_sha256": "ad756ec64ccd311dd030ab85ad218ed70070b3075d0c314d23698a127fd12956",
+  "passes": 2,
+  "limits": {
+    "wall_seconds": 70,
+    "cpu_seconds": 60,
+    "address_space_mb": 1024,
+    "file_mb": 30,
+    "scratch_mb": 128
+  }
+}

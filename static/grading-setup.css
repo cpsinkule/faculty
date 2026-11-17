@@ -1,0 +1,140 @@
+/* Grading setup steps 1-3 (Rubrics & Templates, Answer areas, Key & Rubric Finalization) and the rubric-line editor.
+   Owned by the grading-setup work; it styles only setup-step classes and never review, jobs, export, bubble or Gradescope
+   selectors (grading.css keeps those). Linked right after grading.css, so equal specificity here wins.
+   DESIGN-LANGUAGE (Ledger): Manrope throughout, small uppercase labels over a 2px ink rule, rows on hairlines, no tinted fills. */
+
+/* One goal-first header per setup step: the stage, one sentence of state, ONE action on the right. */
+.grading-step-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3) 24px; margin: 0 0 20px; padding-bottom: var(--space-3); border-bottom: 1px solid var(--line); }
+.grading-step-header-text { flex: 1 1 32rem; min-width: 0; }
+.grading-step-header h3 { margin: 0 0 8px; font-size: var(--text-title); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.grading-step-header [data-step-lead] { margin: 0; max-width: 78ch; color: var(--muted); font-size: var(--text-control); line-height: 1.6; }
+.grading-step-header [data-location-all-summary] { margin: 6px 0 0; max-width: 78ch; color: var(--muted); font-size: var(--text-small); line-height: 1.6; }
+.grading-step-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--space-2); }
+.grading-step-action-slot { display: contents; }
+.grading-step-header details.disclosure { margin: var(--space-2) 0 0; border-top: 0; }
+/* The step's help is a quiet label-sized fold under the lead: a small uppercase label in the label ink, its +/− beside it. */
+.grading-step-header details.disclosure > summary { justify-content: flex-start; min-height: 32px; padding: 4px 0; color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; }
+.grading-step-header details.disclosure > summary > :first-child:not(.disclosure-hint) { flex: 0 1 auto; }
+.grading-step-header details.disclosure > summary::after { font-size: 16px; }
+.grading-step-header details.disclosure > summary:hover { color: var(--ink); }
+.grading-step-header details.disclosure > .disclosure-body p { max-width: 78ch; color: var(--muted); font-size: var(--text-small); line-height: 1.7; }
+.grading-content > .next-step { margin-bottom: 20px; }
+.grading-step-header + details.disclosure { margin-top: 0; border-top: 0; }
+
+/* A finished step 1: counts, then its tools in one disclosure. */
+.grading-setup-summary { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0 0 var(--space-3); }
+.grading-setup-tools { margin-top: 0; }
+.grading-setup-tools > .disclosure-body { padding-left: 0; }
+.grading-draft-fold > summary { cursor: pointer; }
+
+/* The rubric-line editor: one row per line (label, narrow points, wording growing with its text), the comment below. */
+.grading-rubric-edit-meta { margin: 0 0 4px; color: var(--muted); font-size: var(--text-small); font-weight: 500; letter-spacing: 0; text-transform: none; }  /* a sentence, not a label (§1.12; critique 2026-10-05) */
+.grading-approval-note { display: inline-block; padding: 0 6px; font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-rubric-edit-lines { list-style: none; padding: 0; margin: 8px 0 12px; }
+.grading-rubric-edit-lines > li { display: grid; grid-template-columns: minmax(4.5rem, max-content) 6.5rem minmax(0, 1fr); gap: 4px 12px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--nested-line); }
+.grading-rubric-line-label { padding-top: 11px; color: var(--ink); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; white-space: nowrap; }
+.grading-rubric-edit-lines .field { margin: 0; }
+.grading-rubric-edit-lines .field > :is(input, textarea) { margin-top: 0; }
+.grading-rubric-line-points > input { width: 100%; }
+.grading-rubric-line-body { display: grid; gap: 4px; min-width: 0; }
+.grading-rubric-edit-lines .field > textarea[data-autogrow] { min-height: 0; max-height: 18rem; resize: vertical; field-sizing: content; overflow-y: auto; }
+.grading-rubric-line-wording > textarea { line-height: 1.45; }
+.grading-rubric-line-preview { padding: 2px 0 0; color: var(--muted); font-size: var(--text-small); }
+.grading-rubric-line-preview[hidden] { display: none; }
+.grading-rubric-edit-lines .grading-rubric-line-comment { display: grid; gap: 2px; color: var(--label); font-size: var(--text-caption); font-weight: 600; }
+.grading-rubric-line-comment > textarea { font-size: var(--text-small); }
+.grading-rubric-line-body > small { display: block; color: var(--muted); font-size: var(--text-small); }
+
+/* All answer areas: every answer area outlined on its blank pages. The outlines are the scan overlay's own colours. */
+.grading-whole-exam .filter-chips { margin-bottom: var(--space-2); }
+.grading-whole-pages { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: var(--space-3); margin-top: var(--space-2); }
+.grading-whole-page { margin: 0; min-width: 0; }
+.grading-whole-page figcaption { margin-bottom: 6px; color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.grading-whole-area { position: absolute; display: flex; align-items: flex-start; justify-content: flex-start; padding: 0; border: 2px solid var(--tone-info); background: color-mix(in srgb, var(--tone-info) 12%, transparent); color: var(--ink); cursor: pointer; line-height: 1; }
+.grading-whole-area[data-state="suggested"] { border-style: dashed; border-color: var(--tone-warning); background: color-mix(in srgb, var(--tone-warning) 10%, transparent); }
+.grading-whole-area > span { padding: 2px 4px; background: var(--paper); font: 600 var(--text-caption)/1.2 var(--font-body); letter-spacing: var(--tracking-label); }
+.grading-whole-area:hover, .grading-whole-area:focus-visible { background: color-mix(in srgb, var(--tone-info) 24%, transparent); outline: 2px solid var(--focus); outline-offset: 1px; }
+@media (forced-colors: active) { .grading-whole-area { border-color: Highlight; } }
+
+/* Unsaved rubric edits: one line in the step header with Save all and Discard all, read as a warning callout (a 2px ochre rule
+   over the paper, no frame, no fill). */
+.grading-drafts-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin: var(--space-2) 0 0; padding: var(--space-2) 0; border: 0; border-top: 2px solid var(--tone-warning); background: transparent; color: var(--ink); font-size: var(--text-control); }
+.grading-drafts-bar[hidden] { display: none; }
+.grading-drafts-bar > span { margin-right: auto; }
+
+/* The question navigator: version headings, an unsaved marker, a pager that stays in view, nothing under 11 px. */
+.grading-question-rail > p, .grading-question-rail .field { font-size: var(--text-small); }
+.grading-question-link small { font-size: var(--text-small); }
+/* A version heading in the navigator is a small label: "VERSION A 8". */
+.grading-question-group { margin: 14px 8px 6px; color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.grading-question-group:first-child { margin-top: 0; }
+.grading-question-group > span { margin-inline-start: 4px; font-weight: 600; color: var(--label); font-variant-numeric: tabular-nums; }
+.grading-question-group[hidden] { display: none; }
+.grading-question-unsaved { font-weight: 500; color: var(--tone-warning); }
+/* Opaque in the paper it sits on (inside a dialog --canvas is the dialog's paper, outline-theme.css). */
+.grading-question-pager { position: sticky; top: 0; z-index: 2; padding: 8px 0; background: var(--canvas); border-bottom: 1px solid var(--line); }
+.grading-question-pager .button { padding: 7px 10px; font-size: var(--text-small); }
+.grading-question-pager .text-button { font-size: var(--text-small); }
+.grading-question-pager [hidden] { display: none; }
+
+/* Step 3: "Correct wording" is a quiet text action beside each line. */
+.grading-rubric-line-heading .grading-correct-line { flex-shrink: 0; font-size: var(--text-small); }
+.grading-rubric-line-heading strong { color: var(--ink); font-weight: 500; }
+
+/* Assignment versions: one row per version, a record table (components.css): 11px uppercase sans headings over a 2px ink rule,
+   rows on hairlines, the version letter in the serif. */
+.grading-version-table-wrap { overflow-x: auto; margin: var(--space-2) 0; }
+.grading-version-table { width: 100%; border-collapse: collapse; font-size: var(--text-control); font-variant-numeric: tabular-nums; }
+.grading-version-table :is(th, td) { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--nested-line); text-align: left; vertical-align: baseline; }
+.grading-version-table :is(th, td):last-child { padding-right: 0; }
+.grading-version-table td { color: var(--text); font-size: var(--text-small); white-space: nowrap; }
+.grading-version-table thead th { color: var(--ink); font: 700 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; border-bottom: 2px solid var(--ink); white-space: nowrap; }
+.grading-version-table tbody th { color: var(--ink); font: var(--head-weight) var(--text-lead)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); }
+.grading-version-table .is-short { color: var(--tone-warning); }
+/* The table sits in the setup column beside the templates, which is narrow on a laptop-width window: there the six columns
+   cannot fit, and each version becomes one record, "Version A" over its template and four counts, each count under its own
+   small label. The column headings stay for assistive technology; the labels repeat them on screen (the table's cells keep
+   their order: Template, Rubrics, Areas, Approved, Key, as grading-versions.js writes them). */
+.grading-version-table-wrap { container: grading-versions / inline-size; }
+@container grading-versions (max-width: 440px) {
+  .grading-version-table, .grading-version-table tbody { display: block; }
+  .grading-version-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .grading-version-table tbody tr { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 12px; padding: 12px 0; border-bottom: 1px solid var(--nested-line); }
+  .grading-version-table tbody :is(th, td) { display: block; min-width: 0; padding: 0; border: 0; white-space: normal; overflow-wrap: anywhere; }
+  .grading-version-table tbody :is(th, td:first-of-type) { grid-column: 1 / -1; }
+  .grading-version-table tbody th::before { content: "Version "; content: counter(decor, none) "Version " / ""; }
+  .grading-version-table tbody td::before { display: block; margin-bottom: 2px; color: var(--label); font: 700 var(--text-caption)/1.4 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; overflow-wrap: normal; }
+  .grading-version-table tbody td:nth-of-type(1)::before { content: "Template"; content: counter(decor, none) "Template" / ""; }
+  .grading-version-table tbody td:nth-of-type(2)::before { content: "Rubrics"; content: counter(decor, none) "Rubrics" / ""; }
+  .grading-version-table tbody td:nth-of-type(3)::before { content: "Areas"; content: counter(decor, none) "Areas" / ""; }
+  .grading-version-table tbody td:nth-of-type(4)::before { content: "Approved"; content: counter(decor, none) "Approved" / ""; }
+  .grading-version-table tbody td:nth-of-type(5)::before { content: "Key"; content: counter(decor, none) "Key" / ""; }
+}
+@container grading-versions (max-width: 300px) { .grading-version-table tbody tr { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Only the setup modules' own classes, and the uploaded-rubric source only inside the setup questions: `.grading-source` and
+   `.grading-key` are shared with the review desk and the answer-group dialog, which grading.css styles (amendment 20).
+   Setup containers are ruled blocks, not boxes. The area preview keeps the scan overlay's own colours (accent-theme.css
+   .grading-highlight). */
+.grading-area-previews .grading-highlight span { font-size: var(--text-small); }
+
+/* The rubric draft review (grading-rubric-versions.js, a dialog of step 1): a version whose question already exists offers only
+   to replace its rubric. Right under that box its consequence (and a points warning) read as the box's hint, a step smaller
+   than the dialog's copy; the question number names the question and cannot be edited there, so its underline is a hairline
+   and its value the muted ink: a fixed value, not an open field (focus still shows). */
+.rubric-family-version > .grading-warning + .grading-check { margin-bottom: var(--space-2); }
+.rubric-family-version > .grading-warning + .grading-check ~ :is(.grading-warning, .supporting-copy) { margin: 0 0 var(--space-3); font-size: var(--text-small); }
+:root:root .rubric-family-version .field > input[readonly]:not(:focus-visible) { border-bottom-color: var(--line); color: var(--muted); cursor: default; }
+/* Adapting one version's rubrics to the others (grading-rubric-adapt.js): each target version is a flat section under a hairline
+   whose small "VERSION B" label titles its tick and template field (the legend floated, so the rule is not broken), never the
+   browser's framed box. */
+.rubric-adapt-target { min-width: 0; margin: var(--space-4) 0 0; padding: var(--space-4) 0 0; border: 0; border-top: 1px solid var(--line); }
+.rubric-adapt-target > legend { float: left; inline-size: 100%; margin: 0 0 var(--space-3); padding: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.rubric-adapt-target > legend + * { clear: both; }
+
+/* Prepare's setup counts read as one line of words ("12 rubrics confirmed for review · 4 version templates confirmed"), not tiles of
+   capitals (critique 2026-10-05: small capitals are labels only). */
+:root:root .grading-setup-summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-5); }
+:root:root .grading-setup-summary > .stat:not([hidden]) { display: inline-flex; align-items: baseline; gap: 6px; min-width: 0; padding: 0; border: 0; }
+:root:root .grading-setup-summary > .stat > strong { font: 800 var(--text-body)/1.3 var(--font-body); }
+:root:root .grading-setup-summary > .stat > span { color: var(--text); font-size: var(--text-body); font-weight: 500; letter-spacing: 0; text-transform: none; }

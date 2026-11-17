@@ -1,0 +1,221 @@
+/* Fields (DESIGN-LANGUAGE §4), the base rules: the label above in 11px semibold uppercase, the control a line of type on a
+   1px underline over the paper, turning ink on hover and slate (--focus) on focus. Text areas keep a hairline frame so
+   their bounds read, slate all round on focus. ledger.css, loaded last, frames the fields in the 2px ink frame and draws
+   the 3px slate focus outline over these rules.
+   Checkboxes and radios are ink. Native controls keep keyboard navigation, typeahead, option groups, disabled choices and
+   form submission. Screen only. */
+:root:root .field {
+  color: var(--label);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+:root:root .field :is(.field-hint, .field-optional, small) { text-transform: none; letter-spacing: normal; font-weight: 500; }
+:root:root .field-hint { color: var(--muted); font-size: var(--text-small); }
+/* A filter whose control sits beside its words (.field-inline, the gradebook's Below filter, Certification's Sort): one
+   line, the control after the label. */
+:root:root .field-inline.field,
+:root:root :where(.gradebook-below, .certification-sort-choice) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+:root:root .field-inline.field > :is(input, select, textarea) { margin-top: 0; }
+/* A label whose words are a bare text node before its control, like a .field's but with a page class of its own (the
+   gradebook's import and pull filters, the import's new-column fields): the words, then the control on a row below. */
+:root:root :where(.gbd-filter, .gbd-new-column > label) { display: block; }
+:root:root :where(.gbd-filter, .gbd-new-column > label) > * { display: block; width: 100%; margin-top: 6px; }
+/* Groups of choices line up with the fields around them (no fieldset inline margin, no legend inline padding), and their
+   captions read like a field's label. */
+:root:root :where(
+  .choice-group, .gbd-flags, .gbd-sections, .gbd-linked, .gbs-choices, .seating-sections, .seating-print-show,
+  .exams-checkboxes, .rc-audience, .rc-preview-choice, .document-reprint-choices, .template-pages,
+  .bubble-key-dialog-letters, .grading-key:has(> .grading-check), fieldset:has(> [data-scan-sections])
+) { margin-inline: 0; }
+:root:root :where(
+  .choice-group, .gbd-flags, .gbd-sections, .gbd-linked, .gbs-choices, .seating-sections, .seating-print-show,
+  .exams-checkboxes, .rc-audience, .rc-preview-choice, .document-reprint-choices, .template-pages,
+  .bubble-key-dialog-letters, .grading-key:has(> .grading-check), fieldset:has(> [data-scan-sections])
+) > legend {
+  padding-inline: 0;
+  color: var(--label);
+  font: 700 var(--text-caption)/1.5 var(--font-body);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+/* A hint that is a table cell's or a definition's whole content (courses.js and accommodations.js write '—' for an empty
+   Support, DR bookings or quick-view field) sits on the row's line. */
+:root:root :is(td, dd) > .field-hint:only-child { margin-top: 0; }
+
+:root:root .field > :is(input:not([type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]), textarea),
+:root:root .student-picker input[data-picker-text],
+:root:root :is(.search-box, .year-picker) {
+  background-color: transparent;
+  color: var(--ink);
+  border: 0;
+  border-bottom: 1px solid var(--control-line);
+  border-radius: 0;
+  box-shadow: none;
+  font: 500 var(--text-body)/1.5 var(--font-body);
+  letter-spacing: normal;
+  text-transform: none;
+  transition: border-color var(--snappy), box-shadow var(--snappy);
+}
+:root:root .field > :is(input:not([type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]), textarea, select) {
+  margin-top: 4px;
+}
+:root:root .field > :is(input:not([type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]), textarea) {
+  padding: 7px 2px;
+}
+/* A file input in a field is its button and the chosen name, not a framed tray (style.css's print tray stays print's). */
+:root:root .field > input[type="file"] { border: 0; padding: 0; background: transparent; }
+:root:root .field > textarea,
+:root:root textarea:where(:not(.field > textarea)) {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-bottom-color: var(--control-line);
+  border-radius: var(--radius-control);
+  background-color: transparent;
+}
+/* One control height: a single-line field, the year stepper and a dropdown (below) are each --control-height tall, so fields
+   side by side line up. The value stays centred; a text area keeps growing with its rows. */
+:root:root .field > input:not([type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]),
+:root:root .year-picker {
+  height: var(--control-height);
+}
+:root:root .field > :is(input, textarea):hover:not(:disabled, :focus),
+:root:root :is(.search-box, .year-picker):hover:not(:focus-within) { border-bottom-color: var(--ink); }
+:root:root .field > :is(input:not([type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]), textarea):focus-visible,
+:root:root .student-picker input[data-picker-text]:focus-visible,
+:root:root :is(.search-box, .year-picker):focus-within {
+  border-bottom-color: var(--focus);
+  box-shadow: inset 0 -1px 0 var(--focus);
+  outline: none;
+}
+:root:root :is(.field > textarea, textarea:where(:not(.field > textarea))):focus-visible { border-color: var(--focus); }
+:root:root :is(.search-box, .year-picker) input { background: transparent; border: 0; box-shadow: none; outline: none; }
+/* Placeholder text is text: the label ink still reads apart from a value. --faint is for disabled marks only. */
+:root:root :is(input, textarea)::placeholder { color: var(--label); opacity: 1; }
+:root:root input[type="file"] { color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); }
+:root:root input[type="file"]::file-selector-button {
+  margin-inline-end: 12px;
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid var(--control-line);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--ink);
+  font: 700 var(--text-caption)/1.5 var(--font-body);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--snappy), color var(--snappy), border-color var(--snappy);
+}
+:root:root input[type="file"]:not(:disabled)::file-selector-button:hover { background: var(--highlight-bg); color: var(--highlight-ink); }
+:root:root :is(input, textarea):disabled { color: var(--muted); cursor: not-allowed; }
+:root:root :is(input[type="checkbox"], input[type="radio"]) { accent-color: var(--ink); }
+
+/* Native form behavior, on the same underline as the fields. */
+:root:root select {
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: var(--control-height);
+  max-width: 100%;
+  padding: 7px 2px;
+  border: 0;
+  border-bottom: 1px solid var(--control-line);
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--ink);
+  box-shadow: none;
+  font: 500 var(--text-body)/1.5 var(--font-body);
+  letter-spacing: normal;
+  text-transform: none;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: border-color var(--snappy), box-shadow var(--snappy);
+}
+
+/* The chevron: two hairline strokes meeting in a point, drawn in the text colour. */
+:root:root select:not([multiple]):not([size]),
+:root:root select:not([multiple])[size="1"] {
+  padding-right: 30px;
+  background-image:
+    linear-gradient(45deg, transparent calc(50% - .75px), currentColor calc(50% - .75px) calc(50% + .75px), transparent calc(50% + .75px)),
+    linear-gradient(-45deg, transparent calc(50% - .75px), currentColor calc(50% - .75px) calc(50% + .75px), transparent calc(50% + .75px));
+  background-position: right 10px center, right 4px center;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+:root:root select:hover:not(:disabled) { border-bottom-color: var(--ink); }
+:root:root select:focus-visible {
+  border-bottom-color: var(--focus);
+  box-shadow: inset 0 -1px 0 var(--focus);
+  outline: none;
+}
+:root:root select:disabled { color: var(--muted); cursor: not-allowed; }
+:root:root select option { background-color: var(--paper); color: var(--ink); }
+:root:root select option:checked { background-color: var(--ink); color: var(--canvas); }
+:root:root select option:disabled { color: var(--muted); }
+
+/* Listboxes and forced colors retain the browser's native control affordances. */
+:root:root select:is([multiple], [size]:not([size="1"])) {
+  -webkit-appearance: auto;
+  appearance: auto;
+  padding: 4px;
+  border: 1px solid var(--line);
+  background-image: none;
+  cursor: default;
+}
+@media (forced-colors: active) {
+  :root:root select {
+    -webkit-appearance: auto;
+    appearance: auto;
+    border-color: ButtonText;
+    color: ButtonText;
+    forced-color-adjust: auto;
+  }
+  :root:root select:not([multiple]):not([size]),
+  :root:root select:not([multiple])[size="1"] { background-image: none; padding-right: 12px; }
+  /* Forced colours drop the underline's shadow: focus is the system ring again. */
+  :root:root :is(.field > :is(input, textarea), select, .student-picker input[data-picker-text]):focus-visible,
+  :root:root :is(.search-box, .year-picker):focus-within { outline: 2px solid Highlight; outline-offset: 2px; }
+}
+
+/* Student picker (static/student-picker.js): a text box that filters a roster, its matches in a list placed beneath it. */
+:root:root .student-picker { position: relative; min-width: 15rem; max-width: 100%; }
+:root:root .student-picker input[data-picker-text] {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--control-height);
+  padding: 7px 2px;
+  font-size: var(--text-body);
+}
+:root:root .student-picker input[data-picker-text]:hover:not(:disabled, :focus) { border-bottom-color: var(--ink); }
+:root:root .student-picker input[data-picker-text]:disabled { color: var(--muted); cursor: not-allowed; }
+:root:root .student-picker-list {
+  position: fixed;
+  text-transform: none;
+  letter-spacing: normal;
+  z-index: 1000;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 0;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-control);
+  font: 500 var(--text-body)/1.4 var(--font-body);
+}
+:root:root .student-picker-list [role="option"] { padding: 6px 12px; color: var(--ink); cursor: pointer; }
+:root:root .student-picker-list [role="option"]:hover,
+:root:root .student-picker-list [role="option"].active { background: var(--highlight-bg); color: var(--highlight-ink); }
+:root:root .student-picker-list [role="option"][aria-selected="true"] { font-weight: 600; }
+:root:root .student-picker-list small { color: inherit; opacity: .75; }
+:root:root .student-picker-group { padding: 8px 12px 2px; color: var(--label); font: 700 var(--text-caption) var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+:root:root .student-picker-empty { padding: 6px 12px; color: var(--muted); }
+@media (forced-colors: active) {
+  :root:root .student-picker-list [role="option"].active { outline: 2px solid Highlight; }
+}

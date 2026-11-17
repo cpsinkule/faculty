@@ -1,0 +1,117 @@
+/* Quizzes drafted by a model (quiz-drafts.js): the drafts list above the assignment cards, a draft's page and its windows.
+   Tokens only; DESIGN-LANGUAGE: rules, not boxes; serif headlines over sans labels and metadata. Screen only. */
+
+/* The drafts list: a section label over a 2px ink rule, one row per draft (serif title, its state chip, sans facts). */
+.quiz-draft-strip { display: grid; gap: 0; margin-bottom: var(--space-8); }
+:root .quiz-draft-strip > h2 { margin: 0; padding-top: 8px; border-top: 2px solid var(--ink); color: var(--ink); font: 700 12px/1.4 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.quiz-draft-strip ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.quiz-draft-strip li { border-bottom: 1px solid var(--nested-line); }
+.quiz-draft-card { display: grid; gap: 2px var(--space-4); grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; padding: var(--space-3) 0;
+  color: var(--ink); text-decoration: none; }
+.quiz-draft-card-title { font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); transition: color var(--snappy); }
+.quiz-draft-card:hover .quiz-draft-card-title { color: var(--ink); }
+.quiz-draft-card:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.quiz-draft-card-facts { grid-column: 1 / -1; color: var(--muted); font-size: var(--text-small); }
+
+/* The new-draft window and the draft's page. */
+.quiz-draft-form .dialog-body, .quiz-draft-page { display: grid; gap: var(--space-4); }
+.quiz-draft-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: end; }
+.quiz-draft-row .field { min-width: 110px; }
+.quiz-draft-grow { flex: 1 1 240px; }
+/* A group of choices is a field: its legend is the label above, nothing frames it. */
+.quiz-draft-examples, .quiz-draft-sections { border: 0; padding: 0; display: grid; gap: var(--space-2); margin: 0; min-width: 0; }
+.quiz-draft-examples legend, .quiz-draft-sections legend { margin-bottom: var(--space-1); padding: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: .14em; text-transform: uppercase; }
+/* Lecture notes to read: each chapter's name, then its sections' boxes two to a row. */
+.quiz-draft-notes-pick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-1) var(--space-4); align-items: start; }
+.quiz-draft-notes-pick > .quiz-draft-muted { grid-column: 1 / -1; }
+/* A section's student count stays on its line ("Section 501 · 34 students"). */
+.quiz-draft-sections .checkbox-field .quiz-draft-muted { white-space: nowrap; }
+.quiz-draft-lead { margin: 0; }
+.quiz-draft-model, .quiz-draft-muted { color: var(--muted); font-size: var(--text-small); margin: 0; }
+.quiz-draft-top { display: flex; gap: var(--space-3); align-items: start; }
+.quiz-draft-top > [data-quiz-status] { flex: 1 1 auto; min-width: 0; display: grid; gap: var(--space-3); }
+.quiz-draft-status { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: start; justify-content: space-between; }
+/* The state's words run as one sentence ("Revision 1: Writing every version…", "Approved and sent to printing. 2 print
+   jobs…"); the note, the steps and the links under it each start a line of their own. */
+.quiz-draft-status > div { flex: 1 1 320px; display: block; }
+.quiz-draft-status > div > :is(.quiz-draft-muted, p, ul, ol) { margin-top: var(--space-2); }
+.quiz-draft-status > div > span.quiz-draft-muted { display: block; }
+.quiz-draft-steps { margin: 0; padding-left: var(--space-5); display: grid; gap: var(--space-1); }
+.quiz-draft-steps li[data-done="true"] { color: var(--ink); }
+.quiz-draft-steps li[data-done="false"] { color: var(--muted); }
+/* The approved quiz's ways on, one row that wraps: links and the Put it on Canvas… text button on one baseline, all of them
+   read as text actions (button-theme.css .text-button): uppercase words on a hairline underline, rust on hover. */
+.quiz-draft-links { margin: 0; padding-left: 0; list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-5); }
+.quiz-draft-links > li { display: flex; align-items: center; }
+:is(.quiz-draft-links > li, .quiz-draft-files) > a { color: var(--ink); font: 600 var(--text-control)/1.4 var(--font-body); letter-spacing: 0; text-transform: none;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; transition: color var(--snappy); }
+:is(.quiz-draft-links > li, .quiz-draft-files) > a:hover { color: var(--ink); }
+/* The id outranks the themed button rule (:root:root :is(.text-button, …), 0,4,0), which pads a text button to 32px. */
+#quiz-draft-root .quiz-draft-links .text-button { min-height: 0; padding: 0; }
+.quiz-draft-revision { display: grid; gap: var(--space-4); }
+.quiz-draft-heading { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: baseline; }
+.quiz-draft-heading h2 { margin: 0; font-size: var(--text-section); }
+.quiz-draft-revision > p { margin: 0; }
+/* Version A | Version B: uppercase words, the chosen one over a 2px ink rule (button-theme.css's tabs). */
+.quiz-draft-tabs { display: flex; gap: 0 var(--space-6); border-bottom: 1px solid var(--line); }
+.quiz-draft-tabs button { min-height: var(--button-height); margin-bottom: -1px; padding: 0; background: none; border: 0; border-bottom: 2px solid transparent; border-radius: 0;
+  color: var(--muted); font: 500 var(--text-body) var(--font-body); letter-spacing: 0; text-transform: none; cursor: pointer;
+  transition: color var(--snappy), border-color var(--snappy); }
+.quiz-draft-tabs button:hover:not([aria-selected="true"]) { color: var(--ink); border-bottom-color: var(--line); }
+.quiz-draft-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+.quiz-draft-tabs button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.quiz-draft-files { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); }
+/* READABLE REVIEW: the revision's facts and what to check beside the chosen version's pages as thumbnails (each opens larger);
+   each problem is shown as printed in its own row below (review-notes.js, components.css). */
+.quiz-draft-summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-5); align-items: start; }
+.quiz-draft-summary > div:first-child { display: grid; gap: var(--space-2); min-width: 0; }
+.quiz-draft-side { display: grid; justify-items: end; gap: var(--space-2); }
+.quiz-draft-pages { display: flex; gap: var(--space-3); }
+.quiz-draft-pages figure { margin: 0; display: grid; gap: var(--space-1); width: 96px; }
+/* The pages are the printed paper (DOCUMENTS): a hairline round each, square corners. */
+.quiz-draft-pages img { display: block; width: 100%; height: auto; border: var(--frame); border-radius: 0; background: var(--paper); }
+.quiz-draft-page-open { display: block; cursor: zoom-in; }
+.quiz-draft-page-open:hover img { border-color: var(--ink); }
+.quiz-draft-page-open:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.quiz-draft-pages figcaption { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; text-align: center; }
+/* Each problem is a review row (components.css .review-problem); its changes box under its notes. */
+.quiz-draft-problems { gap: 0; }
+.quiz-draft-comment { margin: 0; }
+/* 2026-10-06: a problem's change box opens on request (its text action), the form below names the problems it also sends, and the
+   answer of the version shown sits with the notes. */
+.quiz-draft-comment > .text-button { justify-self: start; font-size: var(--text-small); }
+.quiz-draft-comment > .field { margin: 0; }
+.quiz-draft-comment-scope { margin: 0; color: var(--ink); font-weight: 700; }
+.quiz-draft-given { display: grid; gap: 4px; }
+.quiz-draft-given > .field, .quiz-draft-given > .field-hint { margin: 0; }
+.quiz-draft-clarification { display: block; margin: var(--space-1) 0 0; color: var(--muted); font-size: var(--text-small); }
+/* Folds (things to look at, the solution, the revisions): a small uppercase label with + / − after it, never the native
+   triangle. */
+.quiz-draft-history > summary { display: inline-flex; align-items: baseline; gap: var(--space-2); min-height: 32px; cursor: pointer; list-style: none;
+  color: var(--ink); font: 600 var(--text-small)/1.5 var(--font-body); letter-spacing: 0; text-transform: none; transition: color var(--snappy); }
+.quiz-draft-history > summary::-webkit-details-marker { display: none; }
+.quiz-draft-history > summary::after { content: "+"; content: counter(decor, none) "+" / ""; letter-spacing: 0; display: inline-grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border: var(--frame); color: var(--ink); font: 800 13px/1 var(--font-num); }
+.quiz-draft-history[open] > summary::after { content: "−"; content: counter(decor, none) "−" / ""; color: var(--ink); }
+.quiz-draft-history > summary:hover { color: var(--ink); }
+.quiz-draft-history > summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.quiz-draft-solution-text { white-space: pre-wrap; }
+.quiz-draft-history ol { margin: var(--space-2) 0 0; display: grid; gap: var(--space-1); }
+.quiz-draft-history blockquote { margin: var(--space-1) 0 0; padding-left: var(--space-3); border-left: 1px solid var(--line); color: var(--muted); white-space: pre-wrap; }
+.quiz-draft-comment textarea, .quiz-draft-changes textarea { width: 100%; }
+/* Ask for changes: a section of the page under a hairline, not a tinted box. */
+.quiz-draft-changes { display: grid; gap: var(--space-3); padding: var(--space-4) 0 0; border-top: 1px solid var(--line); }
+.quiz-draft-changes h3 { margin: 0; font-size: var(--text-section); }
+.quiz-draft-actions { display: flex; justify-content: flex-end; }
+.quiz-draft-copies { border-collapse: collapse; width: 100%; font-size: var(--text-body); }
+.quiz-draft-copies caption { text-align: left; color: var(--muted); font-size: var(--text-small); padding-bottom: var(--space-2); }
+.quiz-draft-copies th, .quiz-draft-copies td { padding: var(--space-2) var(--space-3) var(--space-2) 0; text-align: left; }
+.quiz-draft-copies th { border-bottom: 2px solid var(--ink); color: var(--ink); font: 700 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+/* The copies are fields (form-theme.css): a line of type on an ink underline, focus in --focus. */
+.quiz-draft-copies input { width: 5.5em; background-color: transparent; color: var(--ink); border: 0; border-bottom: 1px solid var(--control-line);
+  border-radius: 0; box-shadow: none; padding: var(--space-1) 2px; font: 500 var(--text-body)/1.5 var(--font-body); font-variant-numeric: tabular-nums; }
+.quiz-draft-copies input:hover:not(:disabled, :focus) { border-bottom-color: var(--ink); }
+.quiz-draft-copies input:focus-visible { border-bottom-color: var(--focus); box-shadow: inset 0 -1px 0 var(--focus); outline: 2px solid var(--focus); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .quiz-draft-card-title, :is(.quiz-draft-links > li, .quiz-draft-files) > a, .quiz-draft-tabs button,
+  .quiz-draft-history > summary { transition: none; }
+}

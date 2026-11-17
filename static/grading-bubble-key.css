@@ -1,0 +1,141 @@
+/* Bubble sheet answer key and scores (Grading → an assignment → Bubble sheets).
+   Letter cells are square like every other control here; a chosen letter is filled with ink so its state never rests on
+   color alone. The version tabs and the scoring switch share the section-tab look in button-theme.css.
+   DESIGN-LANGUAGE (Ledger): small uppercase labels, sections on hairlines, record tables without fills or frames. */
+.bubble-key-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px 24px; flex-wrap: wrap; margin-bottom: 12px; }
+.bubble-key-top h3 { margin: 0; font-size: var(--text-section); line-height: 1.15; letter-spacing: var(--tracking-title); }
+.bubble-key-state { margin: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.bubble-key-state.unsaved { color: var(--warning); }
+.bubble-key-state:focus { outline: none; }
+.bubble-key > .section-lead { max-width: 78ch; margin: 0 0 22px; color: var(--muted); font-size: var(--text-control); line-height: 1.7; }
+
+.bubble-key-versions { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; margin-bottom: 22px; }
+.bubble-version-tabs { display: inline-flex; flex-wrap: wrap; max-width: 100%; }
+.bubble-version-tabs [role="tab"] span { margin-inline-start: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.bubble-version-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.bubble-key-settings { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 40px; align-items: start; padding: 20px 0 22px; border-block: 1px solid var(--line); }
+.bubble-key-defaults { display: grid; grid-template-columns: 140px auto; gap: 12px 20px; align-items: end; margin: 0; padding: 0; border: 0; min-width: 0; }
+/* Group titles are section labels: "DEFAULTS FOR EVERY QUESTION". */
+.bubble-key-defaults legend, .bubble-key-dialog-letters legend { grid-column: 1 / -1; margin-bottom: 12px; padding: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-section); text-transform: uppercase; }
+.bubble-key-defaults .field { margin: 0; }
+.bubble-key-defaults .field-hint { grid-column: 1 / -1; margin: 0; }
+.bubble-scoring { display: inline-flex; flex-wrap: wrap; justify-self: start; }
+.bubble-key-settings .field-hint { color: var(--muted); font-size: var(--text-small); line-height: 1.7; }
+.bubble-key-settings .field-hint svg { width: 13px; height: 13px; vertical-align: -2px; background: none; }
+.bubble-key-howto { margin: 0; align-self: end; }
+.bubble-key kbd { padding: 1px 5px; border: 1px solid var(--line); border-radius: var(--radius-control); color: var(--label); font-size: var(--text-caption); }
+
+.bubble-key-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px 20px; flex-wrap: wrap; margin: 20px 0 16px; }
+.bubble-key-toolbar p { margin: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.bubble-key-toolbar > div { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.bubble-key-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(236px, 1fr)); gap: 22px 32px; margin: 0; padding: 0; list-style: none; }
+.bubble-key-question { min-width: 0; }
+.bubble-key-qhead { display: flex; align-items: center; gap: 6px; min-height: 26px; margin-bottom: 6px; }
+/* "Question 12" reads as a small label; it turns ink once the question has an answer. */
+.bubble-key-number { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.bubble-key-question.answered .bubble-key-number { color: var(--ink); }
+.bubble-key-gear { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; color: var(--muted); }
+.bubble-key-gear:hover { color: var(--ink); }
+.bubble-key-gear svg { width: 14px; height: 14px; background: none; }
+.bubble-key-custom { color: var(--ink); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; text-decoration: underline; text-decoration-color: currentColor; text-underline-offset: 3px; }
+.bubble-key-stat { margin-inline-start: auto; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bubble-key-stat.doubt { color: var(--warning); }
+.bubble-key-letters { display: flex; gap: 6px; }
+.bubble-key-letter { width: 36px; height: 36px; padding: 0; border: 1px solid var(--control-line); border-radius: var(--radius-control); background: transparent; color: var(--ink); font: 500 var(--text-control)/1 var(--font-body); cursor: pointer; transition: background-color var(--snappy), border-color var(--snappy), color var(--snappy); }
+.bubble-key-letter:hover { border-color: var(--ink); background: var(--surface-hover); }
+.bubble-key-letter[aria-pressed="true"] { border-color: var(--button-fill); background: var(--button-fill); color: var(--button-ink); font-weight: 600; }
+.bubble-key-letter:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.bubble-key-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; flex-wrap: wrap; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+.bubble-key-footer .supporting-copy { flex: 1 1 320px; margin: 0; color: var(--muted); font-size: var(--text-small); }
+.bubble-key-footer .grading-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.bubble-key-dialog-letters { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 16px; padding: 0; border: 0; }
+.bubble-key-dialog-letters legend { margin-bottom: 8px; }
+
+.bubble-score-averages { margin: 0 0 16px; color: var(--muted); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+.bubble-scores .bubble-results-toolbar { margin: 20px 0 12px; }
+.bubble-scores .bubble-results-toolbar .supporting-copy { margin: 0; color: var(--muted); font-size: var(--text-small); }
+/* Filters are fields: the small label above the control on its ink underline. */
+.bubble-scores .bubble-filter { display: grid; gap: 6px; margin: 0; color: var(--label); font-size: var(--text-caption); }
+.bubble-table-wrap { overflow-x: auto; }
+/* A record table (components.css): no frame, fills or stripes; 11px uppercase sans headings over a 2px ink rule; rows on
+   hairlines, the 5% ink tint on hover. Scoped to the scores and the item analysis: the Inbox's readings table (bubble-sheets.js)
+   shares the .bubble-table class and has its own look. */
+:is(.bubble-scores, .bubble-analysis) .bubble-table { border-collapse: collapse; width: 100%; font-size: var(--text-control); }
+:is(.bubble-scores, .bubble-analysis) .bubble-table :is(th, td) { padding: 10px 12px 10px 0; border-bottom: 1px solid var(--nested-line); text-align: left; vertical-align: top; }
+:is(.bubble-scores, .bubble-analysis) .bubble-table td { color: var(--text); }
+:is(.bubble-scores, .bubble-analysis) .bubble-table thead th { color: var(--ink); font: 700 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; border-bottom: 2px solid var(--ink); white-space: nowrap; }
+:is(.bubble-scores, .bubble-analysis) .bubble-table tbody tr { transition: background-color var(--snappy); }
+:is(.bubble-scores, .bubble-analysis) .bubble-table tbody tr:hover { background: var(--surface-hover); }
+.bubble-scores .bubble-table td:first-child { color: var(--ink); }
+.bubble-scores .bubble-results-toolbar { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 10px 20px; }
+.bubble-results-controls { display: flex; flex-wrap: wrap; gap: 10px 16px; }
+.bubble-results-controls input[type="search"] { min-width: 14rem; }
+.bubble-rows-more { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin: 12px 0 0; color: var(--muted); font-size: var(--text-small); }
+
+/* The page at a glance: the key, the counts and what is on Gradescope, each a jump to its region, between hairlines. */
+.bubble-summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 24px; margin: 0 0 16px; padding: 10px 0; border-block: 1px solid var(--line); font-size: var(--text-control); }
+.bubble-summary b { font-weight: 600; font-variant-numeric: tabular-nums; color: inherit; }
+.bubble-summary .bubble-summary-attention { color: var(--warning); }
+.bubble-second-look { margin: 0 0 16px; }
+.bubble-second-look ul { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+
+/* The saved key, compact: one line per version in groups of five, the version named in the serif. */
+.bubble-key-compact { display: grid; gap: 10px; margin: 0 0 12px; }
+.bubble-key-compact > div { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 4px 16px; align-items: baseline; }
+.bubble-key-compact dt { color: var(--ink); font: var(--head-weight) var(--text-lead)/1.3 var(--font-serif); letter-spacing: var(--tracking-title); }
+.bubble-key-compact dt small { margin-inline-start: 6px; color: var(--label); font: 700 var(--text-caption) var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.bubble-key-compact dd { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; color: var(--ink); font-size: var(--text-control); letter-spacing: var(--tracking-label); }
+.bubble-key-chunk b { margin-inline-end: 6px; color: var(--label); font-weight: 500; font-size: var(--text-caption); }
+/* A sheet's score is a tabular serif figure (requirement, 2026-10-03: score numbers serif); a status word stays sans. */
+.bubble-scores .bubble-score { font: var(--head-weight) var(--text-lead)/1.2 var(--font-serif); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bubble-scores .bubble-score strong { color: var(--ink); font-weight: 500; }
+.bubble-scores .bubble-score small { font-family: var(--font-body); }
+
+/* A link to the scan: ink on a hairline underline, rust on hover. */
+.bubble-sheet-link { color: var(--ink); font-size: var(--text-small); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; white-space: nowrap; transition: color var(--snappy), text-decoration-color var(--snappy); }
+.bubble-sheet-link:hover { color: var(--ink); text-decoration-color: currentColor; }
+.grading-context a[data-grading-bubble][aria-current] { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; }
+
+/* Scoring counts: serif figures over small labels, each under its own hairline (components.css .stat), side by side. A clean
+   count takes the success tone, a count that needs the instructor the warning tone (review fix GR-4); the prefix outranks the
+   shared stat ink (components.css). */
+.bubble-score-counts { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); margin: 16px 0; }
+:root:root .bubble-scores .bubble-score-counts > .stat { min-width: 8rem; padding: var(--space-3) 0 var(--space-2); }
+:root:root .bubble-scores .bubble-score-counts .stat[data-bubble-count="clean"] > strong { color: var(--success); }
+:root:root .bubble-scores .bubble-score-counts .stat[data-attention] > strong { color: var(--warning); }
+.bubble-scores > .callout { margin-block: 12px; }
+:is(.bubble-scores, .bubble-analysis) .bubble-table-wrap { max-width: 100%; border: 0; }
+.bubble-scores .bubble-table { min-width: 680px; }
+:is(.bubble-scores, .bubble-analysis) .bubble-table td small { display: inline-block; margin-top: 4px; color: var(--muted); font-size: var(--text-small); }
+:is(.bubble-scores, .bubble-analysis) .bubble-table td > small:only-child { margin-top: 0; }
+
+/* Item analysis (read only): a closed panel between the key and Gradescope. Its table is the scores' record table; each
+   question's choices are small bars whose lengths the script sets through the CSSOM (the CSP forbids style attributes). The
+   bars use ink for the key's letters and the label ink for the rest: no tone of their own, and never the card-state colours. */
+details.disclosure.bubble-analysis { margin: 0 0 var(--space-5); }
+.bubble-analysis-toolbar { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 20px; margin: 0 0 16px; }
+.bubble-analysis-toolbar .supporting-copy { flex: 1 1 320px; margin: 0; color: var(--muted); font-size: var(--text-small); }
+.bubble-analysis-version + .bubble-analysis-version { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
+.bubble-analysis-version h4 { margin: 0 0 6px; }
+.bubble-analysis-lead { margin: 0 0 12px; color: var(--muted); font-size: var(--text-control); line-height: 1.6; font-variant-numeric: tabular-nums; }
+.bubble-analysis .callout { margin-block: 12px; }
+.bubble-analysis .callout ul { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.bubble-analysis .bubble-table { min-width: 760px; }
+.bubble-analysis .bubble-table tbody th { font-weight: 500; }
+.bubble-analysis .bubble-score { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bubble-analysis-jump { padding: 0; border: 0; background: none; color: var(--ink); font: inherit; font-variant-numeric: tabular-nums; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; cursor: pointer; transition: color var(--snappy), text-decoration-color var(--snappy); }
+.bubble-analysis-jump:hover { color: var(--ink); text-decoration-color: currentColor; }
+.bubble-analysis-jump:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.bubble-choices { display: grid; gap: 2px; min-width: 200px; max-width: 280px; margin: 0; padding: 0; list-style: none; }
+/* Positioned, so the screen-reader-only "(the key)" stays inside the table's scrolling region. */
+.bubble-choice { position: relative; display: grid; grid-template-columns: 4.5em minmax(64px, 1fr) 4ch; gap: 8px; align-items: center; color: var(--label); font-size: var(--text-caption); line-height: 1.25; font-variant-numeric: tabular-nums; }
+.bubble-choice-track { display: block; height: 7px; }
+.bubble-choice-bar { display: block; inline-size: 0; height: 100%; background: var(--label); }
+.bubble-choice[data-key] { color: var(--ink); }
+.bubble-choice[data-key] .bubble-choice-label { text-decoration: underline; text-underline-offset: 3px; }
+.bubble-choice[data-key] .bubble-choice-bar { background: var(--ink); }
+.bubble-choice-count { text-align: end; }

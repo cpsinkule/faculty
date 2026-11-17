@@ -1,0 +1,332 @@
+/* Gradebook (#gradebook): the spreadsheet grid and its column menu. Screen only, shared tokens only
+   (design-tokens.css). DESIGN-LANGUAGE §4, the table: the column headings 13px 700 sans in the reading
+   case over a 2px ink rule (the 11px uppercase labels are the category bands), rows on --nested-line hairlines, no zebra and
+   no tinted fills (a state is a word, a coloured value or a 2px rule that repeats the word). Scores are typed, so they stay
+   in the sans with tabular figures; the results are the reading moment, in figures that align: category percentages and
+   Overall in the sans with tabular figures, Letter at --text-item. The grid keeps
+   its sticky header, name column and frozen results (Overall and Letter, and the category percentages when gradebook.js marks the table
+   gb-freeze-cats) opaque on the page's --canvas, layered: body cells < sticky name/results < header < header corner.
+   Column widths are set by gradebook.js through the CSSOM (a fixed table layout keeps 400 × 40 cells quick). */
+
+.gradebook-page { min-width: 0; }
+.gradebook-page .icon { width: 16px; height: 16px; }
+
+/* ---- Toolbar, notices, key --------------------------------------------------------------------------------------- */
+/* The page header holds Add column, Import scores and Setup; the toolbar holds the filters, the summary and quiet tools. */
+.gradebook-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.gradebook-toolbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-5); margin-bottom: var(--space-4); }
+.gradebook-filters { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-5); flex: 1 1 460px; min-width: 0; }
+.gradebook-toolbar .gradebook-field { flex: 0 1 220px; min-width: 0; margin: 0; }
+.gradebook-toolbar .gradebook-search { flex: 1 1 240px; max-width: 360px; }
+.gradebook-summary { margin: 0 0 12px auto; color: var(--muted); font: 500 var(--text-small)/1.5 var(--font-body); font-variant-numeric: tabular-nums; }
+/* Above the grid: the key on the left, the quiet tools on the right, one line where there is room. */
+.gradebook-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-5); margin: 0 0 var(--space-3); }
+.gradebook-tools { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-4); margin-left: auto; }
+.gradebook-tools .text-button { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-small); }
+.gradebook-tools .icon { width: 14px; height: 14px; }
+
+
+/* The attention strip: letters (each a filter), "Below" a letter and the blanks past due; one filter at a time (view memory).
+   The letters are the shared .filter-chips (components.css), at their shared size. */
+/* NEEDS ATTENTION (Ledger): one framed bar over the grid; blanks past due are the orange needs-you chip, failing letters (D, F)
+   red, the other letters plain filters. */
+.gradebook-attention { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin: 0 0 var(--space-4); padding: var(--space-2) var(--space-3); border: var(--frame); background: var(--surface); }
+.gradebook-attention::before { content: "Needs attention"; content: counter(decor, none) "Needs attention" / ""; color: var(--ink); font: 800 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+:root:root .gradebook-due > button:not([aria-pressed="true"]) { background: var(--needs-fill); color: var(--needs-ink); font-weight: 800; }
+:root:root .gradebook-differ-filter > button:not([aria-pressed="true"]) { background: var(--needs-fill); color: var(--needs-ink); font-weight: 800; }
+:root:root .gradebook-letters > button:is([data-attention="letter:D"], [data-attention="letter:F"]):not([aria-pressed="true"]) { background: var(--danger-fill); color: var(--danger-fill-ink); }
+.gradebook-attention[hidden] { display: none; }
+.gradebook-attention .filter-chips { margin: 0; }
+.gradebook-below { display: inline-flex; align-items: center; gap: var(--space-2); margin: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gradebook-below select { width: auto; }
+.gradebook-clear-filter { font-size: var(--text-small); }
+.gradebook-notice { margin: 0 0 var(--space-4); }
+
+/* The guided start: three ways to begin, side by side, split by hairlines. A ruled block on the page's own column. */
+.gradebook-start { margin: 0 0 var(--space-5); padding: var(--space-5) 0; }
+.gradebook-start .card-head { justify-content: flex-start; align-items: baseline; }
+.gradebook-start .card-head h3 { font-size: var(--text-title); line-height: 1.2; letter-spacing: var(--tracking-title); }
+.gradebook-start .card-head p { margin: 0; }
+.gradebook-ways { display: grid; grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr)); gap: var(--space-4) var(--space-6); margin: 0; padding: var(--space-2) 0 0; list-style: none; }
+.gradebook-ways > li { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); min-width: 0; }
+.gradebook-ways > li + li { padding-left: var(--space-6); border-left: 1px solid var(--nested-line); }
+.gradebook-ways h4 { margin: 0; font-size: var(--text-item); line-height: 1.2; letter-spacing: var(--tracking-title); }
+.gradebook-ways .supporting-copy { margin: 0; color: var(--muted); font-size: var(--text-small); line-height: 1.6; }
+.gradebook-assignments { width: 100%; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.gradebook-assignments li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-2) var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--nested-line); color: var(--ink); font-size: var(--text-body); }
+.gradebook-assignments li small { display: block; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gradebook-ways .gradebook-plan-ahead, .gradebook-unlinked .gradebook-plan-ahead { width: 100%; margin-top: var(--space-2); }
+.gradebook-unlinked { margin: 0 0 var(--space-4); font-size: var(--text-small); }
+.gradebook-unlinked .disclosure-body > .button { margin-top: var(--space-2); }
+.gradebook-activity { margin: var(--space-4) 0; font-size: var(--text-small); }
+.gradebook-activity ol { margin: 0; padding: 0 0 0 var(--space-4); color: var(--text); line-height: 1.7; }
+.gradebook-activity li + li { margin-top: var(--space-1); }
+.gradebook-activity li small { display: block; color: var(--label); font-size: var(--text-caption); }
+.gradebook-activity .gradebook-activity-all { display: inline-block; margin-top: var(--space-3); }
+
+/* The key: one line, only the marks the grid shows. Each swatch repeats its cell's own mark. */
+.gradebook-key { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); flex: 1 1 auto; min-width: 0; margin: 0; color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gradebook-key[hidden] { display: none; }
+.gb-key { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; cursor: help; }
+.gb-key > i { display: inline-block; width: 14px; height: 12px; border: 1px solid var(--line); background: var(--canvas); }
+.gb-key[data-mark="linked"] > i { border-top: 2px solid var(--blue); }
+.gb-key[data-mark="grading"] > i { background: radial-gradient(circle, var(--blue) 0 2.5px, transparent 3px); }
+.gb-key[data-mark="import"] > i { background: radial-gradient(circle, var(--violet) 0 2.5px, transparent 3px); }
+.gb-key[data-mark="instructor"] > i { background: radial-gradient(circle, transparent 0 1.6px, var(--muted) 1.8px 2.8px, transparent 3.2px); }
+.gb-key[data-mark="note"] > i { background: linear-gradient(225deg, var(--muted) 0 5px, transparent 5px); }
+.gb-key:is([data-mark="missing"], [data-mark="zeroed"]) > i { box-shadow: inset 2px 0 0 var(--warning); }
+.gb-key[data-mark="dropped"] > i, .gb-key[data-mark="replaced"] > i { background: linear-gradient(transparent 5px, var(--muted) 5px 6px, transparent 6px); }
+.gb-key[data-mark="over"] > i { box-shadow: inset 2px 0 0 var(--success); }
+.gb-key[data-mark="na"] > i { background: repeating-linear-gradient(135deg, transparent 0 3px, var(--line) 3px 4px); }
+.gb-key[data-mark="changed"] > i { background: radial-gradient(circle at calc(100% - 3px) 3px, var(--blue) 0 2.5px, transparent 3px); }
+.gb-key[data-mark="overdue"] > i { outline: 1px dashed var(--warning); outline-offset: -3px; }
+.gb-key:is([data-mark="excused"], [data-mark="dr"], [data-mark="makeup"], [data-mark="paper"]) > i { display: none; }
+.gb-key[data-mark="differs"] > i { background: var(--needs-tint); box-shadow: inset 3px 0 0 var(--needs-fill); }
+
+/* Keyboard help, in a popover opened by the toolbar's Shortcuts: raised paper in a 1px ink frame, like every pop-over. */
+.gradebook-shortcuts { position: fixed; inset: auto var(--space-5) var(--space-5) auto; margin: 0; width: min(420px, calc(100vw - 16px)); max-height: calc(100vh - 32px); overflow: auto; padding: var(--space-4) var(--space-5); border: 1px solid var(--ink); border-radius: var(--radius-control); background: var(--paper); color: var(--text); font: 500 var(--text-small)/1.6 var(--font-body); }
+.gradebook-shortcuts ul { margin: 0; padding: 0 0 0 var(--space-4); line-height: 1.7; }
+.gradebook-shortcuts li + li { margin-top: var(--space-1); }
+.gradebook-shortcuts .icon { width: 13px; height: 13px; vertical-align: -2px; }
+
+/* ---- The grid ----------------------------------------------------------------------------------------------------- */
+.gradebook-scroll {
+  position: relative;
+  max-width: 100%;
+  /* As tall as the window below the grid's own top (--gb-top, measured by gradebook.js), so only one of them scrolls. */
+  max-height: max(360px, calc(100vh - var(--gb-top, 260px) - var(--space-4)));
+  overflow: auto;
+  overscroll-behavior-x: contain;
+  /* Ledger: the grid is one white record in the ink frame; a wide table scrolls inside it. */
+  border: var(--frame);
+  background: var(--surface);
+  scrollbar-width: thin;
+}
+.gradebook-scroll:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.gradebook-table {
+  /* Every fill stays opaque: sticky cells paint the page's paper over what scrolls beneath them. */
+  --gb-row: var(--surface);
+  --gb-hover: var(--surface-hover);
+  --gb-head: var(--canvas);
+  --gb-band-h: 29px; /* the band row's fixed height: the column headings stick right under it */
+  --gb-letter-w: 64px; /* WIDTHS.wide.letter in gradebook.js */
+  --gb-result-w: 88px; /* WIDTHS.wide.result */
+  --gb-edge: -1px 0 0 var(--line); /* the frozen results' left edge */
+  --gb-shade: -1px 0 0 var(--ink); /* the same edge turns ink while scores pass beneath it (a hard rule, never a blur) */
+  --gb-note: linear-gradient(225deg, var(--muted) 0 6px, transparent 6px); /* one meaning per colour: warning is "missing" only */
+  --gb-dot-grading: radial-gradient(circle at calc(100% - 6px) 50%, var(--blue) 0 2.5px, transparent 3px);
+  --gb-dot-import: radial-gradient(circle at calc(100% - 6px) 50%, var(--violet) 0 2.5px, transparent 3px);
+  --gb-dot-instructor: radial-gradient(circle at calc(100% - 6px) 50%, transparent 0 1.6px, var(--muted) 1.8px 2.8px, transparent 3.2px);
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-variant-numeric: tabular-nums;
+}
+/* Rows and columns on the quiet hairline; a category band (a group of columns) on the group rule. */
+.gradebook-table :is(th, td) { border-right: 1px solid var(--nested-line); border-bottom: 1px solid var(--nested-line); }
+.gradebook-table thead .gb-band { border-right-color: var(--line); }
+/* The region draws the rule under the last row. */
+.gradebook-table tbody tr:last-child > * { border-bottom-color: transparent; }
+
+/* Header: two rows (category bands, then columns), both stuck to the top of the scrolling region. */
+.gradebook-table thead th { position: sticky; top: 0; z-index: 4; padding: 0; background: var(--gb-head); color: var(--ink); font-weight: 500; text-align: left; vertical-align: top; }
+/* The heading row stands on a 2px ink rule (DESIGN-LANGUAGE §4); the corner spans both header rows when there are bands. */
+.gradebook-table thead :is(tr:last-child th, .gb-corner) { border-bottom: 2px solid var(--ink); }
+.gradebook-table thead tr.gb-bands + tr.gb-heads th { top: var(--gb-band-h); } /* only under a band row */
+.gradebook-table thead .gb-corner { left: 0; top: 0; z-index: 6; vertical-align: bottom; padding: 6px 8px 6px 4px; border-right-color: var(--line); }
+.gb-corner-label { display: block; margin-bottom: var(--space-1); color: var(--ink); font: 700 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gb-corner-sorts { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.gb-sort { padding: 2px 0; color: var(--muted); font-size: var(--text-small); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; transition: color var(--snappy); }
+.gb-sort:hover, .gb-sort[aria-pressed="true"] { color: var(--ink); text-decoration-color: currentColor; }
+.gb-sort:focus-visible, .gb-sort.is-active:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.gb-corner[aria-sort="ascending"] .gb-sort[aria-pressed="true"]::after { content: " ↑"; }
+.gb-corner[aria-sort="descending"] .gb-sort[aria-pressed="true"]::after { content: " ↓"; }
+
+.gradebook-table .gb-band { height: var(--gb-band-h); padding: 0 8px; line-height: calc(var(--gb-band-h) - 1px); color: var(--label); font-size: var(--text-caption); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; }
+.gradebook-table .gb-band > span { display: block; overflow: hidden; text-overflow: ellipsis; }
+/* A category band collapses to its percentage: the toggle's glyph is drawn here, so the band's text stays its label. */
+.gradebook-table .gb-band[data-category]:not([data-category=""]) { padding-left: 2px; }
+.gradebook-table .gb-band > .gb-band-toggle + span { display: inline; }
+.gb-band-toggle { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-right: 2px; padding: 0; color: var(--label); vertical-align: middle; transition: color var(--snappy); }
+.gb-band-toggle::before { content: "−"; font-size: var(--text-control); line-height: 1; }
+.gb-band-toggle[aria-expanded="false"]::before { content: "+"; }
+.gb-band-toggle:hover { color: var(--ink); }
+.gb-band-toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.gradebook-table td.gb-collapsed-cell { color: var(--heading); }
+
+/* A column heading is the table's heading: 13px 700 sans in the reading case, ink on hover; its points, due date and mean are quiet
+   metadata beneath. "100 pts · Sep 17" stays whole in a 128px score column (instructor's width). */
+.gb-head-button { display: flex; flex-direction: column; align-items: stretch; gap: 2px; width: 100%; padding: 8px 8px 6px; color: var(--ink); text-align: left; transition: background-color var(--snappy); }
+.gb-head-button:hover { background: var(--gb-hover); }
+.gb-head-button:focus-visible, .gb-head-button.is-active:focus { outline: 2px solid var(--focus); outline-offset: -2px; }
+/* A column's title in the reading case, 13px 700 (DESIGN-LANGUAGE §4 tables); its points, date and mean in mono under it. */
+.gb-head-title { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; color: var(--heading); font: 700 13px/1.3 var(--font-body); letter-spacing: 0; text-transform: none; overflow-wrap: anywhere; transition: color var(--snappy); }
+.gb-head-button:hover .gb-head-title { color: var(--ink); }
+.gb-head-meta, .gb-head-mean { color: var(--muted); font: 500 11.5px/1.4 var(--font-num); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+th[aria-sort="ascending"] .gb-head-title::after { content: " ↑"; }
+th[aria-sort="descending"] .gb-head-title::after { content: " ↓"; }
+/* A linked column: a thin blue rule on top and a small Pull icon at the heading's corner; the heading stays one block of words. */
+.gradebook-table thead th.gb-linked { box-shadow: inset 0 2px var(--blue); }
+.gradebook-table thead th.gb-linked .gb-head-button { padding-right: 28px; }
+.gb-pull { position: absolute; top: 5px; right: 4px; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; padding: 0; border: 1px solid transparent; color: var(--blue); transition: border-color var(--snappy), background-color var(--snappy); }
+.gb-pull .icon { width: 15px; height: 15px; }
+.gb-pull:hover { border-color: var(--blue); background: var(--gb-hover); }
+.gb-pull:focus-visible, .gb-pull.is-active:focus { outline: 2px solid var(--focus); outline-offset: 1px; }
+/* Grading changed since the last pull: a dot on the icon (a hint to look; nothing is pulled by it). */
+.gb-pull.is-changed::after { content: ""; position: absolute; top: 1px; right: 1px; width: 6px; height: 6px; background: var(--blue); box-shadow: 0 0 0 1px var(--gb-head); }
+/* The column a link pointed at: its heading in ink, underlined, on a 3px ink rule; its cells take --chosen-bg. */
+.gradebook-table thead th.is-target { box-shadow: inset 0 -3px var(--ink); }
+.gradebook-table thead th.gb-linked.is-target { box-shadow: inset 0 2px var(--blue), inset 0 -3px var(--ink); }
+.gradebook-table thead th.is-target .gb-head-title { color: var(--ink); text-decoration: underline 2px; text-underline-offset: 3px; }
+
+/* Body rows: every cell carries the row's opaque background, so the sticky cells never show what scrolls beneath. */
+.gradebook-table tbody tr:hover { --gb-row: var(--gb-hover); }
+.gradebook-table tbody tr > * { height: 40px; background-color: var(--gb-row); }
+.gradebook-table tbody .gb-name { position: sticky; left: 0; z-index: 2; padding: 4px 8px 4px 4px; text-align: left; font-weight: 500; overflow: hidden; border-right-color: var(--line); }
+.gb-name-text { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: var(--text-body); line-height: 1.35; }
+/* The name opens the student's record: a plain line of text; hover keeps it ink. */
+.gb-name-button { display: block; width: 100%; min-width: 0; padding: 0; color: var(--ink); text-align: left; cursor: pointer; transition: color var(--snappy); }
+.gb-name-button:hover { color: var(--ink); }
+.gb-name-button:focus-visible, .gb-name-button.is-active:focus { outline: 2px solid var(--focus); outline-offset: 1px; }
+.gb-name-meta { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; white-space: nowrap; }
+/* Small outlined tags in the shared .chip look (11px semibold uppercase, a 1px frame in their own ink, no fill). */
+.gb-badge { padding: 0 5px; border: 2px solid currentColor; border-radius: var(--radius-control); color: var(--ink); font: 700 11px/1.3 var(--font-body); letter-spacing: .08em; text-transform: uppercase; cursor: help; }
+.gb-acc { color: var(--muted); } /* neutral: violet means "imported" only */
+
+.gradebook-table td { padding: 0 14px 0 8px; color: var(--text); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; outline: none; }
+.gradebook-table td:focus { outline: 2px solid var(--focus); outline-offset: -2px; }
+.gradebook-table td.st-excused { color: var(--muted); }
+/* Missing and over the maximum: the words in ink ("0 MI"; the value) and a 2px rule at the cell's start that repeats them,
+   never a wash behind the number. (Ochre text fell under 4.5:1 on a hovered or highlighted row.) */
+.gradebook-table td.st-missing { color: var(--ink); box-shadow: inset 2px 0 0 var(--warning); }
+/* ZERO ONCE DUE: an empty cell the results count as 0. The same rule as missing, the 0 muted: no score was recorded. */
+.gradebook-table td.is-zeroed { color: var(--muted); box-shadow: inset 2px 0 0 var(--warning); }
+.gradebook-table td.is-over { color: var(--ink); box-shadow: inset 2px 0 0 var(--success); }
+.gradebook-table tbody td.is-target { --gb-row: var(--chosen-bg); }
+.gradebook-table td.gb-na { color: var(--muted); text-align: center; background-image: repeating-linear-gradient(135deg, transparent 0 6px, var(--nested-line) 6px 7px); cursor: default; }
+/* SYNC WITH CANVAS: a WebAssign column copies Canvas and is read-only here (its title says so). */
+.gradebook-table td.gb-cell.is-locked { color: var(--muted); cursor: default; }
+/* Source dot (filled: pulled from grading or imported; hollow: entered by hand) and a note's corner, drawn as backgrounds so
+   a cell holds only its value. */
+.gradebook-table td.src-grading { background-image: var(--gb-dot-grading); }
+.gradebook-table td.src-import { background-image: var(--gb-dot-import); }
+.gradebook-table td.src-instructor { background-image: var(--gb-dot-instructor); }
+.gradebook-table td.has-note { background-image: var(--gb-note); }
+.gradebook-table td.has-note.src-grading { background-image: var(--gb-note), var(--gb-dot-grading); }
+.gradebook-table td.has-note.src-import { background-image: var(--gb-note), var(--gb-dot-import); }
+.gradebook-table td.has-note.src-instructor { background-image: var(--gb-note), var(--gb-dot-instructor); }
+.gradebook-table td.is-pending { color: var(--muted); outline: 1px dashed var(--control-line); outline-offset: -4px; }
+.gradebook-table td.is-pending:focus { outline: 2px dashed var(--focus); outline-offset: -2px; }
+.gb-tag { margin-left: 2px; font: 600 var(--text-caption) var(--font-body); letter-spacing: var(--tracking-label); }
+.gb-dr { padding: 0 5px; border: 2px solid currentColor; border-radius: var(--radius-control); color: var(--ink); font: 700 11px/1.3 var(--font-body); letter-spacing: .08em; } /* neutral outline */
+/* A write whose outcome is unknown (the notice's Check now) and a blank past due while that filter is on: outlines only. */
+.gradebook-table td.is-uncertain { outline: 1px dashed var(--warning); outline-offset: -4px; }
+.gradebook-table td.is-uncertain::after { content: "?"; margin-left: 4px; color: var(--warning); font-size: var(--text-caption); }
+.gradebook-table td.is-overdue { outline: 1px dashed var(--warning); outline-offset: -4px; }
+/* A dropped score (the lowest of its category, left out of the results): dimmed and struck, never hidden. */
+.gradebook-table td.is-dropped { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: var(--label); }
+
+/* DIFFERS FROM GRADING (GRADEBOOK, 2026-10-07): needs you, so orange (DESIGN-LANGUAGE §1.2). A cell whose value is not what
+   grading's final grade is now wears the needs-you tint with a 3px orange rule at its start (over the missing and over-maximum
+   rules); its heading an orange rule on top and the needs-you chip; the attention bar's chip and one notice above the grid name
+   them. The figures stay ink on the light tint. */
+.gradebook-table tbody td.is-differs { --gb-row: var(--needs-tint); box-shadow: inset 3px 0 0 var(--needs-fill); color: var(--ink); }
+.gradebook-table thead th.gb-differs { box-shadow: inset 0 3px var(--needs-fill); }
+.gradebook-table thead th.gb-differs.is-target { box-shadow: inset 0 3px var(--needs-fill), inset 0 -3px var(--ink); }
+.gb-head-differs { align-self: flex-start; margin-top: 2px; padding: 0 6px; background: var(--needs-fill); color: var(--needs-ink); font: 800 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; white-space: nowrap; }
+/* POSTING GRADES: grades Canvas hides from students, a framed ink chip of its own under the mean (DESIGN-LANGUAGE chips): not
+   needs-you, since posting by hand is the instructor's choice; its title and the column's menu say when Faculty read it. */
+.gb-head-hidden { align-self: flex-start; margin-top: 2px; padding: 0 5px; border: 2px solid var(--ink); color: var(--ink); font: 800 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; white-space: nowrap; }
+/* POSTING GRADES, PENDING (requirement, 2026-10-08): what the next sync does, the same ink chip with a dashed frame: still to happen, and still not needs-you. */
+.gb-head-pending { align-self: flex-start; margin-top: 2px; padding: 0 5px; border: 2px dashed var(--ink); color: var(--ink); font: 800 var(--text-caption)/1.3 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; white-space: nowrap; }
+.gradebook-differs-list { display: grid; gap: var(--space-2); justify-self: stretch; margin: 0; padding: 0; list-style: none; }
+.gradebook-differs-list > li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); }
+.gradebook-differs-actions { display: inline-flex; align-items: center; gap: var(--space-3); }
+
+/* The score being typed: an input filling its cell. */
+.gradebook-table td.is-editing { padding: 0; overflow: visible; }
+.gb-input { display: block; width: 100%; height: 100%; min-height: 38px; padding: 0 8px; border: 0; outline: 2px solid var(--focus); outline-offset: -2px; background: var(--canvas); color: var(--ink); font: inherit; text-align: right; }
+.gb-input[aria-invalid="true"] { outline-color: var(--error); }
+
+/* The history button over the cell in focus (positioned by gradebook.js inside the scrolling region, under the sticky
+   name column and headings). */
+.gb-history { position: absolute; z-index: 1; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 0; color: var(--label); background: var(--canvas); }
+.gb-history[hidden], .gradebook-scroll:not(:focus-within) > .gb-history { display: none; }
+.gb-history:hover { color: var(--ink); }
+.gb-history:focus-visible { outline: 2px solid var(--focus); outline-offset: 0; }
+.gradebook-page .gb-history .icon { width: 14px; height: 14px; }
+
+/* Results. Overall and Letter stay in view, and the category percentages with them when gradebook.js finds room
+   (table.gb-freeze-cats). The frozen block's left edge is a hairline that turns ink while scores scroll beneath it, so a
+   column passing under it reads as covered, not as a squeezed column. `gb-fr-N` is a column's place from the right. */
+/* The percentages are a column read down for the low ones, so they align: Instrument Sans with tabular figures (Instrument Serif
+   has none: its "1" is half as wide as its "0"; usability audit, 2026-10-04, found Overall's decimal points out of line).
+   The Letter keeps the serif: it is a word, not a figure. */
+.gradebook-table td.gb-result { color: var(--ink); font: 500 var(--text-body)/1 var(--font-body); font-variant-numeric: tabular-nums; }
+.gradebook-table td.gb-r-letter { font: var(--head-weight) var(--text-lead)/1 var(--font-serif); font-synthesis: none; }
+/* Overall and Letter are the figures that matter (DESIGN-LANGUAGE §4, totals at the item size). */
+.gradebook-table td:is(.gb-r-overall, .gb-r-letter) { color: var(--heading); }
+.gradebook-table td.gb-r-overall { font-size: var(--text-lead); font-weight: 600; }
+.gradebook-table td.gb-r-letter { font-size: var(--text-item); }
+.gradebook-table td.gb-r-letter { text-align: center; }
+/* Results sit in 88px columns: their headings are a half pixel under the caption size with no tracking and a narrower inset,
+   so a category name ("HOMEWORK %") stays whole on its line; "avg 75.21%" stays whole too. */
+.gradebook-table .gb-result-head .gb-head-title { font-size: 10.5px; letter-spacing: 0; }
+.gradebook-table .gb-result-head .gb-head-button { padding-inline: 4px; }
+/* "Letter" is one short word in the narrowest column: never broken mid-word. */
+.gradebook-table th.gb-r-letter .gb-head-button { padding-inline: 4px; }
+.gradebook-table th.gb-r-letter .gb-head-title { overflow-wrap: normal; }
+/* Every heading is already sticky (top); only frozen columns get a right offset. gb-freeze-none: the grid is too narrow to
+   keep two score columns beside the names and the results, so nothing is frozen on the right. */
+.gradebook-table:not(.gb-freeze-none) .gb-sticky-right, .gradebook-table.gb-freeze-cats .gb-r-cat { position: sticky; }
+.gradebook-table tbody :is(.gb-sticky-right, .gb-r-cat) { z-index: 2; }
+.gradebook-table:not(.gb-freeze-none) thead .gb-sticky-right, .gradebook-table.gb-freeze-cats thead .gb-r-cat { z-index: 5; }
+.gradebook-table:not(.gb-freeze-none) :is(.gb-sticky-right.gb-fr-0, .gb-band-results) { right: 0; }
+.gradebook-table:not(.gb-freeze-none) .gb-sticky-right.gb-fr-1 { right: var(--gb-letter-w); }
+.gradebook-table.gb-freeze-cats .gb-fr-2 { right: calc(var(--gb-letter-w) + var(--gb-result-w)); } /* the category band too */
+.gradebook-table.gb-freeze-cats .gb-fr-3 { right: calc(var(--gb-letter-w) + 2 * var(--gb-result-w)); }
+.gradebook-table.gb-freeze-cats .gb-fr-4 { right: calc(var(--gb-letter-w) + 3 * var(--gb-result-w)); }
+.gradebook-table:not(.gb-freeze-cats, .gb-freeze-none) :is(.gb-r-overall, .gb-band-results),
+.gradebook-table.gb-freeze-cats .gb-cat-first { box-shadow: var(--gb-edge); }
+.gradebook-scroll.is-overlapped .gradebook-table:not(.gb-freeze-cats, .gb-freeze-none) :is(.gb-r-overall, .gb-band-results),
+.gradebook-scroll.is-overlapped .gradebook-table.gb-freeze-cats .gb-cat-first { box-shadow: var(--gb-shade); }
+
+/* ---- Column menu (a native popover in the top layer): raised paper in a 1px ink frame, like the shared action menu; the
+   hovered item takes the 5% ink tint. ----------------------------------------------------------------------------------- */
+.gradebook-menu { position: fixed; inset: auto; margin: 0; width: min(300px, calc(100vw - 16px)); max-height: calc(100vh - 16px); overflow: auto; padding: var(--space-4) var(--space-4) var(--space-3); border: 1px solid var(--ink); border-radius: var(--radius-control); background: var(--paper); color: var(--ink); font: 500 var(--text-small)/1.5 var(--font-body); }
+.gradebook-menu-title { margin: 0 0 var(--space-3); color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); letter-spacing: var(--tracking-title); font-synthesis: none; overflow-wrap: anywhere; }
+.gradebook-menu-title small { display: block; margin-top: var(--space-1); color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gradebook-menu-actions { display: grid; margin: 0 calc(-1 * var(--space-4)); padding: var(--space-1) 0; border-top: 1px solid var(--line); }
+.gradebook-menu-actions > :is(button, a) { display: flex; align-items: center; gap: var(--space-2); min-height: 38px; padding: 8px var(--space-4); color: var(--ink); text-align: left; text-decoration: none; font: 500 var(--text-body)/1.3 var(--font-body); letter-spacing: 0; text-transform: none; }
+.gradebook-menu-actions > :is(button, a):hover { background: var(--highlight-bg); color: var(--highlight-ink); }
+.gradebook-menu-actions > :is(button, a):focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.gradebook-menu .icon { width: 16px; height: 16px; flex-shrink: 0; }
+/* Four columns as wide as their figures, spread across the menu: a mean such as 19.3333 stays on one line where it fits. */
+.gradebook-menu-stats { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; gap: var(--space-3) var(--space-2); margin: var(--space-2) 0 0; padding-top: var(--space-3); border-top: 1px solid var(--line); }
+.gradebook-menu-stats dt { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.gradebook-menu-stats dd { margin: 2px 0 0; color: var(--heading); font: var(--head-weight) var(--text-item)/1.2 var(--font-serif); font-variant-numeric: tabular-nums; font-synthesis: none; overflow-wrap: anywhere; }
+.gradebook-menu-stats dd small { display: block; color: var(--label); font: 500 var(--text-caption)/1.5 var(--font-body); }
+.gradebook-menu-note { margin: var(--space-3) 0 0; padding-top: var(--space-3); border-top: 1px solid var(--line); color: var(--muted); font-size: var(--text-small); line-height: 1.5; overflow-wrap: anywhere; }
+
+.gradebook-setup-host { min-width: 0; }
+.gradebook-error .gradebook-actions { justify-content: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gradebook-scroll { scroll-behavior: auto; }
+}
+
+@media (forced-colors: active) {
+  .gradebook-table td:focus, .gb-input, .gb-head-button:focus-visible { outline-color: Highlight; }
+  .gradebook-table td.st-missing, .gradebook-table td.is-over { forced-color-adjust: none; }
+  .gradebook-menu, .gradebook-shortcuts { border-color: CanvasText; }
+}
+
+/* The course Home's gradebook address: which section (2026-09-28: no combined grid on the course Home). */
+.gradebook-sections { list-style: none; margin: var(--space-3) 0 0; padding: 0; display: grid; gap: var(--space-2); }
+/* The section opened last: the page's one primary, its mark beside it (outside the link, so the link says only the section). */
+.gradebook-sections > li[data-gradebook-last] { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); margin-bottom: var(--space-1); }
+.gradebook-sections > li > small { color: var(--label); font: 700 var(--text-caption)/1.5 var(--font-body); letter-spacing: var(--tracking-label); text-transform: uppercase; }

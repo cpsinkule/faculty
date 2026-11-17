@@ -1,0 +1,30 @@
+{
+ "note": "Invented. No course record, student or message here exists; names and UINs are made up.",
+ "courses": [
+  {"id": "c140", "name": "MATH 140", "title": "Mathematics for Business and Social Sciences"},
+  {"id": "c142", "name": "MATH 142", "title": "Business Calculus"}
+ ],
+ "terms": [
+  {"id": "t140f26", "course": "c140", "name": "MATH 140 Fall 2026"},
+  {"id": "t140s27", "course": "c140", "name": "MATH 140 Spring 2027"},
+  {"id": "t142f26", "course": "c142", "name": "MATH 142 Fall 2026"}
+ ],
+ "roster": [
+  {"name": "Grant Holloway", "uin": "531004218", "term": "t140f26"},
+  {"name": "May Castellanos", "uin": "531220945", "term": "t140f26"},
+  {"name": "Will Bergstrom", "uin": "532007731", "term": "t140f26"},
+  {"name": "Mark Oduya", "uin": "530918264", "term": "t140f26"},
+  {"name": "Chase Lindqvist", "uin": "533410087", "term": "t142f26"},
+  {"name": "Petra Rosen", "uin": "531775302", "term": "t140f26"},
+  {"name": "Dmitri Volkov", "uin": "532118340", "term": "t140f26"},
+  {"name": "Aaliyah Brooks", "uin": "530664519", "term": "t140f26"},
+  {"name": "Tomás Herrera", "uin": "533902156", "term": "t140f26"},
+  {"name": "Jun Nakamura", "uin": "531448870", "term": "t142f26"},
+  {"name": "Farah Zaman", "uin": "532560093", "term": "t140f26"},
+  {"name": "Colby Winters", "uin": "530231647", "term": "t142f26"},
+  {"name": "Hannah Albrecht", "uin": "533087412", "term": "t140f26"},
+  {"name": "Leilani Kahale", "uin": "531903528", "term": "t142f26"},
+  {"name": "Noor Siddiqui", "uin": "532774061", "term": "t140f26"},
+  {"name": "Owen Fitzgerald", "uin": "530549936", "term": "t142f26"}
+ ]
+}

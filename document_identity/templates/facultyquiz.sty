@@ -1,0 +1,64 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{facultyquiz}[2026/10/01 Faculty quiz layout v3]
+% The instructor's own quiz layout (their MATH 140 Chapter 3 Quiz source, Fall 2026, given on 2026-09-28), inside the
+% facultyassignment class so its stamp boxes stay empty: Name/UIN line, \Large title, the bold "Sections · points" line,
+% directions, \large "Multiple Choice" and "Free Response" headings, bold "N. (p pts) [Section x.y]" heads, (a)-(e) choices, TikZ
+% graphs in the quiz's style, and the footer "Page 1 of 2". No version is printed anywhere (requirement, 2026-10-01); the page stamps say which version a paper is. Faculty writes main.tex from a drafted quiz
+% (document_identity/quiz_latex.py); the model writes only the fragments inside each problem. enumitem is not in the compiler's
+% toolchain, so the lists set the quiz's enumitem spacing themselves.
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{array,tabularx,booktabs,multicol}
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta,calc,patterns,positioning}
+% A text-mode dollar sign from the ordinary Computer Modern font, upright even in italics: the compiler has no bitmap fonts, and
+% LaTeX takes \textdollar from the text companion font (TS1), which it has only as bitmaps. Prices are everywhere in these quizzes.
+\DeclareTextCommand{\textdollar}{OT1}{\hmode@bgroup\upshape\char`\$\egroup}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+% A display keeps its full space above and below even after a short line (TeX otherwise uses its smaller "short" display skips),
+% so a table or system sits the same way on every version whatever the length of the line before it (2026-10-01: Quiz 4's
+% Version D tableau sat tight against its text while Versions A-C did not, and the quiz check sent the whole quiz back for it).
+\everydisplay\expandafter{\the\everydisplay\abovedisplayshortskip\abovedisplayskip\belowdisplayshortskip\belowdisplayskip}
+\newcommand{\quiz@version}{}
+\newcommand{\quiz@pages}{1}
+\newcommand{\quizsetup}[2]{\renewcommand{\quiz@version}{#1}\renewcommand{\quiz@pages}{#2}}
+% The footer sits 8 mm under the text block, centred: well clear of the stamp boxes. \quizsetup still takes the version, which
+% is never printed.
+\renewcommand{\ps@plain}{\renewcommand{\@oddhead}{}\renewcommand{\@evenhead}{}%
+  \renewcommand{\@oddfoot}{\hfil Page \thepage\ of \quiz@pages\hfil}\renewcommand{\@evenfoot}{\@oddfoot}}
+\pagestyle{plain}
+\newcommand{\quiznameline}{\noindent Name: \underline{\makebox[2.7in][l]{}} \hfill UIN: \underline{\hspace{1.9in}}\par\vspace{0.18in}}
+\newcommand{\quizheader}[4]{% {title}{sections}{version, never printed}{points}
+  \begin{center}{\Large\textbf{#1}}\\[3pt]{\textbf{#2\quad #4}}\end{center}\vspace{0.05in}}
+\newcommand{\quizdirections}[1]{\textbf{Directions:} #1\par\vspace{0.10in}}
+\newcommand{\quizsection}[1]{\par\vspace{0.05in}\noindent{\large\textbf{#1}}\par\smallskip}
+% Where each problem starts, where its body ends (before its answer scaffold) and where it ends, written to the build log when its
+% page is shipped out (pdfTeX \pdfsavepos, scaled points from the page's bottom-left corner). Faculty reads these to place each
+% problem's answer area exactly where it is printed.
+\newcommand{\quiz@position}[2]{\pdfsavepos\write16{FACULTYQUIZ #1 #2 \thepage\space\the\pdflastxpos\space\the\pdflastypos\space\the\pdfpageheight\space\the\pdfpagewidth}}
+\newcommand{\quizproblem}[4]{% {number}{points}{tag}{marker}
+  \par\noindent\quiz@position{start}{#4}\textbf{#1. (#2)\ifx\relax#3\relax\else\ [#3]\fi}\enspace}
+\newcommand{\quizbody}[1]{\par\quiz@position{body}{#1}}
+\newcommand{\quizend}[1]{\par\quiz@position{end}{#1}}
+% The quiz's enumitem settings: choices label=(\alph*),itemsep=2pt,topsep=4pt,leftmargin=0.48in; parts itemsep=3pt,topsep=2pt,
+% leftmargin=0.3in.
+\newenvironment{quizchoices}{\begin{list}{}{\setlength{\leftmargin}{0.48in}\setlength{\itemsep}{2pt}\setlength{\topsep}{4pt}%
+  \setlength{\parsep}{0pt}\setlength{\partopsep}{0pt}}}{\end{list}}
+\newcommand{\quizchoice}[2]{\item[(#1)] #2}
+\newenvironment{quizparts}{\begin{list}{}{\setlength{\leftmargin}{0.3in}\setlength{\itemsep}{3pt}\setlength{\topsep}{2pt}%
+  \setlength{\parsep}{0pt}\setlength{\partopsep}{0pt}}}{\end{list}}
+\newcommand{\quizpart}[2]{\item[(#1)] #2}
+% The quiz's graphs: a light grid, one grid step past the axes; arrowed axes named "x = 0" and "y = 0" at their ends; tick labels
+% every step. In the model's tikzpicture: \quizaxes[grid step]{xmax}{ymax}{xstep}{ystep} (data units; the grid defaults to half of
+% each label step, as in most of the instructor's graphs), then its lines with the `quizline` style and their equations with
+% `quizlabel`, as in the instructor's quizzes.
+\tikzset{quizline/.style={<->,>=stealth,thick,black}, quizlabel/.style={black,inner sep=1.5pt,fill=white,fill opacity=0.8,text opacity=1}}
+\newcommand{\quizaxes}[5][]{%
+  \ifx\relax#1\relax\pgfmathsetmacro{\quiz@gx}{(#4)/2}\pgfmathsetmacro{\quiz@gy}{(#5)/2}\else\pgfmathsetmacro{\quiz@gx}{#1}\pgfmathsetmacro{\quiz@gy}{#1}\fi
+  \draw[gray!30, very thin, xstep=\quiz@gx, ystep=\quiz@gy] (-\quiz@gx,-\quiz@gy) grid (#2+\quiz@gx,#3+\quiz@gy);
+  \draw[<->,>=stealth,thick] (-\quiz@gx,0) -- (#2+\quiz@gx,0) node[right,inner sep=1pt] {$y=0$};
+  \draw[<->,>=stealth,thick] (0,-\quiz@gy) -- (0,#3+\quiz@gy) node[above,inner sep=1pt] {$x=0$};
+  \pgfmathtruncatemacro{\quiz@nx}{#2/(#4)}\pgfmathtruncatemacro{\quiz@ny}{#3/(#5)}
+  \foreach \quiz@i in {1,...,\quiz@nx} {\pgfmathsetmacro{\quiz@t}{\quiz@i*(#4)}\node[below,inner sep=1.5pt,font=\scriptsize] at (\quiz@t,0) {\pgfmathprintnumber{\quiz@t}};}
+  \foreach \quiz@i in {1,...,\quiz@ny} {\pgfmathsetmacro{\quiz@t}{\quiz@i*(#5)}\node[left,inner sep=1.5pt,font=\scriptsize] at (0,\quiz@t) {\pgfmathprintnumber{\quiz@t}};}}
+\endinput

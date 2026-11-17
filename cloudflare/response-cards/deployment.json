@@ -1,0 +1,15 @@
+{
+  "account_id": "00000000000000000000000000000000",
+  "zone_id": "00000000000000000000000000000000",
+  "worker": "faculty-response-cards",
+  "hostname": "respond.example.com",
+  "d1_database_id": "00000000-0000-0000-0000-000000000000",
+  "domain_id": "a8732a864e1958b6c3e73097e8d98746fdbeb347",
+  "turnstile_sitekey": "0x4AAAAAAEz1BsTY_eK1m6Tj",
+  "worker_etag": "a1b8ba024523fba332ba35d732dd5dae04bbbcce9c1b63ecd2935f1d9f84a707",
+  "bundle_sha256": "cefabd52a336fa581823945effec6ae21b0ddb11f53a2def022dfa0037d719dc",
+  "migration_sha256": "eea264ebe389a4b4c2ffed04440afc327f3dbc44ae7e3625b16cdc28227e44a0",
+  "deployed_at": "2026-10-18T18:51:00Z",
+  "notes": "2026-10-18 18:51 UTC: deployed the 2026-09-15 page change (69cddd7) at the instructor's request: no \"FACULTY Response Cards\" header, tab title without \"Faculty\", privacy line \"This link is personal to you.\" Deployed with wrangler deploy; secrets, D1 binding, vars, cron and custom domain kept. worker_etag and bundle_sha256 are from the 2026-09-14 upload. 2026-09-14 23:05 UTC: larger, darker card typography; time fields render as hour, minute, and AM/PM controls (answers stay HH:MM). 17:43 UTC: compact and uin-digest modes, UIN redaction. Uploaded through the Cloudflare API with keep_bindings secret_text; D1 binding, vars, cron, and the custom domain preserved.",
+  "worker_version_id": "00000000-0000-0000-0000-000000000000"
+}
